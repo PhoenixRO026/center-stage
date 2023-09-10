@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.robot
 
-const val RIGHT_FRONT_MOTOR = "rightFront"
-const val RIGHT_BACK_MOTOR = "rightBack"
-const val LEFT_FRONT_MOTOR = "leftFront"
-const val LEFT_BACK_MOTOR = "leftBack"
+const val RIGHT_FRONT_MOTOR_ID = "rightFront"
+const val RIGHT_BACK_MOTOR_ID = "rightBack"
+const val LEFT_FRONT_MOTOR_ID = "leftFront"
+const val LEFT_BACK_MOTOR_ID = "leftBack"
 
-const val IMU = "imu"
+const val IMU_ID = "imu"

@@ -177,17 +177,17 @@ public final class MecanumDrive {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        leftFront = hardwareMap.get(DcMotorEx.class, HardwareKt.LEFT_FRONT_MOTOR);
-        leftBack = hardwareMap.get(DcMotorEx.class, HardwareKt.LEFT_BACK_MOTOR);
-        rightBack = hardwareMap.get(DcMotorEx.class, HardwareKt.RIGHT_BACK_MOTOR);
-        rightFront = hardwareMap.get(DcMotorEx.class, HardwareKt.RIGHT_FRONT_MOTOR);
+        leftFront = hardwareMap.get(DcMotorEx.class, HardwareKt.LEFT_FRONT_MOTOR_ID);
+        leftBack = hardwareMap.get(DcMotorEx.class, HardwareKt.LEFT_BACK_MOTOR_ID);
+        rightBack = hardwareMap.get(DcMotorEx.class, HardwareKt.RIGHT_BACK_MOTOR_ID);
+        rightFront = hardwareMap.get(DcMotorEx.class, HardwareKt.RIGHT_FRONT_MOTOR_ID);
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        imu = hardwareMap.get(IMU.class, HardwareKt.IMU);
+        imu = hardwareMap.get(IMU.class, HardwareKt.IMU_ID);
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
