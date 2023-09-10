@@ -15,7 +15,7 @@ class Arm(
     private val motor = hardwareMap.get(DcMotorEx::class.java, ARM_ID)
     private val motorResolution = ((((1.0+(46.0/17.0))) * (1.0+(46.0/17.0))) * (1.0+(46.0/17.0)) * 28.0)
     private val motorMaxSpeedRadSec = 117.0 / 60.0 / (2.0 * PI)
-    private val startPos = Math.toRadians(215.0)
+    private val startPos = Math.toRadians(200.0)
     private val feedforward = ArmFeedforward(0.0, -0.35, 1.5, 0.0)
     var power : Number = 0.0
         set(value) {
@@ -33,7 +33,7 @@ class Arm(
     init {
         motor.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
         motor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-        motor.direction = DcMotorSimple.Direction.FORWARD
+        motor.direction = DcMotorSimple.Direction.REVERSE
         motor.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
         motor.power = 0.0
     }

@@ -9,6 +9,8 @@ class Robot @JvmOverloads constructor(
 ) {
     @JvmField val arm = Arm(hardwareMap, telemetry)
     @JvmField val drive = Drive(hardwareMap)
+    @JvmField val lift = Lift(hardwareMap, telemetry)
+    @JvmField val claw = Intake(hardwareMap, telemetry)
 
     private var oldTime = System.currentTimeMillis()
     private var newTime = System.currentTimeMillis()
@@ -19,5 +21,7 @@ class Robot @JvmOverloads constructor(
         oldTime = newTime
         arm.update()
         drive.update()
+        lift.update()
+        claw.update()
     }
 }
