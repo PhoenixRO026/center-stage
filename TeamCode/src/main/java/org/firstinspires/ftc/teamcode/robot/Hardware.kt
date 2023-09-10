@@ -6,3 +6,5 @@ const val LEFT_FRONT_MOTOR_ID = "leftFront"
 const val LEFT_BACK_MOTOR_ID = "leftBack"
 
 const val IMU_ID = "imu"
+
+const val ARM_ID = "arm"

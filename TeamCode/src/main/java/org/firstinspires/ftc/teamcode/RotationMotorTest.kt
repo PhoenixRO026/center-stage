@@ -8,13 +8,13 @@ import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
 
-const val motorResolution = ((((1.0+(46.0/11.0))) * (1.0+(46.0/11.0))) * 28.0)
+private const val motorResolution = ((((1.0+(46.0/11.0))) * (1.0+(46.0/11.0))) * 28.0)
 
-fun Int.toPosition() : Double {
+private fun Int.toPosition() : Double {
     return -this.toRadians() + Math.toRadians(215.0)
 }
 
-fun Int.toRadians() : Double {
+private fun Int.toRadians() : Double {
     return this / motorResolution * (2.0 * PI)
 }
 

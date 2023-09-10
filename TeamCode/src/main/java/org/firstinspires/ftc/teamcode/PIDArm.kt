@@ -5,10 +5,21 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
-import org.firstinspires.ftc.teamcode.roadrunner.PIDFController
-import org.firstinspires.ftc.teamcode.roadrunner.PIDFController.PIDCoefficients
+import org.firstinspires.ftc.teamcode.PIDFController.PIDCoefficients
 import kotlin.math.PI
 import kotlin.math.cos
+
+private const val motorResolution = ((((1.0+(46.0/11.0))) * (1.0+(46.0/11.0))) * 28.0)
+
+private const val motorMaxSpeedRadSec = 223.0 / 60.0 / (2.0 * PI)
+
+private fun Int.toPosition() : Double {
+    return -this.toRadians() + Math.toRadians(215.0)
+}
+
+private fun Int.toRadians() : Double {
+    return this / motorResolution * (2.0 * PI)
+}
 
 @TeleOp
 class PIDArm : LinearOpMode() {
