@@ -22,7 +22,7 @@ public class FieldCentricDrive extends LinearOpMode {
 
             Vector2d inputVector = new Vector2d(gamepad1.left_stick_x, -gamepad1.left_stick_y);
 
-            inputVector = UtilKt.rotate(inputVector, -drive.pose.heading.log());
+            inputVector = UtilKt.rotate(inputVector, -drive.pose.heading.log() - Math.toRadians(90));
 
             PoseVelocity2d input = new PoseVelocity2d(inputVector, gamepad1.right_stick_x);
 

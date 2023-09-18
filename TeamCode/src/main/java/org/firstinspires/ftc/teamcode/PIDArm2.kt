@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.arcrobotics.ftclib.controller.wpilibcontroller.ArmFeedforward
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
@@ -30,6 +31,7 @@ private fun Double.toDegrees() : Double {
     return Math.toDegrees(this)
 }
 
+@Disabled
 @TeleOp
 class PIDArm2 : LinearOpMode() {
 

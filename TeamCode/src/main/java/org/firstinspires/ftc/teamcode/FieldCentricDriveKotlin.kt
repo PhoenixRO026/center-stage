@@ -21,7 +21,7 @@ class FieldCentricDriveKotlin: LinearOpMode() {
             drive.updatePoseEstimate()
 
             val inputVector = Vector2d(gamepad1.left_stick_x.toDouble(), -gamepad1.left_stick_y.toDouble())
-                    .rotate(-drive.pose.heading.log())
+                    .rotate(-drive.pose.heading.log() - Math.toRadians(90.0))
 
             val input = PoseVelocity2d (inputVector, gamepad1.right_stick_x.toDouble())
 

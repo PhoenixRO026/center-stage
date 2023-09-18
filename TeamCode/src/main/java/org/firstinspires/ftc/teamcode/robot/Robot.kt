@@ -7,7 +7,7 @@ class Robot @JvmOverloads constructor(
     hardwareMap: HardwareMap,
     private val telemetry: Telemetry? = null
 ) {
-    @JvmField val arm = Arm(hardwareMap, telemetry)
+    //@JvmField val arm = Arm(hardwareMap, telemetry)
     @JvmField val drive = Drive(hardwareMap)
     @JvmField val lift = Lift(hardwareMap, telemetry)
     @JvmField val claw = Intake(hardwareMap, telemetry)
@@ -19,7 +19,7 @@ class Robot @JvmOverloads constructor(
         newTime = System.currentTimeMillis()
         telemetry?.addData("FPS", 1.0 / (newTime - oldTime) * 1000)
         oldTime = newTime
-        arm.update()
+        //arm.update()
         drive.update()
         lift.update()
         claw.update()
