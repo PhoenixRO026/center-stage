@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode
+package org.firstinspires.ftc.teamcode.kickoff
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import kotlin.math.PI
-import kotlin.math.abs
 import kotlin.math.cos
 
 private const val motorResolution = ((((1.0+(46.0/11.0))) * (1.0+(46.0/11.0))) * 28.0)

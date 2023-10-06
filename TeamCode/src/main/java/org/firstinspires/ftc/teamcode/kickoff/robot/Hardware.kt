@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.robot
+package org.firstinspires.ftc.teamcode.kickoff.robot
 
 const val RIGHT_FRONT_MOTOR_ID = "rightFront"
 const val RIGHT_BACK_MOTOR_ID = "rightBack"

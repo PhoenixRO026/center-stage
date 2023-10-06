@@ -1,13 +1,15 @@
-package org.firstinspires.ftc.teamcode
+package org.firstinspires.ftc.teamcode.kickoff
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.IMU
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
-import org.firstinspires.ftc.teamcode.robot.IMU_ID
+import org.firstinspires.ftc.teamcode.kickoff.robot.IMU_ID
 
+@Disabled
 @TeleOp
 class IMUTest : LinearOpMode() {
     override fun runOpMode() {
