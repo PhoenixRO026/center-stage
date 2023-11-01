@@ -39,7 +39,7 @@ class PIDArm : LinearOpMode() {
     )
 
     @Config
-    object Consts {
+    data object Consts {
         @JvmField var PID = PIDCoeffs()
         @JvmField var FD = FDCoeffs()
         @JvmField var kG = 0.0
