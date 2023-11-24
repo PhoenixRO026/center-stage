@@ -25,6 +25,10 @@ class Velocity(val distance: Distance, val duration: Duration) {
     operator fun div(z: Double) = Velocity(distance / z, duration)
 }
 
+val Number.cmsec get() = cm.per(second)
+val Number.inchsec get() = inch.per(second)
+val Number.metersec get() = meters.per(second)
+
 fun Distance.per(duration: Duration): Velocity = Velocity(this, duration)
 
 data class Velocity2d(@JvmField val x: Velocity, @JvmField val y: Velocity) {

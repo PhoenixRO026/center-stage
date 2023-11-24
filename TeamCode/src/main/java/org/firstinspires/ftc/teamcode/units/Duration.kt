@@ -23,8 +23,8 @@ sealed class Duration(val value: Double) {
     operator fun div(z: Double) = clone(value / z)
 }
 
-val Number.seconds get() = Seconds(this.toDouble())
-val Number.minutes get() = Minutes(this.toDouble())
+val Number.sec get() = Seconds(this.toDouble())
+val Number.min get() = Minutes(this.toDouble())
 
 val second = Seconds(1.0)
 val minute = Minutes(1.0)

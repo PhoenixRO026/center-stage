@@ -32,9 +32,9 @@ sealed class Distance(val value: Double) {
     operator fun div(z: Double) = clone(value / z)
 }
 
-val Number.centimeters get() = Centimeters(this.toDouble())
-val Number.milimeters get() = Milimeters(this.toDouble())
-val Number.inches get() = Inches(this.toDouble())
+val Number.cm get() = Centimeters(this.toDouble())
+val Number.mm get() = Milimeters(this.toDouble())
+val Number.inch get() = Inches(this.toDouble())
 val Number.meters get() = Meters(this.toDouble())
 
 val centimeter = Centimeters(1.0)
@@ -74,6 +74,8 @@ class Meters(value: Double): Distance(value) {
     override fun toString() = "$value meters"
 }
 
+fun vector2d(x: Distance, y: Distance) = Distance2d(x, y)
+
 data class Distance2d(@JvmField val x: Distance, @JvmField val y: Distance) {
     fun toVector2d() = Vector2d(x.toInches(), y.toInches())
     operator fun plus(d: Distance2d) = Distance2d(x + d.x, y + d.y)
@@ -82,6 +84,9 @@ data class Distance2d(@JvmField val x: Distance, @JvmField val y: Distance) {
     operator fun times(z: Double) = Distance2d(x * z, y * z)
     operator fun div(z: Double) = Distance2d(x / z, y / z)
 }
+
+fun pose2d(position: Distance2d, heading: Rotation) = Pose(position, heading)
+fun pose2d(x: Distance, y: Distance, heading: Rotation) = Pose(x, y, heading)
 
 data class Pose(@JvmField val position: Distance2d, @JvmField val heading: Rotation) {
     constructor(x: Distance, y: Distance, heading: Rotation) : this(Distance2d(x, y), heading)

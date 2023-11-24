@@ -39,7 +39,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.kickoff.robot.HardwareKt;
+import org.firstinspires.ftc.teamcode.units.Pose;
 
 import java.lang.Math;
 import java.util.Arrays;
@@ -167,6 +167,10 @@ public final class MecanumDrive {
         }
     }
 
+    public MecanumDrive(HardwareMap hardwareMap, Pose pose) {
+        this(hardwareMap, pose.toPose2d());
+    }
+
     public MecanumDrive(HardwareMap hardwareMap, Pose2d pose) {
         this.pose = pose;
 
@@ -176,10 +180,10 @@ public final class MecanumDrive {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        leftFront = hardwareMap.get(DcMotorEx.class, HardwareKt.LEFT_FRONT_MOTOR_ID);
-        leftBack = hardwareMap.get(DcMotorEx.class, HardwareKt.LEFT_BACK_MOTOR_ID);
-        rightBack = hardwareMap.get(DcMotorEx.class, HardwareKt.RIGHT_BACK_MOTOR_ID);
-        rightFront = hardwareMap.get(DcMotorEx.class, HardwareKt.RIGHT_FRONT_MOTOR_ID);
+        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
+        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
+        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
+        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -189,9 +193,9 @@ public final class MecanumDrive {
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        imu = hardwareMap.get(IMU.class, HardwareKt.IMU_ID);
+        imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
                 RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
         imu.initialize(parameters);
 
@@ -434,5 +438,9 @@ public final class MecanumDrive {
                 defaultVelConstraint, defaultAccelConstraint,
                 0.25, 0.1
         );
+    }
+
+    public TrajectoryActionBuilder actionBuilder(Pose beginPose) {
+        return actionBuilder(beginPose.toPose2d());
     }
 }

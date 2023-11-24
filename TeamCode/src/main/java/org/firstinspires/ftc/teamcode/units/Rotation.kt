@@ -30,9 +30,14 @@ sealed class Rotation(val value: Double) {
     operator fun div(z: Double) = clone(value / z)
 }
 
-val Number.degrees get() = Degrees(this.toDouble())
-val Number.radians get() = Radians(this.toDouble())
-val Number.revolutions get() = Revolutions(this.toDouble())
+val Number.deg get() = Degrees(this.toDouble())
+val Number.rad get() = Radians(this.toDouble())
+val Number.rev get() = Revolutions(this.toDouble())
+
+val NORTH = 90.deg
+val SOUTH = 270.deg
+val EAST = 0.deg
+val WEST = 180.deg
 
 val degree = Degrees(1.0)
 val radian = Radians(1.0)

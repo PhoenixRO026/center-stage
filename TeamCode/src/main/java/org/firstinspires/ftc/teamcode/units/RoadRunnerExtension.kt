@@ -8,12 +8,6 @@ import com.acmerobotics.roadrunner.TrajectoryActionBuilder
 import com.acmerobotics.roadrunner.TurnConstraints
 import com.acmerobotics.roadrunner.VelConstraint
 
-
-
-fun TrajectoryActionBuilder.test() {
-
-}
-
 fun TrajectoryActionBuilder.afterDisp(
     ds: Distance, a: Action
 ) = afterDisp(ds.toInches(), a)
@@ -71,14 +65,14 @@ fun TrajectoryActionBuilder.lineToYLinearHeading(
     heading: Rotation,
     velConstraintOverride: VelConstraint? = null,
     accelConstraintOverride: AccelConstraint? = null
-) = lineToYLinearHeading(posX.toInches(), heading.toRadians(), velConstraintOverride, accelConstraintOverride)
+) = lineToYLinearHeading(posX.toInches(), heading.toRotation2d(), velConstraintOverride, accelConstraintOverride)
 
 fun TrajectoryActionBuilder.lineToYSplineHeading(
     posX: Distance,
     heading: Rotation,
     velConstraintOverride: VelConstraint? = null,
     accelConstraintOverride: AccelConstraint? = null
-) = lineToYSplineHeading(posX.toInches(), heading.toRadians(), velConstraintOverride, accelConstraintOverride)
+) = lineToYSplineHeading(posX.toInches(), heading.toRotation2d(), velConstraintOverride, accelConstraintOverride)
 
 fun TrajectoryActionBuilder.setTangent(
     r: Rotation
@@ -89,11 +83,25 @@ fun TrajectoryActionBuilder.splineTo(
     tangent: Rotation,
     velConstraintOverride: VelConstraint? = null,
     accelConstraintOverride: AccelConstraint? = null
-) = splineTo(pos.toVector2d(), tangent.toRadians(), velConstraintOverride, accelConstraintOverride)
+) = splineTo(pos.toVector2d(), tangent.toRotation2d(), velConstraintOverride, accelConstraintOverride)
 
 fun TrajectoryActionBuilder.splineToConstantHeading(
     pos: Distance2d,
     tangent: Rotation,
     velConstraintOverride: VelConstraint? = null,
     accelConstraintOverride: AccelConstraint? = null
-) = splineToConstantHeading(pos.toVector2d(), tangent.toRadians(), velConstraintOverride, accelConstraintOverride)
+) = splineToConstantHeading(pos.toVector2d(), tangent.toRotation2d(), velConstraintOverride, accelConstraintOverride)
+
+fun TrajectoryActionBuilder.splineToLinearHeading(
+    pose: Pose,
+    tangent: Rotation,
+    velConstraintOverride: VelConstraint? = null,
+    accelConstraintOverride: AccelConstraint? = null
+) = splineToLinearHeading(pose.toPose2d(), tangent.toRotation2d(), velConstraintOverride, accelConstraintOverride)
+
+fun TrajectoryActionBuilder.splineToSplineHeading(
+    pose: Pose,
+    tangent: Rotation,
+    velConstraintOverride: VelConstraint? = null,
+    accelConstraintOverride: AccelConstraint? = null
+) = splineToSplineHeading(pose.toPose2d(), tangent.toRotation2d(), velConstraintOverride, accelConstraintOverride)

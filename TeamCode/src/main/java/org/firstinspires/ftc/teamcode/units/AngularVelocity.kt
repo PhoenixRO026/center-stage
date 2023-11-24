@@ -24,4 +24,8 @@ class AngularVelocity(val rotation: Rotation, val duration: Duration) {
     operator fun div(z: Double) = AngularVelocity(rotation / z, duration)
 }
 
+val Number.rpm get() = rev.per(minute)
+val Number.radsec get() = rad.per(second)
+val Number.degsec get() = deg.per(second)
+
 fun Rotation.per(duration: Duration) = AngularVelocity(this, duration)
