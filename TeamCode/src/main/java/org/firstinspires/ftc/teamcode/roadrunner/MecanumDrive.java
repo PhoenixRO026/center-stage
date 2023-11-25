@@ -171,8 +171,8 @@ public final class MecanumDrive {
         this(hardwareMap, pose.toPose2d());
     }
 
-    public MecanumDrive(HardwareMap hardwareMap, Pose2d pose) {
-        this.pose = pose;
+    public MecanumDrive(HardwareMap hardwareMap, Pose2d newPose) {
+        pose = newPose;
 
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
 
@@ -197,6 +197,7 @@ public final class MecanumDrive {
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
                 RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
+        imu.resetDeviceConfigurationForOpMode();
         imu.initialize(parameters);
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();

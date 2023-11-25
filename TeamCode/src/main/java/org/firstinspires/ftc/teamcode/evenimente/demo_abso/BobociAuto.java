@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @Autonomous
 public class BobociAuto extends LinearOpMode {
-    Robot robot = new Robot();
     Pose2d startPose = new Pose2d(12, -61, Math.toRadians(90));
 
     enum Detection {
@@ -26,7 +25,8 @@ public class BobociAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        robot.initAuto(hardwareMap, startPose, telemetry);
+        Robot robot = new Robot(hardwareMap, startPose);
+        robot.initAuto(telemetry);
 
         Action auto1 = new SequentialAction(
                 robot.drive.actionBuilder(startPose)
@@ -100,6 +100,5 @@ public class BobociAuto extends LinearOpMode {
                 Actions.runBlocking(auto3);
                 break;
         }
-        Robot.teleOpPose = robot.drive.pose;
     }
 }

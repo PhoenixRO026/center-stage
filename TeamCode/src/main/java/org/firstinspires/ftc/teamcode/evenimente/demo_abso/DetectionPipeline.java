@@ -20,6 +20,11 @@ public class DetectionPipeline extends OpenCvPipeline
         RIGHT
     }
 
+    public enum DetectionColor {
+        RED,
+        BLUE
+    }
+
     /*
      * Some color constants
      */
@@ -75,12 +80,26 @@ public class DetectionPipeline extends OpenCvPipeline
      * Working variables
      */
     Mat region1_Cb, region2_Cb, region3_Cb;
+    Mat region1_Cr, region2_Cr, region3_Cr;
     Mat YCrCb = new Mat();
     Mat Cb = new Mat();
-    int avg1, avg2, avg3;
+    Mat Cr = new Mat();
+    int avg1Blue, avg2Blue, avg3Blue;
+    int avg1Red, avg2Red, avg3Red;
+    int avg1, avg2;
+    int maxOneTwoBlue;
+    int maxBlue;
+    int maxOneTwoRed;
+    int maxRed;
+    int max;
 
     // Volatile since accessed by OpMode thread w/o synchronization
     private volatile DetectionPosition position = DetectionPosition.LEFT;
+    private volatile DetectionColor detectionColor = DetectionColor.BLUE;
+
+    public void setDetectionColor(DetectionColor newDetectionColor) {
+        this.detectionColor = newDetectionColor;
+    }
 
     /*
      * This function takes the RGB frame, converts to YCrCb,
@@ -90,6 +109,12 @@ public class DetectionPipeline extends OpenCvPipeline
     {
         Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
         Core.extractChannel(YCrCb, Cb, 2);
+    }
+
+    void inputToCr(Mat input)
+    {
+        Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
+        Core.extractChannel(YCrCb, Cr, 1);
     }
 
     @Override
@@ -105,6 +130,7 @@ public class DetectionPipeline extends OpenCvPipeline
          * was crunched)
          */
         inputToCb(firstFrame);
+        inputToCr(firstFrame);
 
         /*
          * Submats are a persistent reference to a region of the parent
@@ -114,6 +140,10 @@ public class DetectionPipeline extends OpenCvPipeline
         region1_Cb = Cb.submat(new Rect(region1_pointA, region1_pointB));
         region2_Cb = Cb.submat(new Rect(region2_pointA, region2_pointB));
         region3_Cb = Cb.submat(new Rect(region3_pointA, region3_pointB));
+
+        region1_Cr = Cr.submat(new Rect(region1_pointA, region1_pointB));
+        region2_Cr = Cr.submat(new Rect(region2_pointA, region2_pointB));
+        region3_Cr = Cr.submat(new Rect(region3_pointA, region3_pointB));
     }
 
     @Override
@@ -158,6 +188,7 @@ public class DetectionPipeline extends OpenCvPipeline
          * Get the Cb channel of the input frame after conversion to YCrCb
          */
         inputToCb(input);
+        inputToCr(input);
 
         /*
          * Compute the average pixel value of each submat region. We're
@@ -166,9 +197,13 @@ public class DetectionPipeline extends OpenCvPipeline
          * pixel value of the 3-channel image, and referenced the value
          * at index 2 here.
          */
-        avg1 = (int) Core.mean(region1_Cb).val[0];
-        avg2 = (int) Core.mean(region2_Cb).val[0];
-        avg3 = (int) Core.mean(region3_Cb).val[0];
+        avg1Blue = (int) Core.mean(region1_Cb).val[0];
+        avg2Blue = (int) Core.mean(region2_Cb).val[0];
+        avg3Blue = (int) Core.mean(region3_Cb).val[0];
+
+        avg1Red = (int) Core.mean(region1_Cr).val[0];
+        avg2Red = (int) Core.mean(region2_Cr).val[0];
+        avg3Red = (int) Core.mean(region3_Cr).val[0];
 
         /*
          * Draw a rectangle showing sample region 1 on the screen.
@@ -207,8 +242,21 @@ public class DetectionPipeline extends OpenCvPipeline
         /*
          * Find the max of the 3 averages
          */
-        int maxOneTwo = Math.max(avg1, avg2);
-        int max = Math.max(maxOneTwo, avg3);
+        maxOneTwoBlue = Math.max(avg1Blue, avg2Blue);
+        maxBlue = Math.max(maxOneTwoBlue, avg3Blue);
+
+        maxOneTwoRed = Math.max(avg1Red, avg2Red);
+        maxRed = Math.max(maxOneTwoRed, avg3Red);
+
+        if (detectionColor == DetectionColor.RED) {
+            max = maxRed;
+            avg1 = avg1Red;
+            avg2 = avg2Red;
+        } else {
+            max = maxBlue;
+            avg1 = avg1Blue;
+            avg2 = avg2Blue;
+        }
 
         /*
          * Now that we found the max, we actually need to go and

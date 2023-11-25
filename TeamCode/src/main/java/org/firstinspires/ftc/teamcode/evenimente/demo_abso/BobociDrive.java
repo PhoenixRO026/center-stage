@@ -2,18 +2,18 @@ package org.firstinspires.ftc.teamcode.evenimente.demo_abso;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp
 public class BobociDrive extends LinearOpMode {
-    Robot robot = new Robot();
-
     @Override
     public void runOpMode() throws InterruptedException {
         //For FTC Dashboard
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        Robot robot = new Robot(hardwareMap, new Pose2d(0, 0, Math.toRadians(90)));
 
-        robot.initTeleOp(hardwareMap);
+        robot.initTeleOp();
 
         waitForStart();
 
@@ -53,6 +53,7 @@ public class BobociDrive extends LinearOpMode {
             telemetry.addData("robot heading", robot.drive.pose.heading.log() * (180.0 / Math.PI));
             telemetry.update();
         }
+        //robot.drive.pose = new Pose2d(0, 0, Math.toRadians(90));
     }
 
 }

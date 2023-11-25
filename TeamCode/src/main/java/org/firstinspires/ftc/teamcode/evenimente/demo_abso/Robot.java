@@ -22,7 +22,6 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-@Config
 public class Robot {
     MecanumDrive drive;
     DcMotorEx lift;
@@ -30,7 +29,6 @@ public class Robot {
     Servo claw;
     OpenCvCamera webcam;
     DetectionPipeline pipeline;
-    public static Pose2d teleOpPose = new Pose2d(0, 0, Math.toRadians(90));
 
     public Action moveArm(double position) {
         return new Action() {
@@ -103,38 +101,38 @@ public class Robot {
     public static int liftBotLimit = 50;
     public double liftZeroPose = 0;
 
-    void initTeleOp(HardwareMap hardwareMap) {
-        drive = new MecanumDrive(hardwareMap, teleOpPose);
+    public Robot(HardwareMap hardwareMap, Pose2d beginPose) {
+        drive = new MecanumDrive(hardwareMap, beginPose);
+        drive.pose = beginPose;
         lift = hardwareMap.get(DcMotorEx.class, "lift");
+        arm = hardwareMap.get(Servo.class, "arm");
+        claw = hardwareMap.get(Servo.class, "claw");
+
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        pipeline = new DetectionPipeline();
+        webcam.setPipeline(pipeline);
+    }
+
+    void initTeleOp() {
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setPower(0);
-        arm = hardwareMap.get(Servo.class, "arm");
-        claw = hardwareMap.get(Servo.class, "claw");
         arm.setPosition(arm_init);
         claw.setPosition(closed_claw);
     }
 
-    void initAuto(HardwareMap hardwareMap, Pose2d beginPose, Telemetry telemetry) {
-        drive = new MecanumDrive(hardwareMap, beginPose);
-        lift = hardwareMap.get(DcMotorEx.class, "lift");
+    void initAuto(Telemetry telemetry) {
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setPower(1);
-        arm = hardwareMap.get(Servo.class, "arm");
-        claw = hardwareMap.get(Servo.class, "claw");
         arm.setPosition(arm_init);
         claw.setPosition(closed_claw);
-
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        pipeline = new DetectionPipeline();
-        webcam.setPipeline(pipeline);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {

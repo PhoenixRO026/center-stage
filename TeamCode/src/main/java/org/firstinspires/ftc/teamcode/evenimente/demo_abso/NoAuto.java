@@ -7,6 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class NoAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-
+        waitForStart();
     }
 }
