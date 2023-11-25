@@ -1,6 +1,7 @@
 package com.phoenix_ro026.meepmeep;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeBlueDark;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
@@ -17,21 +18,23 @@ public class MeepMeepTesting {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(12, -61, Math.toRadians(90)))
-                                /* /// traj3
+                                /// traj3
                                 .splineTo(new Vector2d(22, -34), Math.toRadians(45))
                                 .waitSeconds(1)
                                 .turn(Math.toRadians(-45))
                                 .forward(24)
                                 .waitSeconds(1)
-                                .strafeLeft(15)*/ //traj3
-                                /*///traj1
-                                .splineTo(new Vector2d(2, -34), Math.toRadians(125))
+                                .strafeLeft(15) //traj3
+                                ///traj1
+                                /*.splineTo(new Vector2d(2, -34), Math.toRadians(125))
                                 .waitSeconds(1)
                                 .turn(Math.toRadians(-125))
-                                .forward(42)
-                                .strafeLeft(18)
+                                .lineTo(new Vector2d(2 + 42, -34))
+                                //.forward(42)
+                                .lineTo(new Vector2d(2 + 42, -35 + 18))
+                                //.strafeLeft(18)
                                 ///traj1*/
-                                /* ///traj2
+                                /*///traj2
                                 .forward(29)
                                 .turn(Math.toRadians(-90))
                                 .forward(38)
