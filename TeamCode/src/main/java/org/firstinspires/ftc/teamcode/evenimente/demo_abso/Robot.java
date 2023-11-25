@@ -154,7 +154,7 @@ public class Robot {
     }
 
     void resetFieldCentric() {
-        drive.pose = new Pose2d(drive.pose.position.x, drive.pose.position.y, 0);
+        drive.pose = new Pose2d(drive.pose.position.x, drive.pose.position.y, Math.toRadians(90));
     }
 
     void fieldCentricDrive(double x, double y, double heading) {
