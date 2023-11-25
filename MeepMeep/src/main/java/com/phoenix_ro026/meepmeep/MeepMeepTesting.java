@@ -16,15 +16,35 @@ public class MeepMeepTesting {
                 .setColorScheme(new ColorSchemeBlueDark())
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
-                                .forward(30)
-                                .turn(Math.toRadians(90))
-                                .forward(30)
-                                .turn(Math.toRadians(90))
-                                .forward(30)
-                                .turn(Math.toRadians(90))
-                                .forward(30)
-                                .turn(Math.toRadians(90))
+                        drive.trajectorySequenceBuilder(new Pose2d(12, -61, Math.toRadians(90)))
+                                /* /// traj3
+                                .splineTo(new Vector2d(22, -34), Math.toRadians(45))
+                                .waitSeconds(1)
+                                .turn(Math.toRadians(-45))
+                                .forward(24)
+                                .waitSeconds(1)
+                                .strafeLeft(15)*/ //traj3
+                                /*///traj1
+                                .splineTo(new Vector2d(2, -34), Math.toRadians(125))
+                                .waitSeconds(1)
+                                .turn(Math.toRadians(-125))
+                                .forward(42)
+                                .strafeLeft(18)
+                                ///traj1*/
+                                /* ///traj2
+                                .forward(29)
+                                .turn(Math.toRadians(-90))
+                                .forward(38)
+                                .strafeLeft(18)
+                                ///traj 2*/
+
+                                /*.splineTo(new Vector2d())*/
+                                /*.forward(25)
+                                .turn(Math.toRadians(60))
+                                .waitSeconds(1)
+                                .splineTo(new Vector2d(47,-35),Math.toRadians(0))
+                                .waitSeconds(0.5)
+                                .strafeLeft(18)*/
                                 .build()
                 );
 
