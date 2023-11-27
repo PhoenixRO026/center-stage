@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/roadrunner/PoseMessage.java
-package org.firstinspires.ftc.teamcode.roadrunner;
-========
-package org.firstinspires.ftc.teamcode.messages;
->>>>>>>> remote/master:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/messages/PoseMessage.java
+package org.firstinspires.ftc.teamcode.roadrunner.messages;
 
 import com.acmerobotics.roadrunner.Pose2d;
 
