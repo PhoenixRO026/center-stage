@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package org.firstinspires.ftc.teamcode.units
+package com.phoenix_ro026.phoenixlib.units
 
 import com.acmerobotics.roadrunner.Pose2d
 import com.acmerobotics.roadrunner.Vector2d
@@ -25,9 +25,13 @@ class Velocity(val distance: Distance, val duration: Duration) {
     operator fun div(z: Double) = Velocity(distance / z, duration)
 }
 
-val Number.cmsec get() = cm.per(second)
-val Number.inchsec get() = inch.per(second)
-val Number.metersec get() = meters.per(second)
+val Number.cmSec get() = cm.per(second)
+val Number.inchSec get() = inch.per(second)
+val Number.meterSec get() = meters.per(second)
+
+val cmPerSec = 1.cmSec
+val inchPerSec = 1.inchSec
+val meterPerSec = 1.meterSec
 
 fun Distance.per(duration: Duration): Velocity = Velocity(this, duration)
 

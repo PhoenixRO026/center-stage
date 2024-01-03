@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package org.firstinspires.ftc.teamcode.units
+package com.phoenix_ro026.phoenixlib.units
 
 import com.acmerobotics.roadrunner.Pose2d
 import com.acmerobotics.roadrunner.Vector2d
@@ -12,7 +12,7 @@ sealed class Distance(val value: Double) {
     abstract fun toMeters(): Double
     abstract override fun toString(): String
 
-    fun clone(newValue: Double) = when(this) {
+    private fun clone(newValue: Double) = when(this) {
         is Centimeters -> Centimeters(newValue)
         is Inches -> Inches(newValue)
         is Meters -> Meters(newValue)
@@ -90,6 +90,7 @@ fun pose2d(x: Distance, y: Distance, heading: Rotation) = Pose(x, y, heading)
 
 data class Pose(@JvmField val position: Distance2d, @JvmField val heading: Rotation) {
     constructor(x: Distance, y: Distance, heading: Rotation) : this(Distance2d(x, y), heading)
+    constructor(x: Double, y: Double, heading: Double) : this(x.inch, y.inch, heading.rad)
     fun toPose2d() = Pose2d(position.toVector2d(), heading.toRotation2d())
     operator fun plus(p: Pose) = Pose(position + p.position, heading + p.heading)
     operator fun minus(p: Pose) = Pose(position - p.position, heading - p.heading)

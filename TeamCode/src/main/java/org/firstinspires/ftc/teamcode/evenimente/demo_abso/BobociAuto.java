@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode.evenimente.demo_abso;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -102,3 +103,4 @@ public class BobociAuto extends LinearOpMode {
         }
     }
 }
+*/

@@ -2,10 +2,10 @@ package org.firstinspires.ftc.teamcode.sensor
 
 import com.ThermalEquilibrium.homeostasis.Filters.FilterAlgorithms.KalmanFilter
 import com.acmerobotics.dashboard.config.Config
+import com.phoenix_ro026.phoenixlib.units.Distance
+import com.phoenix_ro026.phoenixlib.units.mm
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
-import org.firstinspires.ftc.teamcode.units.Distance
-import org.firstinspires.ftc.teamcode.units.mm
 
 class KalmanDistanceSensor(private val sensor: Rev2mDistanceSensor) {
     @Config
@@ -22,7 +22,8 @@ class KalmanDistanceSensor(private val sensor: Rev2mDistanceSensor) {
         val hasChanged get() = prevQ != Q || prevR != R || prevN != N
     }
     private var filter = KalmanFilter(KalmanConfig.Q, KalmanConfig.R, KalmanConfig.N)
-    val position: Distance get() {
+    val position: Distance
+        get() {
         if (KalmanConfig.hasChanged) {
             filter = KalmanFilter(KalmanConfig.Q, KalmanConfig.R, KalmanConfig.N)
         }

@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package org.firstinspires.ftc.teamcode.units
+package com.phoenix_ro026.phoenixlib.units
 
 sealed class Duration(val value: Double) {
     abstract fun toSeconds(): Double

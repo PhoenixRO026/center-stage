@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package org.firstinspires.ftc.teamcode.units
+package com.phoenix_ro026.phoenixlib.units
 
 import com.acmerobotics.roadrunner.Rotation2d
 
@@ -25,7 +25,11 @@ class AngularVelocity(val rotation: Rotation, val duration: Duration) {
 }
 
 val Number.rpm get() = rev.per(minute)
-val Number.radsec get() = rad.per(second)
-val Number.degsec get() = deg.per(second)
+val Number.radSec get() = rad.per(second)
+val Number.degSec get() = deg.per(second)
+
+val rotPerMin = 1.rpm
+val radPerSec = 1.radSec
+val degPerSec = 1.degSec
 
 fun Rotation.per(duration: Duration) = AngularVelocity(this, duration)
