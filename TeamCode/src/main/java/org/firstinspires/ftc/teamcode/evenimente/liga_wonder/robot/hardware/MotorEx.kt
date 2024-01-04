@@ -16,6 +16,22 @@ class MotorEx(
 ) {
     private val motor = hardwareMap.get(DcMotorEx::class.java, deviceName)
 
+    var targetPosition: Int = 0
+        set(value) {
+            if (field != value) {
+                motor.targetPosition = value
+            }
+            field = value
+        }
+
+    var mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+        set(value) {
+            if (field != value) {
+                motor.mode = value
+            }
+            field = value
+        }
+
     var power: Double = 0.0
         set(value) {
             val scaledValue = value.coerceIn(-1.0, 1.0)

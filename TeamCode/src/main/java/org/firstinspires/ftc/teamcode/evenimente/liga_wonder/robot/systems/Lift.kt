@@ -4,10 +4,12 @@ import com.arcrobotics.ftclib.command.ProfiledPIDCommand
 import com.arcrobotics.ftclib.controller.wpilibcontroller.ProfiledPIDController
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup
 import com.arcrobotics.ftclib.trajectory.TrapezoidProfile
+import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.CONFIG
+import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.HANG_POS
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.hardware.MotorEx
 
 class Lift(
@@ -60,12 +62,14 @@ class Lift(
         )
     )
 
-    val mode = MODE.RAW
+    var mode = MODE.RAW
 
     var power: Double = 0.0
         set(value) {
-            leftMotor.power = value
-            rightMotor.power = value
+            if (mode == MODE.RAW) {
+                leftMotor.power = value
+                rightMotor.power = value
+            }
             field = value
         }
 
@@ -77,6 +81,25 @@ class Lift(
             controller.setGoal(goal)
             field = value
         }
+
+    fun hang() {
+        if (mode == MODE.HANG) return
+        mode = MODE.HANG
+        leftMotor.targetPosition = HANG_POS
+        rightMotor.targetPosition = HANG_POS
+        leftMotor.mode = DcMotor.RunMode.RUN_TO_POSITION
+        rightMotor.mode = DcMotor.RunMode.RUN_TO_POSITION
+        leftMotor.power = 0.5
+        rightMotor.power = 0.5
+        power = 0.5
+    }
+
+    fun unhang() {
+        if (mode == MODE.RAW) return
+        mode = MODE.RAW
+        leftMotor.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+        rightMotor.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+    }
 
     fun update() {
         if (LiftConfig.changed) {

@@ -71,6 +71,14 @@ class RevDrive : LinearOpMode() {
 
             robot.intake.power = -gamepad2.left_stick_y.toDouble()
 
+            if (gamepad2.back) {
+                robot.lift.hang()
+            }
+
+            if (gamepad2.start) {
+                robot.lift.unhang()
+            }
+
             telemetry.addData("arm pos", robot.arm.position)
             telemetry.addData("claw angle", robot.claw.angle)
             telemetry.addData("left lift pos", robot.lift.leftPosition)

@@ -12,6 +12,8 @@ const val FINGERS_OPEN_LIMIT = 0.2
 const val FINGERS_INTAKE_OPEN_POS = 0.38
 const val FINGERS_CLOSE_LIMIT = 0.55
 
+const val HANG_POS = 600
+
 const val ARM_SCORE_POS = 0.46
 const val CLAW_SCORE_POS = 0.915
 
