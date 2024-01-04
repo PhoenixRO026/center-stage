@@ -41,6 +41,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.ConstantsKt;
 import org.firstinspires.ftc.teamcode.roadrunner.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.roadrunner.messages.MecanumCommandMessage;
 import org.firstinspires.ftc.teamcode.roadrunner.messages.MecanumEncodersMessage;
@@ -57,10 +58,15 @@ public final class MecanumDrive {
         // IMU orientation
         // TODO: fill in these values based on
         //   see https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html?highlight=imu#physical-hub-mounting
-        public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
+        /*public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
                 RevHubOrientationOnRobot.LogoFacingDirection.UP;
         public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;*/
+
+        public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
+                ConstantsKt.getIMU_LOGO_FACING_DIRECTION();
+        public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
+                ConstantsKt.getIMU_USB_FACING_DIRECTION();
 
         // drive model parameters
         public double inPerTick = 0;
@@ -219,14 +225,18 @@ public final class MecanumDrive {
 
         // TODO: reverse motor directions if needed
         //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBack.setDirection(ConstantsKt.getLEFT_BACK_DRIVE_DIRECTION());
+        leftFront.setDirection(ConstantsKt.getLEFT_FRONT_DRIVE_DIRECTION());
+        rightBack.setDirection(ConstantsKt.getRIGHT_BACK_DRIVE_DIRECTION());
+        rightFront.setDirection(ConstantsKt.getRIGHT_FRONT_DRIVE_DIRECTION());
+
 
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
         imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
+        imu.resetDeviceConfigurationForOpMode();
         imu.initialize(parameters);
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();

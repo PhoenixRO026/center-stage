@@ -1,4 +1,3 @@
-/*
 package org.firstinspires.ftc.teamcode.evenimente.demo_abso;
 
 import androidx.annotation.NonNull;
@@ -174,4 +173,3 @@ public class Robot {
         drive.setDrivePowers(new PoseVelocity2d(new Vector2d(input.getX(), input.getY()), newHeading));
     }
 }
-*/
