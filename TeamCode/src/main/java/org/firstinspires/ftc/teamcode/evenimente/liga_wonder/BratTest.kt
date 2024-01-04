@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.evenimente.liga_wonder
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.CONFIG
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.LEFT_ARM_SERV
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.RIGHT_ARM_SERVO_RANGE
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.hardware.ServoEx
 
+@Disabled
 @TeleOp
 class BratTest : LinearOpMode() {
     override fun runOpMode() {

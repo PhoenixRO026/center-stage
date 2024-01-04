@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.evenimente.liga_wonder
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.LEFT_FRONT_DR
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.RIGHT_BACK_DRIVE_DIRECTION
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.RIGHT_FRONT_DRIVE_DIRECTION
 
+@Disabled
 @TeleOp
 class MotorDirectionTest: LinearOpMode() {
     override fun runOpMode() {

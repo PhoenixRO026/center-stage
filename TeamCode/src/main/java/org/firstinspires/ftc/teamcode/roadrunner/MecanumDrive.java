@@ -69,14 +69,14 @@ public final class MecanumDrive {
                 ConstantsKt.getIMU_USB_FACING_DIRECTION();
 
         // drive model parameters
-        public double inPerTick = 0;
-        public double lateralInPerTick = 1;
-        public double trackWidthTicks = 0;
+        public double inPerTick = 95.0 / 2300.0;
+        public double lateralInPerTick = 95.0 / 2215.0;
+        public double trackWidthTicks = 566.447;
 
         // feedforward parameters (in tick units)
-        public double kS = 0;
-        public double kV = 0;
-        public double kA = 0;
+        public double kS = 3.279;
+        public double kV = 0.0035;
+        public double kA = 0.001;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -88,9 +88,9 @@ public final class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 0.0;
-        public double lateralGain = 0.0;
-        public double headingGain = 0.0; // shared with turn
+        public double axialGain = 5.0;
+        public double lateralGain = 5.0;
+        public double headingGain = 5.0; // shared with turn
 
         public double axialVelGain = 0.0;
         public double lateralVelGain = 0.0;
@@ -143,6 +143,10 @@ public final class MecanumDrive {
 
             // TODO: reverse encoders if needed
             //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+            leftFront.setDirection(ConstantsKt.getLEFT_FRONT_DRIVE_DIRECTION());
+            leftBack.setDirection(ConstantsKt.getLEFT_BACK_DRIVE_DIRECTION());
+            rightBack.setDirection(ConstantsKt.getRIGHT_BACK_DRIVE_DIRECTION());
+            rightFront.setDirection(ConstantsKt.getRIGHT_FRONT_DRIVE_DIRECTION());
 
             lastLeftFrontPos = leftFront.getPositionAndVelocity().position;
             lastLeftBackPos = leftBack.getPositionAndVelocity().position;

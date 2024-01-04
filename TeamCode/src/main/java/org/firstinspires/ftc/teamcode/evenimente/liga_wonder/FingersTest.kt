@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.evenimente.liga_wonder
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.Servo
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.RIGHT_CLAW_SE
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.RIGHT_FINGER_SERVO_RANGE
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.hardware.ServoEx
 
+@Disabled
 @TeleOp
 class FingersTest : LinearOpMode() {
     override fun runOpMode() {
