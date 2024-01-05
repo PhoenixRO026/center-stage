@@ -39,6 +39,11 @@ val RIGHT_FRONT_DRIVE_DIRECTION = DcMotorSimple.Direction.FORWARD
 val IMU_LOGO_FACING_DIRECTION = RevHubOrientationOnRobot.LogoFacingDirection.LEFT
 val IMU_USB_FACING_DIRECTION = RevHubOrientationOnRobot.UsbFacingDirection.UP
 
+const val PLANE_SERVO_CLOSED = 0.64
+const val PLANE_SERVO_OPENED = 0.5
+
+val PLANE_RANGE = PLANE_SERVO_OPENED..PLANE_SERVO_CLOSED
+
 data object CONFIG {
     const val LEFT_ARM = "leftArm"
     const val RIGHT_ARM = "rightArm"
@@ -57,4 +62,6 @@ data object CONFIG {
 
     const val LEFT_FINGER = "leftFinger"
     const val RIGHT_FINGER = "rightFinger"
+
+    const val PLANE = "plane"
 }

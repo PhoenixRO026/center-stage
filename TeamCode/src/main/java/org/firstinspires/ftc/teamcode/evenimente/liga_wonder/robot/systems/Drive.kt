@@ -14,9 +14,23 @@ class Drive(
     private val telemetry: Telemetry? = null,
     startPose: Pose2d
 ) {
-    private val drive = MecanumDrive(hardwareMap, startPose)
+    val drive = MecanumDrive(hardwareMap, startPose)
 
-    private val heading: Double
+    val sniperSpeed = 0.5
+
+    private var speed = 1.0
+
+    var sniperMode = false
+        set(value) {
+            speed = if (value) {
+                sniperSpeed
+            } else {
+                1.0
+            }
+            field = value
+        }
+
+    val heading: Double
         get() = drive.pose.heading.log()
 
     fun update() {
@@ -26,10 +40,10 @@ class Drive(
     fun driveRobotCentric(forward: Double, strafe: Double, turn: Double)
     = drive.setDrivePowers(PoseVelocity2d(
         Vector2d(
-            forward,
-            -strafe
+            forward * speed,
+            -strafe * speed
         ),
-        -turn
+        -turn * speed
     ))
 
     fun driveFieldCentric(forward: Double, strafe: Double, turn: Double) {

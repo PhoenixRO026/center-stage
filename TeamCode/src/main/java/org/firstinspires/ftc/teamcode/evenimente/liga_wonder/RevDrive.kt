@@ -27,6 +27,8 @@ class RevDrive : LinearOpMode() {
                 robot.drive.resetFieldCentric()
             }
 
+            robot.drive.sniperMode = gamepad1.left_trigger >= 0.2
+
             robot.drive.driveFieldCentric(
                 -gamepad1.left_stick_y.toDouble(),
                 gamepad1.left_stick_x.toDouble(),
@@ -79,9 +81,14 @@ class RevDrive : LinearOpMode() {
                 robot.lift.unhang()
             }
 
+            if (gamepad2.b) {
+                robot.plane.launch()
+            }
+
             telemetry.addData("arm pos", robot.arm.position)
             telemetry.addData("claw angle", robot.claw.angle)
             telemetry.addData("left lift pos", robot.lift.leftPosition)
+            telemetry.addData("heading", robot.drive.heading)
             telemetry.update()
         }
     }

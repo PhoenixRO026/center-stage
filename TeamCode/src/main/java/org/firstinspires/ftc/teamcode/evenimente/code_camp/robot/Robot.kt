@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode.evenimente.code_camp.robot
 
 import com.qualcomm.robotcore.hardware.HardwareMap
@@ -25,4 +26,4 @@ class Robot @JvmOverloads constructor(
         lift.update()
         claw.update()
     }
-}
+}*/

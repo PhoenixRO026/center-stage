@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode.evenimente.liga_phoenix.robot
 
 import com.phoenix_ro026.phoenixlib.units.Pose
@@ -16,4 +17,4 @@ class Robot(
     fun update() {
 
     }
-}
+}*/

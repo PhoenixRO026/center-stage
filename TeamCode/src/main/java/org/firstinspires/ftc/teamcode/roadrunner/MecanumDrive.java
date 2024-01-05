@@ -69,13 +69,13 @@ public final class MecanumDrive {
                 ConstantsKt.getIMU_USB_FACING_DIRECTION();
 
         // drive model parameters
-        public double inPerTick = 95.0 / 2300.0;
-        public double lateralInPerTick = 95.0 / 2215.0;
-        public double trackWidthTicks = 566.447;
+        public double inPerTick = /*95.0 / 2300.0*/ 3.78 / (28 * 5 * 4);
+        public double lateralInPerTick = /*95.0 / 2215.0*/ inPerTick * 1.038;
+        public double trackWidthTicks = 569.7893;
 
         // feedforward parameters (in tick units)
-        public double kS = 3.279;
-        public double kV = 0.0035;
+        public double kS = 3.793;
+        public double kV = 0.0031935;
         public double kA = 0.001;
 
         // path profile parameters (in inches)
@@ -238,9 +238,9 @@ public final class MecanumDrive {
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
         imu = hardwareMap.get(IMU.class, "imu");
+        imu.resetYaw();
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
-        imu.resetDeviceConfigurationForOpMode();
         imu.initialize(parameters);
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();

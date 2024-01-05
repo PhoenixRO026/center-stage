@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.systems
 
+import com.acmerobotics.dashboard.FtcDashboard
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
@@ -27,6 +28,19 @@ class Camera(
         }
     }
 
+    fun openCamera() {
+        webcam.openCameraDeviceAsync(object : AsyncCameraOpenListener {
+            override fun onOpened() {
+                webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT)
+            }
+
+            override fun onError(errorCode: Int) {
+                telemetry?.addLine("Failed to open camera")
+                telemetry?.update()
+            }
+        })
+    }
+
     init {
         val cameraMonitorViewId = hardwareMap.appContext.resources.getIdentifier(
             "cameraMonitorViewId",
@@ -40,17 +54,8 @@ class Camera(
             ), cameraMonitorViewId
         )
 
+        FtcDashboard.getInstance().startCameraStream(webcam, 30.0)
+
         webcam.setPipeline(pipeline)
-
-        webcam.openCameraDeviceAsync(object : AsyncCameraOpenListener {
-            override fun onOpened() {
-                webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT)
-            }
-
-            override fun onError(errorCode: Int) {
-                telemetry?.addLine("Failed to open camera")
-                telemetry?.update()
-            }
-        })
     }
 }

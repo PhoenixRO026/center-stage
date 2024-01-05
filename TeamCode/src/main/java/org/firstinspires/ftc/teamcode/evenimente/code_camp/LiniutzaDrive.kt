@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode.evenimente.code_camp
 
 import com.acmerobotics.dashboard.FtcDashboard
@@ -41,7 +42,8 @@ class LiniutzaDrive : LinearOpMode(){
 
             val armGamepad = -gamepad2.left_stick_y
 
-            /*val armInput =
+            */
+/*val armInput =
             if (
                 (armGamepad < 0.0 && robot.arm.position > Math.toRadians(90.0)) ||
                 (armGamepad > 0.0 && robot.arm.position < Math.toRadians(90.0))
@@ -49,7 +51,8 @@ class LiniutzaDrive : LinearOpMode(){
                 armGamepad / 2.0
             } else {
                 armGamepad
-            }*/
+            }*//*
+
 
             robot.arm.power = armGamepad
 
@@ -65,4 +68,4 @@ class LiniutzaDrive : LinearOpMode(){
             telemetry.update()
         }
     }
-}
+}*/

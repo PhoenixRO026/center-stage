@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode.evenimente.kickoff
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
@@ -45,3 +46,4 @@ class RotationMotorTest : LinearOpMode() {
 
 }
 
+*/

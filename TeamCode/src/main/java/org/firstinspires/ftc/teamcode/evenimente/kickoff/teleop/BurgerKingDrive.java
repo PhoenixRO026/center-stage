@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode.evenimente.kickoff.teleop;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -46,14 +47,16 @@ public class BurgerKingDrive extends LinearOpMode {
                     -gamepad1.right_stick_x
             );
 
-            /*double input = 0.0;
+            */
+/*double input = 0.0;
             if ((-gamepad2.left_stick_y < 0.0 && robot.arm.getPosition() > Math.toRadians(90)) || (-gamepad2.left_stick_y > 0.0 && robot.arm.getPosition() < Math.toRadians(90))) {
                 input = -gamepad2.left_stick_y / 2.0;
             } else {
                 input = (double) -gamepad2.left_stick_y;
             }
 
-            robot.arm.setPower(input);*/
+            robot.arm.setPower(input);*//*
+
 
             if (liftLimitButton.wasJustPressed()) {
                 robot.lift.setLimitsDisabled(!robot.lift.getLimitsDisabled());
@@ -69,3 +72,4 @@ public class BurgerKingDrive extends LinearOpMode {
         }
     }
 }
+*/
