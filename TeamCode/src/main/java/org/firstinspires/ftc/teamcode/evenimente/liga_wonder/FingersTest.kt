@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.RIGHT_CLAW_SE
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.RIGHT_FINGER_SERVO_RANGE
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.hardware.ServoEx
 
-@Disabled
 @TeleOp
 class FingersTest : LinearOpMode() {
     override fun runOpMode() {

@@ -28,6 +28,10 @@ class Camera(
         }
     }
 
+    fun stopStream() {
+        webcam.stopStreaming()
+    }
+
     fun openCamera() {
         webcam.openCameraDeviceAsync(object : AsyncCameraOpenListener {
             override fun onOpened() {

@@ -53,6 +53,8 @@ class MotorEx(
             field = value
         }
 
+    val busy get() = motor.isBusy
+
     val position: Int
         get() = motor.currentPosition
 

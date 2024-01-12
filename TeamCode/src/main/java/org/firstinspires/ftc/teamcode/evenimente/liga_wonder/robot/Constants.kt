@@ -8,9 +8,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple
 const val ARM_SERVO_OFFSET = 0.015
 const val FINGERS_SERVO_OFFSET = 0.17
 
-const val FINGERS_OPEN_LIMIT = 0.2
-const val FINGERS_INTAKE_OPEN_POS = 0.38
-const val FINGERS_CLOSE_LIMIT = 0.55
+const val FINGERS_OPEN_LIMIT = 0.15
+const val FINGERS_INTAKE_OPEN_POS = 0.3
+const val FINGERS_CLOSE_LIMIT = 0.61
 
 const val HANG_POS = 600
 
@@ -31,10 +31,10 @@ val RIGHT_CLAW_SERVO_RANGE = 0.0..1.0
 val LEFT_FINGER_SERVO_RANGE = 0.0..(1.0 - FINGERS_SERVO_OFFSET)
 val RIGHT_FINGER_SERVO_RANGE = FINGERS_SERVO_OFFSET..1.0
 
-val LEFT_BACK_DRIVE_DIRECTION = DcMotorSimple.Direction.REVERSE
-val LEFT_FRONT_DRIVE_DIRECTION = DcMotorSimple.Direction.REVERSE
-val RIGHT_BACK_DRIVE_DIRECTION = DcMotorSimple.Direction.FORWARD
-val RIGHT_FRONT_DRIVE_DIRECTION = DcMotorSimple.Direction.FORWARD
+val LEFT_BACK_DRIVE_DIRECTION = DcMotorSimple.Direction.FORWARD
+val LEFT_FRONT_DRIVE_DIRECTION = DcMotorSimple.Direction.FORWARD
+val RIGHT_BACK_DRIVE_DIRECTION = DcMotorSimple.Direction.REVERSE
+val RIGHT_FRONT_DRIVE_DIRECTION = DcMotorSimple.Direction.REVERSE
 
 val IMU_LOGO_FACING_DIRECTION = RevHubOrientationOnRobot.LogoFacingDirection.LEFT
 val IMU_USB_FACING_DIRECTION = RevHubOrientationOnRobot.UsbFacingDirection.UP

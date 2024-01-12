@@ -5,18 +5,19 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
+import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.ARM_RAMP_POS
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.CONFIG
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.LEFT_ARM_SERVO_RANGE
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.RIGHT_ARM_SERVO_RANGE
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.hardware.ServoEx
+import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.systems.Arm
 
 @TeleOp
-class BratTest : LinearOpMode() {
+class BratTest2 : LinearOpMode() {
     override fun runOpMode() {
         telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
 
-        val right = ServoEx(hardwareMap, CONFIG.RIGHT_ARM, RIGHT_ARM_SERVO_RANGE)
-        val left = ServoEx(hardwareMap, CONFIG.LEFT_ARM, LEFT_ARM_SERVO_RANGE)
+        val arm = Arm(hardwareMap, telemetry, ARM_RAMP_POS..1.0)
 
         var position = 0.5
 
@@ -24,8 +25,7 @@ class BratTest : LinearOpMode() {
         var deltaTime = 1.0
 
         while (opModeInInit()) {
-            right.position = position
-            left.position = position
+            arm.position = position
 
             deltaTime = (time - previousTime) * 60.0
             previousTime = time
@@ -40,8 +40,7 @@ class BratTest : LinearOpMode() {
                 position -= 0.005 * deltaTime
             }
 
-            right.position = position
-            left.position = position
+            arm.position = position
 
             telemetry.addData("position", position)
             telemetry.addData("deltaTime", deltaTime)

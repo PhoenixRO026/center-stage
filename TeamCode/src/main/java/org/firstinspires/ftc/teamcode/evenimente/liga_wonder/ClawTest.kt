@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.RIGHT_ARM_SER
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.RIGHT_CLAW_SERVO_RANGE
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.hardware.ServoEx
 
-@Disabled
 @TeleOp
 class ClawTest : LinearOpMode() {
     override fun runOpMode() {

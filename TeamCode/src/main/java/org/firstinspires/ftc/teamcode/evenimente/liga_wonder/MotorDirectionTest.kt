@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.LEFT_FRONT_DR
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.RIGHT_BACK_DRIVE_DIRECTION
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.RIGHT_FRONT_DRIVE_DIRECTION
 
-@Disabled
 @TeleOp
 class MotorDirectionTest: LinearOpMode() {
     override fun runOpMode() {

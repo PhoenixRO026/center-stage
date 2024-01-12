@@ -10,30 +10,43 @@ import com.acmerobotics.roadrunner.ftc.runBlocking
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.Robot
-import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive
 
 
 @Autonomous
-class RevAuto : LinearOpMode() {
+class CameraTest : LinearOpMode() {
     override fun runOpMode() {
-        telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
+        val dash = FtcDashboard.getInstance()
+        telemetry = MultipleTelemetry(telemetry, dash.telemetry)
         val startPose = Pose2d(12.0, 61.0, Math.toRadians(90.0))
 
-        //val robot = Robot(hardwareMap, telemetry, startPose, false)
-        //robot.camera.openCamera()
-        val drive = MecanumDrive(hardwareMap, startPose)
+        val robot = Robot(hardwareMap, telemetry, startPose, false)
+        robot.camera.openCamera()
 
-        val action = drive.actionBuilder(startPose)
+        val action = robot.drive.drive.actionBuilder(startPose)
             .lineToY(61.0 - 5)
             .strafeTo(Vector2d(12.0 + 48 , 61.0 - 5))
             .build()
 
         while (opModeInInit()) {
-           // robot.camera.displayDetection()
+            robot.camera.displayDetection()
             telemetry.update()
             sleep(50)
         }
+        robot.camera.stopStream()
 
-        runBlocking(action)
+        val c = Canvas()
+        action.preview(c)
+        var running = true
+
+        while (isStarted && !isStopRequested && running) {
+            robot.update()
+
+            val p = TelemetryPacket()
+            p.fieldOverlay().operations.addAll(c.operations)
+
+            running = action.run(p)
+
+            dash.sendTelemetryPacket(p)
+        }
     }
 }

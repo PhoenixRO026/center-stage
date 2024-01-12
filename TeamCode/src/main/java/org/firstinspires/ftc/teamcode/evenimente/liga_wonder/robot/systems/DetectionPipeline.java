@@ -34,9 +34,9 @@ public class DetectionPipeline extends OpenCvPipeline
     /*
      * The core values which define the location and size of the sample regions
      */
-    static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(0,98);
-    static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(140,98);
-    static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(270,98);
+    static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(0,130);
+    static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(140,130);
+    static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(290,130);
     static final int REGION_WIDTH = 30;
     static final int REGION_HEIGHT = 30;
 

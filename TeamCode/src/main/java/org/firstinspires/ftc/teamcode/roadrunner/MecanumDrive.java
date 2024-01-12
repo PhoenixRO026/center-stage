@@ -69,14 +69,14 @@ public final class MecanumDrive {
                 ConstantsKt.getIMU_USB_FACING_DIRECTION();
 
         // drive model parameters
-        public double inPerTick = /*95.0 / 2300.0*/ 3.78 / (28 * 5 * 4);
-        public double lateralInPerTick = /*95.0 / 2215.0*/ inPerTick * 1.038;
-        public double trackWidthTicks = 569.7893;
+        public double inPerTick = (240.0 / 2.54) / 177179.0;
+        public double lateralInPerTick = 0.000323608;
+        public double trackWidthTicks = 21686.4366395;
 
         // feedforward parameters (in tick units)
-        public double kS = 3.793;
-        public double kV = 0.0031935;
-        public double kA = 0.001;
+        public double kS = 3.220769489;
+        public double kV = 0.00004;
+        public double kA = 0.000017;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -245,7 +245,8 @@ public final class MecanumDrive {
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        localizer = new DriveLocalizer();
+        //localizer = new DriveLocalizer();
+        localizer = new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
@@ -304,6 +305,10 @@ public final class MecanumDrive {
 
                 return false;
             }
+
+            /*double displacement = Curves.project(timeTrajectory.path, pose, 3);
+            DualNum<Time> displacementDual = timeTrajectory.profile.dispProfile.get(displacement);
+            Pose2dDual<Time> target = timeTrajectory.path.get(displacement, 3).reparam(displacementDual);*/
 
             Pose2dDual<Time> txWorldTarget = timeTrajectory.get(t);
             targetPoseWriter.write(new PoseMessage(txWorldTarget.value()));
