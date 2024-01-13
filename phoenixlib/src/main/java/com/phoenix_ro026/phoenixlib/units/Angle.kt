@@ -19,6 +19,7 @@ sealed interface Angle {
     operator fun times(other: Number) = clone(value * other.toDouble())
     operator fun div(other: Number) = clone(value / other.toDouble())
     operator fun unaryMinus() = clone(-value)
+    operator fun div(other: Duration) = AngularVelocity(this, other)
 
     fun toDegrees(): Degrees
     fun toRadians(): Radians

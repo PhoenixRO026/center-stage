@@ -15,8 +15,7 @@ class Velocity(val distance: Distance, val duration: Duration) {
     fun durationAsUnit(unit: Velocity): Duration {
         //2 / 1 = 2    1 meter per 2 seconds = 0.5 meter per 1 second
         val distanceRatio = distance.to(unit.distance).value / unit.distance.value
-        val newDuration = duration.to(unit.duration) / distanceRatio
-        return newDuration
+        return duration.to(unit.duration) / distanceRatio
     }
 
     operator fun plus(other: Velocity) = Velocity(distance + other.distanceAsUnit(this), duration)
