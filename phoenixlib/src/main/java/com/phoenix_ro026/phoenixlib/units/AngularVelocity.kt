@@ -28,3 +28,16 @@ class AngularVelocity(val angle: Angle, val duration: Duration) {
 
     override fun toString(): String = "$angle per " + if (duration.value == 1.0) duration.unitToString() else "$duration"
 }
+
+@JvmField
+val RPM = 1.rpm
+val Number.rpm get() = rev / MIN
+fun rpm(number: Double) = number.rpm
+@JvmField
+val RAD_SEC = 1.radSec
+val Number.radSec get() = rad / SEC
+fun radSec(number: Double) = number.radSec
+@JvmField
+val DEG_SEC = 1.degSec
+val Number.degSec get() = deg / SEC
+fun degSec(number: Double) = number.degSec

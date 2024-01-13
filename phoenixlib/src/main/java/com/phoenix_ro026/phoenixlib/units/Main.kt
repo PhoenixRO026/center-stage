@@ -1,6 +1,8 @@
 package com.phoenix_ro026.phoenixlib.units
 
+import kotlin.math.PI
+
 fun main() {
-    val vel = 2.rad / SEC * 4.sec
+    val vel = (1.rad / SEC).to(DEG / SEC)
     println(vel)
 }

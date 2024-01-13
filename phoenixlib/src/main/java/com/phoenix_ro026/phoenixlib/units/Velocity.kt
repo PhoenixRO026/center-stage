@@ -28,3 +28,16 @@ class Velocity(val distance: Distance, val duration: Duration) {
 
     override fun toString(): String = "$distance per " + if (duration.value == 1.0) duration.unitToString() else "$duration"
 }
+
+@JvmField
+val CM_SEC = 1.cmSec
+val Number.cmSec get() = cm / SEC
+fun cmSec(number: Double) = number.cmSec
+@JvmField
+val INCH_SEC = 1.inchSec
+val Number.inchSec get() = inch / SEC
+fun inchSec(number: Double) = number.inchSec
+@JvmField
+val METER_SEC = 1.meterSec
+val Number.meterSec get() = meters / SEC
+fun meterSec(number: Double) = number.meterSec
