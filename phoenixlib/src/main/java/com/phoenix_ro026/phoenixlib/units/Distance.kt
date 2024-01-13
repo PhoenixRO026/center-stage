@@ -54,7 +54,7 @@ class Millimeters(override val value: Double) : Distance {
     override operator fun times(other: Number) : Millimeters = super.times(other) as Millimeters
     override operator fun div(other: Number) : Millimeters = super.div(other) as Millimeters
 
-    override fun toString(): String = "$value millimeters"
+    override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "millimeter"
 }
 
@@ -73,7 +73,7 @@ class Centimeters(override val value: Double) : Distance {
     override operator fun times(other: Number) : Centimeters = super.times(other) as Centimeters
     override operator fun div(other: Number) : Centimeters = super.div(other) as Centimeters
 
-    override fun toString(): String = "$value centimeters"
+    override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "centimeter"
 }
 
@@ -92,7 +92,7 @@ class Meters(override val value: Double) : Distance {
     override operator fun times(other: Number) : Meters = super.times(other) as Meters
     override operator fun div(other: Number) : Meters = super.div(other) as Meters
 
-    override fun toString(): String = "$value meters"
+    override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "meter"
 }
 
@@ -112,6 +112,6 @@ class Inches(override val value: Double) : Distance {
     override operator fun times(other: Number) : Inches = super.times(other) as Inches
     override operator fun div(other: Number) : Inches = super.div(other) as Inches
 
-    override fun toString(): String = "$value inches"
+    override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "es" else ""
     override fun unitToString(): String = "inch"
 }

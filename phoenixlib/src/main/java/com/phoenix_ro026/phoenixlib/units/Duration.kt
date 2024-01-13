@@ -29,9 +29,9 @@ sealed interface Duration {
 fun <T : Duration> T.clone(newValue: Double) : T {
     @Suppress("USELESS_CAST", "UNCHECKED_CAST")
     return when(this as Duration) {
-        is Milliseconds -> toMilliseconds()
-        is Minutes -> toMinutes()
-        is Seconds -> toSeconds()
+        is Milliseconds -> Milliseconds(newValue)
+        is Minutes -> Minutes(newValue)
+        is Seconds -> Seconds(newValue)
     } as T
 }
 
@@ -49,7 +49,7 @@ class Seconds(override val value: Double) : Duration {
     override operator fun times(other: Number) : Seconds = super.times(other) as Seconds
     override operator fun div(other: Number) : Seconds = super.div(other) as Seconds
 
-    override fun toString(): String = "$value seconds"
+    override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "second"
 }
 
@@ -67,7 +67,7 @@ class Milliseconds(override val value: Double) : Duration {
     override operator fun times(other: Number) : Milliseconds = super.times(other) as Milliseconds
     override operator fun div(other: Number) : Milliseconds = super.div(other) as Milliseconds
 
-    override fun toString(): String = "$value milliseconds"
+    override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "millisecond"
 }
 
@@ -85,6 +85,6 @@ class Minutes(override val value: Double) : Duration {
     override operator fun times(other: Number) : Minutes = super.times(other) as Minutes
     override operator fun div(other: Number) : Minutes = super.div(other) as Minutes
 
-    override fun toString(): String = "$value minutes"
+    override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "minute"
 }

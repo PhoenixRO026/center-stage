@@ -30,9 +30,9 @@ sealed interface Angle {
 fun <T : Angle> T.clone(newValue: Double) : T {
     @Suppress("USELESS_CAST", "UNCHECKED_CAST")
     return when(this as Angle) {
-        is Degrees -> toDegrees()
-        is Radians -> toRadians()
-        is Revolutions -> toRevolutions()
+        is Degrees -> Degrees(newValue)
+        is Radians -> Radians(newValue)
+        is Revolutions -> Revolutions(newValue)
     } as T
 }
 
@@ -50,7 +50,7 @@ class Degrees(override val value: Double) : Angle {
     override operator fun times(other: Number) : Degrees = super.times(other) as Degrees
     override operator fun div(other: Number) : Degrees = super.div(other) as Degrees
 
-    override fun toString(): String = "$value degrees"
+    override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "degree"
 }
 
@@ -68,7 +68,7 @@ class Radians(override val value: Double) : Angle {
     override operator fun times(other: Number) : Radians = super.times(other) as Radians
     override operator fun div(other: Number) : Radians = super.div(other) as Radians
 
-    override fun toString(): String = "$value radians"
+    override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "radian"
 }
 
@@ -86,6 +86,6 @@ class Revolutions(override val value: Double) : Angle {
     override operator fun times(other: Number) : Revolutions = super.times(other) as Revolutions
     override operator fun div(other: Number) : Revolutions = super.div(other) as Revolutions
 
-    override fun toString(): String = "$value revolutions"
+    override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "revolution"
 }
