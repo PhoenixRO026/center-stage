@@ -17,6 +17,8 @@ sealed interface Distance {
     operator fun minus(other: Distance) = clone(value - other.to(this).value)
     operator fun times(other: Number) = clone(value * other.toDouble())
     operator fun div(other: Number) = clone(value / other.toDouble())
+    operator fun div(other: Duration) = Velocity(this, other)
+    operator fun unaryMinus() = clone(-value)
 
     fun toMillimeters(): Millimeters
     fun toCentimeters(): Centimeters
@@ -24,6 +26,7 @@ sealed interface Distance {
     fun toInches(): Inches
 
     override fun toString(): String
+    fun unitToString(): String
 }
 
 fun <T : Distance> T.clone(newValue: Double) : T {
@@ -52,6 +55,7 @@ class Millimeters(override val value: Double) : Distance {
     override operator fun div(other: Number) : Millimeters = super.div(other) as Millimeters
 
     override fun toString(): String = "$value millimeters"
+    override fun unitToString(): String = "millimeter"
 }
 
 @JvmField
@@ -70,6 +74,7 @@ class Centimeters(override val value: Double) : Distance {
     override operator fun div(other: Number) : Centimeters = super.div(other) as Centimeters
 
     override fun toString(): String = "$value centimeters"
+    override fun unitToString(): String = "centimeter"
 }
 
 @JvmField
@@ -88,6 +93,7 @@ class Meters(override val value: Double) : Distance {
     override operator fun div(other: Number) : Meters = super.div(other) as Meters
 
     override fun toString(): String = "$value meters"
+    override fun unitToString(): String = "meter"
 }
 
 @JvmField
@@ -107,4 +113,5 @@ class Inches(override val value: Double) : Distance {
     override operator fun div(other: Number) : Inches = super.div(other) as Inches
 
     override fun toString(): String = "$value inches"
+    override fun unitToString(): String = "inch"
 }

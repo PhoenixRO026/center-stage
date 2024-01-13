@@ -18,10 +18,12 @@ sealed interface Angle {
     operator fun minus(other: Angle) = clone(value - other.to(this).value)
     operator fun times(other: Number) = clone(value * other.toDouble())
     operator fun div(other: Number) = clone(value / other.toDouble())
+    operator fun unaryMinus() = clone(-value)
 
     fun toDegrees(): Degrees
     fun toRadians(): Radians
     fun toRevolutions(): Revolutions
+    fun unitToString(): String
     override fun toString(): String
 }
 
@@ -49,6 +51,7 @@ class Degrees(override val value: Double) : Angle {
     override operator fun div(other: Number) : Degrees = super.div(other) as Degrees
 
     override fun toString(): String = "$value degrees"
+    override fun unitToString(): String = "degree"
 }
 
 @JvmField
@@ -66,6 +69,7 @@ class Radians(override val value: Double) : Angle {
     override operator fun div(other: Number) : Radians = super.div(other) as Radians
 
     override fun toString(): String = "$value radians"
+    override fun unitToString(): String = "radian"
 }
 
 @JvmField
@@ -83,4 +87,5 @@ class Revolutions(override val value: Double) : Angle {
     override operator fun div(other: Number) : Revolutions = super.div(other) as Revolutions
 
     override fun toString(): String = "$value revolutions"
+    override fun unitToString(): String = "revolution"
 }
