@@ -25,8 +25,8 @@ class Robot2(
     val arm = Arm2(hardwareMap, telemetry, ARM_RAMP_POS..1.0)
     val camera = Camera(hardwareMap, telemetry)
     val lift = Lift2(hardwareMap, telemetry)
-    val drive = Drive(hardwareMap, telemetry, startPose)
-    val intake = Intake(hardwareMap, telemetry)
+    val drive = Drive2(hardwareMap, telemetry, startPose)
+    val intake = Intake2(hardwareMap, telemetry)
     val claw = Claw2(hardwareMap, telemetry, FINGERS_RANGE)
     val plane = Plane(hardwareMap, telemetry)
 

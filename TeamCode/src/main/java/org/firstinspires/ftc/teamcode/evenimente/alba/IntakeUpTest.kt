@@ -14,7 +14,7 @@ class IntakeUpTest : LinearOpMode() {
     override fun runOpMode() {
         telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
 
-        val servo = ServoEx(hardwareMap, CONFIG_ALBA.INTAKE_SERVO, INTAKE_RANGE)
+        val servo = ServoEx(hardwareMap, CONFIG_ALBA.INTAKE_SERVO, 0.0..1.0)
         val motor = Intake(hardwareMap)
 
         var position = 0.5

@@ -13,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.CONFIG
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.HANG_POS
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.hardware.MotorEx
+import kotlin.math.abs
 
 class Lift2(
     hardwareMap: HardwareMap,
@@ -97,10 +98,10 @@ class Lift2(
                 rightMotor.targetPosition = pos
                 leftMotor.mode = DcMotor.RunMode.RUN_TO_POSITION
                 rightMotor.mode = DcMotor.RunMode.RUN_TO_POSITION
-                power = 0.5
+                power = 1.0
             }
 
-            return busy
+            return busy || abs(leftMotor.targetPosition - leftPosition) > 5
         }
     }
 
@@ -124,6 +125,7 @@ class Lift2(
     }
 
     fun update() {
+        telemetry?.addData("busy", busy)
         if (LiftConfig.changed) {
             controller.setPID(LiftConfig.P, LiftConfig.I, LiftConfig.D)
             controller.setConstraints(TrapezoidProfile.Constraints(

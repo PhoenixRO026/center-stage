@@ -20,6 +20,10 @@ class Camera(
     val detectionPosition: DetectionPipeline.DetectionPosition
         get() = pipeline.analysis
 
+    fun setColor(color: DetectionPipeline.DetectionColor) {
+        pipeline.setDetectionColor(color)
+    }
+
     fun displayDetection() {
         when (detectionPosition) {
             DetectionPipeline.DetectionPosition.LEFT -> telemetry?.addLine("LEFT CASE")

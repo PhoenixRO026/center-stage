@@ -1,12 +1,13 @@
-package org.firstinspires.ftc.teamcode.evenimente.liga_wonder
+package org.firstinspires.ftc.teamcode.evenimente.alba
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.acmerobotics.roadrunner.project
+import com.arcrobotics.ftclib.gamepad.ToggleButtonReader
 import com.qualcomm.hardware.lynx.LynxModule
-import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
+import org.firstinspires.ftc.teamcode.evenimente.alba.robot.Robot2
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.ARM_SCORE_POS
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.CLAW_RAMP_POS
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.CLAW_SCORE_POS
@@ -14,17 +15,21 @@ import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.FINGERS_INTAK
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.Robot
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.systems.DetectionPipeline.DetectionPosition
 
-@Disabled
 @TeleOp
-class RevDrive : LinearOpMode() {
+class RealDrive : LinearOpMode() {
     override fun runOpMode() {
         telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
-        val robot = Robot(hardwareMap, telemetry)
+        val robot = Robot2(hardwareMap, telemetry)
+
+        val intakeToggle = ToggleButtonReader {
+            gamepad2.left_stick_button
+        }
 
         waitForStart()
 
         while (isStarted && !isStopRequested) {
             robot.update()
+            intakeToggle.readValue()
 
             if (gamepad1.y) {
                 robot.drive.resetFieldCentric()
@@ -70,8 +75,8 @@ class RevDrive : LinearOpMode() {
                 robot.claw.leftFingerPos = FINGERS_INTAKE_OPEN_POS
                 robot.claw.rightFingerPos = FINGERS_INTAKE_OPEN_POS
             } else {
-                robot.claw.leftFingerPos = 1.0 - gamepad2.left_trigger.toDouble()
-                robot.claw.rightFingerPos = 1.0 - gamepad2.right_trigger.toDouble()
+                robot.claw.leftFingerPos = 1.0 - gamepad2.right_trigger.toDouble()
+                robot.claw.rightFingerPos = 1.0 - gamepad2.left_trigger.toDouble()
             }
 
             robot.intake.power = -gamepad2.left_stick_y.toDouble()
@@ -86,6 +91,12 @@ class RevDrive : LinearOpMode() {
 
             if (gamepad2.b) {
                 robot.plane.launch()
+            }
+
+            if (intakeToggle.state) {
+                robot.intake.angle = 1.0
+            } else {
+                robot.intake.angle = 0.0
             }
 
             telemetry.addData("arm pos", robot.arm.position)

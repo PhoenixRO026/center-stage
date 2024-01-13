@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.evenimente.alba.robot
 
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket
+import com.acmerobotics.roadrunner.Action
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.Servo
+import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.ARM_RAMP_POS
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.CLAW_RAMP_POS
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.CONFIG
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.LEFT_CLAW_SERVO_RANGE
@@ -43,6 +45,102 @@ class Claw2(
             field = value
         }
 
+    fun goToAngleNow() {
+        realAngle = targetAngle
+    }
+
+    val angleBusy get() = targetAngle != realAngle
+
+    fun goToAngle(newAngle: Double) = object : Action {
+        var init = true
+
+        override fun run(p: TelemetryPacket): Boolean {
+            if (init) {
+                init = false
+                angle = newAngle
+            }
+
+            return angleBusy
+        }
+    }
+
+    fun openClaw() = object : Action {
+        val timer = ElapsedTime()
+        var init = true
+
+        override fun run(p: TelemetryPacket): Boolean {
+            if (init) {
+                init = false
+                timer.reset()
+                rightFingerPos = 0.0
+                leftFingerPos = 0.0
+            }
+
+            return timer.seconds() < 1.0
+        }
+    }
+
+    fun openLeftClaw() = object : Action {
+        val timer = ElapsedTime()
+        var init = true
+
+        override fun run(p: TelemetryPacket): Boolean {
+            if (init) {
+                timer.reset()
+                init = false
+                leftFingerPos = 0.0
+            }
+
+            return timer.seconds() < 1.0
+        }
+    }
+
+    fun closeLeftClaw() = object : Action {
+        val timer = ElapsedTime()
+        var init = true
+
+        override fun run(p: TelemetryPacket): Boolean {
+            if (init) {
+                timer.reset()
+                init = false
+                leftFingerPos = 1.0
+            }
+
+            return timer.seconds() < 1.0
+        }
+    }
+
+    fun openRightClaw() = object : Action {
+        val timer = ElapsedTime()
+        var init = true
+
+        override fun run(p: TelemetryPacket): Boolean {
+            if (init) {
+                timer.reset()
+                init = false
+                rightFingerPos = 0.0
+            }
+
+            return timer.seconds() < 1.0
+        }
+    }
+
+    fun closeClaw() = object : Action {
+        val timer = ElapsedTime()
+        var init = true
+
+        override fun run(p: TelemetryPacket): Boolean {
+            if (init) {
+                timer.reset()
+                init = false
+                rightFingerPos = 1.0
+                leftFingerPos = 1.0
+            }
+
+            return timer.seconds() < 1.0
+        }
+    }
+
     var leftFingerPos: Double = 0.0
         set(value) {
             val scaledValue = value.coerceIn(0.0, 1.0).scaleTo(fingerRange)
@@ -66,10 +164,11 @@ class Claw2(
 
     fun update(deltaTime: Double) {
         val step = speed * deltaTime
-        realAngle += if (abs(targetAngle - realAngle) < step) {
-            targetAngle - realAngle
+        val error = targetAngle - realAngle
+        realAngle += if (abs(error) < step) {
+            error
         } else {
-            sign(targetAngle - realAngle) * step
+            sign(error) * step
         }
     }
 }

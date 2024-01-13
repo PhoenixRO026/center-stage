@@ -2,10 +2,17 @@ package com.phoenix_ro026.meepmeep;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.constraints.AngularVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.MecanumVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeBlueDark;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MeepMeepTesting {
     public static void main(String[] args) {
@@ -51,18 +58,50 @@ public class MeepMeepTesting {
                                 .build()
                 );*/
 
+        /*RoadRunnerBotEntity bot1 = new DefaultBotBuilder(meepMeep)
+                .setColorScheme(new ColorSchemeBlueDark())
+                .setConstraints(50, 50, Math.toRadians(180), Math.toRadians(180), 15)
+                .setDimensions(37.5 / 2.54, 43.5 / 2.54)
+                .followTrajectorySequence(drive ->
+                        drive.trajectorySequenceBuilder(new Pose2d(-36, 61, Math.toRadians(90)))
+                                .setTangent(Math.toRadians(-90))
+                                .splineToLinearHeading(new Pose2d(-32 - 6, 36, Math.toRadians(45)), Math.toRadians(-90))
+                                //.lineToLinearHeading(new Pose2d(-32, 36, Math.toRadians(135)))
+                                .waitSeconds(1)
+                                .turn(Math.toRadians(45))
+                                .setTangent(Math.toRadians(-90))
+                                .splineTo(new Vector2d(-54, 11), Math.toRadians(180))
+                                .setVelConstraint(new MinVelocityConstraint(Arrays.asList(
+                                        new AngularVelocityConstraint(Math.toRadians(180)),
+                                        new MecanumVelocityConstraint(5, 15)
+                                )))
+                                .splineTo(new Vector2d(-58, 11), Math.toRadians(180))
+                                .resetVelConstraint()
+                                .waitSeconds(1)
+                                .setTangent(0)
+                                .splineTo(new Vector2d(12, 11), 0)
+                                .splineToSplineHeading(new Pose2d(20, 11, Math.toRadians(180)), 0)
+                                .splineTo(new Vector2d(44, 34), 0)
+                                .setVelConstraint(new MinVelocityConstraint(Arrays.asList(
+                                        new AngularVelocityConstraint(Math.toRadians(180)),
+                                        new MecanumVelocityConstraint(5, 15)
+                                )))
+                                .splineTo(new Vector2d(48, 34), 0)
+                                .build()
+                );*/
+
         RoadRunnerBotEntity bot1 = new DefaultBotBuilder(meepMeep)
                 .setColorScheme(new ColorSchemeBlueDark())
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .setConstraints(50, 50, Math.toRadians(180), Math.toRadians(180), 15)
+                .setDimensions(37.5 / 2.54, 43.5 / 2.54)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(12, 61, Math.toRadians(90)))
-                                .back(20)
-                                .turn(Math.toRadians(45))
-                                .forward(5)
+                        drive.trajectorySequenceBuilder(new Pose2d(-36, 61, Math.toRadians(90)))
+                                .setTangent(Math.toRadians(-90))
+                                .splineToLinearHeading(new Pose2d(-36, 36, Math.toRadians(90)), Math.toRadians(-90))
+                                //.lineToLinearHeading(new Pose2d(-32, 36, Math.toRadians(135)))
                                 .waitSeconds(1)
-                                .back(5)
-                                .turn(Math.toRadians(45))
-                                .back(24)
+                                .turn(Math.toRadians(135))
+
                                 .build()
                 );
 

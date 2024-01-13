@@ -66,10 +66,11 @@ class Arm2(
 
     fun update(deltaTime: Double) {
         val step = speed * deltaTime
-        realPosition += if (abs(targetPosition - realPosition) < step) {
-            targetPosition - realPosition
+        val error = targetPosition - realPosition
+        realPosition += if (abs(error) < step) {
+            error
         } else {
-            sign(targetPosition - realPosition) * step
+            sign(error) * step
         }
     }
 }

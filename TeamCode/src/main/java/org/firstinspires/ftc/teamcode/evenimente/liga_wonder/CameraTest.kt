@@ -15,38 +15,15 @@ import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.Robot
 @Autonomous
 class CameraTest : LinearOpMode() {
     override fun runOpMode() {
-        val dash = FtcDashboard.getInstance()
-        telemetry = MultipleTelemetry(telemetry, dash.telemetry)
-        val startPose = Pose2d(12.0, 61.0, Math.toRadians(90.0))
+        telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
 
-        val robot = Robot(hardwareMap, telemetry, startPose, false)
+        val robot = Robot(hardwareMap, telemetry, manualCache = false)
         robot.camera.openCamera()
-
-        val action = robot.drive.drive.actionBuilder(startPose)
-            .lineToY(61.0 - 5)
-            .strafeTo(Vector2d(12.0 + 48 , 61.0 - 5))
-            .build()
 
         while (opModeInInit()) {
             robot.camera.displayDetection()
             telemetry.update()
             sleep(50)
-        }
-        robot.camera.stopStream()
-
-        val c = Canvas()
-        action.preview(c)
-        var running = true
-
-        while (isStarted && !isStopRequested && running) {
-            robot.update()
-
-            val p = TelemetryPacket()
-            p.fieldOverlay().operations.addAll(c.operations)
-
-            running = action.run(p)
-
-            dash.sendTelemetryPacket(p)
         }
     }
 }
