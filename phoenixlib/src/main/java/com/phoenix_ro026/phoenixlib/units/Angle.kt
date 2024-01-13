@@ -33,6 +33,10 @@ fun <T : Angle> T.clone(newValue: Double) : T {
     } as T
 }
 
+@JvmField
+val DEG = 1.deg
+val Number.deg get() = Degrees(toDouble())
+fun deg(number: Double) = number.deg
 class Degrees(override val value: Double) : Angle {
     override fun toDegrees(): Degrees = this
     override fun toRadians(): Radians = Radians(value / 180.0 * Math.PI)
@@ -44,6 +48,10 @@ class Degrees(override val value: Double) : Angle {
     override operator fun div(other: Number) : Degrees = super.div(other) as Degrees
 }
 
+@JvmField
+val RAD = 1.rad
+val Number.rad get() = Radians(toDouble())
+fun rad(number: Double) = number.rad
 class Radians(override val value: Double) : Angle {
     override fun toDegrees(): Degrees = Degrees(value * 180.0 / Math.PI)
     override fun toRadians(): Radians = this
@@ -55,6 +63,10 @@ class Radians(override val value: Double) : Angle {
     override operator fun div(other: Number) : Radians = super.div(other) as Radians
 }
 
+@JvmField
+val REV = 1.rev
+val Number.rev get() = Revolutions(toDouble())
+fun rev(number: Double) = number.rev
 class Revolutions(override val value: Double) : Angle {
     override fun toDegrees(): Degrees = Degrees(value * 360.0)
     override fun toRadians(): Radians = Radians(value * 2.0 * PI)
