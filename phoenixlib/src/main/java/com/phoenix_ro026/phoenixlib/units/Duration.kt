@@ -20,6 +20,8 @@ sealed interface Duration {
     fun toSeconds(): Seconds
     fun toMilliseconds(): Milliseconds
     fun toMinutes(): Minutes
+
+    override fun toString(): String
 }
 
 fun <T : Duration> T.clone(newValue: Double) : T {
@@ -44,6 +46,8 @@ class Seconds(override val value: Double) : Duration {
     override operator fun minus(other: Duration) : Seconds = super.minus(other) as Seconds
     override operator fun times(other: Number) : Seconds = super.times(other) as Seconds
     override operator fun div(other: Number) : Seconds = super.div(other) as Seconds
+
+    override fun toString(): String = "$value seconds"
 }
 
 @JvmField
@@ -59,6 +63,8 @@ class Milliseconds(override val value: Double) : Duration {
     override operator fun minus(other: Duration) : Milliseconds = super.minus(other) as Milliseconds
     override operator fun times(other: Number) : Milliseconds = super.times(other) as Milliseconds
     override operator fun div(other: Number) : Milliseconds = super.div(other) as Milliseconds
+
+    override fun toString(): String = "$value milliseconds"
 }
 
 @JvmField
@@ -74,4 +80,6 @@ class Minutes(override val value: Double) : Duration {
     override operator fun minus(other: Duration) : Minutes = super.minus(other) as Minutes
     override operator fun times(other: Number) : Minutes = super.times(other) as Minutes
     override operator fun div(other: Number) : Minutes = super.div(other) as Minutes
+
+    override fun toString(): String = "$value minutes"
 }

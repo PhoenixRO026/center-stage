@@ -22,6 +22,8 @@ sealed interface Distance {
     fun toCentimeters(): Centimeters
     fun toMeters(): Meters
     fun toInches(): Inches
+
+    override fun toString(): String
 }
 
 fun <T : Distance> T.clone(newValue: Double) : T {
@@ -48,6 +50,8 @@ class Millimeters(override val value: Double) : Distance {
     override operator fun minus(other: Distance) : Millimeters = super.minus(other) as Millimeters
     override operator fun times(other: Number) : Millimeters = super.times(other) as Millimeters
     override operator fun div(other: Number) : Millimeters = super.div(other) as Millimeters
+
+    override fun toString(): String = "$value millimeters"
 }
 
 @JvmField
@@ -64,6 +68,8 @@ class Centimeters(override val value: Double) : Distance {
     override operator fun minus(other: Distance) : Centimeters = super.minus(other) as Centimeters
     override operator fun times(other: Number) : Centimeters = super.times(other) as Centimeters
     override operator fun div(other: Number) : Centimeters = super.div(other) as Centimeters
+
+    override fun toString(): String = "$value centimeters"
 }
 
 @JvmField
@@ -80,6 +86,8 @@ class Meters(override val value: Double) : Distance {
     override operator fun minus(other: Distance) : Meters = super.minus(other) as Meters
     override operator fun times(other: Number) : Meters = super.times(other) as Meters
     override operator fun div(other: Number) : Meters = super.div(other) as Meters
+
+    override fun toString(): String = "$value meters"
 }
 
 @JvmField
@@ -97,4 +105,6 @@ class Inches(override val value: Double) : Distance {
     override operator fun minus(other: Distance) : Inches = super.minus(other) as Inches
     override operator fun times(other: Number) : Inches = super.times(other) as Inches
     override operator fun div(other: Number) : Inches = super.div(other) as Inches
+
+    override fun toString(): String = "$value inches"
 }
