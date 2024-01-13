@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.evenimente.liga_phoenix
 
 
-import com.phoenix_ro026.phoenixlib.units.EAST
-import com.phoenix_ro026.phoenixlib.units.NORTH
-import com.phoenix_ro026.phoenixlib.units.cm
-import com.phoenix_ro026.phoenixlib.units.pose2d
-import com.phoenix_ro026.phoenixlib.units.splineTo
-import com.phoenix_ro026.phoenixlib.units.vector2d
+import com.phoenix_ro026.phoenixlib.old_units.EAST
+import com.phoenix_ro026.phoenixlib.old_units.NORTH
+import com.phoenix_ro026.phoenixlib.old_units.cm
+import com.phoenix_ro026.phoenixlib.old_units.pose2d
+import com.phoenix_ro026.phoenixlib.old_units.splineTo
+import com.phoenix_ro026.phoenixlib.old_units.vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode

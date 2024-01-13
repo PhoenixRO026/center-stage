@@ -1,11 +1,11 @@
 package org.firstinspires.ftc.teamcode.evenimente.liga_phoenix;
 
-import static com.phoenix_ro026.phoenixlib.units.java.DistanceKt.cm;
-import static com.phoenix_ro026.phoenixlib.units.java.RotationKt.deg;
-import static com.phoenix_ro026.phoenixlib.units.java.RotationKt.rad;
+import static com.phoenix_ro026.phoenixlib.old_units.java.DistanceKt.cm;
+import static com.phoenix_ro026.phoenixlib.old_units.java.RotationKt.deg;
+import static com.phoenix_ro026.phoenixlib.old_units.java.RotationKt.rad;
 
 import com.acmerobotics.roadrunner.Vector2d;
-import com.phoenix_ro026.phoenixlib.units.Pose;
+import com.phoenix_ro026.phoenixlib.old_units.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

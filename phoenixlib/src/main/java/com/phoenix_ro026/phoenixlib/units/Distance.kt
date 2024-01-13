@@ -1,104 +1,112 @@
-@file:Suppress("unused")
-
 package com.phoenix_ro026.phoenixlib.units
 
-import com.acmerobotics.roadrunner.Pose2d
-import com.acmerobotics.roadrunner.Vector2d
+sealed interface Distance {
+    val value: Double
 
-sealed class Distance(val value: Double) {
-    abstract fun toCentimeters(): Double
-    abstract fun toMilimeters(): Double
-    abstract fun toInches(): Double
-    abstract fun toMeters(): Double
-    abstract override fun toString(): String
+    fun <T : Distance> to(unit: T) : T {
+        @Suppress("USELESS_CAST", "UNCHECKED_CAST")
+        return when(unit as Distance) {
+            is Centimeters -> toCentimeters()
+            is Inches -> toInches()
+            is Meters -> toMeters()
+            is Millimeters -> toMillimeters()
+        } as T
+    }
 
-    private fun clone(newValue: Double) = when(this) {
+    operator fun plus(other: Distance) = clone(value + other.to(this).value)
+    operator fun minus(other: Distance) = clone(value - other.to(this).value)
+    operator fun times(other: Number) = clone(value * other.toDouble())
+    operator fun div(other: Number) = clone(value / other.toDouble())
+
+    fun toMillimeters(): Millimeters
+    fun toCentimeters(): Centimeters
+    fun toMeters(): Meters
+    fun toInches(): Inches
+}
+
+fun <T : Distance> T.clone(newValue: Double) : T {
+    @Suppress("USELESS_CAST", "UNCHECKED_CAST")
+    return when(this as Distance) {
         is Centimeters -> Centimeters(newValue)
         is Inches -> Inches(newValue)
         is Meters -> Meters(newValue)
-        is Milimeters -> Milimeters(newValue)
-    }
-    fun toUnit(d: Distance) = when(d) {
-        is Centimeters -> toCentimeters()
-        is Inches -> toInches()
-        is Meters -> toMeters()
-        is Milimeters -> toMilimeters()
-    }
-    fun asUnit(unit: Distance) = unit.clone(toUnit(unit))
-    operator fun plus(d: Distance) = clone(value + d.toUnit(this))
-    operator fun minus(d: Distance) = clone(value - d.toUnit(this))
-    operator fun unaryMinus() = clone(-value)
-    operator fun times(z: Double) = clone(value * z)
-    operator fun div(z: Double) = clone(value / z)
+        is Millimeters -> Millimeters(newValue)
+    } as T
 }
 
-val Number.cm get() = Centimeters(this.toDouble())
-val Number.mm get() = Milimeters(this.toDouble())
-val Number.inch get() = Inches(this.toDouble())
-val Number.meters get() = Meters(this.toDouble())
+@JvmField
+val MM = 1.mm
+val Number.mm get() = Millimeters(toDouble())
+fun mm(number: Double) = number.mm
+class Millimeters(override val value: Double) : Distance {
+    override fun toMillimeters(): Millimeters = this
 
-val centimeter = Centimeters(1.0)
-val milimeter = Milimeters(1.0)
-val inch = Inches(1.0)
-val meter = Meters(1.0)
+    override fun toCentimeters(): Centimeters = Centimeters(value / 10.0)
 
-class Centimeters(value: Double = 0.0): Distance(value) {
-    override fun toCentimeters(): Double = value
-    override fun toMilimeters(): Double = value * 10.0
-    override fun toInches(): Double = value / 2.54
-    override fun toMeters(): Double = value / 100.0
-    override fun toString() = "$value centimeters"
+    override fun toMeters(): Meters = Meters(value / 1000.0)
+
+    override fun toInches(): Inches = Inches(value / 25.4)
+
+    override operator fun plus(other: Distance) : Millimeters = super.plus(other) as Millimeters
+    override operator fun minus(other: Distance) : Millimeters = super.minus(other) as Millimeters
+    override operator fun times(other: Number) : Millimeters = super.times(other) as Millimeters
+    override operator fun div(other: Number) : Millimeters = super.div(other) as Millimeters
 }
 
-class Milimeters(value: Double= 0.0): Distance(value) {
-    override fun toCentimeters(): Double = value / 10.0
-    override fun toMilimeters(): Double = value
-    override fun toInches(): Double = value / 25.4
-    override fun toMeters(): Double = value / 1000.0
-    override fun toString() = "$value milimeters"
+@JvmField
+val CM = 1.cm
+val Number.cm get() = Centimeters(toDouble())
+fun cm(number: Double) = number.cm
+class Centimeters(override val value: Double) : Distance {
+    override fun toMillimeters(): Millimeters = Millimeters(value * 10.0)
+
+    override fun toCentimeters(): Centimeters = this
+
+    override fun toMeters(): Meters = Meters(value / 100.0)
+
+    override fun toInches(): Inches = Inches(value / 2.54)
+
+    override operator fun plus(other: Distance) : Centimeters = super.plus(other) as Centimeters
+    override operator fun minus(other: Distance) : Centimeters = super.minus(other) as Centimeters
+    override operator fun times(other: Number) : Centimeters = super.times(other) as Centimeters
+    override operator fun div(other: Number) : Centimeters = super.div(other) as Centimeters
 }
 
-class Inches(value: Double = 0.0): Distance(value) {
-    override fun toCentimeters(): Double = value * 2.54
-    override fun toMilimeters(): Double = value * 25.4
-    override fun toInches(): Double = value
-    override fun toMeters(): Double = value * 0.0254
-    override fun toString() = "$value inches"
+@JvmField
+val METER = 1.meters
+val Number.meters get() = Meters(toDouble())
+fun meters(number: Double) = number.meters
+class Meters(override val value: Double) : Distance {
+    override fun toMillimeters(): Millimeters = Millimeters(value * 1000.0)
+
+    override fun toCentimeters(): Centimeters = Centimeters(value * 100.0)
+
+    override fun toMeters(): Meters = this
+
+    override fun toInches(): Inches = Inches(value / 0.0254)
+
+    override operator fun plus(other: Distance) : Meters = super.plus(other) as Meters
+    override operator fun minus(other: Distance) : Meters = super.minus(other) as Meters
+    override operator fun times(other: Number) : Meters = super.times(other) as Meters
+    override operator fun div(other: Number) : Meters = super.div(other) as Meters
 }
 
-class Meters(value: Double): Distance(value) {
-    override fun toCentimeters(): Double = value * 100.0
-    override fun toMilimeters(): Double = value * 1000.0
-    override fun toInches(): Double = value / 0.0254
-    override fun toMeters(): Double = value
-    override fun toString() = "$value meters"
-}
+@JvmField
+val INCH = 1.inch
+val Number.inch get() = Inches(toDouble())
+fun inch(number: Double) = number.inch
 
-fun vector2d(x: Distance, y: Distance) = Distance2d(x, y)
+class Inches(override val value: Double) : Distance {
+    override fun toMillimeters(): Millimeters = Millimeters(value * 25.4)
 
-data class Distance2d(@JvmField val x: Distance, @JvmField val y: Distance) {
-    fun toVector2d() = Vector2d(x.toInches(), y.toInches())
-    operator fun plus(d: Distance2d) = Distance2d(x + d.x, y + d.y)
-    operator fun minus(d: Distance2d) = Distance2d(x - d.x, y - d.y)
-    operator fun unaryMinus() = Distance2d(-x, -y)
-    operator fun times(z: Double) = Distance2d(x * z, y * z)
-    operator fun div(z: Double) = Distance2d(x / z, y / z)
-}
+    override fun toCentimeters(): Centimeters = Centimeters(value * 2.54)
 
-fun pose2d(position: Distance2d, heading: Rotation) = Pose(position, heading)
-fun pose2d(x: Distance, y: Distance, heading: Rotation) = Pose(x, y, heading)
+    override fun toMeters(): Meters = Meters(value * 0.0254)
 
-data class Pose(@JvmField val position: Distance2d, @JvmField val heading: Rotation) {
-    constructor(x: Distance, y: Distance, heading: Rotation) : this(Distance2d(x, y), heading)
-    constructor(x: Double, y: Double, heading: Double) : this(x.inch, y.inch, heading.rad)
-    fun toPose2d() = Pose2d(position.toVector2d(), heading.toRotation2d())
-    operator fun plus(p: Pose) = Pose(position + p.position, heading + p.heading)
-    operator fun minus(p: Pose) = Pose(position - p.position, heading - p.heading)
-    operator fun plus(d: Distance2d) = Pose(position + d, heading)
-    operator fun minus(d: Distance2d) = Pose(position - d, heading)
-    operator fun plus(r: Rotation) = Pose(position, heading + r)
-    operator fun minus(r: Rotation) = Pose(position, heading - r)
-    operator fun unaryMinus() = Pose(-position, -heading)
-    operator fun times(z: Double) = Pose(position * z, heading * z)
-    operator fun div(z: Double) = Pose(position / z, heading / z)
+    override fun toInches(): Inches = this
+
+    override operator fun plus(other: Distance) : Inches = super.plus(other) as Inches
+    override operator fun minus(other: Distance) : Inches = super.minus(other) as Inches
+    override operator fun times(other: Number) : Inches = super.times(other) as Inches
+    override operator fun div(other: Number) : Inches = super.div(other) as Inches
 }

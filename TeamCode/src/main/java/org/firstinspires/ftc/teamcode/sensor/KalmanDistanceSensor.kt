@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode.sensor
 
 import com.ThermalEquilibrium.homeostasis.Filters.FilterAlgorithms.KalmanFilter
 import com.acmerobotics.dashboard.config.Config
-import com.phoenix_ro026.phoenixlib.units.Distance
-import com.phoenix_ro026.phoenixlib.units.mm
+import com.phoenix_ro026.phoenixlib.old_units.Distance
+import com.phoenix_ro026.phoenixlib.old_units.mm
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
 
