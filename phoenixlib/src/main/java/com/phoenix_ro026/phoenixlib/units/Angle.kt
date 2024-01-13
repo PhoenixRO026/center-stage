@@ -37,16 +37,31 @@ class Degrees(override val value: Double) : Angle {
     override fun toDegrees(): Degrees = this
     override fun toRadians(): Radians = Radians(value / 180.0 * Math.PI)
     override fun toRevolutions(): Revolutions = Revolutions(value / 360.0)
+
+    override operator fun plus(other: Angle) : Degrees = super.plus(other) as Degrees
+    override operator fun minus(other: Angle) : Degrees = super.minus(other) as Degrees
+    override operator fun times(other: Number) : Degrees = super.times(other) as Degrees
+    override operator fun div(other: Number) : Degrees = super.div(other) as Degrees
 }
 
 class Radians(override val value: Double) : Angle {
     override fun toDegrees(): Degrees = Degrees(value * 180.0 / Math.PI)
     override fun toRadians(): Radians = this
     override fun toRevolutions(): Revolutions = Revolutions(value / 2.0 / Math.PI)
+
+    override operator fun plus(other: Angle) : Radians = super.plus(other) as Radians
+    override operator fun minus(other: Angle) : Radians = super.minus(other) as Radians
+    override operator fun times(other: Number) : Radians = super.times(other) as Radians
+    override operator fun div(other: Number) : Radians = super.div(other) as Radians
 }
 
 class Revolutions(override val value: Double) : Angle {
     override fun toDegrees(): Degrees = Degrees(value * 360.0)
     override fun toRadians(): Radians = Radians(value * 2.0 * PI)
     override fun toRevolutions(): Revolutions = this
+
+    override operator fun plus(other: Angle) : Revolutions = super.plus(other) as Revolutions
+    override operator fun minus(other: Angle) : Revolutions = super.minus(other) as Revolutions
+    override operator fun times(other: Number) : Revolutions = super.times(other) as Revolutions
+    override operator fun div(other: Number) : Revolutions = super.div(other) as Revolutions
 }

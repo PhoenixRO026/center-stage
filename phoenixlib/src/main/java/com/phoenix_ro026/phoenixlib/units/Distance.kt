@@ -40,11 +40,8 @@ val Number.mm get() = Millimeters(toDouble())
 fun mm(number: Double) = number.mm
 class Millimeters(override val value: Double) : Distance {
     override fun toMillimeters(): Millimeters = this
-
     override fun toCentimeters(): Centimeters = Centimeters(value / 10.0)
-
     override fun toMeters(): Meters = Meters(value / 1000.0)
-
     override fun toInches(): Inches = Inches(value / 25.4)
 
     override operator fun plus(other: Distance) : Millimeters = super.plus(other) as Millimeters
@@ -59,11 +56,8 @@ val Number.cm get() = Centimeters(toDouble())
 fun cm(number: Double) = number.cm
 class Centimeters(override val value: Double) : Distance {
     override fun toMillimeters(): Millimeters = Millimeters(value * 10.0)
-
     override fun toCentimeters(): Centimeters = this
-
     override fun toMeters(): Meters = Meters(value / 100.0)
-
     override fun toInches(): Inches = Inches(value / 2.54)
 
     override operator fun plus(other: Distance) : Centimeters = super.plus(other) as Centimeters
@@ -78,11 +72,8 @@ val Number.meters get() = Meters(toDouble())
 fun meters(number: Double) = number.meters
 class Meters(override val value: Double) : Distance {
     override fun toMillimeters(): Millimeters = Millimeters(value * 1000.0)
-
     override fun toCentimeters(): Centimeters = Centimeters(value * 100.0)
-
     override fun toMeters(): Meters = this
-
     override fun toInches(): Inches = Inches(value / 0.0254)
 
     override operator fun plus(other: Distance) : Meters = super.plus(other) as Meters
@@ -98,11 +89,8 @@ fun inch(number: Double) = number.inch
 
 class Inches(override val value: Double) : Distance {
     override fun toMillimeters(): Millimeters = Millimeters(value * 25.4)
-
     override fun toCentimeters(): Centimeters = Centimeters(value * 2.54)
-
     override fun toMeters(): Meters = Meters(value * 0.0254)
-
     override fun toInches(): Inches = this
 
     override operator fun plus(other: Distance) : Inches = super.plus(other) as Inches
