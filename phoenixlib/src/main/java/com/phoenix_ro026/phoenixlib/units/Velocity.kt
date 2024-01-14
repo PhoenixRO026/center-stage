@@ -2,8 +2,8 @@ package com.phoenix_ro026.phoenixlib.units
 
 class Velocity(val distance: Distance, val duration: Duration) {
     fun to(unit: Velocity): Velocity {
-        val distanceVal = distance.to(unit.distance)
-        val durationVal = duration.to(unit.duration)
+        val distanceVal = distanceAsUnit(unit)
+        val durationVal = unit.duration
         return distanceVal / durationVal
     }
     fun distanceAsUnit(unit: Velocity): Distance {
