@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.evenimente.alba;
 
-import static org.firstinspires.ftc.teamcode.evenimente.alba.robot.ConstantsAlbaKt.LIFT_PASS_POSE;
 import static org.firstinspires.ftc.teamcode.evenimente.alba.robot.ConstantsAlbaKt.getARM_PIXEL_DROP_POSE;
 import static org.firstinspires.ftc.teamcode.evenimente.alba.robot.ConstantsAlbaKt.getCLAW_PIXEL_DROP_POSE;
 import static org.firstinspires.ftc.teamcode.evenimente.alba.robot.ConstantsAlbaKt.getLIFT_PASS_POSE;
