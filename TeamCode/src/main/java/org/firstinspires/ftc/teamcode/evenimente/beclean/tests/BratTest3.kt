@@ -53,6 +53,7 @@ class BratTest3 : LinearOpMode() {
             arm.update(deltaTime)
 
             telemetry.addData("position", position)
+            telemetry.addData("real position", arm.realPosition)
             telemetry.addData("deltaTime", deltaTime)
             telemetry.update()
 

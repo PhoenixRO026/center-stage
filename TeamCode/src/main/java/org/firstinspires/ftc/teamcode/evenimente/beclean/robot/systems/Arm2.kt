@@ -20,8 +20,8 @@ class Arm2(
     private val rightServo = ServoEx(hardwareMap, CONFIG.RIGHT_ARM, RIGHT_ARM_SERVO_RANGE, telemetry)
     private val leftServo = ServoEx(hardwareMap, CONFIG.LEFT_ARM, LEFT_ARM_SERVO_RANGE, telemetry)
 
-    private var realPosition = 0.0
-        set(value) {
+    var realPosition = 0.0
+        private set(value) {
             if (value != field) {
                 leftServo.position = value
                 rightServo.position = value
