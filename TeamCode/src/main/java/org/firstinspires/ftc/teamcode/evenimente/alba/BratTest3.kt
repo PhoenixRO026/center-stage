@@ -2,19 +2,12 @@ package org.firstinspires.ftc.teamcode.evenimente.alba
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
-import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.evenimente.alba.robot.Arm2
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.ARM_RAMP_POS
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.ARM_SCORE_POS
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.CONFIG
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.LEFT_ARM_SERVO_RANGE
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.RIGHT_ARM_SERVO_RANGE
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.hardware.ServoEx
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.systems.Arm
 
-@TeleOp
+//@TeleOp
 class BratTest3 : LinearOpMode() {
     override fun runOpMode() {
         telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)

@@ -1,16 +1,17 @@
-package org.firstinspires.ftc.teamcode.evenimente.alba
+package org.firstinspires.ftc.teamcode.evenimente.beclean
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.arcrobotics.ftclib.gamepad.ToggleButtonReader
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
-import org.firstinspires.ftc.teamcode.evenimente.alba.robot.Robot2
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.ARM_SCORE_POS
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.CLAW_RAMP_POS
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.CLAW_SCORE_POS
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.FINGERS_INTAKE_OPEN_POS
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.ARM_SCORE_POS
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.CLAW_RAMP_POS
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.CLAW_SCORE_POS
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.FINGERS_INTAKE_OPEN_POS
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.Robot2
 
-//@TeleOp
+@TeleOp
 class RealDrive : LinearOpMode() {
     override fun runOpMode() {
         telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)

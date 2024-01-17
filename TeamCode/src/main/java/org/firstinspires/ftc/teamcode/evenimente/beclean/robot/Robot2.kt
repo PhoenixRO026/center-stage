@@ -1,13 +1,16 @@
-package org.firstinspires.ftc.teamcode.evenimente.alba.robot
+package org.firstinspires.ftc.teamcode.evenimente.beclean.robot
 
 import com.acmerobotics.roadrunner.Pose2d
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.ARM_RAMP_POS
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.FINGERS_RANGE
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.systems.Camera
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.systems.Plane
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.systems.Arm2
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.systems.Camera
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.systems.Claw2
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.systems.Drive2
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.systems.Intake2
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.systems.Lift2
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.systems.Plane
 
 class Robot2(
     hardwareMap: HardwareMap,

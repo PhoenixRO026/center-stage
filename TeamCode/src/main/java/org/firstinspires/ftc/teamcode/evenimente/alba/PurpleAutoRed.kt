@@ -9,20 +9,17 @@ import com.acmerobotics.roadrunner.MinVelConstraint
 import com.acmerobotics.roadrunner.ParallelAction
 import com.acmerobotics.roadrunner.Pose2d
 import com.acmerobotics.roadrunner.SequentialAction
-import com.acmerobotics.roadrunner.Vector2d
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.evenimente.alba.robot.ARM_PIXEL_DROP_POSE
 import org.firstinspires.ftc.teamcode.evenimente.alba.robot.CLAW_PIXEL_DROP_POSE
 import org.firstinspires.ftc.teamcode.evenimente.alba.robot.LIFT_PASS_POSE
 import org.firstinspires.ftc.teamcode.evenimente.alba.robot.LIFT_PIXEL_DROP_POSE
 import org.firstinspires.ftc.teamcode.evenimente.alba.robot.Robot2
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.ARM_RAMP_POS
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.CLAW_RAMP_POS
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.systems.DetectionPipeline
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive
 
-@Autonomous
+//@Autonomous
 class PurpleAutoRed : LinearOpMode() {
     override fun runOpMode() {
         val dash = FtcDashboard.getInstance()

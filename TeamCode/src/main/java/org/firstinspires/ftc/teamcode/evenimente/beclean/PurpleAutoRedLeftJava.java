@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.evenimente.alba;
+package org.firstinspires.ftc.teamcode.evenimente.beclean;
 
-import static org.firstinspires.ftc.teamcode.evenimente.alba.robot.ConstantsAlbaKt.getARM_PIXEL_DROP_POSE;
-import static org.firstinspires.ftc.teamcode.evenimente.alba.robot.ConstantsAlbaKt.getCLAW_PIXEL_DROP_POSE;
-import static org.firstinspires.ftc.teamcode.evenimente.alba.robot.ConstantsAlbaKt.getLIFT_PASS_POSE;
-import static org.firstinspires.ftc.teamcode.evenimente.alba.robot.ConstantsAlbaKt.getLIFT_PIXEL_DROP_POSE;
-import static org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.ConstantsKt.CLAW_RAMP_POS;
+import static org.firstinspires.ftc.teamcode.evenimente.beclean.robot.ConstantsKt.ARM_PIXEL_DROP_POSE;
+import static org.firstinspires.ftc.teamcode.evenimente.beclean.robot.ConstantsKt.CLAW_PIXEL_DROP_POSE;
+import static org.firstinspires.ftc.teamcode.evenimente.beclean.robot.ConstantsKt.CLAW_RAMP_POS;
+import static org.firstinspires.ftc.teamcode.evenimente.beclean.robot.ConstantsKt.LIFT_PASS_POSE;
+import static org.firstinspires.ftc.teamcode.evenimente.beclean.robot.ConstantsKt.LIFT_PIXEL_DROP_POSE;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.canvas.Canvas;
@@ -14,13 +14,14 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.evenimente.alba.robot.Robot2;
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.systems.DetectionPipeline;
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.Robot2;
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.systems.DetectionPipeline;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
-//@Autonomous
+@Autonomous
 public class PurpleAutoRedLeftJava extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -44,17 +45,17 @@ public class PurpleAutoRedLeftJava extends LinearOpMode {
                                 .splineToLinearHeading(purplePixelPoseLeft, Math.toRadians(-90.0))
                                 .build(),
                         new SequentialAction(
-                                robot.getLift().goToPos(getLIFT_PASS_POSE()),
+                                robot.getLift().goToPos(LIFT_PASS_POSE),
                                 new ParallelAction(
-                                        robot.getClaw().goToAngle(getCLAW_PIXEL_DROP_POSE()),
-                                        robot.getArm().goToPos(getARM_PIXEL_DROP_POSE())
+                                        robot.getClaw().goToAngle(CLAW_PIXEL_DROP_POSE),
+                                        robot.getArm().goToPos(ARM_PIXEL_DROP_POSE)
                                 ),
-                                robot.getLift().goToPos(getLIFT_PIXEL_DROP_POSE())
+                                robot.getLift().goToPos(LIFT_PIXEL_DROP_POSE)
                         )
                 ),
                 robot.getClaw().openLeftClaw(),
                 robot.getClaw().closeClaw(),
-                robot.getLift().goToPos(getLIFT_PASS_POSE()),
+                robot.getLift().goToPos(LIFT_PASS_POSE),
                 new ParallelAction(
                         robot.getArm().goToPos(0.0),
                         robot.getClaw().goToAngle(CLAW_RAMP_POS)
@@ -69,17 +70,17 @@ public class PurpleAutoRedLeftJava extends LinearOpMode {
                                 .splineToLinearHeading(purplePixelPoseRight, Math.toRadians(-90.0))
                                 .build(),
                         new SequentialAction(
-                                robot.getLift().goToPos(getLIFT_PASS_POSE()),
+                                robot.getLift().goToPos(LIFT_PASS_POSE),
                                 new ParallelAction(
-                                        robot.getClaw().goToAngle(getCLAW_PIXEL_DROP_POSE()),
-                                        robot.getArm().goToPos(getARM_PIXEL_DROP_POSE())
+                                        robot.getClaw().goToAngle(CLAW_PIXEL_DROP_POSE),
+                                        robot.getArm().goToPos(ARM_PIXEL_DROP_POSE)
                                 ),
-                                robot.getLift().goToPos(getLIFT_PIXEL_DROP_POSE())
+                                robot.getLift().goToPos(LIFT_PIXEL_DROP_POSE)
                         )
                 ),
                 robot.getClaw().openLeftClaw(),
                 robot.getClaw().closeClaw(),
-                robot.getLift().goToPos(getLIFT_PASS_POSE()),
+                robot.getLift().goToPos(LIFT_PASS_POSE),
                 new ParallelAction(
                         robot.getArm().goToPos(0.0),
                         robot.getClaw().goToAngle(CLAW_RAMP_POS)
@@ -94,17 +95,17 @@ public class PurpleAutoRedLeftJava extends LinearOpMode {
                                 .splineToLinearHeading(purplePixelPoseMidle, Math.toRadians(-90.0))
                                 .build(),
                         new SequentialAction(
-                                robot.getLift().goToPos(getLIFT_PASS_POSE()),
+                                robot.getLift().goToPos(LIFT_PASS_POSE),
                                 new ParallelAction(
-                                        robot.getClaw().goToAngle(getCLAW_PIXEL_DROP_POSE()),
-                                        robot.getArm().goToPos(getARM_PIXEL_DROP_POSE())
+                                        robot.getClaw().goToAngle(CLAW_PIXEL_DROP_POSE),
+                                        robot.getArm().goToPos(ARM_PIXEL_DROP_POSE)
                                 ),
-                                robot.getLift().goToPos(getLIFT_PIXEL_DROP_POSE())
+                                robot.getLift().goToPos(LIFT_PIXEL_DROP_POSE)
                         )
                 ),
                 robot.getClaw().openLeftClaw(),
                 robot.getClaw().closeClaw(),
-                robot.getLift().goToPos(getLIFT_PASS_POSE()),
+                robot.getLift().goToPos(LIFT_PASS_POSE),
                 new ParallelAction(
                         robot.getArm().goToPos(0.0),
                         robot.getClaw().goToAngle(CLAW_RAMP_POS)

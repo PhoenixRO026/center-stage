@@ -1,7 +1,9 @@
-package org.firstinspires.ftc.teamcode.evenimente.alba.robot
+package org.firstinspires.ftc.teamcode.evenimente.beclean.robot.systems
 
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
+import org.firstinspires.ftc.teamcode.evenimente.alba.robot.CONFIG_ALBA
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.INTAKE_RANGE
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.CONFIG
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.hardware.MotorEx
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.hardware.ServoEx
@@ -11,9 +13,7 @@ class Intake2(
     private val telemetry: Telemetry? = null
 ) {
     private val motor = MotorEx(hardwareMap, CONFIG.INTAKE, telemetry)
-    private val servo = ServoEx(hardwareMap, CONFIG_ALBA.INTAKE_SERVO,
-        org.firstinspires.ftc.teamcode.evenimente.beclean.robot.INTAKE_RANGE
-    )
+    private val servo = ServoEx(hardwareMap, CONFIG_ALBA.INTAKE_SERVO, INTAKE_RANGE)
 
     var power: Double = 0.0
         set(value) {

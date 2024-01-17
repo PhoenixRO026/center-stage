@@ -1,18 +1,19 @@
-package org.firstinspires.ftc.teamcode.evenimente.alba
+package org.firstinspires.ftc.teamcode.evenimente.beclean.tests
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
-import org.firstinspires.ftc.teamcode.evenimente.alba.robot.ARM_PIXEL_DROP_POSE
-import org.firstinspires.ftc.teamcode.evenimente.alba.robot.Arm2
-import org.firstinspires.ftc.teamcode.evenimente.alba.robot.CLAW_PIXEL_DROP_POSE
-import org.firstinspires.ftc.teamcode.evenimente.alba.robot.Claw2
-import org.firstinspires.ftc.teamcode.evenimente.alba.robot.Lift2
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.ARM_RAMP_POS
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.CLAW_RAMP_POS
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.FINGERS_RANGE
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.ARM_PIXEL_DROP_POSE
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.ARM_RAMP_POS
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.systems.Arm2
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.CLAW_PIXEL_DROP_POSE
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.CLAW_RAMP_POS
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.FINGERS_RANGE
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.systems.Claw2
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.systems.Lift2
 
-//@TeleOp
+@TeleOp
 class BratTestPurple : LinearOpMode() {
     override fun runOpMode() {
         telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
