@@ -1,6 +1,6 @@
 package com.phoenix_ro026.phoenixlib.units
 
-class AngularVelocity<T: Angle, U: Duration>(val angle: T, val duration: U) {
+class AngularVelocity<out T: Angle, U: Duration>(val angle: T, val duration: U) {
     fun <V: Angle, W: Duration> to(unit: AngularVelocity<V, W>): AngularVelocity<V, W> {
         val angleVal = angleAsUnit(unit)
         val durationVal = unit.duration

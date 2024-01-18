@@ -1,6 +1,6 @@
 package com.phoenix_ro026.phoenixlib.units
 
-class Velocity<T: Distance, U: Duration>(val distance: T, val duration: U) {
+class Velocity<out T: Distance, U: Duration>(val distance: T, val duration: U) {
     fun <V: Distance, W: Duration> to(unit: Velocity<V, W>): Velocity<V, W> {
         val distanceVal = distanceAsUnit(unit)
         val durationVal = unit.duration

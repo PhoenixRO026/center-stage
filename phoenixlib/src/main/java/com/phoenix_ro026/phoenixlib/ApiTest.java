@@ -1,12 +1,15 @@
 package com.phoenix_ro026.phoenixlib;
 
-import com.phoenix_ro026.phoenixlib.opmode.OpModeEx;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import static com.phoenix_ro026.phoenixlib.units.AngleKt.deg;
+import static com.phoenix_ro026.phoenixlib.units.DistanceKt.cm;
 
-/*public class ApiTest extends OpModeEx {
+import com.phoenix_ro026.phoenixlib.units.Centimeters;
+import com.phoenix_ro026.phoenixlib.units.Degrees;
+import com.phoenix_ro026.phoenixlib.units.Pose;
 
-    @Override
+public class ApiTest {
+
     public void runOpMode() throws InterruptedException {
-        hardw
+        Pose<Centimeters, Centimeters, Degrees> test = new Pose<>(cm(2).plus(cm(2)), cm(2), deg(2));
     }
-}*/
+}
