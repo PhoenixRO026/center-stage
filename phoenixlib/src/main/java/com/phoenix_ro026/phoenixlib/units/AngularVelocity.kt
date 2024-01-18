@@ -1,30 +1,30 @@
 package com.phoenix_ro026.phoenixlib.units
 
-class AngularVelocity(val angle: Angle, val duration: Duration) {
-    fun to(unit: AngularVelocity): AngularVelocity {
+class AngularVelocity<T: Angle, U: Duration>(val angle: T, val duration: U) {
+    fun <V: Angle, W: Duration> to(unit: AngularVelocity<V, W>): AngularVelocity<V, W> {
         val angleVal = angleAsUnit(unit)
         val durationVal = unit.duration
         return angleVal / durationVal
     }
-    fun angleAsUnit(unit: AngularVelocity): Angle {
+    fun <V: Angle, W: Duration> angleAsUnit(unit: AngularVelocity<V, W>): V {
         //2 / 1 = 2    1 meter per 2 seconds = 0.5 meter per 1 second
         val durationRatio = duration.to(unit.duration).value / unit.duration.value
         return angle.to(unit.angle) / durationRatio
     }
 
-    fun durationAsUnit(unit: AngularVelocity): Duration {
+    fun <V: Angle, W: Duration> durationAsUnit(unit: AngularVelocity<V, W>): W {
         //2 / 1 = 2    1 meter per 2 seconds = 0.5 meter per 1 second
         val angleRatio = angle.to(unit.angle).value / unit.angle.value
         return duration.to(unit.duration) / angleRatio
     }
 
-    operator fun plus(other: AngularVelocity) = AngularVelocity(angle + other.angleAsUnit(this), duration)
-    operator fun minus(other: AngularVelocity) = AngularVelocity(angle - other.angleAsUnit(this), duration)
+    operator fun <V: Angle, W: Duration> plus(other: AngularVelocity<V, W>) = AngularVelocity(angle + other.angleAsUnit(this), duration)
+    operator fun <V: Angle, W: Duration> minus(other: AngularVelocity<V, W>) = AngularVelocity(angle - other.angleAsUnit(this), duration)
     operator fun unaryMinus() = AngularVelocity(-angle, duration)
     operator fun times(other: Number) = AngularVelocity(angle * other, duration)
     operator fun div(other: Number) = AngularVelocity(angle / other , duration)
-    operator fun times(other: Duration) = angleAsUnit(AngularVelocity(angle, other))
-    operator fun div(other: Angle) = durationAsUnit(AngularVelocity(other, duration))
+    operator fun <V: Duration> times(other: V) = angleAsUnit(AngularVelocity(angle, other))
+    operator fun <V: Angle> div(other: V) = durationAsUnit(AngularVelocity(other, duration))
 
     override fun toString(): String = "$angle per " + if (duration.value == 1.0) duration.unitToString() else "$duration"
 }

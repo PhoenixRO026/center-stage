@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.Vector2d
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
+import com.phoenix_ro026.phoenixlib.units.TrajectoryActionBuilderEx
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive
 import kotlin.math.cos
 import kotlin.math.sin
@@ -16,6 +17,8 @@ class Drive2(
     startPose: Pose2d
 ) {
     val drive = MecanumDrive(hardwareMap, startPose)
+
+    fun actionBuilder(beginPose: Pose2d) = TrajectoryActionBuilderEx(drive.actionBuilder(beginPose))
 
     val sniperSpeed = 0.5
 

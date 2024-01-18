@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.Robot2;
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.systems.DetectionPipeline;
-import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.systems.Drive2;
 
 @Autonomous
 public class PurpleAutoRedLeftJava extends LinearOpMode {
@@ -33,10 +33,10 @@ public class PurpleAutoRedLeftJava extends LinearOpMode {
         Pose2d purplePixelPoseMidle = new Pose2d(-29.0,40.0, Math.toRadians(90.0));
 
         Robot2 robot = new Robot2(hardwareMap, telemetry, startPose, false, true);
-        robot.getCamera().setColor(DetectionPipeline.DetectionColor.RED);
-        MecanumDrive drive = robot.getDrive().getDrive();
+        robot.camera.setColor(DetectionPipeline.DetectionColor.RED);
+        Drive2 drive = robot.drive/*.getDrive()*/;
 
-        robot.getCamera().openCamera();
+        robot.camera.openCamera();
 
         Action actionLEFT = new SequentialAction(
                 new ParallelAction(
@@ -45,22 +45,22 @@ public class PurpleAutoRedLeftJava extends LinearOpMode {
                                 .splineToLinearHeading(purplePixelPoseLeft, Math.toRadians(-90.0))
                                 .build(),
                         new SequentialAction(
-                                robot.getLift().goToPos(LIFT_PASS_POSE),
+                                robot.lift.goToPos(LIFT_PASS_POSE),
                                 new ParallelAction(
-                                        robot.getClaw().goToAngle(CLAW_PIXEL_DROP_POSE),
-                                        robot.getArm().goToPos(ARM_PIXEL_DROP_POSE)
+                                        robot.claw.goToAngle(CLAW_PIXEL_DROP_POSE),
+                                        robot.arm.goToPos(ARM_PIXEL_DROP_POSE)
                                 ),
-                                robot.getLift().goToPos(LIFT_PIXEL_DROP_POSE)
+                                robot.lift.goToPos(LIFT_PIXEL_DROP_POSE)
                         )
                 ),
-                robot.getClaw().openLeftClaw(),
-                robot.getClaw().closeClaw(),
-                robot.getLift().goToPos(LIFT_PASS_POSE),
+                robot.claw.openLeftClaw(),
+                robot.claw.closeClaw(),
+                robot.lift.goToPos(LIFT_PASS_POSE),
                 new ParallelAction(
-                        robot.getArm().goToPos(0.0),
-                        robot.getClaw().goToAngle(CLAW_RAMP_POS)
+                        robot.arm.goToPos(0.0),
+                        robot.claw.goToAngle(CLAW_RAMP_POS)
                 ),
-                robot.getLift().goToPos(0)
+                robot.lift.goToPos(0)
         );
 
         Action actionRIGHT = new SequentialAction(
@@ -70,22 +70,22 @@ public class PurpleAutoRedLeftJava extends LinearOpMode {
                                 .splineToLinearHeading(purplePixelPoseRight, Math.toRadians(-90.0))
                                 .build(),
                         new SequentialAction(
-                                robot.getLift().goToPos(LIFT_PASS_POSE),
+                                robot.lift.goToPos(LIFT_PASS_POSE),
                                 new ParallelAction(
-                                        robot.getClaw().goToAngle(CLAW_PIXEL_DROP_POSE),
-                                        robot.getArm().goToPos(ARM_PIXEL_DROP_POSE)
+                                        robot.claw.goToAngle(CLAW_PIXEL_DROP_POSE),
+                                        robot.arm.goToPos(ARM_PIXEL_DROP_POSE)
                                 ),
-                                robot.getLift().goToPos(LIFT_PIXEL_DROP_POSE)
+                                robot.lift.goToPos(LIFT_PIXEL_DROP_POSE)
                         )
                 ),
-                robot.getClaw().openLeftClaw(),
-                robot.getClaw().closeClaw(),
-                robot.getLift().goToPos(LIFT_PASS_POSE),
+                robot.claw.openLeftClaw(),
+                robot.claw.closeClaw(),
+                robot.lift.goToPos(LIFT_PASS_POSE),
                 new ParallelAction(
-                        robot.getArm().goToPos(0.0),
-                        robot.getClaw().goToAngle(CLAW_RAMP_POS)
+                        robot.arm.goToPos(0.0),
+                        robot.claw.goToAngle(CLAW_RAMP_POS)
                 ),
-                robot.getLift().goToPos(0)
+                robot.lift.goToPos(0)
         );
 
         Action actionMIDDLE = new SequentialAction(
@@ -95,33 +95,33 @@ public class PurpleAutoRedLeftJava extends LinearOpMode {
                                 .splineToLinearHeading(purplePixelPoseMidle, Math.toRadians(-90.0))
                                 .build(),
                         new SequentialAction(
-                                robot.getLift().goToPos(LIFT_PASS_POSE),
+                                robot.lift.goToPos(LIFT_PASS_POSE),
                                 new ParallelAction(
-                                        robot.getClaw().goToAngle(CLAW_PIXEL_DROP_POSE),
-                                        robot.getArm().goToPos(ARM_PIXEL_DROP_POSE)
+                                        robot.claw.goToAngle(CLAW_PIXEL_DROP_POSE),
+                                        robot.arm.goToPos(ARM_PIXEL_DROP_POSE)
                                 ),
-                                robot.getLift().goToPos(LIFT_PIXEL_DROP_POSE)
+                                robot.lift.goToPos(LIFT_PIXEL_DROP_POSE)
                         )
                 ),
-                robot.getClaw().openLeftClaw(),
-                robot.getClaw().closeClaw(),
-                robot.getLift().goToPos(LIFT_PASS_POSE),
+                robot.claw.openLeftClaw(),
+                robot.claw.closeClaw(),
+                robot.lift.goToPos(LIFT_PASS_POSE),
                 new ParallelAction(
-                        robot.getArm().goToPos(0.0),
-                        robot.getClaw().goToAngle(CLAW_RAMP_POS)
+                        robot.arm.goToPos(0.0),
+                        robot.claw.goToAngle(CLAW_RAMP_POS)
                 ),
-                robot.getLift().goToPos(0)
+                robot.lift.goToPos(0)
         );
 
         while (opModeInInit()) {
-            robot.getCamera().displayDetection();
+            robot.camera.displayDetection();
             telemetry.update();
             sleep(10);
         }
 
         Action action = actionLEFT;
 
-        switch (robot.getCamera().getDetectionPosition()) {
+        switch (robot.camera.getDetectionPosition()) {
             case LEFT:
                 break;
             case CENTER:

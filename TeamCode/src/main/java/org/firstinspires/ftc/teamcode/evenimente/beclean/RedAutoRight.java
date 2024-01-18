@@ -21,7 +21,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.Robot2;
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.systems.DetectionPipeline;
-import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.systems.Drive2;
 
 @Autonomous
 public class RedAutoRight extends LinearOpMode {
@@ -32,63 +32,63 @@ public class RedAutoRight extends LinearOpMode {
         Pose2d startPose = new Pose2d(12, -61.0, Math.toRadians(-90.0));
         Pose2d purplePixelPoseLeft = new Pose2d(12, -37.0, Math.toRadians(0));
         Pose2d purplePixelPoseRight = new Pose2d(-30.0 - 6 + 2, 39.0, Math.toRadians(20.0));
-        Pose2d purplePixelPoseMidle = new Pose2d(-29.0,40.0, Math.toRadians(90.0));
+        Pose2d purplePixelPoseMidle = new Pose2d(-29.0, 40.0, Math.toRadians(90.0));
         Pose2d Board1 = new Pose2d(47.5, -27, Math.toRadians(190));
         Robot2 robot = new Robot2(hardwareMap, telemetry, startPose, false, true);
-        robot.getCamera().setColor(DetectionPipeline.DetectionColor.RED);
-        MecanumDrive drive = robot.getDrive().getDrive();
+        robot.camera.setColor(DetectionPipeline.DetectionColor.RED);
+        Drive2 drive = robot.drive/*.getDrive()*/;
 
-        robot.getCamera().openCamera();
+        robot.camera.openCamera();
 
         Action actionLEFT = new SequentialAction(
                 new ParallelAction(
                         drive.actionBuilder(startPose)
                                 .setTangent(Math.toRadians(-90.0))
                                 .lineToY(-37)
-                                .turn (Math.toRadians(65))
+                                .turn(Math.toRadians(65))
                                 .build(),
                         new SequentialAction(
-                                robot.getLift().goToPos(LIFT_PASS_POSE),
+                                robot.lift.goToPos(LIFT_PASS_POSE),
                                 new ParallelAction(
-                                        robot.getClaw().goToAngle(CLAW_PIXEL_DROP_POSE),
-                                        robot.getArm().goToPos(ARM_PIXEL_DROP_POSE)
+                                        robot.claw.goToAngle(CLAW_PIXEL_DROP_POSE),
+                                        robot.arm.goToPos(ARM_PIXEL_DROP_POSE)
                                 ),
-                                robot.getLift().goToPos(LIFT_PIXEL_DROP_POSE)
+                                robot.lift.goToPos(LIFT_PIXEL_DROP_POSE)
                         )
                 ),
-                robot.getClaw().openLeftClaw(),
-                robot.getClaw().closeClaw(),
-                robot.getLift().goToPos(LIFT_PASS_POSE),
+                robot.claw.openLeftClaw(),
+                robot.claw.closeClaw(),
+                robot.lift.goToPos(LIFT_PASS_POSE),
                 new ParallelAction(
-                        robot.getArm().goToPos(0.0),
-                        robot.getClaw().goToAngle(CLAW_RAMP_POS)
+                        robot.arm.goToPos(0.0),
+                        robot.claw.goToAngle(CLAW_RAMP_POS)
                 ),
                 new ParallelAction(
-                drive.actionBuilder(purplePixelPoseLeft)
-                        //.turn (Math.toRadians(-155))
-                        .turn (Math.toRadians(-185))
-                        .setTangent(Math.toRadians(0))
-                        .lineToX (48.75)
-                        .setTangent(Math.toRadians(90))
-                        .lineToY (-31)
-                        .waitSeconds(1)
-                        .build(),
-                //robot.getLift().goToPos(0)
-                robot.getArm().goToPos(ARM_SCORE_POS),
-                robot.getClaw().goToAngle(CLAW_SCORE_POS),
+                        drive.actionBuilder(purplePixelPoseLeft)
+                                //.turn (Math.toRadians(-155))
+                                .turn(Math.toRadians(-185))
+                                .setTangent(Math.toRadians(0))
+                                .lineToX(48.75)
+                                .setTangent(Math.toRadians(90))
+                                .lineToY(-31)
+                                .waitSeconds(1)
+                                .build(),
+                        //robot.getLift().goToPos(0)
+                        robot.arm.goToPos(ARM_SCORE_POS),
+                        robot.claw.goToAngle(CLAW_SCORE_POS)
                 ),
-                robot.getClaw().openRightClaw()
+                robot.claw.openRightClaw()
         );
 
         while (opModeInInit()) {
-            robot.getCamera().displayDetection();
+            robot.camera.displayDetection();
             telemetry.update();
             sleep(10);
         }
 
         Action action = actionLEFT;
 
-        switch (robot.getCamera().getDetectionPosition()) {
+        switch (robot.camera.getDetectionPosition()) {
             case LEFT:
                 break;
            /* case CENTER:

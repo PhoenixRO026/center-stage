@@ -30,7 +30,7 @@ repositories {
 
 dependencies {
     //implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation "com.acmerobotics.roadrunner:ftc:0.1.9"
+    implementation "com.acmerobotics.roadrunner:ftc:0.1.11"
     implementation 'org.firstinspires.ftc:RobotCore:9.0.1'
 
     /*implementation 'androidx.core:core-ktx:1.12.0'

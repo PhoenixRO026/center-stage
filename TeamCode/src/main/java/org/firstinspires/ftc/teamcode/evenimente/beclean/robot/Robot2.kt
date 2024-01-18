@@ -20,12 +20,19 @@ class Robot2(
     private val roadRunnerAuto: Boolean = false
 ) {
     private val hubs = hardwareMap.getAll(LynxModule::class.java)
+    @JvmField
     val arm = Arm2(hardwareMap, telemetry, ARM_RAMP_POS..1.0)
+    @JvmField
     val camera = Camera(hardwareMap, telemetry)
+    @JvmField
     val lift = Lift2(hardwareMap, telemetry)
+    @JvmField
     val drive = Drive2(hardwareMap, telemetry, startPose)
+    @JvmField
     val intake = Intake2(hardwareMap, telemetry)
+    @JvmField
     val claw = Claw2(hardwareMap, telemetry, FINGERS_RANGE)
+    @JvmField
     val plane = Plane(hardwareMap, telemetry)
 
     var deltaTime = 1.0

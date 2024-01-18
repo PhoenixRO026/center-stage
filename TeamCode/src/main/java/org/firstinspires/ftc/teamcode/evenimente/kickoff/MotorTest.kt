@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 
 @Disabled
-@TeleOp
+//@TeleOp
 class MotorTest : LinearOpMode() {
     override fun runOpMode() {
         val motor: DcMotorEx = hardwareMap.get(DcMotorEx::class.java, "motor")
