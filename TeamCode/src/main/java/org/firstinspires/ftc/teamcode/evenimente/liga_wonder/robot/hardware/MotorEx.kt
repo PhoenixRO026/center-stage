@@ -32,6 +32,14 @@ class MotorEx(
             field = value
         }
 
+    var zeroPowerBehavior = zeroPowerBehavior
+        set(value) {
+            if (field != value) {
+                motor.zeroPowerBehavior = value
+            }
+            field = value
+        }
+
     var power: Double = 0.0
         set(value) {
             val scaledValue = value.coerceIn(-1.0, 1.0)

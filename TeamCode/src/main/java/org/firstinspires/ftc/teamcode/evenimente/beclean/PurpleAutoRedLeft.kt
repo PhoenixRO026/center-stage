@@ -12,8 +12,8 @@ import com.acmerobotics.roadrunner.SequentialAction
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.ARM_PIXEL_DROP_POSE
-import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.CLAW_PIXEL_DROP_POSE
-import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.CLAW_RAMP_POS
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.CLAW_PIXEL_DROP_ANGLE
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.CLAW_RAMP_ANGLE
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.LIFT_PASS_POSE
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.LIFT_PIXEL_DROP_POSE
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.Robot2
@@ -55,7 +55,7 @@ class PurpleAutoRedLeft : LinearOpMode() {
                 SequentialAction(
                     robot.lift.goToPos(LIFT_PASS_POSE),
                     ParallelAction(
-                        robot.claw.goToAngle(CLAW_PIXEL_DROP_POSE),
+                        robot.claw.goToAngle(CLAW_PIXEL_DROP_ANGLE),
                         robot.arm.goToPos(ARM_PIXEL_DROP_POSE)
                     ),
                     robot.lift.goToPos(LIFT_PIXEL_DROP_POSE)
@@ -66,7 +66,7 @@ class PurpleAutoRedLeft : LinearOpMode() {
             robot.lift.goToPos(LIFT_PASS_POSE),
             ParallelAction(
                 robot.arm.goToPos(0.0),
-                robot.claw.goToAngle(CLAW_RAMP_POS)
+                robot.claw.goToAngle(CLAW_RAMP_ANGLE)
             ),
             robot.lift.goToPos(0),
             /*drive.actionBuilder(purplePixelPoseLeft)
@@ -79,13 +79,13 @@ class PurpleAutoRedLeft : LinearOpMode() {
             robot.lift.goToPos(LIFT_PASS_POSE),
             ParallelAction(
                 robot.arm.goToPos(ARM_PIXEL_DROP_POSE),
-                robot.claw.goToAngle(CLAW_PIXEL_DROP_POSE)
+                robot.claw.goToAngle(CLAW_PIXEL_DROP_ANGLE)
             ),
             robot.claw.openRightClaw(),
             robot.claw.closeClaw(),
             ParallelAction(
                 robot.arm.goToPos(0.0),
-                robot.claw.goToAngle(CLAW_RAMP_POS)
+                robot.claw.goToAngle(CLAW_RAMP_ANGLE)
             ),
             robot.lift.goToPos(0)*/
         )
@@ -99,7 +99,7 @@ class PurpleAutoRedLeft : LinearOpMode() {
                 SequentialAction(
                     robot.lift.goToPos(LIFT_PASS_POSE),
                     ParallelAction(
-                        robot.claw.goToAngle(CLAW_PIXEL_DROP_POSE),
+                        robot.claw.goToAngle(CLAW_PIXEL_DROP_ANGLE),
                         robot.arm.goToPos(ARM_PIXEL_DROP_POSE)
                     ),
                     robot.lift.goToPos(LIFT_PIXEL_DROP_POSE)
@@ -110,7 +110,7 @@ class PurpleAutoRedLeft : LinearOpMode() {
             robot.lift.goToPos(LIFT_PASS_POSE),
             ParallelAction(
                 robot.arm.goToPos(0.0),
-                robot.claw.goToAngle(CLAW_RAMP_POS)
+                robot.claw.goToAngle(CLAW_RAMP_ANGLE)
             ),
             robot.lift.goToPos(0),
             /*drive.actionBuilder(purplePixelPoseRight)
@@ -123,13 +123,13 @@ class PurpleAutoRedLeft : LinearOpMode() {
             robot.lift.goToPos(LIFT_PASS_POSE),
             ParallelAction(
                 robot.arm.goToPos(ARM_PIXEL_DROP_POSE),
-                robot.claw.goToAngle(CLAW_PIXEL_DROP_POSE)
+                robot.claw.goToAngle(CLAW_PIXEL_DROP_ANGLE)
             ),
             robot.claw.openRightClaw(),
             robot.claw.closeClaw(),
             ParallelAction(
                 robot.arm.goToPos(0.0),
-                robot.claw.goToAngle(CLAW_RAMP_POS)
+                robot.claw.goToAngle(CLAW_RAMP_ANGLE)
             ),
             robot.lift.goToPos(0)*/
         )
@@ -143,7 +143,7 @@ class PurpleAutoRedLeft : LinearOpMode() {
                 SequentialAction(
                     robot.lift.goToPos(LIFT_PASS_POSE),
                     ParallelAction(
-                        robot.claw.goToAngle(CLAW_PIXEL_DROP_POSE),
+                        robot.claw.goToAngle(CLAW_PIXEL_DROP_ANGLE),
                         robot.arm.goToPos(ARM_PIXEL_DROP_POSE)
                     ),
                     robot.lift.goToPos(LIFT_PIXEL_DROP_POSE)
@@ -154,7 +154,7 @@ class PurpleAutoRedLeft : LinearOpMode() {
             robot.lift.goToPos(LIFT_PASS_POSE),
             ParallelAction(
                 robot.arm.goToPos(0.0),
-                robot.claw.goToAngle(CLAW_RAMP_POS)
+                robot.claw.goToAngle(CLAW_RAMP_ANGLE)
             ),
             robot.lift.goToPos(0),
             /*drive.actionBuilder(purplePixelPoseMidle)
@@ -168,7 +168,7 @@ class PurpleAutoRedLeft : LinearOpMode() {
             robot.claw.closeClaw(),
             ParallelAction(
                 robot.arm.goToPos(0.0),
-                robot.claw.goToAngle(CLAW_RAMP_POS)
+                robot.claw.goToAngle(CLAW_RAMP_ANGLE)
             ),
             robot.lift.goToPos(0)*/
         )

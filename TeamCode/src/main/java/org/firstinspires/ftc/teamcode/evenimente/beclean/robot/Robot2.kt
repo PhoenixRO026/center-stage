@@ -31,7 +31,7 @@ class Robot2(
     @JvmField
     val intake = Intake2(hardwareMap, telemetry)
     @JvmField
-    val claw = Claw2(hardwareMap, telemetry, FINGERS_RANGE)
+    val claw = Claw2(hardwareMap, telemetry, FINGERS_RANGE, CLAW_RANGE)
     @JvmField
     val plane = Plane(hardwareMap, telemetry)
 

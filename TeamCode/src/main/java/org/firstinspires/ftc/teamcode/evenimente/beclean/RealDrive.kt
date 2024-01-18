@@ -6,8 +6,8 @@ import com.arcrobotics.ftclib.gamepad.ToggleButtonReader
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.ARM_SCORE_POS
-import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.CLAW_RAMP_POS
-import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.CLAW_SCORE_POS
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.CLAW_RAMP_ANGLE
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.CLAW_SCORE_ANGLE
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.FINGERS_INTAKE_OPEN_POS
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.Robot2
 
@@ -59,12 +59,12 @@ class RealDrive : LinearOpMode() {
 
             if (gamepad2.left_bumper) {
                 robot.arm.position = 0.0
-                robot.claw.angle = CLAW_RAMP_POS
+                robot.claw.angle = CLAW_RAMP_ANGLE
             }
 
             if (gamepad2.right_bumper) {
                 robot.arm.position = ARM_SCORE_POS
-                robot.claw.angle = CLAW_SCORE_POS
+                robot.claw.angle = CLAW_SCORE_ANGLE
             }
 
             if (gamepad2.x) {

@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.Action
 import com.arcrobotics.ftclib.controller.wpilibcontroller.ProfiledPIDController
 import com.arcrobotics.ftclib.trajectory.TrapezoidProfile
 import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
@@ -71,6 +72,13 @@ class Lift2(
                 leftMotor.power = value
                 rightMotor.power = value
             }
+            field = value
+        }
+
+    var breakingMode = ZeroPowerBehavior.BRAKE
+        set(value) {
+            leftMotor.zeroPowerBehavior = value
+            rightMotor.zeroPowerBehavior = value
             field = value
         }
 

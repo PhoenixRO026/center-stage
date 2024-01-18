@@ -78,13 +78,13 @@ class PurpleAutoRedLeft : LinearOpMode() {
             robot.lift.goToPos(LIFT_PASS_POSE),
             ParallelAction(
                 robot.arm.goToPos(ARM_PIXEL_DROP_POSE),
-                robot.claw.goToAngle(CLAW_PIXEL_DROP_POSE)
+                robot.claw.goToAngle(CLAW_PIXEL_DROP_ANGLE)
             ),
             robot.claw.openRightClaw(),
             robot.claw.closeClaw(),
             ParallelAction(
                 robot.arm.goToPos(0.0),
-                robot.claw.goToAngle(CLAW_RAMP_POS)
+                robot.claw.goToAngle(CLAW_RAMP_ANGLE)
             ),
             robot.lift.goToPos(0)*/
         )
@@ -122,13 +122,13 @@ class PurpleAutoRedLeft : LinearOpMode() {
             robot.lift.goToPos(LIFT_PASS_POSE),
             ParallelAction(
                 robot.arm.goToPos(ARM_PIXEL_DROP_POSE),
-                robot.claw.goToAngle(CLAW_PIXEL_DROP_POSE)
+                robot.claw.goToAngle(CLAW_PIXEL_DROP_ANGLE)
             ),
             robot.claw.openRightClaw(),
             robot.claw.closeClaw(),
             ParallelAction(
                 robot.arm.goToPos(0.0),
-                robot.claw.goToAngle(CLAW_RAMP_POS)
+                robot.claw.goToAngle(CLAW_RAMP_ANGLE)
             ),
             robot.lift.goToPos(0)*/
         )
@@ -167,7 +167,7 @@ class PurpleAutoRedLeft : LinearOpMode() {
             robot.claw.closeClaw(),
             ParallelAction(
                 robot.arm.goToPos(0.0),
-                robot.claw.goToAngle(CLAW_RAMP_POS)
+                robot.claw.goToAngle(CLAW_RAMP_ANGLE)
             ),
             robot.lift.goToPos(0)*/
         )

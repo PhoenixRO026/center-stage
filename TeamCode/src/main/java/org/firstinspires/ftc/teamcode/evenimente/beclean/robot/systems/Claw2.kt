@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.Servo
 import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.CLAW_RAMP_POS
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.CLAW_RAMP_ANGLE
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.LEFT_CLAW_SERVO_RANGE
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.LEFT_FINGER_SERVO_RANGE
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.RIGHT_CLAW_SERVO_RANGE
@@ -20,29 +20,29 @@ import kotlin.math.sign
 class Claw2(
     hardwareMap: HardwareMap,
     private val telemetry: Telemetry? = null,
-    private val fingerRange: ClosedRange<Double> = 0.0..1.0
+    private val fingerRange: ClosedRange<Double> = 0.0..1.0,
+    private val clawRange: ClosedRange<Double> = 0.0..1.0
 ) {
     private val leftAngle = ServoEx(hardwareMap, CONFIG.LEFT_CLAW, LEFT_CLAW_SERVO_RANGE, telemetry, Servo.Direction.REVERSE)
     private val rightAngle = ServoEx(hardwareMap, CONFIG.RIGHT_CLAW, RIGHT_CLAW_SERVO_RANGE, telemetry)
     private val leftFinger = ServoEx(hardwareMap, CONFIG.LEFT_FINGER, LEFT_FINGER_SERVO_RANGE, telemetry)
     private val rightFinger = ServoEx(hardwareMap, CONFIG.RIGHT_FINGER, RIGHT_FINGER_SERVO_RANGE, telemetry, Servo.Direction.REVERSE)
 
-    private var realAngle = 0.0
-        set(value) {
-            if (value != field) {
-                leftAngle.position = value
-                rightAngle.position = value
-            }
+    var realAngle = 0.0
+        private set(value) {
+            leftAngle.position = value
+            rightAngle.position = value
             field = value
         }
 
     private var targetAngle = 0.0
     private val speed = 0.01
 
-    var angle: Double = CLAW_RAMP_POS
+    var angle: Double = CLAW_RAMP_ANGLE
         set(value) {
-            targetAngle = value
-            field = value
+            val coercedValue = value.coerceIn(0.0, 1.0)
+            targetAngle = coercedValue.scaleTo(clawRange)
+            field = coercedValue
         }
 
     fun goToAngleNow() {
@@ -156,7 +156,7 @@ class Claw2(
         }
 
     init {
-        angle = CLAW_RAMP_POS
+        angle = CLAW_RAMP_ANGLE
         realAngle = targetAngle
         leftFingerPos = 1.0
         rightFingerPos = 1.0

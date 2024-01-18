@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.RIGHT_ARM_SER
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.hardware.ServoEx
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.systems.Arm
 
+@Disabled
 @TeleOp
 class BratTest2 : LinearOpMode() {
     override fun runOpMode() {

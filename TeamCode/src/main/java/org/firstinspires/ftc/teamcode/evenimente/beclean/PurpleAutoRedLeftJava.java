@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.evenimente.beclean;
 
 import static org.firstinspires.ftc.teamcode.evenimente.beclean.robot.ConstantsKt.ARM_PIXEL_DROP_POSE;
-import static org.firstinspires.ftc.teamcode.evenimente.beclean.robot.ConstantsKt.CLAW_PIXEL_DROP_POSE;
-import static org.firstinspires.ftc.teamcode.evenimente.beclean.robot.ConstantsKt.CLAW_RAMP_POS;
+import static org.firstinspires.ftc.teamcode.evenimente.beclean.robot.ConstantsKt.CLAW_PIXEL_DROP_ANGLE;
+import static org.firstinspires.ftc.teamcode.evenimente.beclean.robot.ConstantsKt.CLAW_RAMP_ANGLE;
 import static org.firstinspires.ftc.teamcode.evenimente.beclean.robot.ConstantsKt.LIFT_PASS_POSE;
 import static org.firstinspires.ftc.teamcode.evenimente.beclean.robot.ConstantsKt.LIFT_PIXEL_DROP_POSE;
 
@@ -47,7 +47,7 @@ public class PurpleAutoRedLeftJava extends LinearOpMode {
                         new SequentialAction(
                                 robot.lift.goToPos(LIFT_PASS_POSE),
                                 new ParallelAction(
-                                        robot.claw.goToAngle(CLAW_PIXEL_DROP_POSE),
+                                        robot.claw.goToAngle(CLAW_PIXEL_DROP_ANGLE),
                                         robot.arm.goToPos(ARM_PIXEL_DROP_POSE)
                                 ),
                                 robot.lift.goToPos(LIFT_PIXEL_DROP_POSE)
@@ -58,7 +58,7 @@ public class PurpleAutoRedLeftJava extends LinearOpMode {
                 robot.lift.goToPos(LIFT_PASS_POSE),
                 new ParallelAction(
                         robot.arm.goToPos(0.0),
-                        robot.claw.goToAngle(CLAW_RAMP_POS)
+                        robot.claw.goToAngle(CLAW_RAMP_ANGLE)
                 ),
                 robot.lift.goToPos(0)
         );
@@ -72,7 +72,7 @@ public class PurpleAutoRedLeftJava extends LinearOpMode {
                         new SequentialAction(
                                 robot.lift.goToPos(LIFT_PASS_POSE),
                                 new ParallelAction(
-                                        robot.claw.goToAngle(CLAW_PIXEL_DROP_POSE),
+                                        robot.claw.goToAngle(CLAW_PIXEL_DROP_ANGLE),
                                         robot.arm.goToPos(ARM_PIXEL_DROP_POSE)
                                 ),
                                 robot.lift.goToPos(LIFT_PIXEL_DROP_POSE)
@@ -83,7 +83,7 @@ public class PurpleAutoRedLeftJava extends LinearOpMode {
                 robot.lift.goToPos(LIFT_PASS_POSE),
                 new ParallelAction(
                         robot.arm.goToPos(0.0),
-                        robot.claw.goToAngle(CLAW_RAMP_POS)
+                        robot.claw.goToAngle(CLAW_RAMP_ANGLE)
                 ),
                 robot.lift.goToPos(0)
         );
@@ -97,7 +97,7 @@ public class PurpleAutoRedLeftJava extends LinearOpMode {
                         new SequentialAction(
                                 robot.lift.goToPos(LIFT_PASS_POSE),
                                 new ParallelAction(
-                                        robot.claw.goToAngle(CLAW_PIXEL_DROP_POSE),
+                                        robot.claw.goToAngle(CLAW_PIXEL_DROP_ANGLE),
                                         robot.arm.goToPos(ARM_PIXEL_DROP_POSE)
                                 ),
                                 robot.lift.goToPos(LIFT_PIXEL_DROP_POSE)
@@ -108,7 +108,7 @@ public class PurpleAutoRedLeftJava extends LinearOpMode {
                 robot.lift.goToPos(LIFT_PASS_POSE),
                 new ParallelAction(
                         robot.arm.goToPos(0.0),
-                        robot.claw.goToAngle(CLAW_RAMP_POS)
+                        robot.claw.goToAngle(CLAW_RAMP_ANGLE)
                 ),
                 robot.lift.goToPos(0)
         );
