@@ -23,8 +23,8 @@ class Claw2(
     private val fingerRange: ClosedRange<Double> = 0.0..1.0,
     private val clawRange: ClosedRange<Double> = 0.0..1.0
 ) {
-    private val leftAngle = ServoEx(hardwareMap, CONFIG.LEFT_CLAW, LEFT_CLAW_SERVO_RANGE, telemetry, Servo.Direction.REVERSE)
-    private val rightAngle = ServoEx(hardwareMap, CONFIG.RIGHT_CLAW, RIGHT_CLAW_SERVO_RANGE, telemetry)
+    private val leftAngle = ServoEx(hardwareMap, CONFIG.LEFT_CLAW, LEFT_CLAW_SERVO_RANGE, telemetry)
+    private val rightAngle = ServoEx(hardwareMap, CONFIG.RIGHT_CLAW, RIGHT_CLAW_SERVO_RANGE, telemetry, Servo.Direction.REVERSE)
     private val leftFinger = ServoEx(hardwareMap, CONFIG.LEFT_FINGER, LEFT_FINGER_SERVO_RANGE, telemetry)
     private val rightFinger = ServoEx(hardwareMap, CONFIG.RIGHT_FINGER, RIGHT_FINGER_SERVO_RANGE, telemetry, Servo.Direction.REVERSE)
 

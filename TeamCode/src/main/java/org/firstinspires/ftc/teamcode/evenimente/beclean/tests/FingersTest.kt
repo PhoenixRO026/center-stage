@@ -1,21 +1,16 @@
-package org.firstinspires.ftc.teamcode.evenimente.liga_wonder
+package org.firstinspires.ftc.teamcode.evenimente.beclean.tests
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
-import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.Servo
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.LEFT_FINGER_SERVO_RANGE
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.RIGHT_FINGER_SERVO_RANGE
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.CONFIG
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.LEFT_ARM_SERVO_RANGE
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.LEFT_CLAW_SERVO_RANGE
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.LEFT_FINGER_SERVO_RANGE
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.RIGHT_ARM_SERVO_RANGE
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.RIGHT_CLAW_SERVO_RANGE
-import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.RIGHT_FINGER_SERVO_RANGE
 import org.firstinspires.ftc.teamcode.evenimente.liga_wonder.robot.hardware.ServoEx
 
-//@TeleOp
+@TeleOp
 class FingersTest : LinearOpMode() {
     override fun runOpMode() {
         telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)

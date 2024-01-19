@@ -69,12 +69,12 @@ public final class MecanumDrive {
 
         // drive model parameters
         public double inPerTick = (240.0 / 2.54) / 177179.0;
-        public double lateralInPerTick = 0.000323608;
-        public double trackWidthTicks = 21686.4366395 * (3600.0 / 3480.0) * (3600.0 / 3595);
+        public double lateralInPerTick = 0.00026283874853835667;
+        public double trackWidthTicks = 29395.357006510527;
 
         // feedforward parameters (in tick units)
-        public double kS = 3.220769489;
-        public double kV = 0.00004;
+        public double kS = 3.421047922;
+        public double kV = 0.000031;
         public double kA = 0.000017;
 
         // path profile parameters (in inches)
@@ -87,9 +87,9 @@ public final class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 5.0;
-        public double lateralGain = 5.0;
-        public double headingGain = 5.0; // shared with turn
+        public double axialGain = 7.0;
+        public double lateralGain = 7.0;
+        public double headingGain = 7.0; // shared with turn
 
         public double axialVelGain = 0.0;
         public double lateralVelGain = 0.0;
@@ -429,6 +429,15 @@ public final class MecanumDrive {
             leftBack.setPower(feedforward.compute(wheelVels.leftBack) / voltage);
             rightBack.setPower(feedforward.compute(wheelVels.rightBack) / voltage);
             rightFront.setPower(feedforward.compute(wheelVels.rightFront) / voltage);
+
+            p.put("x", pose.position.x);
+            p.put("y", pose.position.y);
+            p.put("heading (deg)", Math.toDegrees(pose.heading.toDouble()));
+
+            Pose2d error = txWorldTarget.value().minusExp(pose);
+            p.put("xError", error.position.x);
+            p.put("yError", error.position.y);
+            p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));
 
             Canvas c = p.fieldOverlay();
             drawPoseHistory(c);

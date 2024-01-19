@@ -58,6 +58,7 @@ class Robot2(
         if (manualCache) {
             hubs.forEach {
                 it.clearBulkCache()
+                it.getBulkData()
             }
         }
         if (!roadRunnerAuto) {
