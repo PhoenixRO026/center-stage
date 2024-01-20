@@ -4,18 +4,18 @@ class Velocity<out T: Distance, U: Duration>(val distance: T, val duration: U) {
     fun <V: Distance, W: Duration> to(unit: Velocity<V, W>): Velocity<V, W> {
         val distanceVal = distanceAsUnit(unit)
         val durationVal = unit.duration
-        return distanceVal / durationVal
+        return distanceVal.divT(durationVal)
     }
     fun <V: Distance, W: Duration> distanceAsUnit(unit: Velocity<V, W>): V {
         //2 / 1 = 2    1 meter per 2 seconds = 0.5 meter per 1 second
         val durationRatio = duration.to(unit.duration).value / unit.duration.value
-        return distance.to(unit.distance) / durationRatio
+        return distance.to(unit.distance).divT(durationRatio)
     }
 
     fun <V: Distance, W: Duration> durationAsUnit(unit: Velocity<V, W>): W {
         //2 / 1 = 2    1 meter per 2 seconds = 0.5 meter per 1 second
         val distanceRatio = distance.to(unit.distance).value / unit.distance.value
-        return duration.to(unit.duration) / distanceRatio
+        return duration.to(unit.duration).divT(distanceRatio)
     }
 
     operator fun <V: Distance, W: Duration> plus(other: Velocity<V, W>) = Velocity(distance + other.distanceAsUnit(this), duration)

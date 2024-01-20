@@ -4,18 +4,18 @@ class AngularVelocity<out T: Angle, U: Duration>(val angle: T, val duration: U) 
     fun <V: Angle, W: Duration> to(unit: AngularVelocity<V, W>): AngularVelocity<V, W> {
         val angleVal = angleAsUnit(unit)
         val durationVal = unit.duration
-        return angleVal / durationVal
+        return angleVal.divT(durationVal)
     }
     fun <V: Angle, W: Duration> angleAsUnit(unit: AngularVelocity<V, W>): V {
         //2 / 1 = 2    1 meter per 2 seconds = 0.5 meter per 1 second
         val durationRatio = duration.to(unit.duration).value / unit.duration.value
-        return angle.to(unit.angle) / durationRatio
+        return angle.to(unit.angle).divT(durationRatio)
     }
 
     fun <V: Angle, W: Duration> durationAsUnit(unit: AngularVelocity<V, W>): W {
         //2 / 1 = 2    1 meter per 2 seconds = 0.5 meter per 1 second
         val angleRatio = angle.to(unit.angle).value / unit.angle.value
-        return duration.to(unit.duration) / angleRatio
+        return duration.to(unit.duration).divT(angleRatio)
     }
 
     operator fun <V: Angle, W: Duration> plus(other: AngularVelocity<V, W>) = AngularVelocity(angle + other.angleAsUnit(this), duration)

@@ -16,12 +16,12 @@ sealed interface Distance {
         } as T
     }
 
-    fun plus(other: Distance) = clone(value + other.to(this).value)
-    fun minus(other: Distance) = clone(value - other.to(this).value)
-    fun times(other: Number) = clone(value * other.toDouble())
-    fun div(other: Number) = clone(value / other.toDouble())
-    fun <U: Duration> div(other: U) = Velocity(this, other)
-    fun unaryMinus() = clone(-value)
+    operator fun plus(other: Distance) = clone(value + other.to(this).value)
+    operator fun minus(other: Distance) = clone(value - other.to(this).value)
+    operator fun times(other: Number) = clone(value * other.toDouble())
+    operator fun div(other: Number) = clone(value / other.toDouble())
+    operator fun <U: Duration> div(other: U) = Velocity(this, other)
+    operator fun unaryMinus() = clone(-value)
 
     fun toMillimeters(): Millimeters
     fun toCentimeters(): Centimeters
@@ -42,12 +42,12 @@ fun <T : Distance> T.clone(newValue: Double) : T {
     } as T
 }
 
-operator fun <T: Distance> T.plus(other: Distance) = clone(value + other.to(this).value)
-operator fun <T: Distance> T.minus(other: Distance) = clone(value - other.to(this).value)
-operator fun <T: Distance> T.times(other: Number) = clone(value * other.toDouble())
-operator fun <T: Distance> T.div(other: Number) = clone(value / other.toDouble())
-operator fun <T: Distance, U: Duration> T.div(other: U) = Velocity(this, other)
-operator fun <T: Distance> T.unaryMinus() = clone(-value)
+fun <T: Distance> T.plusT(other: Distance) = clone(value + other.to(this).value)
+fun <T: Distance> T.minusT(other: Distance) = clone(value - other.to(this).value)
+fun <T: Distance> T.timesT(other: Number) = clone(value * other.toDouble())
+fun <T: Distance> T.divT(other: Number) = clone(value / other.toDouble())
+fun <T: Distance, U: Duration> T.divT(other: U) = Velocity(this, other)
+fun <T: Distance> T.unaryMinusT() = clone(-value)
 
 @JvmField
 val MM = 1.mm
@@ -59,12 +59,12 @@ class Millimeters(override val value: Double) : Distance {
     override fun toMeters(): Meters = Meters(value / 1000.0)
     override fun toInches(): Inches = Inches(value / 25.4)
 
-    override fun plus(other: Distance) = clone(value + other.to(this).value)
-    override fun minus(other: Distance) = clone(value - other.to(this).value)
-    override fun times(other: Number) = clone(value * other.toDouble())
-    override fun div(other: Number) = clone(value / other.toDouble())
-    override fun <U: Duration> div(other: U)= Velocity(this, other)
-    override fun unaryMinus() = clone(-value)
+    override operator fun plus(other: Distance) = clone(value + other.to(this).value)
+    override operator fun minus(other: Distance) = clone(value - other.to(this).value)
+    override operator fun times(other: Number) = clone(value * other.toDouble())
+    override operator fun div(other: Number) = clone(value / other.toDouble())
+    override operator fun <U: Duration> div(other: U)= Velocity(this, other)
+    override operator fun unaryMinus() = clone(-value)
 
     override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "millimeter"
@@ -80,12 +80,12 @@ class Centimeters(override val value: Double) : Distance {
     override fun toMeters(): Meters = Meters(value / 100.0)
     override fun toInches(): Inches = Inches(value / 2.54)
 
-    override fun plus(other: Distance) = clone(value + other.to(this).value)
-    override fun minus(other: Distance) = clone(value - other.to(this).value)
-    override fun times(other: Number) = clone(value * other.toDouble())
-    override fun div(other: Number) = clone(value / other.toDouble())
-    override fun <U: Duration> div(other: U)= Velocity(this, other)
-    override fun unaryMinus() = clone(-value)
+    override operator fun plus(other: Distance) = clone(value + other.to(this).value)
+    override operator fun minus(other: Distance) = clone(value - other.to(this).value)
+    override operator fun times(other: Number) = clone(value * other.toDouble())
+    override operator fun div(other: Number) = clone(value / other.toDouble())
+    override operator fun <U: Duration> div(other: U)= Velocity(this, other)
+    override operator fun unaryMinus() = clone(-value)
 
     override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "centimeter"
@@ -101,12 +101,12 @@ class Meters(override val value: Double) : Distance {
     override fun toMeters(): Meters = this
     override fun toInches(): Inches = Inches(value / 0.0254)
 
-    override fun plus(other: Distance) = clone(value + other.to(this).value)
-    override fun minus(other: Distance) = clone(value - other.to(this).value)
-    override fun times(other: Number) = clone(value * other.toDouble())
-    override fun div(other: Number) = clone(value / other.toDouble())
-    override fun <U: Duration> div(other: U)= Velocity(this, other)
-    override fun unaryMinus() = clone(-value)
+    override operator fun plus(other: Distance) = clone(value + other.to(this).value)
+    override operator fun minus(other: Distance) = clone(value - other.to(this).value)
+    override operator fun times(other: Number) = clone(value * other.toDouble())
+    override operator fun div(other: Number) = clone(value / other.toDouble())
+    override operator fun <U: Duration> div(other: U)= Velocity(this, other)
+    override operator fun unaryMinus() = clone(-value)
 
     override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "meter"
@@ -123,12 +123,12 @@ class Inches(override val value: Double) : Distance {
     override fun toMeters(): Meters = Meters(value * 0.0254)
     override fun toInches(): Inches = this
 
-    override fun plus(other: Distance) = clone(value + other.to(this).value)
-    override fun minus(other: Distance) = clone(value - other.to(this).value)
-    override fun times(other: Number) = clone(value * other.toDouble())
-    override fun div(other: Number) = clone(value / other.toDouble())
-    override fun <U: Duration> div(other: U)= Velocity(this, other)
-    override fun unaryMinus() = clone(-value)
+    override operator fun plus(other: Distance) = clone(value + other.to(this).value)
+    override operator fun minus(other: Distance) = clone(value - other.to(this).value)
+    override operator fun times(other: Number) = clone(value * other.toDouble())
+    override operator fun div(other: Number) = clone(value / other.toDouble())
+    override operator fun <U: Duration> div(other: U)= Velocity(this, other)
+    override operator fun unaryMinus() = clone(-value)
 
     override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "es" else ""
     override fun unitToString(): String = "inch"

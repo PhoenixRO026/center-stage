@@ -12,11 +12,11 @@ sealed interface Duration {
         } as T
     }
 
-    fun plus(other: Duration) = clone(value + other.to(this).value)
-    fun minus(other: Duration) = clone(value - other.to(this).value)
-    fun times(other: Number) = clone(value * other.toDouble())
-    fun div(other: Number) = clone(value / other.toDouble())
-    fun unaryMinus() = clone(-value)
+    operator fun plus(other: Duration) = clone(value + other.to(this).value)
+    operator fun minus(other: Duration) = clone(value - other.to(this).value)
+    operator fun times(other: Number) = clone(value * other.toDouble())
+    operator fun div(other: Number) = clone(value / other.toDouble())
+    operator fun unaryMinus() = clone(-value)
 
     fun toSeconds(): Seconds
     fun toMilliseconds(): Milliseconds
@@ -35,11 +35,11 @@ fun <T : Duration> T.clone(newValue: Double) : T {
     } as T
 }
 
-operator fun <T: Duration> T.plus(other: Duration) = clone(value + other.to(this).value)
-operator fun <T: Duration> T.minus(other: Duration) = clone(value - other.to(this).value)
-operator fun <T: Duration> T.times(other: Number) = clone(value * other.toDouble())
-operator fun <T: Duration> T.div(other: Number) = clone(value / other.toDouble())
-operator fun <T: Duration> T.unaryMinus() = clone(-value)
+fun <T: Duration> T.plusT(other: Duration) = clone(value + other.to(this).value)
+fun <T: Duration> T.minusT(other: Duration) = clone(value - other.to(this).value)
+fun <T: Duration> T.timesT(other: Number) = clone(value * other.toDouble())
+fun <T: Duration> T.divT(other: Number) = clone(value / other.toDouble())
+fun <T: Duration> T.unaryMinusT() = clone(-value)
 
 @JvmField
 val SEC= 1.sec
@@ -50,11 +50,11 @@ class Seconds(override val value: Double) : Duration {
     override fun toMilliseconds(): Milliseconds = Milliseconds(value * 1000.0)
     override fun toMinutes(): Minutes = Minutes(value / 60.0)
 
-    override fun plus(other: Duration) = clone(value + other.to(this).value)
-    override fun minus(other: Duration) = clone(value - other.to(this).value)
-    override fun times(other: Number) = clone(value * other.toDouble())
-    override fun div(other: Number) = clone(value / other.toDouble())
-    override fun unaryMinus() = clone(-value)
+    override operator fun plus(other: Duration) = clone(value + other.to(this).value)
+    override operator fun minus(other: Duration) = clone(value - other.to(this).value)
+    override operator fun times(other: Number) = clone(value * other.toDouble())
+    override operator fun div(other: Number) = clone(value / other.toDouble())
+    override operator fun unaryMinus() = clone(-value)
 
     override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "second"
@@ -69,11 +69,11 @@ class Milliseconds(override val value: Double) : Duration {
     override fun toMilliseconds(): Milliseconds = this
     override fun toMinutes(): Minutes = Minutes(value / 1000.0 / 60.0)
 
-    override fun plus(other: Duration) = clone(value + other.to(this).value)
-    override fun minus(other: Duration) = clone(value - other.to(this).value)
-    override fun times(other: Number) = clone(value * other.toDouble())
-    override fun div(other: Number) = clone(value / other.toDouble())
-    override fun unaryMinus() = clone(-value)
+    override operator fun plus(other: Duration) = clone(value + other.to(this).value)
+    override operator fun minus(other: Duration) = clone(value - other.to(this).value)
+    override operator fun times(other: Number) = clone(value * other.toDouble())
+    override operator fun div(other: Number) = clone(value / other.toDouble())
+    override operator fun unaryMinus() = clone(-value)
 
     override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "millisecond"
@@ -88,11 +88,11 @@ class Minutes(override val value: Double) : Duration {
     override fun toMilliseconds(): Milliseconds = Milliseconds(value * 1000.0 * 60.0)
     override fun toMinutes(): Minutes = this
 
-    override fun plus(other: Duration) = clone(value + other.to(this).value)
-    override fun minus(other: Duration) = clone(value - other.to(this).value)
-    override fun times(other: Number) = clone(value * other.toDouble())
-    override fun div(other: Number) = clone(value / other.toDouble())
-    override fun unaryMinus() = clone(-value)
+    override operator fun plus(other: Duration) = clone(value + other.to(this).value)
+    override operator fun minus(other: Duration) = clone(value - other.to(this).value)
+    override operator fun times(other: Number) = clone(value * other.toDouble())
+    override operator fun div(other: Number) = clone(value / other.toDouble())
+    override operator fun unaryMinus() = clone(-value)
 
     override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "minute"

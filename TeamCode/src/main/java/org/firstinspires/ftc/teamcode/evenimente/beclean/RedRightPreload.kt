@@ -10,9 +10,6 @@ import com.phoenix_ro026.phoenixlib.units.Pose
 import com.phoenix_ro026.phoenixlib.units.cm
 import com.phoenix_ro026.phoenixlib.units.deg
 import com.phoenix_ro026.phoenixlib.units.inch
-import com.phoenix_ro026.phoenixlib.units.unaryMinus
-import com.phoenix_ro026.phoenixlib.units.minus
-import com.phoenix_ro026.phoenixlib.units.plus
 import com.phoenix_ro026.phoenixlib.units.sec
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode

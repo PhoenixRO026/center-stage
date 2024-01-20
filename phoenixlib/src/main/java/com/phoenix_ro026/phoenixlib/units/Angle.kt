@@ -14,12 +14,12 @@ sealed interface Angle {
         } as T
     }
 
-    fun plus(other: Angle) = clone(value + other.to(this).value)
-    fun minus(other: Angle) = clone(value - other.to(this).value)
-    fun times(other: Number) = clone(value * other.toDouble())
-    fun div(other: Number) = clone(value / other.toDouble())
-    fun unaryMinus() = clone(-value)
-    fun <U: Duration> div(other: U) = AngularVelocity(this, other)
+    operator fun plus(other: Angle) = clone(value + other.to(this).value)
+    operator fun minus(other: Angle) = clone(value - other.to(this).value)
+    operator fun times(other: Number) = clone(value * other.toDouble())
+    operator fun div(other: Number) = clone(value / other.toDouble())
+    operator fun unaryMinus() = clone(-value)
+    operator fun <U: Duration> div(other: U) = AngularVelocity(this, other)
 
     fun toDegrees(): Degrees
     fun toRadians(): Radians
@@ -37,12 +37,12 @@ fun <T : Angle> T.clone(newValue: Double) : T {
     } as T
 }
 
-operator fun <T: Angle> T.plus(other: Angle) = clone(value + other.to(this).value)
-operator fun <T: Angle> T.minus(other: Angle) = clone(value - other.to(this).value)
-operator fun <T: Angle> T.times(other: Number) = clone(value * other.toDouble())
-operator fun <T: Angle> T.div(other: Number) = clone(value / other.toDouble())
-operator fun <T: Angle> T.unaryMinus() = clone(-value)
-operator fun <T: Angle, U: Duration> T.div(other: U) = AngularVelocity(this, other)
+fun <T: Angle> T.plusT(other: Angle) = clone(value + other.to(this).value)
+fun <T: Angle> T.minusT(other: Angle) = clone(value - other.to(this).value)
+fun <T: Angle> T.timesT(other: Number) = clone(value * other.toDouble())
+fun <T: Angle> T.divT(other: Number) = clone(value / other.toDouble())
+fun <T: Angle> T.unaryMinusT() = clone(-value)
+fun <T: Angle, U: Duration> T.divT(other: U) = AngularVelocity(this, other)
 
 @JvmField
 val DEG = 1.deg
@@ -53,12 +53,12 @@ class Degrees(override val value: Double) : Angle {
     override fun toRadians(): Radians = Radians(value / 180.0 * Math.PI)
     override fun toRevolutions(): Revolutions = Revolutions(value / 360.0)
 
-    override fun plus(other: Angle) = clone(value + other.to(this).value)
-    override fun minus(other: Angle) = clone(value - other.to(this).value)
-    override fun times(other: Number) = clone(value * other.toDouble())
-    override fun div(other: Number) = clone(value / other.toDouble())
-    override fun unaryMinus() = clone(-value)
-    override fun <U: Duration> div(other: U) = AngularVelocity(this, other)
+    override operator fun plus(other: Angle) = clone(value + other.to(this).value)
+    override operator fun minus(other: Angle) = clone(value - other.to(this).value)
+    override operator fun times(other: Number) = clone(value * other.toDouble())
+    override operator fun div(other: Number) = clone(value / other.toDouble())
+    override operator fun unaryMinus() = clone(-value)
+    override operator fun <U: Duration> div(other: U) = AngularVelocity(this, other)
 
     override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "degree"
@@ -73,12 +73,12 @@ class Radians(override val value: Double) : Angle {
     override fun toRadians(): Radians = this
     override fun toRevolutions(): Revolutions = Revolutions(value / 2.0 / Math.PI)
 
-    override fun plus(other: Angle) = clone(value + other.to(this).value)
-    override fun minus(other: Angle) = clone(value - other.to(this).value)
-    override fun times(other: Number) = clone(value * other.toDouble())
-    override fun div(other: Number) = clone(value / other.toDouble())
-    override fun unaryMinus() = clone(-value)
-    override fun <U: Duration> div(other: U) = AngularVelocity(this, other)
+    override operator fun plus(other: Angle) = clone(value + other.to(this).value)
+    override operator fun minus(other: Angle) = clone(value - other.to(this).value)
+    override operator fun times(other: Number) = clone(value * other.toDouble())
+    override operator fun div(other: Number) = clone(value / other.toDouble())
+    override operator fun unaryMinus() = clone(-value)
+    override operator fun <U: Duration> div(other: U) = AngularVelocity(this, other)
 
     override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "radian"
@@ -93,12 +93,12 @@ class Revolutions(override val value: Double) : Angle {
     override fun toRadians(): Radians = Radians(value * 2.0 * PI)
     override fun toRevolutions(): Revolutions = this
 
-    override fun plus(other: Angle) = clone(value + other.to(this).value)
-    override fun minus(other: Angle) = clone(value - other.to(this).value)
-    override fun times(other: Number) = clone(value * other.toDouble())
-    override fun div(other: Number) = clone(value / other.toDouble())
-    override fun unaryMinus() = clone(-value)
-    override fun <U: Duration> div(other: U) = AngularVelocity(this, other)
+    override operator fun plus(other: Angle) = clone(value + other.to(this).value)
+    override operator fun minus(other: Angle) = clone(value - other.to(this).value)
+    override operator fun times(other: Number) = clone(value * other.toDouble())
+    override operator fun div(other: Number) = clone(value / other.toDouble())
+    override operator fun unaryMinus() = clone(-value)
+    override operator fun <U: Duration> div(other: U) = AngularVelocity(this, other)
 
     override fun toString(): String = "$value ${unitToString()}" + if (value != 1.0) "s" else ""
     override fun unitToString(): String = "revolution"
