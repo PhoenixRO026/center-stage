@@ -214,9 +214,16 @@ class RedLeftPreload : LinearOpMode() {
                 .build()
         )
 
-        waitForStart()
-
-        val action = actionMiddle
+        while (opModeInInit()) {
+            robot.camera.displayDetection()
+            telemetry.update()
+            sleep(10)
+        }
+        val action = when(robot.camera.detectionPosition) {
+            DetectionPipeline.DetectionPosition.LEFT -> actionLeft
+            DetectionPipeline.DetectionPosition.CENTER -> actionMiddle
+            DetectionPipeline.DetectionPosition.RIGHT -> actionRight
+        }
 
         val c = Canvas()
         action.preview(c)

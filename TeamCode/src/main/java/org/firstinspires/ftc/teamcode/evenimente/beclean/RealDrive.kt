@@ -10,12 +10,13 @@ import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.CLAW_RAMP_ANGLE
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.CLAW_SCORE_ANGLE
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.FINGERS_INTAKE_OPEN_POS
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.Robot2
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.Robot3
 
 @TeleOp
 class RealDrive : LinearOpMode() {
     override fun runOpMode() {
         telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
-        val robot = Robot2(hardwareMap, telemetry)
+        val robot = Robot3(hardwareMap, telemetry)
 
         val intakeToggle = ToggleButtonReader {
             gamepad2.left_stick_button
@@ -83,6 +84,10 @@ class RealDrive : LinearOpMode() {
 
             if (gamepad2.start) {
                 robot.lift.unhang()
+            }
+
+            if (gamepad2.touchpad) {
+                robot.lift.goToRamp()
             }
 
             if (gamepad2.b) {
