@@ -9,9 +9,7 @@ class TestOp : OpModeEx() {
         Robot(hardwareMap)
     }
 
-
     override fun initEx() {
-
     }
 
     override fun loopEx() {

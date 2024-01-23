@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.lib.opmode
 
+import com.acmerobotics.dashboard.FtcDashboard
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.lib.units.ms
 import org.firstinspires.ftc.teamcode.lib.units.s
@@ -13,8 +15,19 @@ abstract class OpModeEx : LinearOpMode() {
 
     val elapsedTime get() = time.s
 
+    init {
+        telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
+    }
+
     fun registerFeature(feature: Feature) {
         features.add(feature)
+    }
+
+    fun registerTimeListener(listener: TimeListener) {
+        if (listener is TimeOpModeImpl) {
+            listener.setElapsedTimeProvider(::elapsedTime)
+            listener.setDeltaTimeProvider(::deltaTime)
+        }
     }
 
     fun <T> opModeLazy(constructor: () -> T): OpModeLazy<T> {
@@ -23,9 +36,8 @@ abstract class OpModeEx : LinearOpMode() {
             if (feature is Feature) {
                 registerFeature(feature)
             }
-            if (feature is TimeOpModeImpl) {
-                feature.setElapsedTimeProvider(::elapsedTime)
-                feature.setDeltaTimeProvider(::deltaTime)
+            if (feature is TimeListener) {
+                registerTimeListener(feature)
             }
             feature
         }
