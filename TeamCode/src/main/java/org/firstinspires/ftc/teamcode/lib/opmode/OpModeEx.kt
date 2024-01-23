@@ -2,21 +2,19 @@ package org.firstinspires.ftc.teamcode.lib.opmode
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.lib.units.ms
+import org.firstinspires.ftc.teamcode.lib.units.s
 
 abstract class OpModeEx : LinearOpMode() {
     private val features: MutableList<Feature> = mutableListOf()
     private val lazyInits: MutableList<OpModeInit> = mutableListOf()
-    private val deltaTimeListeners: MutableList<DeltaTimeListener> = mutableListOf()
     private var previousTime = 0.ms
     var deltaTime = 20.ms
         private set
 
+    val elapsedTime get() = time.s
+
     fun registerFeature(feature: Feature) {
         features.add(feature)
-    }
-
-    fun registerDeltaTimeListener(listener: DeltaTimeListener) {
-        deltaTimeListeners.add(listener)
     }
 
     fun <T> opModeLazy(constructor: () -> T): OpModeLazy<T> {
@@ -25,8 +23,9 @@ abstract class OpModeEx : LinearOpMode() {
             if (feature is Feature) {
                 registerFeature(feature)
             }
-            if (feature is DeltaTimeListener) {
-                registerDeltaTimeListener(feature)
+            if (feature is TimeOpModeImpl) {
+                feature.setElapsedTimeProvider(::elapsedTime)
+                feature.setDeltaTimeProvider(::deltaTime)
             }
             feature
         }
@@ -37,11 +36,6 @@ abstract class OpModeEx : LinearOpMode() {
     private fun updateDeltaTime() {
         deltaTime = System.currentTimeMillis().ms - previousTime
         previousTime = System.currentTimeMillis().ms
-        deltaTimeListeners.forEach {
-            if (it is DeltaTimeOpModeImpl) {
-                it.updateDeltaTime(deltaTime)
-            }
-        }
     }
 
     override fun runOpMode() {
