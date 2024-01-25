@@ -1,5 +1,3 @@
-@file:JvmName("Distance")
-
 package org.firstinspires.ftc.teamcode.lib.units
 
 import com.acmerobotics.roadrunner.Pose2d
