@@ -403,6 +403,15 @@ public final class MecanumDrive {
             rightBack.setPower(feedforward.compute(wheelVels.rightBack) / voltage);
             rightFront.setPower(feedforward.compute(wheelVels.rightFront) / voltage);
 
+            p.put("x", pose.position.x);
+            p.put("y", pose.position.y);
+            p.put("heading (deg)", Math.toDegrees(pose.heading.toDouble()));
+
+            Pose2d error = txWorldTarget.value().minusExp(pose);
+            p.put("xError", error.position.x);
+            p.put("yError", error.position.y);
+            p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));
+
             Canvas c = p.fieldOverlay();
             drawPoseHistory(c);
 
