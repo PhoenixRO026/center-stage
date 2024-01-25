@@ -10,10 +10,12 @@ abstract class OpModeEx : LinearOpMode() {
     private val features: MutableList<Feature> = mutableListOf()
     private val lazyInits: MutableList<OpModeInit> = mutableListOf()
     private var previousTime = 0.ms
-    var deltaTime = 20.ms
+    protected var deltaTime = 20.ms
         private set
 
-    val elapsedTime get() = time.s
+    protected val fps get() = 1.s / deltaTime
+
+    protected val elapsedTime get() = time.s
 
     init {
         telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
@@ -23,60 +25,50 @@ abstract class OpModeEx : LinearOpMode() {
         features.add(feature)
     }
 
-    fun registerTimeListener(listener: TimeListener) {
-        if (listener is TimeOpModeImpl) {
-            listener.setElapsedTimeProvider(::elapsedTime)
-            listener.setDeltaTimeProvider(::deltaTime)
-        }
-    }
 
     fun <T> opModeLazy(constructor: () -> T): OpModeLazy<T> {
         val thing = OpModeLazyImpl {
-            val feature = constructor()
-            if (feature is Feature) {
-                registerFeature(feature)
-            }
-            if (feature is TimeListener) {
-                registerTimeListener(feature)
-            }
-            feature
+            constructor()
         }
         lazyInits.add(thing)
         return thing
     }
 
-    private fun updateDeltaTime() {
+    private fun updateTime() {
         deltaTime = System.currentTimeMillis().ms - previousTime
         previousTime = System.currentTimeMillis().ms
+        TimeOpModeImpl.setDeltaTimeProvider { deltaTime }
+        TimeOpModeImpl.setElapsedTimeProvider { elapsedTime }
     }
 
     override fun runOpMode() {
         previousTime = System.currentTimeMillis().ms
+        updateTime()
         lazyInits.forEach { it.init() }
         features.forEach { it.preInit() }
         initEx()
         features.forEach { it.postInit() }
 
         while (opModeInInit()) {
-            updateDeltaTime()
+            updateTime()
             features.forEach { it.preInitLoop() }
             initLoopEx()
             features.forEach { it.postInitLoop() }
         }
 
-        updateDeltaTime()
+        updateTime()
         features.forEach { it.preStart() }
         startEx()
         features.forEach { it.postStart() }
 
         while (isStarted && !isStopRequested) {
-            updateDeltaTime()
+            updateTime()
             features.forEach { it.preLoop() }
             loopEx()
             features.forEach { it.postLoop() }
         }
-
-        updateDeltaTime()
+        TimeOpModeImpl.setElapsedTimeProvider { 0.ms }
+        TimeOpModeImpl.setDeltaTimeProvider { 0.ms }
         features.forEach { it.preStop() }
         stopEx()
         features.forEach { it.postStop() }

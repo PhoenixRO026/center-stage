@@ -6,12 +6,16 @@ import org.firstinspires.ftc.teamcode.lib.opmode.OpModeEx
 @TeleOp
 class TestOp : OpModeEx() {
     private val robot by opModeLazy {
-        Robot(hardwareMap)
+        val rob = Robot(hardwareMap)
+        registerFeature(rob)
     }
 
     override fun initEx() {
     }
 
     override fun loopEx() {
+        telemetry.addData("fps", fps)
+        telemetry.addData("delta time", deltaTime)
+        telemetry.addData("elapsed time", elapsedTime)
     }
 }
