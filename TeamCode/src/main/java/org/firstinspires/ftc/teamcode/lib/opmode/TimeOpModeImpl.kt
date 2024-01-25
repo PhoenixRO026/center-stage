@@ -16,9 +16,7 @@ class TimeOpModeImpl : TimeListener {
         }
     }
 
-    override val deltaTime: Time
-        get() = _deltaTime
+    override val deltaTime by Companion::_deltaTime
 
-    override val elapsedTime: Time
-        get() = _elapsedTime
+    override val elapsedTime by Companion::_elapsedTime
 }
