@@ -5,21 +5,20 @@ import org.firstinspires.ftc.teamcode.lib.units.ms
 
 class TimeOpModeImpl : TimeListener {
     companion object {
-        private var _deltaTimeProvider: () -> Time = { 0.ms }
-        private var _elapsedTimeProvider: () -> Time = { 0.ms }
-
-        fun setDeltaTimeProvider(newDeltaTimeProvider: () -> Time) {
-            _deltaTimeProvider = newDeltaTimeProvider
+        private var _deltaTime = 0.ms
+        private var _elapsedTime = 0.ms
+        fun setDeltaTime(newDeltaTime: Time) {
+            _deltaTime = newDeltaTime
         }
 
-        fun setElapsedTimeProvider(newElapsedTimeProvider: () -> Time) {
-            _elapsedTimeProvider = newElapsedTimeProvider
+        fun setElapsedTime(newElapsedTime: Time) {
+            _elapsedTime = newElapsedTime
         }
     }
 
     override val deltaTime: Time
-        get() = _deltaTimeProvider()
+        get() = _deltaTime
 
     override val elapsedTime: Time
-        get() = _elapsedTimeProvider()
+        get() = _elapsedTime
 }

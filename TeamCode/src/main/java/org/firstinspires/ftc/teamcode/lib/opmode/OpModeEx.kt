@@ -37,8 +37,8 @@ abstract class OpModeEx : LinearOpMode() {
     private fun updateTime() {
         deltaTime = System.currentTimeMillis().ms - previousTime
         previousTime = System.currentTimeMillis().ms
-        TimeOpModeImpl.setDeltaTimeProvider { deltaTime }
-        TimeOpModeImpl.setElapsedTimeProvider { elapsedTime }
+        TimeOpModeImpl.setDeltaTime(deltaTime)
+        TimeOpModeImpl.setElapsedTime(elapsedTime)
     }
 
     override fun runOpMode() {
@@ -67,8 +67,8 @@ abstract class OpModeEx : LinearOpMode() {
             loopEx()
             features.forEach { it.postLoop() }
         }
-        TimeOpModeImpl.setElapsedTimeProvider { 0.ms }
-        TimeOpModeImpl.setDeltaTimeProvider { 0.ms }
+        TimeOpModeImpl.setElapsedTime(0.ms)
+        TimeOpModeImpl.setDeltaTime(0.ms)
         features.forEach { it.preStop() }
         stopEx()
         features.forEach { it.postStop() }
