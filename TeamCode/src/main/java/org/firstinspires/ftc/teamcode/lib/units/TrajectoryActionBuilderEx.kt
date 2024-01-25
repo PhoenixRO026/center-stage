@@ -519,3 +519,5 @@ class TrajectoryActionBuilderEx(private var builder: TrajectoryActionBuilder) {
 
     fun build() = builder.build()
 }
+
+fun TrajectoryActionBuilder.ex() = TrajectoryActionBuilderEx(this)
