@@ -61,28 +61,28 @@ public final class MecanumDrive {
                 RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
         // drive model parameters
-        public double inPerTick = 1;
-        public double lateralInPerTick = inPerTick;
-        public double trackWidthTicks = 0;
+        public double inPerTick = (240.0 / 2.54) / 178064.0;
+        public double lateralInPerTick = 0.0002928856520559315;
+        public double trackWidthTicks = 23531.38946745371;
 
         // feedforward parameters (in tick units)
-        public double kS = 0;
-        public double kV = 0;
-        public double kA = 0;
+        public double kS = 3.086012489230172;
+        public double kV = 0.00004;
+        public double kA = 0.000014;
 
         // path profile parameters (in inches)
-        public double maxWheelVel = 50;
-        public double minProfileAccel = -30;
-        public double maxProfileAccel = 50;
+        public double maxWheelVel = 70;
+        public double minProfileAccel = -35;
+        public double maxProfileAccel = 45;
 
         // turn profile parameters (in radians)
-        public double maxAngVel = Math.PI; // shared with path
-        public double maxAngAccel = Math.PI;
+        public double maxAngVel = 6.0; // shared with path
+        public double maxAngAccel = 5.0;
 
         // path controller gains
-        public double axialGain = 0.0;
-        public double lateralGain = 0.0;
-        public double headingGain = 0.0; // shared with turn
+        public double axialGain = 35.0;
+        public double lateralGain = 35.0;
+        public double headingGain = 35.0; // shared with turn
 
         public double axialVelGain = 0.0;
         public double lateralVelGain = 0.0;
@@ -112,6 +112,7 @@ public final class MecanumDrive {
 
     public final Localizer localizer;
     public Pose2d pose;
+    public PoseVelocity2d velocity;
 
     private final LinkedList<Pose2d> poseHistory = new LinkedList<>();
 
@@ -221,6 +222,7 @@ public final class MecanumDrive {
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
         imu.initialize(parameters);
+        imu.resetYaw();
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
@@ -447,6 +449,8 @@ public final class MecanumDrive {
         }
 
         estimatedPoseWriter.write(new PoseMessage(pose));
+
+        velocity = twist.velocity().value();
 
         return twist.velocity().value();
     }
