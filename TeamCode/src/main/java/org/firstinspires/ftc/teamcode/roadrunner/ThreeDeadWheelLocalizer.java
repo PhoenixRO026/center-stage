@@ -16,12 +16,21 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 @Config
 public final class ThreeDeadWheelLocalizer implements Localizer {
     public static class Params {
+        public double trackWidthMulti = 1.02564;
+        public double yOffsetMulti = 1.0;
+        public double xOffsetMulti = 1.0;
         public double par0YTicks = -4557.065579735478; // y position of the first parallel encoder (in tick units)
         public double par1YTicks = 5221.878178997774; // y position of the second parallel encoder (in tick units)
         public double perpXTicks = -5567.90748691027; // x position of the perpendicular encoder (in tick units)
     }
 
     public static Params PARAMS = new Params();
+
+//    public final double trackWidth = (PARAMS.par1YTicks - PARAMS.par0YTicks) * PARAMS.trackWidthMulti;
+//    public final double centerOffset = (PARAMS.par1YTicks - trackWidth / 2.0) * PARAMS.yOffsetMulti;
+//    public final double par0YTicks = centerOffset - trackWidth / 2.0;
+//    public final double par1YTicks = centerOffset + trackWidth / 2.0;
+//    public final double perpXTicks = PARAMS.perpXTicks * PARAMS.xOffsetMulti;
 
     public final Encoder par0, par1, perp;
 
@@ -61,20 +70,26 @@ public final class ThreeDeadWheelLocalizer implements Localizer {
         int par1PosDelta = par1PosVel.position - lastPar1Pos;
         int perpPosDelta = perpPosVel.position - lastPerpPos;
 
+        final double trackWidth = (PARAMS.par1YTicks - PARAMS.par0YTicks) * PARAMS.trackWidthMulti;
+        final double centerOffset = (PARAMS.par1YTicks - (PARAMS.par1YTicks - PARAMS.par0YTicks) / 2.0) * PARAMS.yOffsetMulti;
+        final double par0YTicks = centerOffset - trackWidth / 2.0;
+        final double par1YTicks = centerOffset + trackWidth / 2.0;
+        final double perpXTicks = PARAMS.perpXTicks * PARAMS.xOffsetMulti * PARAMS.trackWidthMulti;
+
         Twist2dDual<Time> twist = new Twist2dDual<>(
                 new Vector2dDual<>(
                         new DualNum<Time>(new double[] {
-                                (PARAMS.par0YTicks * par1PosDelta - PARAMS.par1YTicks * par0PosDelta) / (PARAMS.par0YTicks - PARAMS.par1YTicks),
-                                (PARAMS.par0YTicks * par1PosVel.velocity - PARAMS.par1YTicks * par0PosVel.velocity) / (PARAMS.par0YTicks - PARAMS.par1YTicks),
+                                (par0YTicks * par1PosDelta - par1YTicks * par0PosDelta) / (par0YTicks - par1YTicks),
+                                (par0YTicks * par1PosVel.velocity - par1YTicks * par0PosVel.velocity) / (par0YTicks - par1YTicks),
                         }).times(inPerTick),
                         new DualNum<Time>(new double[] {
-                                (PARAMS.perpXTicks / (PARAMS.par0YTicks - PARAMS.par1YTicks) * (par1PosDelta - par0PosDelta) + perpPosDelta),
-                                (PARAMS.perpXTicks / (PARAMS.par0YTicks - PARAMS.par1YTicks) * (par1PosVel.velocity - par0PosVel.velocity) + perpPosVel.velocity),
+                                (perpXTicks / (par0YTicks - par1YTicks) * (par1PosDelta - par0PosDelta) + perpPosDelta),
+                                (perpXTicks / (par0YTicks - par1YTicks) * (par1PosVel.velocity - par0PosVel.velocity) + perpPosVel.velocity),
                         }).times(inPerTick)
                 ),
                 new DualNum<>(new double[] {
-                        (par0PosDelta - par1PosDelta) / (PARAMS.par0YTicks - PARAMS.par1YTicks),
-                        (par0PosVel.velocity - par1PosVel.velocity) / (PARAMS.par0YTicks - PARAMS.par1YTicks),
+                        (par0PosDelta - par1PosDelta) / (par0YTicks - par1YTicks),
+                        (par0PosVel.velocity - par1PosVel.velocity) / (par0YTicks - par1YTicks),
                 })
         );
 
