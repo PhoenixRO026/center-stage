@@ -20,7 +20,8 @@ import org.firstinspires.ftc.teamcode.evenimente.regio.robot.Robot4
 class StackTest : LinearOpMode() {
     @Config
     data object StackConfig {
-        @JvmField var intakeAngle = 0.525
+        @JvmField var intakeAngle = 0.52
+        @JvmField var intakePower = 1.0
     }
 
     override fun runOpMode() {
@@ -39,7 +40,7 @@ class StackTest : LinearOpMode() {
 
         val actionLeft = SequentialAction(
             robot.claw.openClawRamp(),
-            InstantAction { robot.intake.power = 0.7 },
+            InstantAction { robot.intake.power = StackConfig.intakePower },
             robot.intake.goToAngle(StackConfig.intakeAngle),
             SleepAction(3.0),
             robot.intake.goToAngle(0.0),
