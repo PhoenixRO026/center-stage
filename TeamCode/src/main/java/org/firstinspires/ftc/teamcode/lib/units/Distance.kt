@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.lib.units
 
 import com.acmerobotics.roadrunner.Pose2d
 import com.acmerobotics.roadrunner.Vector2d
+import kotlin.math.cos
+import kotlin.math.sin
 
 class Distance(val m: Double) {
     val mm get() = m * 1000.0
@@ -91,3 +93,8 @@ fun mm(pose2d: Pose2d) = pose2d.mm
 fun cm(pose2d: Pose2d) = pose2d.cm
 fun inch(pose2d: Pose2d) = pose2d.inch
 fun pose(pose2d: Pose2d) = pose2d.pose
+
+fun Vector2d.rotate(radians: Double) = Vector2d(
+    x * cos(radians) - y * sin(radians),
+    x * sin(radians) + y * cos(radians)
+)

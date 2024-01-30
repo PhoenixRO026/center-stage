@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.lib.opmode
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import org.firstinspires.ftc.teamcode.lib.units.Time
 import org.firstinspires.ftc.teamcode.lib.units.ms
 import org.firstinspires.ftc.teamcode.lib.units.s
 
@@ -14,6 +15,11 @@ abstract class OpModeEx : LinearOpMode() {
         private set
 
     protected val fps get() = 1.s / deltaTime
+
+    protected val opModeTime = object : TimeListener {
+        override val deltaTime: Time by ::deltaTime
+        override val elapsedTime: Time by ::elapsedTime
+    }
 
     protected val elapsedTime get() = time.s
 
@@ -37,8 +43,6 @@ abstract class OpModeEx : LinearOpMode() {
     private fun updateTime() {
         deltaTime = System.currentTimeMillis().ms - previousTime
         previousTime = System.currentTimeMillis().ms
-        TimeOpModeImpl.setDeltaTime(deltaTime)
-        TimeOpModeImpl.setElapsedTime(elapsedTime)
     }
 
     override fun runOpMode() {
@@ -67,8 +71,6 @@ abstract class OpModeEx : LinearOpMode() {
             loopEx()
             features.forEach { it.postLoop() }
         }
-        TimeOpModeImpl.setElapsedTime(0.ms)
-        TimeOpModeImpl.setDeltaTime(0.ms)
         features.forEach { it.preStop() }
         stopEx()
         features.forEach { it.postStop() }

@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.lib.opmode.OpModeEx
 @TeleOp
 class TestOp : OpModeEx() {
     private val robot by opModeLazy {
-        val rob = Robot(hardwareMap)
+        val rob = Robot(hardwareMap, opModeTime)
         registerFeature(rob)
     }
 
