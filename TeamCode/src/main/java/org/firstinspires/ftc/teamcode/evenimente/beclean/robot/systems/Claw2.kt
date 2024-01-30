@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo
 import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.CLAW_RAMP_ANGLE
+import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.FINGERS_INTAKE_OPEN_POS
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.LEFT_CLAW_SERVO_RANGE
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.LEFT_FINGER_SERVO_RANGE
 import org.firstinspires.ftc.teamcode.evenimente.beclean.robot.RIGHT_CLAW_SERVO_RANGE
@@ -74,6 +75,22 @@ class Claw2(
                 timer.reset()
                 rightFingerPos = 0.0
                 leftFingerPos = 0.0
+            }
+
+            return timer.seconds() < 1.0
+        }
+    }
+
+    fun openClawRamp() = object : Action {
+        val timer = ElapsedTime()
+        var init = true
+
+        override fun run(p: TelemetryPacket): Boolean {
+            if (init) {
+                init = false
+                timer.reset()
+                rightFingerPos = FINGERS_INTAKE_OPEN_POS
+                leftFingerPos = FINGERS_INTAKE_OPEN_POS
             }
 
             return timer.seconds() < 1.0
