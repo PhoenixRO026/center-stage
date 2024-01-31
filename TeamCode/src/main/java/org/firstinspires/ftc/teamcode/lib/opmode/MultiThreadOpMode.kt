@@ -1,18 +1,18 @@
 package org.firstinspires.ftc.teamcode.lib.opmode
 
-import com.outoftheboxrobotics.photoncore.Photon
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 
-@Photon
 abstract class MultiThreadOpMode : LinearOpMode() {
 
-    override fun runOpMode() {
+    final override fun runOpMode() {
         val secondThread = Thread(::sideRunOpMode)
         secondThread.start()
         mainRunOpMode()
+        secondThread.interrupt()
     }
 
     abstract fun sideRunOpMode()
 
     abstract fun mainRunOpMode()
+
 }
