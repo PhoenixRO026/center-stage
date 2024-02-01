@@ -68,31 +68,31 @@ public final class MecanumDrive {
                 ConstantsKt.getIMU_USB_FACING_DIRECTION();
 
         // drive model parameters
-        public double inPerTick = (240.0 / 2.54) / 177179.0;
-        public double lateralInPerTick = 0.00026283874853835667;
-        public double trackWidthTicks = 29395.357006510527;
+        public double inPerTick = (240.0 / 2.54) / 178064.0;
+        public double lateralInPerTick = 0.0002928856520559315;
+        public double trackWidthTicks = 23531.38946745371;
 
         // feedforward parameters (in tick units)
-        public double kS = 3.421047922;
-        public double kV = 0.000031;
-        public double kA = 0.000017;
+        public double kS = 3.086012489230172;
+        public double kV = 0.00004;
+        public double kA = 0.000014;
 
         // path profile parameters (in inches)
-        public double maxWheelVel = 50;
-        public double minProfileAccel = -30;
-        public double maxProfileAccel = 50;
+        public double maxWheelVel = 70;
+        public double minProfileAccel = -35;
+        public double maxProfileAccel = 45;
 
         // turn profile parameters (in radians)
-        public double maxAngVel = Math.PI; // shared with path
-        public double maxAngAccel = Math.PI;
+        public double maxAngVel = 6.0; // shared with path
+        public double maxAngAccel = 5.0;
 
         // path controller gains
-        public double axialGain = 7.0;
-        public double lateralGain = 7.0;
-        public double headingGain = 7.0; // shared with turn
+        public double axialGain = 38.0;
+        public double lateralGain = 50.0;
+        public double headingGain = 25.0; // shared with turn
 
-        public double axialVelGain = 0.0;
-        public double lateralVelGain = 0.0;
+        public double axialVelGain = 1.0;
+        public double lateralVelGain = 1.0;
         public double headingVelGain = 0.0; // shared with turn
     }
 
