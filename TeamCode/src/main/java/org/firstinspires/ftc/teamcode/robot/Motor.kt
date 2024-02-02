@@ -10,13 +10,20 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit
+import org.firstinspires.ftc.teamcode.lib.units.Angle
+import org.firstinspires.ftc.teamcode.lib.units.AngularVelocity
+import org.firstinspires.ftc.teamcode.lib.units.Distance
+import org.firstinspires.ftc.teamcode.lib.units.rev
+import org.firstinspires.ftc.teamcode.lib.units.revsec
 import kotlin.math.abs
+import kotlin.math.roundToInt
 import kotlin.math.sign
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class Motor(
     dcMotor: DcMotor,
-    var changeThreshold: Double = 0.02
+    private val changeThreshold: Double = 0.02,
+    private val ticksPerRev: Double = dcMotor.motorType.ticksPerRev
 ) {
     private val motor: DcMotorEx = dcMotor as DcMotorEx
 
@@ -80,6 +87,8 @@ class Motor(
 
     val positionTicks: Int get() = motor.currentPosition
 
+    val angle: Angle get() = rev * (positionTicks / ticksPerRev)
+
     var targetPositionTicks: Int = motor.targetPosition
         set(value) {
             if (value != field) {
@@ -88,7 +97,15 @@ class Motor(
             field = value
         }
 
+    var targetAngle: Angle
+        get() = rev * (targetPositionTicks / ticksPerRev)
+        set(value) {
+            targetPositionTicks = (value.rev * ticksPerRev).roundToInt()
+        }
+
     val velocityTicks: Double get() = motor.velocity
+
+    val angularVelocity: AngularVelocity get() = revsec * (velocityTicks / ticksPerRev)
 
     fun getVelocity(unit: AngleUnit) = motor.getVelocity(unit)
 
@@ -98,6 +115,12 @@ class Motor(
                 motor.velocity = value
             }
             field = value
+        }
+
+    var targetAngularVelocity: AngularVelocity
+        get() = revsec * (targetVelocityTicks / ticksPerRev)
+        set(value) {
+            targetVelocityTicks = value.revsec * ticksPerRev
         }
 
     var zeroPowerBehavior: ZeroPowerBehavior = motor.zeroPowerBehavior
