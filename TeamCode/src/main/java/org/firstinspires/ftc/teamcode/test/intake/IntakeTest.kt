@@ -29,6 +29,6 @@ class IntakeTest : OpModeEx() {
     }
 
     fun Double.scaleTo(min: Double, max: Double): Double {
-        return min + this * (max - min);
+        return min + this * (max - min)
     }
 }
