@@ -26,11 +26,11 @@ public final class ThreeDeadWheelLocalizer implements Localizer {
 
     public static Params PARAMS = new Params();
 
-//    public final double trackWidth = (PARAMS.par1YTicks - PARAMS.par0YTicks) * PARAMS.trackWidthMulti;
-//    public final double centerOffset = (PARAMS.par1YTicks - trackWidth / 2.0) * PARAMS.yOffsetMulti;
-//    public final double par0YTicks = centerOffset - trackWidth / 2.0;
-//    public final double par1YTicks = centerOffset + trackWidth / 2.0;
-//    public final double perpXTicks = PARAMS.perpXTicks * PARAMS.xOffsetMulti;
+    final double trackWidth = (PARAMS.par1YTicks - PARAMS.par0YTicks) * PARAMS.trackWidthMulti;
+    final double centerOffset = (PARAMS.par1YTicks - (PARAMS.par1YTicks - PARAMS.par0YTicks) / 2.0) * PARAMS.yOffsetMulti;
+    final double par0YTicks = centerOffset - trackWidth / 2.0;
+    final double par1YTicks = centerOffset + trackWidth / 2.0;
+    final double perpXTicks = PARAMS.perpXTicks * PARAMS.xOffsetMulti * PARAMS.trackWidthMulti;
 
     public final Encoder par0, par1, perp;
 
@@ -69,12 +69,6 @@ public final class ThreeDeadWheelLocalizer implements Localizer {
         int par0PosDelta = par0PosVel.position - lastPar0Pos;
         int par1PosDelta = par1PosVel.position - lastPar1Pos;
         int perpPosDelta = perpPosVel.position - lastPerpPos;
-
-        final double trackWidth = (PARAMS.par1YTicks - PARAMS.par0YTicks) * PARAMS.trackWidthMulti;
-        final double centerOffset = (PARAMS.par1YTicks - (PARAMS.par1YTicks - PARAMS.par0YTicks) / 2.0) * PARAMS.yOffsetMulti;
-        final double par0YTicks = centerOffset - trackWidth / 2.0;
-        final double par1YTicks = centerOffset + trackWidth / 2.0;
-        final double perpXTicks = PARAMS.perpXTicks * PARAMS.xOffsetMulti * PARAMS.trackWidthMulti;
 
         Twist2dDual<Time> twist = new Twist2dDual<>(
                 new Vector2dDual<>(
