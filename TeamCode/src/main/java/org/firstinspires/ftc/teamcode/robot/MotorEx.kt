@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior
 import com.qualcomm.robotcore.hardware.DcMotorControllerEx
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple
+import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.PIDFCoefficients
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
@@ -19,20 +20,58 @@ import kotlin.math.roundToInt
 import kotlin.math.sign
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-class MotorEx(
+class MotorEx @JvmOverloads constructor(
     dcMotor: DcMotor,
     private val changeThreshold: Double = 0.02,
     private val ticksPerRev: Double = dcMotor.motorType.ticksPerRev
 ) {
-    private val motor: DcMotorEx = dcMotor as DcMotorEx
+    companion object {
+        @JvmOverloads
+        fun gobilda312(dcMotor: DcMotor, changeThreshold: Double = 0.02) = MotorEx(
+            dcMotor,
+            changeThreshold,
+            (((1.0 + (46.0 / 17.0))) * (1.0 + (46.0 / 11.0))) * 28.0
+        )
 
-    private var cachedPower: Double = motor.power
+        fun HardwareMap.gobilda312(deviceName: String, changeThreshold: Double = 0.02) = gobilda312(
+            get(DcMotor::class.java, deviceName),
+            changeThreshold
+        )
+
+        @JvmOverloads
+        fun gobilda435(dcMotor: DcMotor, changeThreshold: Double = 0.02) = MotorEx(
+            dcMotor,
+            changeThreshold,
+            (((1.0 + (46.0 / 17.0))) * (1.0 + (46.0 / 17.0))) * 28.0
+        )
+
+        fun HardwareMap.gobilda435(deviceName: String, changeThreshold: Double = 0.02) = gobilda435(
+            get(DcMotor::class.java, deviceName),
+            changeThreshold
+        )
+
+        @JvmOverloads
+        fun rev12to1(dcMotor: DcMotor, changeThreshold: Double = 0.02) = MotorEx(
+            dcMotor,
+            changeThreshold,
+            (76.0 / 21.0) * (84.0 / 29.0) * 28.0
+        )
+
+        fun HardwareMap.rev12to1(deviceName: String, changeThreshold: Double = 0.02) = rev12to1(
+            get(DcMotor::class.java, deviceName),
+            changeThreshold
+        )
+    }
+
+    val motor: DcMotorEx = dcMotor as DcMotorEx
+
+    private var cachedPower: Double = 0.0
 
     val controller: DcMotorControllerEx = motor.controller as DcMotorControllerEx
 
     val portNumber: Int = motor.portNumber
 
-    var power: Double = motor.power
+    var power: Double = 0.0
         set(value) {
             val newPower = value.coerceIn(-1.0, 1.0)
             val overChangeThreshold = abs(newPower - cachedPower) >= changeThreshold
@@ -45,7 +84,7 @@ class MotorEx(
             field = newPower
         }
 
-    val realPower: Double get() = cachedPower
+    val realPower: Double by ::cachedPower
 
     fun setPowerResult(value: Double): Boolean {
         val newPower = value.coerceIn(-1.0, 1.0)
@@ -91,8 +130,7 @@ class MotorEx(
             field = value
         }
 
-    val isOverCurrent: Boolean
-        get() = motor.isOverCurrent
+    val isOverCurrent: Boolean get() = motor.isOverCurrent
 
     var targetPositionTolerance: Int = motor.targetPositionTolerance
         set(value) {
@@ -175,6 +213,9 @@ class MotorEx(
     fun setPositionPIDFCoefficients(p: Double) = motor.setPositionPIDFCoefficients(p)
 
     init {
-        motor.direction
+        mode = RunMode.STOP_AND_RESET_ENCODER
+        mode = RunMode.RUN_WITHOUT_ENCODER
+        zeroPowerBehavior = ZeroPowerBehavior.BRAKE
+        motor.power = 0.0
     }
 }
