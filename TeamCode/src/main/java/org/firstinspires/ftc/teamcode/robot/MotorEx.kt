@@ -45,6 +45,8 @@ class MotorEx(
             field = newPower
         }
 
+    val realPower: Double get() = cachedPower
+
     fun setPowerResult(value: Double): Boolean {
         val newPower = value.coerceIn(-1.0, 1.0)
         val overChangeThreshold = abs(newPower - cachedPower) >= changeThreshold
