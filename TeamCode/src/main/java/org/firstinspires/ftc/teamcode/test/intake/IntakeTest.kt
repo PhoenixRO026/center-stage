@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.test.intake
 
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.Servo
-import com.qualcomm.robotcore.hardware.ServoImplEx
 import org.firstinspires.ftc.teamcode.lib.opmode.OpModeEx
 
+@TeleOp
 class IntakeTest : OpModeEx() {
     val motor by opModeLazy {
         hardwareMap.get(DcMotorEx::class.java, "intake")
@@ -22,6 +23,7 @@ class IntakeTest : OpModeEx() {
 
     override fun initEx() {
         servoPos = 0.0
+        motor.power = 0.0
     }
 
     override fun loopEx() {
