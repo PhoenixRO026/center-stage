@@ -35,10 +35,10 @@ class MotorEx(
     var power: Double = motor.power
         set(value) {
             val newPower = value.coerceIn(-1.0, 1.0)
-            val overChangeThreshhold = abs(newPower - cachedPower) >= changeThreshold
+            val overChangeThreshold = abs(newPower - cachedPower) >= changeThreshold
             val targetingFullPower = (newPower >= 1.0 && cachedPower < 1.0) || (newPower <= -1.0 && cachedPower > -1.0)
             val changedDirectionOrBrake = newPower.sign != cachedPower.sign
-            if (overChangeThreshhold || targetingFullPower || changedDirectionOrBrake) {
+            if (overChangeThreshold || targetingFullPower || changedDirectionOrBrake) {
                 motor.power = newPower
                 cachedPower = newPower
             }
@@ -47,10 +47,10 @@ class MotorEx(
 
     fun setPowerResult(value: Double): Boolean {
         val newPower = value.coerceIn(-1.0, 1.0)
-        val overChangeThreshhold = abs(newPower - cachedPower) >= changeThreshold
+        val overChangeThreshold = abs(newPower - cachedPower) >= changeThreshold
         val targetingFullPower = (newPower >= 1.0 && cachedPower < 1.0) || (newPower <= -1.0 && cachedPower > -1.0)
         val changedDirectionOrBrake = newPower.sign != cachedPower.sign
-        return if (overChangeThreshhold || targetingFullPower || changedDirectionOrBrake) {
+        return if (overChangeThreshold || targetingFullPower || changedDirectionOrBrake) {
             motor.power = newPower
             cachedPower = newPower
             power = newPower
