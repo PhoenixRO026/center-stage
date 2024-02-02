@@ -12,7 +12,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit
 import org.firstinspires.ftc.teamcode.lib.units.Angle
 import org.firstinspires.ftc.teamcode.lib.units.AngularVelocity
-import org.firstinspires.ftc.teamcode.lib.units.Distance
 import org.firstinspires.ftc.teamcode.lib.units.rev
 import org.firstinspires.ftc.teamcode.lib.units.revsec
 import kotlin.math.abs
@@ -45,6 +44,22 @@ class Motor(
             }
             field = newPower
         }
+
+    fun setPowerResult(value: Double): Boolean {
+        val newPower = value.coerceIn(-1.0, 1.0)
+        val overChangeThreshhold = abs(newPower - cachedPower) >= changeThreshold
+        val targetingFullPower = (newPower >= 1.0 && cachedPower < 1.0) || (newPower <= -1.0 && cachedPower > -1.0)
+        val changedDirectionOrBrake = newPower.sign != cachedPower.sign
+        return if (overChangeThreshhold || targetingFullPower || changedDirectionOrBrake) {
+            motor.power = newPower
+            cachedPower = newPower
+            power = newPower
+            true
+        } else {
+            power = newPower
+            false
+        }
+    }
 
     var disabled: Boolean = !motor.isMotorEnabled
         set(value) {
