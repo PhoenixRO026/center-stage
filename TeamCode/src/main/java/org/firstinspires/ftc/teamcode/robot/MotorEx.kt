@@ -19,7 +19,7 @@ import kotlin.math.roundToInt
 import kotlin.math.sign
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-class Motor(
+class MotorEx(
     dcMotor: DcMotor,
     private val changeThreshold: Double = 0.02,
     private val ticksPerRev: Double = dcMotor.motorType.ticksPerRev
