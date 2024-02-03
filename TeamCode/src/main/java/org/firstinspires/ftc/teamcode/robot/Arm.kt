@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.lib.units.Time
 import org.firstinspires.ftc.teamcode.lib.units.deg
 import org.firstinspires.ftc.teamcode.lib.units.s
 
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 class Arm(
     hardwareMap: HardwareMap
 ) {
@@ -18,7 +19,10 @@ class Arm(
         const val servoOffset = 0.015
         val leftServoRange = servoOffset..1.0
         val rightServoRange = 0.0..(1.0 - servoOffset)
-        val speed = 0.1
+        const val speed = 0.1
+        const val rampPos = 0.395
+
+        fun HardwareMap.arm() = Arm(this)
     }
 
     private val rightServo = ServoEx(
@@ -83,5 +87,9 @@ class Arm(
 
     fun update(deltaTime: Time) {
         rightServo.update(deltaTime)
+    }
+
+    init {
+        position = rampPos
     }
 }
