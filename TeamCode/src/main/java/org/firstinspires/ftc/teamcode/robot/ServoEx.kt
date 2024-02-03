@@ -13,9 +13,9 @@ import kotlin.math.abs
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class ServoEx @JvmOverloads constructor(
     servo: Servo,
-    private val changeTreshold: Double = 0.01,
+    private val maxAngle: Angle = 180.deg,
     positionRange: ClosedRange<Double> = 0.0..1.0,
-    private val maxAngle: Angle = 180.deg
+    private val changeTreshold: Double = 0.01
 ) {
     companion object {
         const val minPwm = 500.0
@@ -23,42 +23,45 @@ class ServoEx @JvmOverloads constructor(
         const val maxPwmRange = maxPwm - minPwm
 
         @JvmOverloads
-        fun axonMax180(servo: Servo, changeTreshold: Double = 0.01, range: ClosedRange<Double> = 0.0..1.0) = ServoEx(
+        fun axonMax180(servo: Servo, range: ClosedRange<Double> = 0.0..1.0, changeTreshold: Double = 0.01) = ServoEx(
             servo,
-            changeTreshold,
+            180.deg,
             range,
-            180.deg
+            changeTreshold
         )
 
         @JvmOverloads
-        fun HardwareMap.axonMax180(deviceName: String, changeTreshold: Double = 0.01, range: ClosedRange<Double> = 0.0..1.0) =
+        fun HardwareMap.axonMax180(deviceName: String, range: ClosedRange<Double> = 0.0..1.0, changeTreshold: Double = 0.01) =
             axonMax180(
                 get(Servo::class.java, deviceName),
-                changeTreshold,
-                range
+                range,
+                changeTreshold
             )
 
         @JvmOverloads
-        fun axonMax355(servo: Servo, changeTreshold: Double = 0.01, range: ClosedRange<Double> = 0.0..1.0) = ServoEx(
+        fun axonMax355(servo: Servo, range: ClosedRange<Double> = 0.0..1.0, changeTreshold: Double = 0.01) = ServoEx(
             servo,
-            changeTreshold,
+            355.deg,
             range,
-            355.deg
+            changeTreshold
         )
 
         @JvmOverloads
-        fun HardwareMap.axonMax355(deviceName: String, changeTreshold: Double = 0.01, range: ClosedRange<Double> = 0.0..1.0) =
+        fun HardwareMap.axonMax355(deviceName: String, range: ClosedRange<Double> = 0.0..1.0, changeTreshold: Double = 0.01) =
             axonMax355(
                 get(Servo::class.java, deviceName),
-                changeTreshold,
-                range
+                range,
+                changeTreshold
             )
     }
 
     private val positionRange: ClosedRange<Double> = (positionRange.start.coerceIn(0.0, positionRange.endInclusive.coerceAtMost(1.0)))..(positionRange.endInclusive.coerceIn(positionRange.start.coerceAtLeast(0.0), 1.0))
 
     var cachedPosition: Double = 0.0
-        private set
+        private set(value) {
+            internalServo.position = value
+            field = value
+        }
 
     var realPosition: Double = 0.0
         private set(value) {
@@ -67,7 +70,6 @@ class ServoEx @JvmOverloads constructor(
             val targetingLimitPosition = (newPosition >= positionRange.endInclusive && cachedPosition < positionRange.endInclusive) || (newPosition <= positionRange.start && cachedPosition > positionRange.start)
             val targetingMaxPosition = (newPosition >= 1.0 && cachedPosition < 1.0) || (newPosition <= 0.0 && cachedPosition > 0.0)
             if (overChangeThreshold || targetingLimitPosition || targetingMaxPosition) {
-                internalServo.position = newPosition
                 cachedPosition = newPosition
             }
             field = newPosition
@@ -80,7 +82,7 @@ class ServoEx @JvmOverloads constructor(
     val portNumber: Int = internalServo.portNumber
 
     var position: Double
-        get() = realPosition.reverseScale(positionRange)
+        get() = realPosition.reverseScale(positionRange).coerceIn(0.0, 1.0)
         set(value) {
             realPosition = value.coerceIn(0.0, 1.0).scaleTo(positionRange)
         }
