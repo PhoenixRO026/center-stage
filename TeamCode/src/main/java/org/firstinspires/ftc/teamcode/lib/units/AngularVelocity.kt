@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package org.firstinspires.ftc.teamcode.lib.units
 
 data class AngularVelocity(val angle: Angle, val time: Time) {

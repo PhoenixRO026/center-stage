@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package org.firstinspires.ftc.teamcode.lib.units
 
 import com.acmerobotics.roadrunner.Pose2d
@@ -39,6 +41,7 @@ fun inch(number: Double) = number.inch
 @JvmField val cm = 1.cm
 @JvmField val inch = 1.inch
 
+@Suppress("FunctionName")
 fun Vector2d(x: Distance, y: Distance) = Distance2d(x, y)
 
 data class Distance2d(val x: Distance, val y: Distance) {

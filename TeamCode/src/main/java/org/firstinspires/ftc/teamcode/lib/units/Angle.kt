@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package org.firstinspires.ftc.teamcode.lib.units
 
 import com.acmerobotics.roadrunner.Rotation2d

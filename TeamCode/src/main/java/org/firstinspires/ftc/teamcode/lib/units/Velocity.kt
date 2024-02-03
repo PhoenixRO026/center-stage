@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package org.firstinspires.ftc.teamcode.lib.units
 
 data class Velocity(val distance: Distance, val time: Time) {
