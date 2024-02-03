@@ -7,15 +7,18 @@ import com.qualcomm.robotcore.hardware.Servo.Direction
 import com.qualcomm.robotcore.hardware.ServoControllerEx
 import com.qualcomm.robotcore.hardware.ServoImplEx
 import org.firstinspires.ftc.teamcode.lib.units.Angle
+import org.firstinspires.ftc.teamcode.lib.units.Time
 import org.firstinspires.ftc.teamcode.lib.units.deg
 import kotlin.math.abs
+import kotlin.math.sign
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class ServoEx @JvmOverloads constructor(
     servo: Servo,
     private val maxAngle: Angle = 180.deg,
     positionRange: ClosedRange<Double> = 0.0..1.0,
-    private val changeTreshold: Double = 0.01
+    private val changeTreshold: Double = 0.01,
+    private val speed: Double = 0.1
 ) {
     companion object {
         const val minPwm = 500.0
@@ -63,6 +66,9 @@ class ServoEx @JvmOverloads constructor(
             field = value
         }
 
+    var realTargetPosition: Double = 0.0
+        private set
+
     var realPosition: Double = 0.0
         private set(value) {
             val newPosition = value.coerceIn(0.0, 1.0)
@@ -85,6 +91,13 @@ class ServoEx @JvmOverloads constructor(
         get() = realPosition.reverseScale(positionRange).coerceIn(0.0, 1.0)
         set(value) {
             realPosition = value.coerceIn(0.0, 1.0).scaleTo(positionRange)
+            realTargetPosition = realPosition
+        }
+
+    var targetPosition: Double
+        get() = realTargetPosition.reverseScale(positionRange).coerceIn(0.0, 1.0)
+        set(value) {
+            realTargetPosition = value.coerceIn(0.0, 1.0).scaleTo(positionRange)
         }
 
     val servoRange get() = ((pwnRange.usPulseLower - minPwm) / maxPwmRange)..((pwnRange.usPulseUpper - minPwm) / maxPwmRange)
@@ -93,6 +106,13 @@ class ServoEx @JvmOverloads constructor(
         get() = maxAngle * realPosition.scaleTo(servoRange)
         set(value) {
             realPosition = (value.coerceIn(0.deg, maxAngle) / maxAngle).reverseScale(servoRange)
+            realTargetPosition = realPosition
+        }
+
+    var targetAngle: Angle
+        get() = maxAngle * realTargetPosition.scaleTo(servoRange)
+        set(value) {
+            realTargetPosition = (value.coerceIn(0.deg, maxAngle) / maxAngle).reverseScale(servoRange)
         }
 
     var pwnRange: PwmRange = internalServo.pwmRange
@@ -131,4 +151,16 @@ class ServoEx @JvmOverloads constructor(
         return (this - range.start) / (range.endInclusive - range.start)
     }
 
+    fun update(deltaTime: Time) {
+        val step = speed * deltaTime.s
+        val error = realTargetPosition - realPosition
+        if (abs(error) < step) {
+            realPosition += error
+            if (realPosition != cachedPosition) {
+                cachedPosition = realTargetPosition
+            }
+        } else {
+            realPosition += sign(error) * step
+        }
+    }
 }
