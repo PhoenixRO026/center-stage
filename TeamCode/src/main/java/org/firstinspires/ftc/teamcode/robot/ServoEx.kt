@@ -57,9 +57,21 @@ class ServoEx @JvmOverloads constructor(
 
     private val positionRange: ClosedRange<Double> = (positionRange.start.coerceIn(0.0, positionRange.endInclusive.coerceAtMost(1.0)))..(positionRange.endInclusive.coerceIn(positionRange.start.coerceAtLeast(0.0), 1.0))
 
-    private var cachedPosition: Double = 0.0
+    var cachedPosition: Double = 0.0
+        private set
 
-    val realPosition by ::cachedPosition
+    var realPosition: Double = 0.0
+        private set(value) {
+            val newPosition = value.coerceIn(0.0, 1.0)
+            val overChangeThreshold = abs(newPosition - cachedPosition) >= changeTreshold
+            val targetingLimitPosition = (newPosition >= positionRange.endInclusive && cachedPosition < positionRange.endInclusive) || (newPosition <= positionRange.start && cachedPosition > positionRange.start)
+            val targetingMaxPosition = (newPosition >= 1.0 && cachedPosition < 1.0) || (newPosition <= 0.0 && cachedPosition > 0.0)
+            if (overChangeThreshold || targetingLimitPosition || targetingMaxPosition) {
+                internalServo.position = newPosition
+                cachedPosition = newPosition
+            }
+            field = newPosition
+        }
 
     val internalServo: ServoImplEx = servo as ServoImplEx
 
@@ -67,33 +79,18 @@ class ServoEx @JvmOverloads constructor(
 
     val portNumber: Int = internalServo.portNumber
 
-    var position: Double = 0.0
+    var position: Double
+        get() = realPosition.reverseScale(positionRange)
         set(value) {
-            val newPosition = value.coerceIn(0.0, 1.0)
-            val newPositionScaled = newPosition.scaleTo(positionRange)
-            val overChangeThreshold = abs(newPositionScaled - cachedPosition) >= changeTreshold
-            val targetingMaxPosition = (newPosition >= 1.0 && cachedPosition < positionRange.endInclusive) || (newPosition <= 0.0 && cachedPosition > positionRange.start)
-            if (overChangeThreshold || targetingMaxPosition) {
-                internalServo.position = newPositionScaled
-                cachedPosition = newPositionScaled
-            }
-            field = newPosition
+            realPosition = value.coerceIn(0.0, 1.0).scaleTo(positionRange)
         }
 
     val servoRange get() = ((pwnRange.usPulseLower - minPwm) / maxPwmRange)..((pwnRange.usPulseUpper - minPwm) / maxPwmRange)
 
-    var angle: Angle = 0.deg
+    var angle: Angle
         get() = maxAngle * realPosition.scaleTo(servoRange)
         set(value) {
-            val anglePosition = (value.coerceIn(0.deg, maxAngle) / maxAngle).coerceIn(0.0..1.0)
-            val scaledPosition = anglePosition.reverseScale(servoRange)
-            val overChangeThreshold = abs(scaledPosition - cachedPosition) >= changeTreshold
-            val targetingMaxPosition = (scaledPosition >= 1.0 && cachedPosition < 1.0) || (scaledPosition <= 0.0 && cachedPosition > 0.0)
-            if (overChangeThreshold || targetingMaxPosition) {
-                internalServo.position = scaledPosition
-                cachedPosition = scaledPosition
-            }
-            field = value.coerceIn(0.deg, maxAngle)
+            realPosition = (value.coerceIn(0.deg, maxAngle) / maxAngle).reverseScale(servoRange)
         }
 
     var pwnRange: PwmRange = internalServo.pwmRange
