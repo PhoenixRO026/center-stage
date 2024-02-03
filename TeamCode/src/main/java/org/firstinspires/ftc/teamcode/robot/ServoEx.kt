@@ -152,8 +152,9 @@ class ServoEx @JvmOverloads constructor(
     }
 
     fun update(deltaTime: Time) {
-        val step = speed * deltaTime.s
         val error = realTargetPosition - realPosition
+        if (error == 0.0) return
+        val step = speed * deltaTime.s
         if (abs(error) < step) {
             realPosition += error
             if (realPosition != cachedPosition) {
