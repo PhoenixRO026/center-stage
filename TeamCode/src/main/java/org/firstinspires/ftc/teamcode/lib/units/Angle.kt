@@ -17,6 +17,8 @@ class Angle(val rad: Double) {
     operator fun unaryMinus() = Angle(-rad)
 
     override fun toString() = "$rad " + if (rad == 1.0) "radian" else "radians"
+
+    fun coerceIn(minAng: Angle, maxAng: Angle) = Angle(rad.coerceIn(minAng.rad, maxAng.rad))
 }
 
 val Number.rad get() = Angle(toDouble())

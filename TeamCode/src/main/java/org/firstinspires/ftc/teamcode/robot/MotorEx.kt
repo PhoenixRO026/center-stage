@@ -22,7 +22,7 @@ import kotlin.math.sign
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class MotorEx @JvmOverloads constructor(
     dcMotor: DcMotor,
-    private val changeThreshold: Double = 0.02,
+    changeThreshold: Double = 0.02,
     private val ticksPerRev: Double = dcMotor.motorType.ticksPerRev
 ) {
     companion object {
@@ -63,13 +63,15 @@ class MotorEx @JvmOverloads constructor(
         )
     }
 
-    val motor: DcMotorEx = dcMotor as DcMotorEx
+    private val changeThreshold: Double = changeThreshold.coerceAtLeast(0.0)
 
     private var cachedPower: Double = 0.0
 
-    val controller: DcMotorControllerEx = motor.controller as DcMotorControllerEx
+    val internalMotor: DcMotorEx = dcMotor as DcMotorEx
 
-    val portNumber: Int = motor.portNumber
+    val controller: DcMotorControllerEx = internalMotor.controller as DcMotorControllerEx
+
+    val portNumber: Int = internalMotor.portNumber
 
     var power: Double = 0.0
         set(value) {
@@ -78,7 +80,7 @@ class MotorEx @JvmOverloads constructor(
             val targetingFullPower = (newPower >= 1.0 && cachedPower < 1.0) || (newPower <= -1.0 && cachedPower > -1.0)
             val changedDirectionOrBrake = newPower.sign != cachedPower.sign
             if (overChangeThreshold || targetingFullPower || changedDirectionOrBrake) {
-                motor.power = newPower
+                internalMotor.power = newPower
                 cachedPower = newPower
             }
             field = newPower
@@ -92,7 +94,7 @@ class MotorEx @JvmOverloads constructor(
         val targetingFullPower = (newPower >= 1.0 && cachedPower < 1.0) || (newPower <= -1.0 && cachedPower > -1.0)
         val changedDirectionOrBrake = newPower.sign != cachedPower.sign
         return if (overChangeThreshold || targetingFullPower || changedDirectionOrBrake) {
-            motor.power = newPower
+            internalMotor.power = newPower
             cachedPower = newPower
             power = newPower
             true
@@ -102,52 +104,52 @@ class MotorEx @JvmOverloads constructor(
         }
     }
 
-    var disabled: Boolean = !motor.isMotorEnabled
+    var disabled: Boolean = !internalMotor.isMotorEnabled
         set(value) {
             if (value != field) {
                 if (value) {
-                    motor.setMotorDisable()
+                    internalMotor.setMotorDisable()
                 } else {
-                    motor.setMotorEnable()
+                    internalMotor.setMotorEnable()
                 }
             }
             field = value
         }
 
-    var direction: DcMotorSimple.Direction = motor.direction
+    var direction: DcMotorSimple.Direction = internalMotor.direction
         set(value) {
             if (value != field) {
-                motor.direction = value
+                internalMotor.direction = value
             }
             field = value
         }
 
-    var type: MotorConfigurationType = motor.motorType
+    var type: MotorConfigurationType = internalMotor.motorType
         set(value) {
             if (value != field) {
-                motor.motorType = value
+                internalMotor.motorType = value
             }
             field = value
         }
 
-    val isOverCurrent: Boolean get() = motor.isOverCurrent
+    val isOverCurrent: Boolean get() = internalMotor.isOverCurrent
 
-    var targetPositionTolerance: Int = motor.targetPositionTolerance
+    var targetPositionTolerance: Int = internalMotor.targetPositionTolerance
         set(value) {
             if (value != field) {
-                motor.targetPositionTolerance = value
+                internalMotor.targetPositionTolerance = value
             }
             field = value
         }
 
-    val positionTicks: Int get() = motor.currentPosition
+    val positionTicks: Int get() = internalMotor.currentPosition
 
     val angle: Angle get() = rev * (positionTicks / ticksPerRev)
 
-    var targetPositionTicks: Int = motor.targetPosition
+    var targetPositionTicks: Int = internalMotor.targetPosition
         set(value) {
             if (value != field) {
-                motor.targetPosition = value
+                internalMotor.targetPosition = value
             }
             field = value
         }
@@ -158,16 +160,16 @@ class MotorEx @JvmOverloads constructor(
             targetPositionTicks = (value.rev * ticksPerRev).roundToInt()
         }
 
-    val velocityTicks: Double get() = motor.velocity
+    val velocityTicks: Double get() = internalMotor.velocity
 
     val angularVelocity: AngularVelocity get() = revsec * (velocityTicks / ticksPerRev)
 
-    fun getVelocity(unit: AngleUnit) = motor.getVelocity(unit)
+    fun getVelocity(unit: AngleUnit) = internalMotor.getVelocity(unit)
 
     var targetVelocityTicks: Double = 0.0
         set(value) {
             if (value != field) {
-                motor.velocity = value
+                internalMotor.velocity = value
             }
             field = value
         }
@@ -178,44 +180,44 @@ class MotorEx @JvmOverloads constructor(
             targetVelocityTicks = value.revsec * ticksPerRev
         }
 
-    var zeroPowerBehavior: ZeroPowerBehavior = motor.zeroPowerBehavior
+    var zeroPowerBehavior: ZeroPowerBehavior = internalMotor.zeroPowerBehavior
         set(value) {
             if (value != field) {
-                motor.zeroPowerBehavior = value
+                internalMotor.zeroPowerBehavior = value
             }
             field = value
         }
 
     val powerFloat: Boolean get() = zeroPowerBehavior == ZeroPowerBehavior.FLOAT && power == 0.0
 
-    val isBusy: Boolean get() = motor.isBusy
+    val isBusy: Boolean get() = internalMotor.isBusy
 
-    var mode: RunMode = motor.mode
+    var mode: RunMode = internalMotor.mode
         set(value) {
             if (field != value) {
-                motor.mode = value
+                internalMotor.mode = value
             }
             field = value
         }
 
-    fun getCurrent(unit: CurrentUnit) = motor.getCurrent(unit)
+    fun getCurrent(unit: CurrentUnit) = internalMotor.getCurrent(unit)
 
-    fun getCurrentAlert(unit: CurrentUnit) = motor.getCurrentAlert(unit)
+    fun getCurrentAlert(unit: CurrentUnit) = internalMotor.getCurrentAlert(unit)
 
-    fun setCurrentAlert(current: Double, unit: CurrentUnit) = motor.setCurrentAlert(current, unit)
+    fun setCurrentAlert(current: Double, unit: CurrentUnit) = internalMotor.setCurrentAlert(current, unit)
 
-    fun setPIDFCoefficients(mode: RunMode, pidfCoefficients: PIDFCoefficients) = motor.setPIDFCoefficients(mode, pidfCoefficients)
+    fun setPIDFCoefficients(mode: RunMode, pidfCoefficients: PIDFCoefficients) = internalMotor.setPIDFCoefficients(mode, pidfCoefficients)
 
-    fun getPIDFCoefficients(mode: RunMode): PIDFCoefficients = motor.getPIDFCoefficients(mode)
+    fun getPIDFCoefficients(mode: RunMode): PIDFCoefficients = internalMotor.getPIDFCoefficients(mode)
 
-    fun setVelocityPIDFCoefficients(p: Double, i: Double, d: Double, f: Double) = motor.setVelocityPIDFCoefficients(p, i, d, f)
+    fun setVelocityPIDFCoefficients(p: Double, i: Double, d: Double, f: Double) = internalMotor.setVelocityPIDFCoefficients(p, i, d, f)
 
-    fun setPositionPIDFCoefficients(p: Double) = motor.setPositionPIDFCoefficients(p)
+    fun setPositionPIDFCoefficients(p: Double) = internalMotor.setPositionPIDFCoefficients(p)
 
     init {
         mode = RunMode.STOP_AND_RESET_ENCODER
         mode = RunMode.RUN_WITHOUT_ENCODER
         zeroPowerBehavior = ZeroPowerBehavior.BRAKE
-        motor.power = 0.0
+        internalMotor.power = 0.0
     }
 }
