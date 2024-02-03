@@ -91,6 +91,8 @@ class ServoEx @JvmOverloads constructor(
 
     val portNumber: Int = internalServo.portNumber
 
+    val isBusy get() = realPosition != realTargetPosition
+
     var position: Double
         get() = realPosition.reverseScale(positionRange).coerceIn(0.0, 1.0)
         set(value) {

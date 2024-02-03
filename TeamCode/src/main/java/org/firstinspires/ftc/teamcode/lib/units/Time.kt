@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.lib.units
 
+import com.acmerobotics.roadrunner.SleepAction
+
 class Time(val s: Double) {
     val ms get() = s * 1000.0
     val min get() = s / 60.0
@@ -25,3 +27,5 @@ fun min(number: Double) = number.min
 @JvmField val s = 1.s
 @JvmField val ms = 1.ms
 @JvmField val min = 1.min
+
+fun SleepAction(time: Time) = SleepAction(time.s)
