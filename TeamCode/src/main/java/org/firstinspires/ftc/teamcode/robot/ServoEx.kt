@@ -18,7 +18,8 @@ class ServoEx @JvmOverloads constructor(
     private val maxAngle: Angle = 180.deg,
     positionRange: ClosedRange<Double> = 0.0..1.0,
     private val changeTreshold: Double = 0.01,
-    private val speed: Double = 0.1
+    private val speed: Double = 0.1,
+    private val onPositionUpdate: () -> Unit = {}
 ) {
     companion object {
         const val minPwm = 500.0
@@ -62,7 +63,10 @@ class ServoEx @JvmOverloads constructor(
 
     var cachedPosition: Double = 0.0
         private set(value) {
-            internalServo.position = value
+            if (field != value) {
+                internalServo.position = value
+                onPositionUpdate()
+            }
             field = value
         }
 

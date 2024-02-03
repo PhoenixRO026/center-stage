@@ -12,7 +12,5 @@ class ExampleAuto : MultiThreadOpMode() {
     override fun mainRunOpMode() {
         val motor = hardwareMap.rev12to1("leftFront")
         val servo = hardwareMap.axonMax355("intake")
-
-        servo.angle
     }
 }
