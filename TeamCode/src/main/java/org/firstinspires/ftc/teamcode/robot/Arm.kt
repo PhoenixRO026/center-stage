@@ -26,16 +26,16 @@ class Arm(
     }
 
     private val rightServo = ServoEx(
-        hardwareMap.get(Servo::class.java, "rightArm"),
-        355.deg,
-        rightServoRange,
+        servo = hardwareMap.get(Servo::class.java, "rightArm"),
+        maxAngle =  355.deg,
+        positionRange = rightServoRange,
         speed = speed,
         onPositionUpdate = ::updateLeftServo
     )
     private val leftServo = ServoEx(
-        hardwareMap.get(Servo::class.java, "leftArm"),
-        355.deg,
-        leftServoRange,
+        servo =  hardwareMap.get(Servo::class.java, "leftArm"),
+        maxAngle = 355.deg,
+        positionRange = leftServoRange,
         changeTreshold = 0.0
     )
 
@@ -52,6 +52,8 @@ class Arm(
     var targetAngle by rightServo::angle
 
     val isBusy by rightServo::isBusy
+
+    fun goToRamp() = goToPos(rampPos)
 
     fun goToPos(newPos: Double) = SequentialAction(
         object : Action {

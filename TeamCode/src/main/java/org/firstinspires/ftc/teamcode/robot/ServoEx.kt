@@ -17,9 +17,10 @@ class ServoEx @JvmOverloads constructor(
     servo: Servo,
     private val maxAngle: Angle = 180.deg,
     positionRange: ClosedRange<Double> = 0.0..1.0,
+    servoDirection: Direction = servo.direction,
     private val changeTreshold: Double = 0.01,
     private val speed: Double = 0.1,
-    private val onPositionUpdate: () -> Unit = {}
+    private val onPositionUpdate: () -> Unit = {},
 ) {
     companion object {
         const val minPwm = 500.0
@@ -28,34 +29,34 @@ class ServoEx @JvmOverloads constructor(
 
         @JvmOverloads
         fun axonMax180(servo: Servo, range: ClosedRange<Double> = 0.0..1.0, changeTreshold: Double = 0.01) = ServoEx(
-            servo,
-            180.deg,
-            range,
-            changeTreshold
+            servo = servo,
+            maxAngle = 180.deg,
+            positionRange = range,
+            changeTreshold = changeTreshold
         )
 
         @JvmOverloads
         fun HardwareMap.axonMax180(deviceName: String, range: ClosedRange<Double> = 0.0..1.0, changeTreshold: Double = 0.01) =
             axonMax180(
-                get(Servo::class.java, deviceName),
-                range,
-                changeTreshold
+                servo = get(Servo::class.java, deviceName),
+                range = range,
+                changeTreshold = changeTreshold
             )
 
         @JvmOverloads
         fun axonMax355(servo: Servo, range: ClosedRange<Double> = 0.0..1.0, changeTreshold: Double = 0.01) = ServoEx(
-            servo,
-            355.deg,
-            range,
-            changeTreshold
+            servo = servo,
+            maxAngle = 355.deg,
+            positionRange = range,
+            changeTreshold = changeTreshold
         )
 
         @JvmOverloads
         fun HardwareMap.axonMax355(deviceName: String, range: ClosedRange<Double> = 0.0..1.0, changeTreshold: Double = 0.01) =
             axonMax355(
-                get(Servo::class.java, deviceName),
-                range,
-                changeTreshold
+                servo = get(Servo::class.java, deviceName),
+                range = range,
+                changeTreshold = changeTreshold
             )
     }
 
@@ -149,14 +150,6 @@ class ServoEx @JvmOverloads constructor(
             field = value
         }
 
-    fun Double.scaleTo(range: ClosedRange<Double>): Double {
-        return range.start + this * (range.endInclusive - range.start)
-    }
-
-    fun Double.reverseScale(range: ClosedRange<Double>): Double {
-        return (this - range.start) / (range.endInclusive - range.start)
-    }
-
     fun update(deltaTime: Time) {
         val error = realTargetPosition - realPosition
         if (error == 0.0) return
@@ -170,4 +163,16 @@ class ServoEx @JvmOverloads constructor(
             realPosition += sign(error) * step
         }
     }
+
+    init {
+        direction = servoDirection
+    }
+}
+
+fun Double.scaleTo(range: ClosedRange<Double>): Double {
+    return range.start + this * (range.endInclusive - range.start)
+}
+
+fun Double.reverseScale(range: ClosedRange<Double>): Double {
+    return (this - range.start) / (range.endInclusive - range.start)
 }
