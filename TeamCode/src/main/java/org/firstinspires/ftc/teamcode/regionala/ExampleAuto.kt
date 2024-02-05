@@ -18,7 +18,5 @@ class ExampleAuto : MultiThreadOpMode() {
         val arm = hardwareMap.arm()
 
         val claw = hardwareMap.claw()
-
-        claw.
     }
 }
