@@ -6,19 +6,21 @@ class LazyWrite<T: Any>(
     private val writeT: (T) -> Unit,
     private val getValueT: () -> T
 ) {
-    private var writeCahce = false
-
-    private lateinit var cachedValue: T
+    @Volatile
+    private var cachedValue: T? = null
 
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-        cachedValue = value
-        writeCahce = true
+        if (cachedValue == null) {
+            cachedValue = value
+        }
     }
 
     fun write() {
-        if (writeCahce) {
-            writeT(cachedValue)
-            writeCahce = false
+        if (cachedValue != null) {
+            cachedValue?.let {
+                writeT(it)
+            }
+            cachedValue = null
         }
     }
 
