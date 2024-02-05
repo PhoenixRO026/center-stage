@@ -10,9 +10,7 @@ class LazyWrite<T: Any>(
     private var cachedValue: T? = null
 
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-        if (cachedValue == null) {
-            cachedValue = value
-        }
+        cachedValue = value
     }
 
     fun write() {

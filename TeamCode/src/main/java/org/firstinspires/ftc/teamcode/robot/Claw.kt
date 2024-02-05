@@ -8,6 +8,9 @@ import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.lib.units.SleepAction
 import org.firstinspires.ftc.teamcode.lib.units.deg
 import org.firstinspires.ftc.teamcode.lib.units.s
+import org.firstinspires.ftc.teamcode.robot.hardware.ServoEx
+import org.firstinspires.ftc.teamcode.robot.hardware.reverseScale
+import org.firstinspires.ftc.teamcode.robot.hardware.scaleTo
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class Claw(
@@ -28,17 +31,17 @@ class Claw(
             hardwareMap = this
         )
     }
-    private val leftAngle = ServoEx(
-        servo = hardwareMap.get(Servo::class.java, "leftClaw"),
+    private val angleServo = ServoEx(
+        servo = hardwareMap.get(Servo::class.java, "clawAngle"),
         maxAngle = 355.deg,
-        onPositionUpdate = ::updateRightAngle
+        //onPositionUpdate = ::updateRightAngle
     )
-    private val rightAngle = ServoEx(
+    /*private val rightAngle = ServoEx(
         servo = hardwareMap.get(Servo::class.java, "rightClaw"),
         maxAngle = 355.deg,
         servoDirection = Servo.Direction.REVERSE,
         changeTreshold = 0.0
-    )
+    )*/
     private val leftFinger = ServoEx(
         servo = hardwareMap.get(Servo::class.java, "leftFinger"),
         maxAngle = 180.deg,
@@ -51,13 +54,13 @@ class Claw(
         servoDirection = Servo.Direction.REVERSE
     )
 
-    var clawPosition by leftAngle::position
+    var clawPosition by angleServo::position
 
-    var clawTargetPosition by leftAngle::targetPosition
+    var clawTargetPosition by angleServo::targetPosition
 
-    var clawAngle by leftAngle::angle
+    var clawAngle by angleServo::angle
 
-    var clawTargetAngle by leftAngle::targetAngle
+    var clawTargetAngle by angleServo::targetAngle
 
     var leftFingerPosition
         get() = leftFinger.position.reverseScale(fingerRange)
@@ -121,7 +124,7 @@ class Claw(
         openLeft()
     )
 
-    fun updateRightAngle() {
-        rightAngle.position = leftAngle.position
-    }
+    /*fun updateRightAngle() {
+        rightAngle.position = angleServo.position
+    }*/
 }

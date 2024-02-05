@@ -10,11 +10,13 @@ import org.firstinspires.ftc.teamcode.lib.units.SleepAction
 import org.firstinspires.ftc.teamcode.lib.units.Time
 import org.firstinspires.ftc.teamcode.lib.units.deg
 import org.firstinspires.ftc.teamcode.lib.units.s
+import org.firstinspires.ftc.teamcode.robot.hardware.ServoEx
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class Arm(
     hardwareMap: HardwareMap
 ) {
+
     companion object {
         const val servoOffset = 0.015
         val leftServoRange = servoOffset..1.0
@@ -45,11 +47,11 @@ class Arm(
 
     var position by rightServo::position
 
-    var targetPosition by rightServo::position
+    var targetPosition by rightServo::targetPosition
 
     var angle by rightServo::angle
 
-    var targetAngle by rightServo::angle
+    var targetAngle by rightServo::targetAngle
 
     val isBusy by rightServo::isBusy
 

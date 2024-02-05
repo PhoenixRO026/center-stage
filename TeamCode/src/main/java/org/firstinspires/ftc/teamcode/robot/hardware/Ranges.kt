@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.robot
+package org.firstinspires.ftc.teamcode.robot.hardware
 
 fun Double.scaleTo(range: ClosedRange<Double>): Double {
     return range.start + this * (range.endInclusive - range.start)

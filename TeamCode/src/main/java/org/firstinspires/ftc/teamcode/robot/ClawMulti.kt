@@ -3,100 +3,167 @@ package org.firstinspires.ftc.teamcode.robot
 import com.acmerobotics.roadrunner.InstantAction
 import com.acmerobotics.roadrunner.ParallelAction
 import com.acmerobotics.roadrunner.SequentialAction
+import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.lib.units.SleepAction
 import org.firstinspires.ftc.teamcode.lib.units.s
+import java.util.concurrent.ConcurrentLinkedQueue
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class ClawMulti(
-    private val innerClaw: Claw
+    hardwareMap: HardwareMap,
+    private val innerClaw: Claw = Claw(hardwareMap)
 ) {
-    companion object {
+    val queue: ConcurrentLinkedQueue<() -> Unit> = ConcurrentLinkedQueue()
 
+    companion object {
+        fun clawMulti(hardwareMap: HardwareMap) = ClawMulti(hardwareMap)
+
+        fun HardwareMap.clawMulti() = ClawMulti(this)
     }
 
-    private var clawPositionCache = LazyWrite(
+    /*private var clawPositionCache = LazyWrite(
         writeT = { newValue -> innerClaw.clawPosition = newValue },
         getValueT = { innerClaw.clawPosition }
     )
 
-    var clawPosition by clawPositionCache
+    var clawPosition by clawPositionCache*/
 
-    private var clawTargetPositionCache = LazyWrite(
+    var clawPosition
+        set(value) {
+            queue.add {
+                innerClaw.clawPosition = value
+            }
+        }
+        get() = innerClaw.clawPosition
+
+    /*private var clawTargetPositionCache = LazyWrite(
         writeT = { newValue -> innerClaw.clawTargetPosition = newValue },
         getValueT = { innerClaw.clawTargetPosition }
     )
 
-    var clawTargetPosition by clawTargetPositionCache
+    var clawTargetPosition by clawTargetPositionCache*/
 
-    private var clawAngleCache = LazyWrite(
+    var clawTargetPosition by innerClaw::clawTargetPosition
+
+    /*private var clawAngleCache = LazyWrite(
         writeT = { newValue -> innerClaw.clawAngle = newValue },
         getValueT = { innerClaw.clawAngle }
     )
 
-    var clawAngle by clawAngleCache
+    var clawAngle by clawAngleCache*/
 
-    private var clawTargetAngleCache = LazyWrite(
+    var clawAngle
+        set(value) {
+            queue.add {
+                innerClaw.clawAngle = value
+            }
+        }
+        get() = innerClaw.clawAngle
+
+    /*private var clawTargetAngleCache = LazyWrite(
         writeT = { newValue -> innerClaw.clawTargetAngle = newValue },
         getValueT = { innerClaw.clawTargetAngle }
     )
 
-    var clawTargetAngle by clawTargetAngleCache
+    var clawTargetAngle by clawTargetAngleCache*/
 
-    private var leftFingerPositionCache = LazyWrite(
+    var clawTargetAngle by innerClaw::clawTargetAngle
+
+    /*private var leftFingerPositionCache = LazyWrite(
         writeT = { newValue -> innerClaw.leftFingerPosition = newValue },
         getValueT = { innerClaw.leftFingerPosition }
     )
 
-    var leftFingerPosition by leftFingerPositionCache
+    var leftFingerPosition by leftFingerPositionCache*/
 
-    private var leftFingerTargetPositionCache = LazyWrite(
+    var leftFingerPosition
+        set(value) {
+            queue.add {
+                innerClaw.leftFingerPosition = value
+            }
+        }
+        get() = innerClaw.leftFingerPosition
+
+    /*private var leftFingerTargetPositionCache = LazyWrite(
         writeT = { newValue -> innerClaw.leftFingerTargetPosition = newValue },
         getValueT = { innerClaw.leftFingerTargetPosition }
     )
 
-    var leftFingerTargetPosition by leftFingerTargetPositionCache
+    var leftFingerTargetPosition by leftFingerTargetPositionCache*/
 
-    private var leftFingerAngleCache = LazyWrite(
+    private var leftFingerTargetPosition by innerClaw::leftFingerTargetPosition
+
+    /*private var leftFingerAngleCache = LazyWrite(
         writeT = { newValue -> innerClaw.leftFingerAngle = newValue },
         getValueT = { innerClaw.leftFingerAngle }
     )
 
-    var leftFingerAngle by leftFingerAngleCache
+    var leftFingerAngle by leftFingerAngleCache*/
 
-    private var leftFingerTargetAngleCache = LazyWrite(
+    var leftFingerAngle
+        set(value) {
+            queue.add {
+                innerClaw.leftFingerAngle = value
+            }
+        }
+        get() = innerClaw.leftFingerAngle
+
+    /*private var leftFingerTargetAngleCache = LazyWrite(
         writeT = { newValue -> innerClaw.leftFingerTargetAngle = newValue },
         getValueT = { innerClaw.leftFingerTargetAngle }
     )
 
-    var leftFingerTargetAngle by leftFingerTargetAngleCache
+    var leftFingerTargetAngle by leftFingerTargetAngleCache*/
 
-    private var rightFingerPositionCache = LazyWrite(
+    private var leftFingerTargetAngle by innerClaw::leftFingerTargetAngle
+
+    /*private var rightFingerPositionCache = LazyWrite(
         writeT = { newValue -> innerClaw.rightFingerPosition = newValue },
         getValueT = { innerClaw.rightFingerPosition }
     )
 
-    var rightFingerPosition by rightFingerPositionCache
+    var rightFingerPosition by rightFingerPositionCache*/
 
-    private var rightFingerTargetPositionCache = LazyWrite(
+    var rightFingerPosition
+        set(value) {
+            queue.add {
+                innerClaw.rightFingerPosition = value
+            }
+        }
+        get() = innerClaw.rightFingerPosition
+
+    /*private var rightFingerTargetPositionCache = LazyWrite(
         writeT = { newValue -> innerClaw.rightFingerTargetPosition = newValue },
         getValueT = { innerClaw.rightFingerTargetPosition }
     )
 
-    var rightFingerTargetPosition by rightFingerTargetPositionCache
+    var rightFingerTargetPosition by rightFingerTargetPositionCache*/
 
-    private var rightFingerAngleCache = LazyWrite(
+    private var rightFingerTargetPosition by innerClaw::rightFingerTargetPosition
+
+    /*private var rightFingerAngleCache = LazyWrite(
         writeT = { newValue -> innerClaw.rightFingerAngle = newValue },
         getValueT = { innerClaw.rightFingerAngle }
     )
 
-    var rightFingerAngle by rightFingerAngleCache
+    var rightFingerAngle by rightFingerAngleCache*/
 
-    private var rightFingerTargetAngleCache = LazyWrite(
+    var rightFingerAngle
+        set(value) {
+            queue.add {
+                innerClaw.rightFingerAngle = value
+            }
+        }
+        get() = innerClaw.rightFingerAngle
+
+    /*private var rightFingerTargetAngleCache = LazyWrite(
         writeT = { newValue -> innerClaw.rightFingerTargetAngle = newValue },
         getValueT = { innerClaw.rightFingerTargetAngle }
     )
 
-    var rightFingerTargetAngle by rightFingerTargetAngleCache
+    var rightFingerTargetAngle by rightFingerTargetAngleCache*/
+
+    private var rightFingerTargetAngle by innerClaw::rightFingerTargetAngle
 
     fun clawToPos(newPos: Double) = SequentialAction(
         InstantAction { clawPosition = newPos },
@@ -129,17 +196,9 @@ class ClawMulti(
     )
 
     fun write() {
-        clawPositionCache.write()
-        clawTargetPositionCache.write()
-        clawAngleCache.write()
-        clawTargetAngleCache.write()
-        leftFingerPositionCache.write()
-        leftFingerTargetPositionCache.write()
-        leftFingerAngleCache.write()
-        leftFingerTargetAngleCache.write()
-        rightFingerPositionCache.write()
-        rightFingerTargetPositionCache.write()
-        rightFingerAngleCache.write()
-        rightFingerTargetAngleCache.write()
+        while (queue.isNotEmpty()) {
+            val action = queue.remove()
+            action()
+        }
     }
 }
