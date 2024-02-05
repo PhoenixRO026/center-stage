@@ -46,7 +46,7 @@ class LiftMulti(
         override fun run(p: TelemetryPacket): Boolean {
             if (init) {
                 init = false
-                goToTicksAsync(ticks)
+                innerLift.goToTicksAsync(ticks)
                 isBusy = true
             }
 

@@ -29,11 +29,11 @@ class Lift(
 
     private val leftMotor = hardwareMap.gobilda312(
         deviceName = "leftLift",
-        direction = DcMotorSimple.Direction.REVERSE,
         onPowerUpdate = ::updateRightMotor
     )
     private val rightMotor = hardwareMap.gobilda312(
         deviceName = "rightLift",
+        direction = DcMotorSimple.Direction.REVERSE,
         changeThreshold = 0.0
     )
 
