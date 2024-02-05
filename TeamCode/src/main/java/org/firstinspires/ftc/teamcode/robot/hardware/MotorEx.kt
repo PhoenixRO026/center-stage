@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor.RunMode
 import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior
 import com.qualcomm.robotcore.hardware.DcMotorControllerEx
 import com.qualcomm.robotcore.hardware.DcMotorEx
-import com.qualcomm.robotcore.hardware.DcMotorSimple
+import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.PIDFCoefficients
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType
@@ -22,50 +22,80 @@ import kotlin.math.sign
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class MotorEx @JvmOverloads constructor(
     dcMotor: DcMotor,
+    motorDirection: Direction = dcMotor.direction,
     changeThreshold: Double = 0.02,
-    private val ticksPerRev: Double = dcMotor.motorType.ticksPerRev
+    private val ticksPerRev: Double = dcMotor.motorType.ticksPerRev,
+    private val onPowerUpdate: () -> Unit = {}
 ) {
     companion object {
         @JvmOverloads
-        fun gobilda312(dcMotor: DcMotor, changeThreshold: Double = 0.02) = MotorEx(
-            dcMotor,
-            changeThreshold,
-            (((1.0 + (46.0 / 17.0))) * (1.0 + (46.0 / 11.0))) * 28.0
+        fun gobilda312(dcMotor: DcMotor, direction: Direction = dcMotor.direction, onPowerUpdate: () -> Unit = {}, changeThreshold: Double = 0.02) = MotorEx(
+            dcMotor = dcMotor,
+            motorDirection = direction,
+            changeThreshold = changeThreshold,
+            ticksPerRev = (((1.0 + (46.0 / 17.0))) * (1.0 + (46.0 / 11.0))) * 28.0,
+            onPowerUpdate = onPowerUpdate
         )
 
-        fun HardwareMap.gobilda312(deviceName: String, changeThreshold: Double = 0.02) = gobilda312(
-            get(DcMotor::class.java, deviceName),
-            changeThreshold
-        )
-
-        @JvmOverloads
-        fun gobilda435(dcMotor: DcMotor, changeThreshold: Double = 0.02) = MotorEx(
-            dcMotor,
-            changeThreshold,
-            (((1.0 + (46.0 / 17.0))) * (1.0 + (46.0 / 17.0))) * 28.0
-        )
-
-        fun HardwareMap.gobilda435(deviceName: String, changeThreshold: Double = 0.02) = gobilda435(
-            get(DcMotor::class.java, deviceName),
-            changeThreshold
-        )
+        fun HardwareMap.gobilda312(deviceName: String, direction: Direction? = null, onPowerUpdate: () -> Unit = {}, changeThreshold: Double = 0.02): MotorEx {
+            val motor = get(DcMotor::class.java, deviceName)
+            return gobilda312(
+                dcMotor = motor,
+                direction = direction ?: motor.direction,
+                changeThreshold = changeThreshold,
+                onPowerUpdate = onPowerUpdate
+            )
+        }
 
         @JvmOverloads
-        fun rev12to1(dcMotor: DcMotor, changeThreshold: Double = 0.02) = MotorEx(
-            dcMotor,
-            changeThreshold,
-            (76.0 / 21.0) * (84.0 / 29.0) * 28.0
+        fun gobilda435(dcMotor: DcMotor, direction: Direction = dcMotor.direction, onPowerUpdate: () -> Unit = {}, changeThreshold: Double = 0.02) = MotorEx(
+            dcMotor = dcMotor,
+            motorDirection = direction,
+            changeThreshold = changeThreshold,
+            ticksPerRev = (((1.0 + (46.0 / 17.0))) * (1.0 + (46.0 / 17.0))) * 28.0,
+            onPowerUpdate = onPowerUpdate
         )
 
-        fun HardwareMap.rev12to1(deviceName: String, changeThreshold: Double = 0.02) = rev12to1(
-            get(DcMotor::class.java, deviceName),
-            changeThreshold
+        fun HardwareMap.gobilda435(deviceName: String, direction: Direction? = null, onPowerUpdate: () -> Unit = {}, changeThreshold: Double = 0.02): MotorEx {
+            val motor = get(DcMotor::class.java, deviceName)
+            return gobilda435(
+                dcMotor = motor,
+                direction = direction ?: motor.direction,
+                changeThreshold = changeThreshold,
+                onPowerUpdate = onPowerUpdate
+            )
+        }
+
+        @JvmOverloads
+        fun rev12to1(dcMotor: DcMotor, direction: Direction = dcMotor.direction, onPowerUpdate: () -> Unit = {}, changeThreshold: Double = 0.02) = MotorEx(
+            dcMotor = dcMotor,
+            motorDirection = direction,
+            changeThreshold = changeThreshold,
+            ticksPerRev = (76.0 / 21.0) * (84.0 / 29.0) * 28.0,
+            onPowerUpdate = onPowerUpdate
         )
+
+        fun HardwareMap.rev12to1(deviceName: String, direction: Direction? = null, onPowerUpdate: () -> Unit = {}, changeThreshold: Double = 0.02): MotorEx {
+            val motor = get(DcMotor::class.java, deviceName)
+            return rev12to1(
+                dcMotor = motor,
+                direction = direction ?: motor.direction,
+                changeThreshold = changeThreshold,
+                onPowerUpdate = onPowerUpdate
+            )
+        }
     }
 
     private val changeThreshold: Double = changeThreshold.coerceAtLeast(0.0)
 
     private var cachedPower: Double = 0.0
+        set(value) {
+            if (field != value) {
+                internalMotor.power = value
+                onPowerUpdate()
+            }
+            field = value
+        }
 
     val internalMotor: DcMotorEx = dcMotor as DcMotorEx
 
@@ -80,7 +110,6 @@ class MotorEx @JvmOverloads constructor(
             val targetingFullPower = (newPower >= 1.0 && cachedPower < 1.0) || (newPower <= -1.0 && cachedPower > -1.0)
             val changedDirectionOrBrake = newPower.sign != cachedPower.sign
             if (overChangeThreshold || targetingFullPower || changedDirectionOrBrake) {
-                internalMotor.power = newPower
                 cachedPower = newPower
             }
             field = newPower
@@ -94,7 +123,6 @@ class MotorEx @JvmOverloads constructor(
         val targetingFullPower = (newPower >= 1.0 && cachedPower < 1.0) || (newPower <= -1.0 && cachedPower > -1.0)
         val changedDirectionOrBrake = newPower.sign != cachedPower.sign
         return if (overChangeThreshold || targetingFullPower || changedDirectionOrBrake) {
-            internalMotor.power = newPower
             cachedPower = newPower
             power = newPower
             true
@@ -116,7 +144,7 @@ class MotorEx @JvmOverloads constructor(
             field = value
         }
 
-    var direction: DcMotorSimple.Direction = internalMotor.direction
+    var direction: Direction = internalMotor.direction
         set(value) {
             if (value != field) {
                 internalMotor.direction = value
@@ -218,6 +246,7 @@ class MotorEx @JvmOverloads constructor(
         mode = RunMode.STOP_AND_RESET_ENCODER
         mode = RunMode.RUN_WITHOUT_ENCODER
         zeroPowerBehavior = ZeroPowerBehavior.BRAKE
+        direction = motorDirection
         internalMotor.power = 0.0
     }
 }
