@@ -1,8 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot
 
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket
-import com.acmerobotics.roadrunner.Action
 import com.acmerobotics.roadrunner.InstantAction
+import com.acmerobotics.roadrunner.ParallelAction
 import com.acmerobotics.roadrunner.SequentialAction
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.Servo
@@ -20,6 +19,14 @@ class Claw(
         val fingerRange = 0.24..0.55
         val leftFingerRange = 0.0..(1.0 - fingerOffset)
         val rightFingerRange = fingerOffset..1.0
+
+        fun claw(hardwareMap: HardwareMap) = Claw(
+            hardwareMap = hardwareMap
+        )
+
+        fun HardwareMap.claw() = Claw(
+            hardwareMap = this
+        )
     }
     private val leftAngle = ServoEx(
         servo = hardwareMap.get(Servo::class.java, "leftClaw"),
@@ -98,9 +105,20 @@ class Claw(
 
     fun openLeft() = leftFingerToPos(0.0)
 
+    fun closeLeft() = leftFingerToPos(1.0)
+
     fun rightFingerToPos(newPos: Double) = SequentialAction(
         InstantAction { rightFingerPosition = newPos },
         SleepAction(0.1.s)
+    )
+
+    fun openRight() = rightFingerToPos(0.0)
+
+    fun closeRight() = rightFingerToPos(1.0)
+
+    fun closeClaw() = ParallelAction(
+        openRight(),
+        openLeft()
     )
 
     fun updateRightAngle() {
