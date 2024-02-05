@@ -22,51 +22,19 @@ class ArmMulti(
         fun HardwareMap.armMulti() = ArmMulti(this)
     }
 
-    /*private var positionCache = LazyWrite(
-        writeT = { newValue -> innerArm.position = newValue },
-        getValueT = { innerArm.position }
+    var position by LazyWrite(
+        queue,
+        { innerArm.position = it },
+        { innerArm.position }
     )
-
-    var position by positionCache*/
-
-    var position
-        set(value) {
-            queue.add {
-                innerArm.position = value
-            }
-        }
-        get() = innerArm.position
-
-    /*private var targetPositionCache = LazyWrite(
-        writeT = { newValue -> innerArm.targetPosition = newValue },
-        getValueT = { innerArm.targetPosition }
-    )
-
-    var targetPosition by targetPositionCache*/
 
     var targetPosition by innerArm::targetPosition
 
-    /*private var angleCache = LazyWrite(
-        writeT = { newValue -> innerArm.angle = newValue },
-        getValueT = { innerArm.angle }
+    var angle by LazyWrite(
+        queue,
+        { innerArm.angle = it },
+        { innerArm.angle }
     )
-
-    var angle by angleCache*/
-
-    var angle
-        set(value) {
-            queue.add {
-                innerArm.angle = value
-            }
-        }
-        get() = innerArm.angle
-
-    /*private var targetAngleCache = LazyWrite(
-        writeT = { newValue -> innerArm.targetAngle = newValue },
-        getValueT = { innerArm.targetAngle }
-    )
-
-    var targetAngle by targetAngleCache*/
 
     var targetAngle by innerArm::targetAngle
 
