@@ -23,7 +23,7 @@ class Claw(
         val leftFingerRange = 0.0..(1.0 - fingerOffset)
         val rightFingerRange = fingerOffset..1.0
 
-        fun claw(hardwareMap: HardwareMap) = Claw(
+        fun clawH(hardwareMap: HardwareMap) = Claw(
             hardwareMap = hardwareMap
         )
 
@@ -48,7 +48,7 @@ class Claw(
         positionRange = leftFingerRange
     )
     private val rightFinger = ServoEx(
-        servo = hardwareMap.get(Servo::class.java, "leftFinger"),
+        servo = hardwareMap.get(Servo::class.java, "rightFinger"),
         maxAngle = 180.deg,
         positionRange = rightFingerRange,
         servoDirection = Servo.Direction.REVERSE
@@ -124,6 +124,11 @@ class Claw(
         openLeft()
     )
 
+    init {
+        clawPosition = clawRampPos
+        leftFingerPosition = 1.0
+        rightFingerPosition = 1.0
+    }
     /*fun updateRightAngle() {
         rightAngle.position = angleServo.position
     }*/

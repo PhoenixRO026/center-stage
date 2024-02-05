@@ -96,7 +96,7 @@ public final class MecanumDriveEx {
         public double headingVelGain = 0.0; // shared with turn
     }
 
-    public static final int imuPersistanceFrequency = 10;
+    public static final int imuPersistanceFrequency = 30;
 
     private int persistentImuCounter = 1;
 

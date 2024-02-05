@@ -17,7 +17,7 @@ class ArmMulti(
     val queue: ConcurrentLinkedQueue<() -> Unit> = ConcurrentLinkedQueue()
 
     companion object {
-        fun armMulti(hardwareMap: HardwareMap) = ArmMulti(hardwareMap)
+        fun armMultiH(hardwareMap: HardwareMap) = ArmMulti(hardwareMap)
 
         fun HardwareMap.armMulti() = ArmMulti(this)
     }

@@ -14,7 +14,7 @@ class ColorTest2 : MultiThreadOpMode() {
     override fun sideRunOpMode() {
         val colorV2 = hardwareMap.get(ColorRangeSensor::class.java, "colorV2")
 
-        var deltaTime = 20.ms
+        var deltaTime: Time
         var previousTime = System.currentTimeMillis().ms
 
         waitForStart()

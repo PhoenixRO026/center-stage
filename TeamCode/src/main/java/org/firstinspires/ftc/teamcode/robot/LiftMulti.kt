@@ -12,7 +12,7 @@ class LiftMulti(
     private val innerLift: Lift = Lift(hardwareMap)
 ) {
     companion object {
-        fun liftMulti(hardwareMap: HardwareMap) = LiftMulti(hardwareMap)
+        fun liftMultiH(hardwareMap: HardwareMap) = LiftMulti(hardwareMap)
 
         fun HardwareMap.liftMulti() = LiftMulti(this)
     }

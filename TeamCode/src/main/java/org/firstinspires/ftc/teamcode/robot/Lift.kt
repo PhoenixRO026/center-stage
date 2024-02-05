@@ -15,7 +15,7 @@ class Lift(
         const val hangTicks = 600
         const val rampTicks = 70
 
-        fun lift(hardwareMap: HardwareMap) = Lift(hardwareMap)
+        fun liftH(hardwareMap: HardwareMap) = Lift(hardwareMap)
 
         fun HardwareMap.lift() = Lift(this)
     }
@@ -33,7 +33,7 @@ class Lift(
         onPowerUpdate = ::updateRightMotor
     )
     private val rightMotor = hardwareMap.gobilda312(
-        deviceName = "rightLIft",
+        deviceName = "rightLift",
         changeThreshold = 0.0
     )
 

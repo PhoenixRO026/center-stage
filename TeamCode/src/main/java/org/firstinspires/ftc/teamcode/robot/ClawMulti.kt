@@ -16,7 +16,7 @@ class ClawMulti(
     val queue: ConcurrentLinkedQueue<() -> Unit> = ConcurrentLinkedQueue()
 
     companion object {
-        fun clawMulti(hardwareMap: HardwareMap) = ClawMulti(hardwareMap)
+        fun clawMultiH(hardwareMap: HardwareMap) = ClawMulti(hardwareMap)
 
         fun HardwareMap.clawMulti() = ClawMulti(this)
     }

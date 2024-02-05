@@ -4,17 +4,23 @@ import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.canvas.Canvas
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket
+import com.outoftheboxrobotics.photoncore.Photon
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import org.firstinspires.ftc.teamcode.lib.opmode.MultiThreadOpMode
 import org.firstinspires.ftc.teamcode.lib.units.Pose
 import org.firstinspires.ftc.teamcode.lib.units.Time
 import org.firstinspires.ftc.teamcode.lib.units.cm
 import org.firstinspires.ftc.teamcode.lib.units.deg
 import org.firstinspires.ftc.teamcode.lib.units.ms
+import org.firstinspires.ftc.teamcode.lib.units.rev
+import org.firstinspires.ftc.teamcode.lib.units.s
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDriveEx
 import org.firstinspires.ftc.teamcode.robot.ArmMulti.Companion.armMulti
 import org.firstinspires.ftc.teamcode.robot.ClawMulti.Companion.clawMulti
 import org.firstinspires.ftc.teamcode.robot.LiftMulti.Companion.liftMulti
 
+@Autonomous
+@Photon
 class ExampleAuto : MultiThreadOpMode() {
     private val startPose = Pose(0.cm, 0.cm, 0.deg)
 
@@ -63,7 +69,7 @@ class ExampleAuto : MultiThreadOpMode() {
         telemetry = MultipleTelemetry(telemetry, dash.telemetry)
 
         val action = drive.actionBuilder(startPose)
-            .lineToX(20.cm)
+            .turn(100.rev)
             .build()
 
         waitForStart()
@@ -86,8 +92,8 @@ class ExampleAuto : MultiThreadOpMode() {
             }
 
             dash.sendTelemetryPacket(p)
-            telemetry.addData("main delta time", deltaTime)
-            telemetry.addData("side delta time", sideDeltaTime)
+            telemetry.addData("main delta fps", 1.s / deltaTime)
+            telemetry.addData("side delta time", 1.s / sideDeltaTime)
             telemetry.update()
         }
     }
