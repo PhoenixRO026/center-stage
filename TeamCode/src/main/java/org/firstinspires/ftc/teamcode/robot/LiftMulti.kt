@@ -17,7 +17,7 @@ class LiftMulti(
         fun HardwareMap.liftMulti() = LiftMulti(this)
     }
 
-    val queue = ConcurrentLinkedQueue<() -> Unit>()
+    private val queue = ConcurrentLinkedQueue<() -> Unit>()
 
     var power by LazyWrite(
         queue,

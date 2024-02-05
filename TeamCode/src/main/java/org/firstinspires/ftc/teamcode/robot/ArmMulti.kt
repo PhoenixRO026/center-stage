@@ -10,11 +10,12 @@ import org.firstinspires.ftc.teamcode.lib.units.Time
 import org.firstinspires.ftc.teamcode.lib.units.s
 import java.util.concurrent.ConcurrentLinkedQueue
 
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 class ArmMulti(
     hardwareMap: HardwareMap,
     private val innerArm: Arm = Arm(hardwareMap)
 ) {
-    val queue: ConcurrentLinkedQueue<() -> Unit> = ConcurrentLinkedQueue()
+    private val queue: ConcurrentLinkedQueue<() -> Unit> = ConcurrentLinkedQueue()
 
     companion object {
         fun armMultiH(hardwareMap: HardwareMap) = ArmMulti(hardwareMap)

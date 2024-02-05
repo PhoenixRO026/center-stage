@@ -56,6 +56,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+/** @noinspection ALL*/
 @Config
 public final class MecanumDriveEx {
     public static class Params {
@@ -89,14 +90,14 @@ public final class MecanumDriveEx {
         // path controller gains
         public double axialGain = 38.0;
         public double lateralGain = 50.0;
-        public double headingGain = 25.0; // shared with turn
+        public double headingGain = 50.0; // shared with turn
 
         public double axialVelGain = 1.0;
         public double lateralVelGain = 1.0;
-        public double headingVelGain = 0.0; // shared with turn
-    }
+        public double headingVelGain = 5.0; // shared with turn
 
-    public static final int imuPersistanceFrequency = 30;
+        public int imuPersistanceFrequency = 30;
+    }
 
     private int persistentImuCounter = 1;
 
@@ -463,7 +464,7 @@ public final class MecanumDriveEx {
         Twist2dDual<Time> twist = localizer.update();
         pose = pose.plus(twist.value());
 
-        if (persistentImuCounter == imuPersistanceFrequency) {
+        if (persistentImuCounter >= PARAMS.imuPersistanceFrequency) {
             double imuHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
             pose = new Pose2d(pose.position, imuHeading);
             persistentImuCounter = 0;
