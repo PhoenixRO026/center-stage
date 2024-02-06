@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.SequentialAction
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.lib.units.SleepAction
+import org.firstinspires.ftc.teamcode.lib.units.Time
 import org.firstinspires.ftc.teamcode.lib.units.deg
 import org.firstinspires.ftc.teamcode.lib.units.s
 import org.firstinspires.ftc.teamcode.robot.hardware.ServoEx
@@ -18,7 +19,9 @@ class Claw(
 ) {
     companion object {
         const val fingerOffset = 0.12
-        const val clawRampPos = 0.678
+        const val rampPos = 0.653
+        const val scorePos = 0.819
+        const val fingerRampPos = 0.193
         val fingerRange = 0.24..0.55
         val leftFingerRange = 0.0..(1.0 - fingerOffset)
         val rightFingerRange = fingerOffset..1.0
@@ -34,6 +37,8 @@ class Claw(
     private val angleServo = ServoEx(
         servo = hardwareMap.get(Servo::class.java, "clawAngle"),
         maxAngle = 355.deg,
+        changeTreshold = 0.0,
+        speed = 0.5
         //onPositionUpdate = ::updateRightAngle
     )
     /*private val rightAngle = ServoEx(
@@ -99,7 +104,7 @@ class Claw(
         SleepAction(0.1.s)
     )
 
-    fun clawToRamp() = clawToPos(clawRampPos)
+    fun clawToRamp() = clawToPos(rampPos)
 
     fun leftFingerToPos(newPos: Double) = SequentialAction(
         InstantAction { leftFingerPosition = newPos },
@@ -124,8 +129,14 @@ class Claw(
         openLeft()
     )
 
+    fun update(deltaTime: Time) {
+        angleServo.update(deltaTime)
+        leftFinger.update(deltaTime)
+        rightFinger.update(deltaTime)
+    }
+
     init {
-        clawPosition = clawRampPos
+        clawPosition = rampPos
         leftFingerPosition = 1.0
         rightFingerPosition = 1.0
     }

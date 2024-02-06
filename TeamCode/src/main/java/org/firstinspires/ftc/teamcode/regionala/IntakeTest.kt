@@ -4,6 +4,8 @@ import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.canvas.Canvas
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket
+import com.acmerobotics.roadrunner.InstantAction
+import com.acmerobotics.roadrunner.ParallelAction
 import com.acmerobotics.roadrunner.SequentialAction
 import com.outoftheboxrobotics.photoncore.Photon
 import com.qualcomm.hardware.lynx.LynxModule
@@ -21,6 +23,8 @@ import org.firstinspires.ftc.teamcode.roadrunner.MecanumDriveEx
 import org.firstinspires.ftc.teamcode.robot.ArmMulti.Companion.armMulti
 import org.firstinspires.ftc.teamcode.robot.ClawMulti.Companion.clawMulti
 import org.firstinspires.ftc.teamcode.robot.ColorSensorsMulti.Companion.colorSensMulti
+import org.firstinspires.ftc.teamcode.robot.Intake
+import org.firstinspires.ftc.teamcode.robot.IntakeMulti.Companion.intakeMulti
 import org.firstinspires.ftc.teamcode.robot.Lift
 import org.firstinspires.ftc.teamcode.robot.LiftMulti.Companion.liftMulti
 import org.firstinspires.ftc.teamcode.robot.hardware.controlHub
@@ -28,7 +32,7 @@ import org.firstinspires.ftc.teamcode.robot.hardware.expansionHub
 
 @Autonomous
 @Photon
-class ExampleAuto : MultiThreadOpMode() {
+class IntakeTest : MultiThreadOpMode() {
     private val startPose = Pose(0.cm, 0.cm, 0.deg)
 
     private val drive by opModeLazy {
@@ -49,6 +53,10 @@ class ExampleAuto : MultiThreadOpMode() {
 
     private val colorSensors by opModeLazy {
         hardwareMap.colorSensMulti()
+    }
+
+    private val intake by opModeLazy {
+        hardwareMap.intakeMulti()
     }
 
     private var sideDeltaTime = 20.ms
@@ -74,6 +82,8 @@ class ExampleAuto : MultiThreadOpMode() {
             claw.write()
             lift.read()
             lift.write()
+            intake.write()
+            intake.update(sideDeltaTime)
             colorSensors.read()
         }
     }
@@ -91,11 +101,18 @@ class ExampleAuto : MultiThreadOpMode() {
         telemetry = MultipleTelemetry(telemetry, dash.telemetry)
 
         val action = SequentialAction(
-            lift.goToPass(),
-            arm.goToScore(),
-            SleepAction(1.s),
-            arm.goToRamp(),
-            lift.goToRamp()
+            InstantAction { intake.power = 1.0 },
+            ParallelAction(
+                intake.waitForPos(Intake.aboveStack),
+                claw.openRamp()
+            ),
+            InstantAction { intake.targetPosition = Intake.IntakeConfig.stack1 },
+            colorSensors.waitForLeftPixel(),
+            InstantAction {
+                intake.power = 0.0
+                intake.position = Intake.aboveStack
+                          },
+            claw.closeClaw()
         )
 
         waitForStart()
@@ -105,7 +122,7 @@ class ExampleAuto : MultiThreadOpMode() {
 
         var running = true
 
-        while (isStarted && !isStopRequested && running) {
+        while (isStarted && !isStopRequested /*&& running*/) {
             val now = System.currentTimeMillis().ms
             deltaTime = now - previousTime
             previousTime = now
@@ -123,8 +140,14 @@ class ExampleAuto : MultiThreadOpMode() {
 
             telemetry.addData("main delta fps", 1.s / deltaTime)
             telemetry.addData("side delta time", 1.s / sideDeltaTime)
+            telemetry.addData("left pixel in", colorSensors.leftPixelIn)
+            telemetry.addData("left alpha", colorSensors.leftColor.alpha)
+            telemetry.addData("right pixel in", colorSensors.rightPixelIn)
+            telemetry.addData("right alpha", colorSensors.rightColor.alpha)
             telemetry.addData("lift busy", lift.isBusy)
             telemetry.addData("arm busy", arm.isBusy)
+            telemetry.addData("intake pos", intake.position)
+            telemetry.addData("running", running )
             telemetry.update()
         }
     }

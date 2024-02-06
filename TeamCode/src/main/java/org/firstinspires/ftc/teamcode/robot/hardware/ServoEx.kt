@@ -19,7 +19,7 @@ class ServoEx @JvmOverloads constructor(
     positionRange: ClosedRange<Double> = 0.0..1.0,
     servoDirection: Direction = servo.direction,
     private val changeTreshold: Double = 0.01,
-    private val speed: Double = 0.1,
+    var speed: Double = 0.1,
     private val onPositionUpdate: () -> Unit = {},
 ) {
     companion object {
@@ -28,19 +28,21 @@ class ServoEx @JvmOverloads constructor(
         const val maxPwmRange = maxPwm - minPwm
 
         @JvmOverloads
-        fun axonMax180(servo: Servo, range: ClosedRange<Double> = 0.0..1.0, changeTreshold: Double = 0.01) = ServoEx(
+        fun axonMax180(servo: Servo, range: ClosedRange<Double> = 0.0..1.0, changeTreshold: Double = 0.01, speed: Double = 0.1) = ServoEx(
             servo = servo,
             maxAngle = 180.deg,
             positionRange = range,
-            changeTreshold = changeTreshold
+            changeTreshold = changeTreshold,
+            speed = speed
         )
 
         @JvmOverloads
-        fun HardwareMap.axonMax180(deviceName: String, range: ClosedRange<Double> = 0.0..1.0, changeTreshold: Double = 0.01) =
+        fun HardwareMap.axonMax180(deviceName: String, range: ClosedRange<Double> = 0.0..1.0, changeTreshold: Double = 0.01, speed: Double = 0.1) =
             axonMax180(
                 servo = get(Servo::class.java, deviceName),
                 range = range,
-                changeTreshold = changeTreshold
+                changeTreshold = changeTreshold,
+                speed = speed
             )
 
         @JvmOverloads

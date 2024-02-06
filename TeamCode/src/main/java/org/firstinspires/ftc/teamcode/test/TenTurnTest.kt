@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.test
 
 import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.ftc.runBlocking
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.lib.units.Pose
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.lib.units.ex
 import org.firstinspires.ftc.teamcode.lib.units.rev
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive
 
+@Disabled
 @TeleOp(group = "tuning")
 class TenTurnTest : LinearOpMode() {
 

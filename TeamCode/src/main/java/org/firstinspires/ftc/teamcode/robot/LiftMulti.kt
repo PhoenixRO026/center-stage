@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.Action
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.lib.units.deg
 import java.util.concurrent.ConcurrentLinkedQueue
+import kotlin.math.abs
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class LiftMulti(
@@ -50,9 +51,14 @@ class LiftMulti(
                 isBusy = true
             }
 
-            return isBusy
+            return abs(position - ticks) > Lift.toleranceTicks
         }
     }
+
+    fun goToPass() = goToTicks(Lift.passTicks)
+
+    fun goToRamp() = goToTicks(0)
+
     fun goToRampAsync() {
         queue.add {
             innerLift.goToRampAsync()

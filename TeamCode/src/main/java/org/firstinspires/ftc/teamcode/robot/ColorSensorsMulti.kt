@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.robot
 
+import com.acmerobotics.roadrunner.Action
 import com.qualcomm.robotcore.hardware.ColorRangeSensor
 import com.qualcomm.robotcore.hardware.HardwareMap
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
-import org.firstinspires.ftc.teamcode.lib.units.mm
+import com.qualcomm.robotcore.hardware.NormalizedRGBA
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class ColorSensorsMulti(
@@ -23,29 +23,34 @@ class ColorSensorsMulti(
 
     val rightPixelIn get() = rightColor.alpha > 0.045
 
-    var leftColor = leftColorSens.normalizedColors
+    var leftColor: NormalizedRGBA = leftColorSens.normalizedColors
         private set
 
-    var rightColor = rightColorSens.normalizedColors
+    var rightColor: NormalizedRGBA = rightColorSens.normalizedColors
         private set
 
-    var leftDistance = leftColorSens.getDistance(DistanceUnit.MM).mm
-        private set
+    fun waitForLeftPixel() = Action { !leftPixelIn }
 
-    var rightDistance = rightColorSens.getDistance(DistanceUnit.MM).mm
-        private set
+    fun waitForRightPixel() = Action { !rightPixelIn }
 
-    var leftLight = leftColorSens.lightDetected
-        private set
+//    var leftDistance = leftColorSens.getDistance(DistanceUnit.MM).mm
+//        private set
 
-    var rightLight = rightColorSens.lightDetected
+//    var rightDistance = rightColorSens.getDistance(DistanceUnit.MM).mm
+//        private set
+
+//    var leftLight = leftColorSens.lightDetected
+//        private set
+
+//    var rightLight = rightColorSens.lightDetected
+//        private set
 
     fun read() {
         leftColor = leftColorSens.normalizedColors
-        leftDistance = leftColorSens.getDistance(DistanceUnit.MM).mm
-        leftLight = leftColorSens.lightDetected
+        //leftDistance = leftColorSens.getDistance(DistanceUnit.MM).mm
+        //leftLight = leftColorSens.lightDetected
         rightColor = rightColorSens.normalizedColors
-        rightDistance = rightColorSens.getDistance(DistanceUnit.MM).mm
-        rightLight = rightColorSens.lightDetected
+        //rightDistance = rightColorSens.getDistance(DistanceUnit.MM).mm
+        //rightLight = rightColorSens.lightDetected
     }
 }

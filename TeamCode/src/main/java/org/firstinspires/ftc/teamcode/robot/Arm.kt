@@ -21,8 +21,9 @@ class Arm(
         const val servoOffset = 0.015
         val leftServoRange = servoOffset..1.0
         val rightServoRange = 0.0..(1.0 - servoOffset)
-        const val speed = 0.1
+        const val speed = 0.6
         const val rampPos = 0.395
+        const val scorePos = 0.756
 
         fun HardwareMap.arm() = Arm(this)
     }
@@ -32,7 +33,8 @@ class Arm(
         maxAngle =  355.deg,
         positionRange = rightServoRange,
         speed = speed,
-        onPositionUpdate = ::updateLeftServo
+        onPositionUpdate = ::updateLeftServo,
+        changeTreshold = 0.0
     )
     private val leftServo = ServoEx(
         servo =  hardwareMap.get(Servo::class.java, "leftArm"),
@@ -44,6 +46,8 @@ class Arm(
     private fun updateLeftServo() {
         leftServo.position = rightServo.position
     }
+
+    val realPosition by rightServo::cachedPosition
 
     var position by rightServo::position
 
@@ -94,6 +98,6 @@ class Arm(
     }
 
     init {
-        position = rampPos
+        position = rampPos + 0.02
     }
 }

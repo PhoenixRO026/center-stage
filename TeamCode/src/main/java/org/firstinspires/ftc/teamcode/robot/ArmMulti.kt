@@ -59,6 +59,8 @@ class ArmMulti(
         SleepAction(0.1.s)
     )
 
+    fun goToScore() = goToPos(Arm.scorePos)
+
     fun goToAngle(newAngle: Angle) = SequentialAction(
         object : Action {
             var init = true

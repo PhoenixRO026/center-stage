@@ -74,7 +74,7 @@ class ClawMulti(
         SleepAction(0.1.s)
     )
 
-    fun clawToRamp() = clawToPos(Claw.clawRampPos)
+    fun clawToRamp() = clawToPos(Claw.rampPos)
 
     fun leftFingerToPos(newPos: Double) = SequentialAction(
         InstantAction { leftFingerPosition = newPos },
@@ -84,6 +84,11 @@ class ClawMulti(
     fun openLeft() = leftFingerToPos(0.0)
 
     fun closeLeft() = leftFingerToPos(1.0)
+
+    fun openRamp() = ParallelAction(
+        leftFingerToPos(Claw.fingerRampPos),
+        rightFingerToPos(Claw.fingerRampPos)
+    )
 
     fun rightFingerToPos(newPos: Double) = SequentialAction(
         InstantAction { rightFingerPosition = newPos },
@@ -95,8 +100,8 @@ class ClawMulti(
     fun closeRight() = rightFingerToPos(1.0)
 
     fun closeClaw() = ParallelAction(
-        openRight(),
-        openLeft()
+        closeRight(),
+        closeLeft()
     )
 
     fun write() {

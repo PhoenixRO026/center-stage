@@ -14,6 +14,8 @@ class Lift(
     companion object {
         const val hangTicks = 600
         const val rampTicks = 70
+        const val passTicks = 1500
+        const val toleranceTicks = 10
 
         fun liftH(hardwareMap: HardwareMap) = Lift(hardwareMap)
 
@@ -29,7 +31,8 @@ class Lift(
 
     private val leftMotor = hardwareMap.gobilda312(
         deviceName = "leftLift",
-        onPowerUpdate = ::updateRightMotor
+        //onPowerUpdate = ::updateRightMotor,
+        changeThreshold = 0.0
     )
     private val rightMotor = hardwareMap.gobilda312(
         deviceName = "rightLift",
@@ -37,9 +40,9 @@ class Lift(
         changeThreshold = 0.0
     )
 
-    private fun updateRightMotor() {
+    /*private fun updateRightMotor() {
         rightMotor.power = leftMotor.power
-    }
+    }*/
 
     private var mode = MODE.RAW
         set(value) {
@@ -85,6 +88,7 @@ class Lift(
             }
             if (mode == MODE.RAW) {
                 leftMotor.power = value
+                rightMotor.power = value
             }
         }
 

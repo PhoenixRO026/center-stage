@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.test.intake
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.lib.opmode.OpModeEx
 
+@Disabled
 @TeleOp
 class IntakeTest : OpModeEx() {
     val motor by opModeLazy {
