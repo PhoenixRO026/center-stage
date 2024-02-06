@@ -67,6 +67,8 @@ class Claw(
 
     var clawTargetAngle by angleServo::targetAngle
 
+    val isBusy by angleServo::isBusy
+
     var leftFingerPosition
         get() = leftFinger.position.reverseScale(fingerRange)
         set(value) {

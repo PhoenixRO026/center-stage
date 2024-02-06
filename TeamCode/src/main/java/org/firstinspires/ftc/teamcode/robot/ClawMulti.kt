@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.robot
 
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket
+import com.acmerobotics.roadrunner.Action
 import com.acmerobotics.roadrunner.InstantAction
 import com.acmerobotics.roadrunner.ParallelAction
 import com.acmerobotics.roadrunner.SequentialAction
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.lib.units.SleepAction
+import org.firstinspires.ftc.teamcode.lib.units.Time
 import org.firstinspires.ftc.teamcode.lib.units.s
 import java.util.concurrent.ConcurrentLinkedQueue
 
@@ -67,10 +70,23 @@ class ClawMulti(
         { innerClaw.rightFingerAngle }
     )
 
+    val isBusy by innerClaw::isBusy
+
     private var rightFingerTargetAngle by innerClaw::rightFingerTargetAngle
 
     fun clawToPos(newPos: Double) = SequentialAction(
-        InstantAction { clawPosition = newPos },
+        object : Action {
+            var init = true
+
+            override fun run(p: TelemetryPacket): Boolean {
+                if (init) {
+                    init = false
+                    clawTargetPosition = newPos
+                }
+
+                return isBusy
+            }
+        },
         SleepAction(0.1.s)
     )
 
@@ -78,7 +94,7 @@ class ClawMulti(
 
     fun leftFingerToPos(newPos: Double) = SequentialAction(
         InstantAction { leftFingerPosition = newPos },
-        SleepAction(0.1.s)
+        SleepAction(0.2.s)
     )
 
     fun openLeft() = leftFingerToPos(0.0)
@@ -90,9 +106,11 @@ class ClawMulti(
         rightFingerToPos(Claw.fingerRampPos)
     )
 
+    fun clawToScore() = clawToPos(Claw.scorePos)
+
     fun rightFingerToPos(newPos: Double) = SequentialAction(
         InstantAction { rightFingerPosition = newPos },
-        SleepAction(0.1.s)
+        SleepAction(0.2.s)
     )
 
     fun openRight() = rightFingerToPos(0.0)
@@ -103,6 +121,10 @@ class ClawMulti(
         closeRight(),
         closeLeft()
     )
+
+    fun update(deltaTime: Time) {
+        innerClaw.update(deltaTime)
+    }
 
     fun write() {
         while (queue.isNotEmpty()) {

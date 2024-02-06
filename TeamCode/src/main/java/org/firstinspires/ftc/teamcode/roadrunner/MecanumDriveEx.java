@@ -90,11 +90,11 @@ public final class MecanumDriveEx {
         // path controller gains
         public double axialGain = 38.0;
         public double lateralGain = 50.0;
-        public double headingGain = 50.0; // shared with turn
+        public double headingGain = 38.0; // shared with turn
 
         public double axialVelGain = 1.0;
         public double lateralVelGain = 1.0;
-        public double headingVelGain = 5.0; // shared with turn
+        public double headingVelGain = 1.0; // shared with turn
 
         public int imuPersistanceFrequency = 30;
     }
@@ -124,6 +124,7 @@ public final class MecanumDriveEx {
 
     public final Localizer localizer;
     public Pose2d pose;
+    public double startHeading;
     public PoseVelocity2d velocity;
 
     private final LinkedList<Pose2d> poseHistory = new LinkedList<>();
@@ -208,6 +209,7 @@ public final class MecanumDriveEx {
 
     public MecanumDriveEx(HardwareMap hardwareMap, Pose2d pose) {
         this.pose = pose;
+        startHeading = pose.heading.toDouble();
 
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
 
@@ -465,7 +467,7 @@ public final class MecanumDriveEx {
         pose = pose.plus(twist.value());
 
         if (persistentImuCounter >= PARAMS.imuPersistanceFrequency) {
-            double imuHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            double imuHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS) + startHeading;
             pose = new Pose2d(pose.position, imuHeading);
             persistentImuCounter = 0;
         }
