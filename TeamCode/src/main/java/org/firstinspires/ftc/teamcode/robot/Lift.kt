@@ -15,7 +15,8 @@ class Lift(
         const val hangTicks = 600
         const val rampTicks = 70
         const val passTicks = 1500
-        const val yellowPixelTicks = 1000
+        const val aboveYellowTicks = 1200
+        const val yellowPixelTicks = 950
         const val toleranceTicks = 10
 
         fun liftH(hardwareMap: HardwareMap) = Lift(hardwareMap)

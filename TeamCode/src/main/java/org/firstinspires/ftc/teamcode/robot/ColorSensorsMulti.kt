@@ -1,15 +1,20 @@
 package org.firstinspires.ftc.teamcode.robot
 
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket
 import com.acmerobotics.roadrunner.Action
 import com.qualcomm.robotcore.hardware.ColorRangeSensor
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.NormalizedRGBA
+import org.firstinspires.ftc.teamcode.lib.units.Time
+import org.firstinspires.ftc.teamcode.lib.units.ms
+import org.firstinspires.ftc.teamcode.lib.units.s
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class ColorSensorsMulti(
     hardwareMap: HardwareMap
 ) {
     companion object {
+        val waitTime = 2.s
         fun colorSensMultiH(hardwareMap: HardwareMap) = ColorSensorsMulti(hardwareMap)
 
         fun HardwareMap.colorSensMulti() = ColorSensorsMulti(this)
@@ -29,9 +34,35 @@ class ColorSensorsMulti(
     var rightColor: NormalizedRGBA = rightColorSens.normalizedColors
         private set
 
-    fun waitForLeftPixel() = Action { !leftPixelIn }
+    fun waitForLeftPixel() = object : Action {
+        var init = true
+        var startTime: Time = 0.ms
 
-    fun waitForRightPixel() = Action { !rightPixelIn }
+        override fun run(p: TelemetryPacket): Boolean {
+            if (init) {
+                init = false
+
+                startTime = System.currentTimeMillis().ms
+            }
+
+            return !leftPixelIn && (System.currentTimeMillis().ms - startTime) < 2.s
+        }
+    }
+
+    fun waitForRightPixel() = object : Action {
+        var init = true
+        var startTime: Time = 0.ms
+
+        override fun run(p: TelemetryPacket): Boolean {
+            if (init) {
+                init = false
+
+                startTime = System.currentTimeMillis().ms
+            }
+
+            return !rightPixelIn && (System.currentTimeMillis().ms - startTime) < 2.s
+        }
+    }
 
 //    var leftDistance = leftColorSens.getDistance(DistanceUnit.MM).mm
 //        private set

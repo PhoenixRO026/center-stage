@@ -89,12 +89,12 @@ public final class MecanumDriveEx {
 
         // path controller gains
         public double axialGain = 38.0;
-        public double lateralGain = 50.0;
-        public double headingGain = 38.0; // shared with turn
+        public double lateralGain = 55.0;
+        public double headingGain = 45.0; // shared with turn
 
         public double axialVelGain = 1.0;
-        public double lateralVelGain = 1.0;
-        public double headingVelGain = 1.0; // shared with turn
+        public double lateralVelGain = 3.0;
+        public double headingVelGain = 2.0; // shared with turn
 
         public int imuPersistanceFrequency = 30;
     }

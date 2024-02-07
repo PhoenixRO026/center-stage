@@ -14,6 +14,7 @@ class Time(val s: Double) {
     operator fun div(scalar: Number) = Time(s / scalar.toDouble())
     operator fun div(other: Time) = s / other.s
     operator fun unaryMinus() = Time(-s)
+    operator fun compareTo(other: Time) = s.compareTo(other.s)
 
     override fun toString() = "$s " + if (s == 1.0) "second" else "seconds"
 }
