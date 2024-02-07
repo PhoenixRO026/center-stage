@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.robot.ArmMulti.Companion.armMulti
 import org.firstinspires.ftc.teamcode.robot.Camera
 import org.firstinspires.ftc.teamcode.robot.ClawMulti.Companion.clawMulti
 import org.firstinspires.ftc.teamcode.robot.ColorSensorsMulti.Companion.colorSensMulti
-import org.firstinspires.ftc.teamcode.robot.DetectionPipeline
+import org.firstinspires.ftc.teamcode.robot.ColorVisionProcessor
 import org.firstinspires.ftc.teamcode.robot.IntakeMulti.Companion.intakeMulti
 import org.firstinspires.ftc.teamcode.robot.LiftMulti.Companion.liftMulti
 import org.firstinspires.ftc.teamcode.robot.hardware.controlHub
@@ -105,8 +105,8 @@ class AutoRedRight : MultiThreadOpMode() {
 
         telemetry = MultipleTelemetry(telemetry, dash.telemetry)
 
-        camera.setColor(DetectionPipeline.DetectionColor.RED)
-        camera.openCamera()
+        camera.telemetry = telemetry
+        camera.setColor(ColorVisionProcessor.DetectionColor.RED)
 
         val actionMiddle = SequentialAction(
             ParallelAction(
@@ -150,9 +150,9 @@ class AutoRedRight : MultiThreadOpMode() {
         }
 
         val action = when(camera.detectionPosition) {
-            DetectionPipeline.DetectionPosition.LEFT -> actionMiddle
-            DetectionPipeline.DetectionPosition.CENTER -> actionMiddle
-            DetectionPipeline.DetectionPosition.RIGHT -> actionMiddle
+            ColorVisionProcessor.DetectionPosition.LEFT -> actionMiddle
+            ColorVisionProcessor.DetectionPosition.CENTER -> actionMiddle
+            ColorVisionProcessor.DetectionPosition.RIGHT -> actionMiddle
         }
 
         val c = Canvas()

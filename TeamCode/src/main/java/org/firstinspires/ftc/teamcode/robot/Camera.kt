@@ -1,69 +1,64 @@
 package org.firstinspires.ftc.teamcode.robot
 
+import android.util.Size
 import com.acmerobotics.dashboard.FtcDashboard
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
-import org.openftc.easyopencv.OpenCvCamera.AsyncCameraOpenListener
-import org.openftc.easyopencv.OpenCvCameraFactory
-import org.openftc.easyopencv.OpenCvCameraRotation
-import org.openftc.easyopencv.OpenCvWebcam
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
+import org.firstinspires.ftc.vision.VisionPortal
+import org.firstinspires.ftc.vision.VisionPortalImpl
+import org.firstinspires.ftc.vision.VisionProcessor
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor
+import org.openftc.easyopencv.OpenCvCamera
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class Camera(
     hardwareMap: HardwareMap,
-    private val telemetry: Telemetry? = null
+    var telemetry: Telemetry? = null
 ) {
-    private val webcam: OpenCvWebcam
-    private val pipeline = DetectionPipeline()
+    val aprilTagProcessor: AprilTagProcessor = AprilTagProcessor.Builder()
+        .setOutputUnits(DistanceUnit.INCH, AngleUnit.RADIANS)
+        .build()
+    //val aprilTagProcessor: AprilTagProcessor = AprilTagProcessor.easyCreateWithDefaults()
+    val detectionProcessor = ColorVisionProcessor()
+    val visionPortal: VisionPortal = VisionPortal.easyCreateWithDefaults(
+        hardwareMap.get(WebcamName::class.java, "Webcam 1"),
+        detectionProcessor, detectionProcessor
+    )
 
-    val detectionPosition: DetectionPipeline.DetectionPosition
-        get() = pipeline.analysis
+    val detectionPosition: ColorVisionProcessor.DetectionPosition
+        get() = detectionProcessor.analysis
 
-    fun setColor(color: DetectionPipeline.DetectionColor) {
-        pipeline.setDetectionColor(color)
+    fun setColor(color: ColorVisionProcessor.DetectionColor) {
+        detectionProcessor.setDetectionColor(color)
     }
+
+    fun disableColorDetection() = visionPortal.setProcessorEnabled(detectionProcessor, false)
+
+    fun enableAprilTagDetection() = visionPortal.setProcessorEnabled(aprilTagProcessor, true)
 
     fun displayDetection() {
         when (detectionPosition) {
-            DetectionPipeline.DetectionPosition.LEFT -> telemetry?.addLine("LEFT CASE")
-            DetectionPipeline.DetectionPosition.CENTER -> telemetry?.addLine("CENTER CASE")
-            DetectionPipeline.DetectionPosition.RIGHT -> telemetry?.addLine("RIGHT CASE")
+            ColorVisionProcessor.DetectionPosition.LEFT -> telemetry?.addLine("LEFT CASE")
+            ColorVisionProcessor.DetectionPosition.CENTER -> telemetry?.addLine("CENTER CASE")
+            ColorVisionProcessor.DetectionPosition.RIGHT -> telemetry?.addLine("RIGHT CASE")
         }
     }
 
     fun stopStream() {
-        webcam.stopStreaming()
+        visionPortal.stopStreaming()
     }
 
-    fun openCamera() {
-        webcam.openCameraDeviceAsync(object : AsyncCameraOpenListener {
-            override fun onOpened() {
-                webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT)
-            }
-
-            override fun onError(errorCode: Int) {
-                telemetry?.addLine("Failed to open camera")
-                telemetry?.update()
-            }
-        })
+    fun resumeStream() {
+        visionPortal.resumeStreaming()
     }
 
     init {
-        val cameraMonitorViewId = hardwareMap.appContext.resources.getIdentifier(
-            "cameraMonitorViewId",
-            "id",
-            hardwareMap.appContext.packageName
-        )
+        visionPortal.setProcessorEnabled(aprilTagProcessor, false)
 
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(
-            hardwareMap.get(
-                WebcamName::class.java, "Webcam 1"
-            ), cameraMonitorViewId
-        )
-
-        FtcDashboard.getInstance().startCameraStream(webcam, 30.0)
-
-        webcam.setPipeline(pipeline)
+        FtcDashboard.getInstance().startCameraStream((visionPortal as VisionPortalImplEx).getCamera(), 30.0)
     }
 }

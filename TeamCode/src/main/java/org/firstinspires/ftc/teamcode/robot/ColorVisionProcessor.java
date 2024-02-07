@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.robot;
 
+import android.graphics.Canvas;
+
+import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
+import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -8,8 +12,7 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-public class DetectionPipeline extends OpenCvPipeline
-{
+public class ColorVisionProcessor implements VisionProcessor {
     /*
      * An enum to define the skystone position
      */
@@ -34,11 +37,11 @@ public class DetectionPipeline extends OpenCvPipeline
     /*
      * The core values which define the location and size of the sample regions
      */
-    static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(0,130);
-    static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(140,130);
-    static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(290,130);
-    static final int REGION_WIDTH = 30;
-    static final int REGION_HEIGHT = 30;
+    static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(0,130 * 2);
+    static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(140 * 2,130 * 2);
+    static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(290 * 2,130 * 2);
+    static final int REGION_WIDTH = 30 * 2;
+    static final int REGION_HEIGHT = 30 * 2;
 
     /*
      * Points which actually define the sample region rectangles, derived from above values
@@ -117,9 +120,16 @@ public class DetectionPipeline extends OpenCvPipeline
         Core.extractChannel(YCrCb, Cr, 1);
     }
 
-    @Override
-    public void init(Mat firstFrame)
+    /*
+     * Call this from the OpMode thread to obtain the latest analysis
+     */
+    public DetectionPosition getAnalysis()
     {
+        return position;
+    }
+
+    @Override
+    public void init(int width, int height, CameraCalibration calibration) {
         /*
          * We need to call this in order to make sure the 'Cb'
          * object is initialized, so that the submats we make
@@ -129,8 +139,8 @@ public class DetectionPipeline extends OpenCvPipeline
          * buffer would be re-allocated the first time a real frame
          * was crunched)
          */
-        inputToCb(firstFrame);
-        inputToCr(firstFrame);
+        //inputToCb(firstFrame);
+        //inputToCr(firstFrame);
 
         /*
          * Submats are a persistent reference to a region of the parent
@@ -147,8 +157,7 @@ public class DetectionPipeline extends OpenCvPipeline
     }
 
     @Override
-    public Mat processFrame(Mat input)
-    {
+    public Object processFrame(Mat input, long captureTimeNanos) {
         /*
          * Overview of what we're doing:
          *
@@ -315,11 +324,8 @@ public class DetectionPipeline extends OpenCvPipeline
         return input;
     }
 
-    /*
-     * Call this from the OpMode thread to obtain the latest analysis
-     */
-    public DetectionPosition getAnalysis()
-    {
-        return position;
+    @Override
+    public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
+
     }
 }
