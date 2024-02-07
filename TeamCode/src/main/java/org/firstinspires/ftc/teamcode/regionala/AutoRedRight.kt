@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.canvas.Canvas
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket
+import com.acmerobotics.roadrunner.InstantAction
 import com.acmerobotics.roadrunner.ParallelAction
 import com.acmerobotics.roadrunner.SequentialAction
 import com.outoftheboxrobotics.photoncore.Photon
@@ -23,6 +24,7 @@ import org.firstinspires.ftc.teamcode.robot.Camera
 import org.firstinspires.ftc.teamcode.robot.ClawMulti.Companion.clawMulti
 import org.firstinspires.ftc.teamcode.robot.ColorSensorsMulti.Companion.colorSensMulti
 import org.firstinspires.ftc.teamcode.robot.ColorVisionProcessor
+import org.firstinspires.ftc.teamcode.robot.Intake
 import org.firstinspires.ftc.teamcode.robot.IntakeMulti.Companion.intakeMulti
 import org.firstinspires.ftc.teamcode.robot.LiftMulti.Companion.liftMulti
 import org.firstinspires.ftc.teamcode.robot.hardware.controlHub
@@ -33,8 +35,10 @@ import org.firstinspires.ftc.teamcode.robot.hardware.expansionHub
 class AutoRedRight : MultiThreadOpMode() {
     private val startPose = Pose(12.inch, -61.inch, -90.deg)
     private val middlePurplePixel = Pose(12.inch, -33.inch, -90.deg)
-    private val middleYellowPixel = Pose(46.inch, -36.inch, 180.deg)
-    private val middleRun1 = Pose(24.inch, -60.inch, 180.deg)
+    private val middleYellowPixel = Pose(47.inch, -36.inch, 180.deg)
+    private val middleRun1 = Pose(24.inch, -58.inch, 180.deg)
+    private val middleRun2 = Pose(-30.inch, -58.inch, 180.deg)
+    private val stacky = Pose (-54.inch, -36.inch, 180.deg)
 
     private val drive by opModeLazy {
         MecanumDriveEx(hardwareMap, startPose)
@@ -130,6 +134,8 @@ class AutoRedRight : MultiThreadOpMode() {
                 drive.actionBuilder(middleYellowPixel)
                     .setTangent(180.deg)
                     .splineToConstantHeading(middleRun1.position, 180.deg)
+                    .splineToSplineHeading(Pose(-24.inch, middleRun1.position.y, 180.deg), 180.deg)
+                    .splineToConstantHeading(stacky.position, 180.deg)
                     .build(),
                 SequentialAction(
                     SleepAction(0.2.s),
@@ -140,7 +146,27 @@ class AutoRedRight : MultiThreadOpMode() {
                     ),
                     lift.goToRamp()
                 )
-            )
+            ),
+            leftPixelIntake(),
+                drive.actionBuilder (stacky)
+                        .setTangent(-90.deg)
+                        .lineToY (-40.inch)
+                        .stopAndAdd(rightPixelIntake())
+                        .setTangent(0.deg)
+                        .splineToConstantHeading(middleRun2.position, 0.deg)
+                        .splineToSplineHeading(Pose(30.inch, middleRun2.position.y, 180.deg), 180.deg)
+                        .splineToConstantHeading(middleYellowPixel.position, 0.deg)
+                        .build(),
+                SequentialAction(
+                        SleepAction(1.s),
+                        lift.goToPass(),
+                        ParallelAction(
+                                claw.clawToScore(),
+                                arm.goToScore(),
+                        )
+                ),
+                claw.openLeft(),
+                claw.openRight(),
         )
 
         while (opModeInInit()) {
@@ -182,4 +208,27 @@ class AutoRedRight : MultiThreadOpMode() {
             telemetry.update()
         }
     }
+
+    private fun leftPixelIntake() = SequentialAction(
+        InstantAction { intake.power = 1.0 },
+        ParallelAction(
+            intake.waitForPos(Intake.aboveStack),
+            claw.openRamp()
+        ),
+        InstantAction { intake.targetPosition = Intake.IntakeConfig.stack1 },
+        colorSensors.waitForLeftPixel(),
+        InstantAction {
+            intake.position = Intake.aboveStack
+            claw.leftFingerPosition = 1.0
+        }
+    )
+
+    private fun rightPixelIntake() = SequentialAction(
+            InstantAction { intake.targetPosition = Intake.IntakeConfig.stack2 },
+            colorSensors.waitForRightPixel(),
+            InstantAction {
+                intake.position = 0.0
+                claw.rightFingerPosition = 1.0
+            }
+    )
 }

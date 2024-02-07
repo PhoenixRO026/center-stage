@@ -15,6 +15,7 @@ class Intake(
     data object IntakeConfig {
         @JvmField
         var stack1 = 0.62
+        var stack2 = 0.64
     }
     companion object {
         val intakeRange = 0.489..0.77
