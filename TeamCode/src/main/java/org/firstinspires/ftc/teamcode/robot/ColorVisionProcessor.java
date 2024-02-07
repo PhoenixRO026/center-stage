@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot;
 
+import static org.opencv.core.CvType.CV_8UC4;
+
 import android.graphics.Canvas;
 
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
@@ -10,7 +12,6 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-import org.openftc.easyopencv.OpenCvPipeline;
 
 public class ColorVisionProcessor implements VisionProcessor {
     /*
@@ -84,9 +85,9 @@ public class ColorVisionProcessor implements VisionProcessor {
      */
     Mat region1_Cb, region2_Cb, region3_Cb;
     Mat region1_Cr, region2_Cr, region3_Cr;
-    Mat YCrCb = new Mat();
-    Mat Cb = new Mat();
-    Mat Cr = new Mat();
+    Mat YCrCb = new Mat(480, 640, CV_8UC4);
+    Mat Cb = new Mat(480, 640, CV_8UC4);
+    Mat Cr = new Mat(480, 640, CV_8UC4);
     int avg1Blue, avg2Blue, avg3Blue;
     int avg1Red, avg2Red, avg3Red;
     int avg1, avg2;
@@ -147,13 +148,7 @@ public class ColorVisionProcessor implements VisionProcessor {
          * buffer. Any changes to the child affect the parent, and the
          * reverse also holds true.
          */
-        region1_Cb = Cb.submat(new Rect(region1_pointA, region1_pointB));
-        region2_Cb = Cb.submat(new Rect(region2_pointA, region2_pointB));
-        region3_Cb = Cb.submat(new Rect(region3_pointA, region3_pointB));
 
-        region1_Cr = Cr.submat(new Rect(region1_pointA, region1_pointB));
-        region2_Cr = Cr.submat(new Rect(region2_pointA, region2_pointB));
-        region3_Cr = Cr.submat(new Rect(region3_pointA, region3_pointB));
     }
 
     @Override
@@ -198,6 +193,14 @@ public class ColorVisionProcessor implements VisionProcessor {
          */
         inputToCb(input);
         inputToCr(input);
+
+        region1_Cb = Cb.submat(new Rect(region1_pointA, region1_pointB));
+        region2_Cb = Cb.submat(new Rect(region2_pointA, region2_pointB));
+        region3_Cb = Cb.submat(new Rect(region3_pointA, region3_pointB));
+
+        region1_Cr = Cr.submat(new Rect(region1_pointA, region1_pointB));
+        region2_Cr = Cr.submat(new Rect(region2_pointA, region2_pointB));
+        region3_Cr = Cr.submat(new Rect(region3_pointA, region3_pointB));
 
         /*
          * Compute the average pixel value of each submat region. We're

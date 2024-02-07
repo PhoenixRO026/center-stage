@@ -124,7 +124,9 @@ public final class MecanumDriveEx {
 
     public final Localizer localizer;
     public Pose2d pose;
-    public double startHeading;
+    public double imuStartHeading;
+    public double imuHeading;
+    //public double previousImuHeading = 0;
     public PoseVelocity2d velocity;
 
     private final LinkedList<Pose2d> poseHistory = new LinkedList<>();
@@ -209,7 +211,7 @@ public final class MecanumDriveEx {
 
     public MecanumDriveEx(HardwareMap hardwareMap, Pose2d pose) {
         this.pose = pose;
-        startHeading = pose.heading.toDouble();
+        imuStartHeading = pose.heading.toDouble();
 
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
 
@@ -467,7 +469,15 @@ public final class MecanumDriveEx {
         pose = pose.plus(twist.value());
 
         if (persistentImuCounter >= PARAMS.imuPersistanceFrequency) {
-            double imuHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS) + startHeading;
+            /*double currentImuHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            double imuChange = currentImuHeading - previousImuHeading;
+            previousImuHeading = currentImuHeading;
+            while (imuChange > Math.PI)  imuChange -= 2 * Math.PI;
+            while (imuChange <= -Math.PI) imuChange += 2 * Math.PI;
+            imuHeading += imuChange;*/
+            imuHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS) + imuStartHeading;
+            while (imuHeading > Math.PI)  imuHeading -= 2 * Math.PI;
+            while (imuHeading <= -Math.PI) imuHeading += 2 * Math.PI;
             pose = new Pose2d(pose.position, imuHeading);
             persistentImuCounter = 0;
         }
