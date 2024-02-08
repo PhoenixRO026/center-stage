@@ -44,14 +44,14 @@ class AutoBlueLeft : MultiThreadOpMode() {
     private val startPose = Pose(12.inch, 61.inch, 90.deg)
     private val middlePurplePixel = Pose(12.inch, 33.inch, 90.deg)
     private val leftPurplePixel = Pose(24.inch, 45.inch, 90.deg)
-    private val rightPurplePixel = Pose(10.inch - 8.cm, 45.inch - 8.cm, 45.deg)
-    private val rightPrePurplePixel = Pose(12.inch, 50.inch, 90.deg)
+    private val rightPurplePixel = Pose(10.inch - 10.cm, 45.inch - 10.cm, 45.deg)
+    private val rightPrePurplePixel = Pose(12.inch, 49.inch, 90.deg)
     private val middleYellowPixel = Pose(47.inch, 36.inch - 2.cm, 180.deg)
     private val leftYellowPixel = Pose(47.inch, 42.inch - 2.cm, 180.deg)
     private val rightYellowPixel = Pose(47.inch, 30.inch - 2.cm, 180.deg)
     private val middleRun1 = Pose(24.inch, 60.inch - 4.cm, 180.deg)
     private val middleRun2 = Pose(-32.inch, 60.inch - 4.cm, 180.deg)
-    private val middleRun3 = middleRun2 - 8.cm.y
+    private val middleRun3 = middleRun2 - 7.cm.y
     private val stacky = Pose (-54.inch - 14.cm, 36.inch + 16.cm, 180.deg)
     private val stacky2 = stacky - 23.cm.y
     private val stacky3 = stacky2 + 10.cm.x

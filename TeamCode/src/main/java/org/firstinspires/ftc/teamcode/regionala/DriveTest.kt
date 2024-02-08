@@ -46,6 +46,8 @@ class DriveTest: MultiThreadOpMode() {
         hardwareMap.intake()
     }
 
+    private var speed = 1.0
+
     override fun sideRunOpMode() {
     }
 
@@ -81,6 +83,12 @@ class DriveTest: MultiThreadOpMode() {
 
             drive.updatePoseEstimate()
 
+            speed = if (gamepad1.left_trigger >= 0.2) {
+                0.5
+            } else {
+                1.0
+            }
+
             driveFieldCentric(
                 -gamepad1.left_stick_y.toDouble(),
                 gamepad1.left_stick_x.toDouble(),
@@ -88,6 +96,10 @@ class DriveTest: MultiThreadOpMode() {
             )
 
             lift.power = -gamepad2.right_stick_y.toDouble()
+
+            if (gamepad1.y) {
+                drive.imu.resetYaw()
+            }
 
             if (gamepad2.back) {
                 lift.hangAsync()
@@ -152,14 +164,14 @@ class DriveTest: MultiThreadOpMode() {
         }
     }
 
-    fun driveRobotCentric(forward: Double, strafe: Double, turn: Double) = drive.setDrivePowers(PoseVelocity2d(
+    private fun driveRobotCentric(forward: Double, strafe: Double, turn: Double) = drive.setDrivePowers(PoseVelocity2d(
         Vector2d(
-            forward,
-            -strafe
+            forward * speed,
+            -strafe * speed
         ),
-        -turn
+        -turn * speed
     ))
-    fun driveFieldCentric(forward: Double, strafe: Double, turn: Double) {
+    private fun driveFieldCentric(forward: Double, strafe: Double, turn: Double) {
         val newInputVec = Vector2d(forward, strafe).rotate(drive.pose.heading.log())
         driveRobotCentric(newInputVec.x, newInputVec.y, turn)
     }
