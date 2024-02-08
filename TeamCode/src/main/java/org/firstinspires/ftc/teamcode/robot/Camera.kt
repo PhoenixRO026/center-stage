@@ -24,6 +24,11 @@ class Camera(
     hardwareMap: HardwareMap,
     var telemetry: Telemetry? = null
 ) {
+    enum class SIDE {
+        BLUE,
+        RED
+    }
+
     val aprilTagProcessor: AprilTagProcessor = AprilTagProcessor.Builder()
         .setOutputUnits(DistanceUnit.INCH, AngleUnit.RADIANS)
         .setNumThreads(1)
@@ -34,6 +39,9 @@ class Camera(
         hardwareMap.get(WebcamName::class.java, "Webcam 1"),
         detectionProcessor, aprilTagProcessor
     )
+    val aprilTag1Pose: Pose
+    val aprilTag2Pose: Pose
+    val aprilTag3Pose: Pose
     val aprilTag5Pose: Pose
     val aprilTag4Pose: Pose
     val aprilTag6Pose: Pose
@@ -41,10 +49,22 @@ class Camera(
     var robotPose = Pose(0.cm, 0.cm, 0.deg)
         private set
 
-    fun findTag5(): Boolean {
-        val redTag = aprilTagProcessor.freshDetections?.firstOrNull { it.id == 5 || it.id == 4 || it.id == 6 } ?: return false
+    fun findTag5() = findTag(SIDE.RED)
+
+    fun findTag2() = findTag(SIDE.BLUE)
+
+    private fun findTag(side: SIDE): Boolean {
+        val redTag = aprilTagProcessor.freshDetections?.firstOrNull {
+            when(side) {
+                SIDE.BLUE -> it.id == 1 || it.id == 2 || it.id == 3
+                SIDE.RED -> it.id == 5 || it.id == 4 || it.id == 6
+            }
+        } ?: return false
         val redPose = redTag.ftcPose
         val fieldPose = when(redTag.id) {
+            1 -> aprilTag1Pose
+            2 -> aprilTag2Pose
+            3 -> aprilTag3Pose
             5 -> aprilTag5Pose
             4 -> aprilTag4Pose
             6 -> aprilTag6Pose
@@ -99,14 +119,34 @@ class Camera(
     init {
         visionPortal.setProcessorEnabled(aprilTagProcessor, false)
 
-        val aprilTag5: AprilTagMetadata = AprilTagGameDatabase.getCenterStageTagLibrary().lookupTag(5)
+        val aprilTag1: AprilTagMetadata = AprilTagGameDatabase.getCenterStageTagLibrary().lookupTag(1)
 
-        val orientation5 = aprilTag5.fieldOrientation.toOrientation(AxesReference.EXTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES)
+        val orientation1 = aprilTag1.fieldOrientation.toOrientation(AxesReference.EXTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES)
 
-        aprilTag5Pose = Pose(
-            aprilTag5.fieldPosition.data[0].inch,
-            aprilTag5.fieldPosition.data[1].inch,
-            orientation5.firstAngle.deg
+        aprilTag1Pose = Pose(
+            aprilTag1.fieldPosition.data[0].inch,
+            aprilTag1.fieldPosition.data[1].inch,
+            orientation1.firstAngle.deg
+        )
+
+        val aprilTag2: AprilTagMetadata = AprilTagGameDatabase.getCenterStageTagLibrary().lookupTag(2)
+
+        val orientation2 = aprilTag2.fieldOrientation.toOrientation(AxesReference.EXTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES)
+
+        aprilTag2Pose = Pose(
+            aprilTag2.fieldPosition.data[0].inch,
+            aprilTag2.fieldPosition.data[1].inch,
+            orientation2.firstAngle.deg
+        )
+
+        val aprilTag3: AprilTagMetadata = AprilTagGameDatabase.getCenterStageTagLibrary().lookupTag(3)
+
+        val orientation3 = aprilTag3.fieldOrientation.toOrientation(AxesReference.EXTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES)
+
+        aprilTag3Pose = Pose(
+            aprilTag3.fieldPosition.data[0].inch,
+            aprilTag3.fieldPosition.data[1].inch,
+            orientation3.firstAngle.deg
         )
 
         val aprilTag4: AprilTagMetadata = AprilTagGameDatabase.getCenterStageTagLibrary().lookupTag(4)
@@ -117,6 +157,16 @@ class Camera(
             aprilTag4.fieldPosition.data[0].inch,
             aprilTag4.fieldPosition.data[1].inch,
             orientation4.firstAngle.deg
+        )
+
+        val aprilTag5: AprilTagMetadata = AprilTagGameDatabase.getCenterStageTagLibrary().lookupTag(5)
+
+        val orientation5 = aprilTag5.fieldOrientation.toOrientation(AxesReference.EXTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES)
+
+        aprilTag5Pose = Pose(
+            aprilTag5.fieldPosition.data[0].inch,
+            aprilTag5.fieldPosition.data[1].inch,
+            orientation5.firstAngle.deg
         )
 
         val aprilTag6: AprilTagMetadata = AprilTagGameDatabase.getCenterStageTagLibrary().lookupTag(6)

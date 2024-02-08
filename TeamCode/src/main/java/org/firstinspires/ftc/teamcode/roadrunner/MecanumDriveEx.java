@@ -84,17 +84,17 @@ public final class MecanumDriveEx {
         public double maxProfileAccel = 45;
 
         // turn profile parameters (in radians)
-        public double maxAngVel = 6.0; // shared with path
-        public double maxAngAccel = 5.0;
+        public double maxAngVel = 5.0; // shared with path
+        public double maxAngAccel = 4.0;
 
         // path controller gains
-        public double axialGain = 38.0;
-        public double lateralGain = 55.0;
-        public double headingGain = 45.0; // shared with turn
+        public double axialGain = 60.0;
+        public double lateralGain = 70.0;
+        public double headingGain = 60.0; // shared with turn
 
-        public double axialVelGain = 1.0;
-        public double lateralVelGain = 3.0;
-        public double headingVelGain = 2.0; // shared with turn
+        public double axialVelGain = 7.0;
+        public double lateralVelGain = 8.0;
+        public double headingVelGain = 7.0; // shared with turn
 
         public int imuPersistanceFrequency = 30;
     }
