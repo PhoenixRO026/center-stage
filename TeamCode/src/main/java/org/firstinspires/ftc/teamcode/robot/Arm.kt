@@ -22,7 +22,7 @@ class Arm(
         val leftServoRange = servoOffset..1.0
         val rightServoRange = 0.0..(1.0 - servoOffset)
         const val speed = 0.6
-        const val rampPos = 0.395
+        const val rampPos = 0.427
         const val scorePos = 0.756
 
         fun HardwareMap.arm() = Arm(this)
@@ -98,6 +98,8 @@ class Arm(
     }
 
     init {
-        position = rampPos + 0.02
+        //position = rampPos /*+ 0.02*/
+        rightServo.position = rampPos
+        leftServo.position = rampPos
     }
 }

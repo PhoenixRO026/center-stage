@@ -19,8 +19,8 @@ class Claw(
 ) {
     companion object {
         const val fingerOffset = 0.12
-        const val rampPos = 0.646
-        const val scorePos = 0.819
+        const val rampPos = 0.637
+        const val scorePos = 0.8
         const val fingerRampPos = 0.193
         val fingerRange = 0.24..0.55
         val leftFingerRange = 0.0..(1.0 - fingerOffset)
