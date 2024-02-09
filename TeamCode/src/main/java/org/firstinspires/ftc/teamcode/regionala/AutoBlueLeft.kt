@@ -52,7 +52,7 @@ class AutoBlueLeft : MultiThreadOpMode() {
     private val middleRun1 = Pose(24.inch, 60.inch - 4.cm, 180.deg)
     private val middleRun2 = Pose(-32.inch, 60.inch - 4.cm, 180.deg)
     private val middleRun3 = middleRun2 - 7.cm.y
-    private val stacky = Pose (-54.inch - 14.cm, 36.inch + 16.cm, 180.deg)
+    private val stacky = Pose (-54.inch - 10.cm, 36.inch + 16.cm, 180.deg)
     private val stacky2 = stacky - 23.cm.y
     private val stacky3 = stacky2 + 10.cm.x
 
@@ -115,7 +115,7 @@ class AutoBlueLeft : MultiThreadOpMode() {
 
     override fun mainRunOpMode() {
         var previousTime = System.currentTimeMillis().ms
-        var deltaTime: Time = 20.ms
+        var deltaTime: Time
 
         val controlHub = hardwareMap.controlHub()
 
@@ -223,7 +223,7 @@ class AutoBlueLeft : MultiThreadOpMode() {
                 ),)
                 .strafeTo(leftYellowPixel.position + 16.inch.y - 4.inch.x)
                 .build(),
-            SleepAction(0.5.s),
+            SleepAction(1.0.s),
             lift.goToRamp()
         )
 
@@ -318,7 +318,7 @@ class AutoBlueLeft : MultiThreadOpMode() {
                 ),)
                 .strafeTo(rightYellowPixel.position + 28.inch.y - 4.inch.x)
                 .build(),
-            SleepAction(0.5.s),
+            SleepAction(1.0.s),
             lift.goToRamp()
         )
 
@@ -409,7 +409,7 @@ class AutoBlueLeft : MultiThreadOpMode() {
                 claw.clawToRamp(),
                 arm.goToRamp()
             ),
-            SleepAction(0.5.s),
+            SleepAction(1.0.s),
             lift.goToRamp()
         )
 
@@ -444,9 +444,7 @@ class AutoBlueLeft : MultiThreadOpMode() {
             val p = TelemetryPacket()
             p.fieldOverlay().operations.addAll(c.operations)
 
-            if (running) {
-                running = action.run(p)
-            }
+            running = action.run(p)
 
             dash.sendTelemetryPacket(p)
 

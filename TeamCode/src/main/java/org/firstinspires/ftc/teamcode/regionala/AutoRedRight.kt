@@ -47,15 +47,19 @@ class AutoRedRight : MultiThreadOpMode() {
     private val leftPurplePixel = Pose(10.inch - 8.cm, -45.inch + 12.cm, -45.deg)
     private val leftPrePurplePixel = Pose(12.inch, -47.inch, -90.deg)
 
+    private val rightPurplePixel = Pose(24.inch, -45.inch, -90.deg)
+
     private val middleYellowPixel = Pose(47.inch, -36.inch, 180.deg)
 
     private val leftYellowPixel = Pose(47.inch, -30.inch, 180.deg)
 
+    private val rightYellowPixel = Pose(47.inch, -42.inch, 180.deg)
+
     private val middleRun1 = Pose(24.inch, -60.inch, 180.deg)
     private val middleRun2 = Pose(-30.inch, -60.inch, 180.deg)
     private val middleRun3 = Pose(24.inch, -60.inch - 3.cm, 180.deg)
-    private val stacky = Pose (-54.inch - 10.cm, -36.inch - 18.cm, 180.deg)
-    private val stacky2 = stacky + 16.cm.y
+    private val stacky = Pose (-54.inch - 10.cm, -36.inch - 16.cm, 180.deg)
+    private val stacky2 = stacky + 23.cm.y
     private val stacky3 = stacky2 + 10.cm.x
 
     private val drive by opModeLazy {
@@ -117,7 +121,7 @@ class AutoRedRight : MultiThreadOpMode() {
 
     override fun mainRunOpMode() {
         var previousTime = System.currentTimeMillis().ms
-        var deltaTime: Time = 20.ms
+        var deltaTime: Time
 
         val controlHub = hardwareMap.controlHub()
 
@@ -136,6 +140,98 @@ class AutoRedRight : MultiThreadOpMode() {
 
         camera.telemetry = telemetry
         camera.setColor(ColorVisionProcessor.DetectionColor.RED)
+
+        val actionRight = SequentialAction(
+            ParallelAction(
+                drive.actionBuilder(startPose)
+                    .strafeToLinearHeading(rightPurplePixel.position, rightPurplePixel.heading)
+                    .setTangent(-90.deg)
+                    .splineToLinearHeading(middleYellowPixel - 5.cm.x, 0.deg)
+                    .stopAndAdd(resetPose())
+                    .strafeToLinearHeading(rightYellowPixel.position, rightYellowPixel.heading)
+                    .build(),
+                SequentialAction(
+                    SleepAction(1.s),
+                    lift.goToPass(),
+                    ParallelAction(
+                        claw.clawToScore(),
+                        arm.goToScore(),
+                    ),
+                    lift.goToTicks(Lift.yellowPixelTicks)
+                )
+            ),
+            SleepAction(0.2.s),
+            claw.openRight(),
+            SleepAction(0.2.s),
+            lift.goToPass(),
+            ParallelAction(
+                drive.actionBuilder(rightYellowPixel)
+                    .setTangent(180.deg)
+                    .splineTo(middleRun1.position, 180.deg)
+                    .splineTo(middleRun2.position, 180.deg)
+                    .afterTime(0.s, ParallelAction(
+                        InstantAction { intake.position = Intake.IntakeConfig.hitStack },
+                        claw.openRamp()
+                    ))
+                    .splineTo(stacky.position, 180.deg)
+                    .strafeTo(stacky2.position)
+                    .build(),
+                SequentialAction(
+                    claw.closeClaw(),
+                    ParallelAction(
+                        claw.clawToRamp(),
+                        arm.goToRamp()
+                    ),
+                    lift.goToRamp()
+                )
+            ),
+            InstantAction {
+                intake.power = 1.0
+                intake.position = 1.0
+            },
+            SleepAction(0.2.s),
+            ParallelAction(
+                drive.actionBuilder(stacky2)
+                    .strafeTo(stacky3.position, slowSpeed)
+                    .build(),
+                takePixelsIntake()
+            ),
+            drive.actionBuilder(stacky3)
+                .setTangent(0.deg)
+                .afterTime(1.s, ejectPixels())
+                .splineTo(middleRun2.position, 0.deg)
+                .splineTo(middleRun3.position, 0.deg)
+                .afterTime(0.s, SequentialAction(
+                    lift.goToPass(),
+                    ParallelAction(
+                        claw.clawToScore(),
+                        arm.goToScore(),
+                    ),
+                    lift.goToTicks(Lift.aboveYellowTicks)
+                ))
+                .splineTo(middleYellowPixel.position - 10.cm.x, 0.deg)
+                .stopAndAdd(resetPose())
+                .strafeToLinearHeading(middleYellowPixel.position, middleYellowPixel.heading)
+                .build(),
+            SleepAction(0.2.s),
+            ParallelAction(
+                claw.openLeft(),
+                claw.openRight()
+            ),
+            SleepAction(0.2.s),
+            lift.goToPass(),
+            claw.closeClaw(),
+            drive.actionBuilder(middleYellowPixel)
+                .strafeTo(middleYellowPixel.position - 4.inch.x)
+                .afterTime(0.s, ParallelAction(
+                    claw.clawToRamp(),
+                    arm.goToRamp()
+                ),)
+                .strafeTo(middleYellowPixel.position - 22.inch.y - 4.inch.x)
+                .build(),
+            SleepAction(1.s),
+            lift.goToRamp()
+        )
 
         val actionLeft = SequentialAction(
             ParallelAction(
@@ -228,7 +324,7 @@ class AutoRedRight : MultiThreadOpMode() {
                 ),)
                 .strafeTo(middleYellowPixel.position - 22.inch.y - 4.inch.x)
                 .build(),
-            SleepAction(0.5.s),
+            SleepAction(1.s),
             lift.goToRamp()
         )
 
@@ -320,7 +416,7 @@ class AutoRedRight : MultiThreadOpMode() {
                 ),)
                 .strafeTo(middleYellowPixel.position - 22.inch.y - 4.inch.x)
                 .build(),
-            SleepAction(0.5.s),
+            SleepAction(1.s),
             lift.goToRamp()
         )
 
@@ -348,7 +444,7 @@ class AutoRedRight : MultiThreadOpMode() {
         val action = when(camera.detectionPosition) {
             ColorVisionProcessor.DetectionPosition.LEFT -> actionLeft
             ColorVisionProcessor.DetectionPosition.CENTER -> actionMiddle
-            ColorVisionProcessor.DetectionPosition.RIGHT -> actionMiddle
+            ColorVisionProcessor.DetectionPosition.RIGHT -> actionRight
         }
 
         camera.disableColorDetection()
@@ -368,9 +464,7 @@ class AutoRedRight : MultiThreadOpMode() {
             val p = TelemetryPacket()
             p.fieldOverlay().operations.addAll(c.operations)
 
-            if (running) {
-                running = action.run(p)
-            }
+            running = action.run(p)
 
             dash.sendTelemetryPacket(p)
 
