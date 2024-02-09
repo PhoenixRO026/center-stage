@@ -14,9 +14,10 @@ class Lift(
     companion object {
         const val hangTicks = 600
         const val rampTicks = 70
+        const val autoRampTicks = 200
         const val passTicks = 1500
         const val aboveYellowTicks = 1400
-        const val yellowPixelTicks = 950
+        const val yellowPixelTicks = 1250
         const val toleranceTicks = 10
 
         fun liftH(hardwareMap: HardwareMap) = Lift(hardwareMap)

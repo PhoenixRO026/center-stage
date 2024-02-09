@@ -48,21 +48,22 @@ class AutoBlueRight : MultiThreadOpMode() {
     private val leftPurplePixel = Pose(-34.inch + 8.cm, 45.inch - 12.cm, 135.deg)
     private val leftPrePurplePixel = Pose(-36.inch, 47.inch, 90.deg)
 
-    private val rightPurplePixel = Pose(-48.inch, 45.inch, 90.deg)
+    private val rightPurplePixel = Pose(-47.inch, 38.inch, 90.deg)
 
-    private val leftYellowPixel = Pose(47.inch + 1.cm, 41.inch - 2.cm, 180.deg)
+    private val leftYellowPixel = Pose(47.inch + 3.cm, 41.inch - 2.cm, 180.deg)
 
-    private val middleYellowPixel = Pose(47.inch + 1.cm, 36.inch, 180.deg)
+    private val middleYellowPixel = Pose(47.inch + 1.cm, 33.inch, 180.deg)
 
     private val rightYellowPixel = Pose(47.inch + 1.cm, 30.inch, 180.deg)
 
-    private val middleRun1 = Pose(24.inch, 12.inch - 3.inch, 180.deg)
-    private val middleRun2 = Pose(-30.inch, 12.inch - 2.inch, 180.deg)
+    private val middleRun1 = Pose(24.inch, 12.inch - 3.cm, 180.deg)
+    private val middleRun2 = Pose(-30.inch, 12.inch - 3.cm, 180.deg)
 
-    private val preStacky = Pose(-54.inch, 42.inch, -180.deg)
-    private val stacky = Pose (-54.inch - 10.cm, 12.inch + 18.cm, 180.deg)
-    private val stacky2 = stacky - 23.cm.y
+    private val preStacky = Pose(-58.inch, 50.inch, -180.deg)
+    private val stacky = Pose (-54.inch - 9.cm, 12.inch + 18.cm, 180.deg)
+    private val stacky2 = stacky - 20.cm.y
     private val stacky3 = stacky2 + 10.cm.x
+    private val cycle2YOff = -3.cm.y
 
     private val drive by opModeLazy {
         MecanumDriveEx(hardwareMap, startPose)
@@ -168,8 +169,10 @@ class AutoBlueRight : MultiThreadOpMode() {
                     .build(),
                 justleftPixelIntake()
             ),
+            InstantAction { intake.power = 0.0 },
             drive.actionBuilder(stacky3)
                 .setTangent(0.deg)
+                .afterTime(0.s, lift.goToTicks(Lift.autoRampTicks))
                 .afterTime(1.s, ejectPixels())
                 .splineTo(middleRun2.position, 0.deg)
                 .splineTo(middleRun1.position, 0.deg)
@@ -211,20 +214,22 @@ class AutoBlueRight : MultiThreadOpMode() {
                     },
                     claw.openRamp()
                 ))
-                .splineTo(stacky2.position, 180.deg)
+                .splineTo(stacky2.position + cycle2YOff, 180.deg)
                 .stopAndAdd(SequentialAction(
                     InstantAction { intake.position = 1.0 },
                     SleepAction(0.2.s),
                 ))
                 .build(),
             ParallelAction(
-                drive.actionBuilder(stacky2)
-                    .strafeTo(stacky3.position, slowSpeed)
+                drive.actionBuilder(stacky2 + cycle2YOff)
+                    .strafeTo(stacky3.position + cycle2YOff, slowSpeed)
                     .build(),
                 takePixelsIntake()
             ),
-            drive.actionBuilder(stacky3)
+            InstantAction { intake.power = 0.0 },
+            drive.actionBuilder(stacky3 + cycle2YOff)
                 .setTangent(0.deg)
+                .afterTime(0.s, lift.goToTicks(Lift.autoRampTicks))
                 .afterTime(1.s, ejectPixels())
                 .splineTo(middleRun2.position, 0.deg)
                 .splineTo(middleRun1.position, 0.deg)
@@ -285,8 +290,10 @@ class AutoBlueRight : MultiThreadOpMode() {
                     .build(),
                 justleftPixelIntake()
             ),
+            InstantAction { intake.power = 0.0 },
             drive.actionBuilder(stacky3)
                 .setTangent(0.deg)
+                .afterTime(0.s, lift.goToTicks(Lift.autoRampTicks))
                 .afterTime(1.s, ejectPixels())
                 .splineTo(middleRun2.position, 0.deg)
                 .splineTo(middleRun1.position, 0.deg)
@@ -328,20 +335,22 @@ class AutoBlueRight : MultiThreadOpMode() {
                                   },
                     claw.openRamp()
                 ))
-                .splineTo(stacky2.position, 180.deg)
+                .splineTo(stacky2.position + cycle2YOff, 180.deg)
                 .stopAndAdd(SequentialAction(
                     InstantAction { intake.position = 1.0 },
                     SleepAction(0.2.s),
                 ))
                 .build(),
             ParallelAction(
-                drive.actionBuilder(stacky2)
-                    .strafeTo(stacky3.position, slowSpeed)
+                drive.actionBuilder(stacky2 + cycle2YOff)
+                    .strafeTo(stacky3.position + cycle2YOff, slowSpeed)
                     .build(),
                 takePixelsIntake()
             ),
-            drive.actionBuilder(stacky3)
+            InstantAction { intake.power = 0.0 },
+            drive.actionBuilder(stacky3 + cycle2YOff)
                 .setTangent(0.deg)
+                .afterTime(0.s, lift.goToTicks(Lift.autoRampTicks))
                 .afterTime(1.s, ejectPixels())
                 .splineTo(middleRun2.position, 0.deg)
                 .splineTo(middleRun1.position, 0.deg)
@@ -402,8 +411,10 @@ class AutoBlueRight : MultiThreadOpMode() {
                     .build(),
                 justleftPixelIntake()
             ),
+            InstantAction { intake.power = 0.0 },
             drive.actionBuilder(stacky3)
                 .setTangent(0.deg)
+                .afterTime(0.s, lift.goToTicks(Lift.autoRampTicks))
                 .afterTime(1.s, ejectPixels())
                 .splineTo(middleRun2.position, 0.deg)
                 .splineTo(middleRun1.position, 0.deg)
@@ -445,20 +456,22 @@ class AutoBlueRight : MultiThreadOpMode() {
                     },
                     claw.openRamp()
                 ))
-                .splineTo(stacky2.position, 180.deg)
+                .splineTo(stacky2.position + cycle2YOff, 180.deg)
                 .stopAndAdd(SequentialAction(
                     InstantAction { intake.position = 1.0 },
                     SleepAction(0.2.s),
                 ))
                 .build(),
             ParallelAction(
-                drive.actionBuilder(stacky2)
-                    .strafeTo(stacky3.position, slowSpeed)
+                drive.actionBuilder(stacky2 + cycle2YOff)
+                    .strafeTo(stacky3.position + cycle2YOff, slowSpeed)
                     .build(),
                 takePixelsIntake()
             ),
-            drive.actionBuilder(stacky3)
+            InstantAction { intake.power = 0.0 },
+            drive.actionBuilder(stacky3 + cycle2YOff)
                 .setTangent(0.deg)
+                .afterTime(0.s, lift.goToTicks(Lift.autoRampTicks))
                 .afterTime(1.s, ejectPixels())
                 .splineTo(middleRun2.position, 0.deg)
                 .splineTo(middleRun1.position, 0.deg)
@@ -472,7 +485,7 @@ class AutoBlueRight : MultiThreadOpMode() {
                 ))
                 .splineTo(middleYellowPixel.position - 10.cm.x, 0.deg)
                 .stopAndAdd(resetPose())
-                .strafeToLinearHeading(rightYellowPixel.position, rightYellowPixel.heading)
+                .strafeToLinearHeading(middleYellowPixel.position, middleYellowPixel.heading)
                 .stopAndAdd(SequentialAction(
                     SleepAction(0.2.s),
                     ParallelAction(

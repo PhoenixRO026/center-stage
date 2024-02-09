@@ -168,8 +168,10 @@ class AutoRedLeft : MultiThreadOpMode() {
                     .build(),
                 justleftPixelIntake()
             ),
+            InstantAction { intake.power = 0.0 },
             drive.actionBuilder(stacky3)
                 .setTangent(0.deg)
+                .afterTime(0.s, lift.goToTicks(Lift.autoRampTicks))
                 .afterTime(1.s, ejectPixels())
                 .splineTo(middleRun2.position, 0.deg)
                 .splineTo(middleRun1.position, 0.deg)
@@ -223,8 +225,10 @@ class AutoRedLeft : MultiThreadOpMode() {
                     .build(),
                 takePixelsIntake()
             ),
+            InstantAction { intake.power = 0.0 },
             drive.actionBuilder(stacky3)
                 .setTangent(0.deg)
+                .afterTime(0.s, lift.goToTicks(Lift.autoRampTicks))
                 .afterTime(1.s, ejectPixels())
                 .splineTo(middleRun2.position, 0.deg)
                 .splineTo(middleRun1.position, 0.deg)
@@ -285,8 +289,10 @@ class AutoRedLeft : MultiThreadOpMode() {
                     .build(),
                 justleftPixelIntake()
             ),
+            InstantAction { intake.power = 0.0 },
             drive.actionBuilder(stacky3)
                 .setTangent(0.deg)
+                .afterTime(0.s, lift.goToTicks(Lift.autoRampTicks))
                 .afterTime(1.s, ejectPixels())
                 .splineTo(middleRun2.position, 0.deg)
                 .splineTo(middleRun1.position, 0.deg)
@@ -340,8 +346,10 @@ class AutoRedLeft : MultiThreadOpMode() {
                     .build(),
                 takePixelsIntake()
             ),
+            InstantAction { intake.power = 0.0 },
             drive.actionBuilder(stacky3)
                 .setTangent(0.deg)
+                .afterTime(0.s, lift.goToTicks(Lift.autoRampTicks))
                 .afterTime(1.s, ejectPixels())
                 .splineTo(middleRun2.position, 0.deg)
                 .splineTo(middleRun1.position, 0.deg)
@@ -402,8 +410,10 @@ class AutoRedLeft : MultiThreadOpMode() {
                     .build(),
                 justleftPixelIntake()
             ),
+            InstantAction { intake.power = 0.0 },
             drive.actionBuilder(stacky3)
                 .setTangent(0.deg)
+                .afterTime(0.s, lift.goToTicks(Lift.autoRampTicks))
                 .afterTime(1.s, ejectPixels())
                 .splineTo(middleRun2.position, 0.deg)
                 .splineTo(middleRun1.position, 0.deg)
@@ -457,8 +467,10 @@ class AutoRedLeft : MultiThreadOpMode() {
                     .build(),
                 takePixelsIntake()
             ),
+            InstantAction { intake.power = 0.0 },
             drive.actionBuilder(stacky3)
                 .setTangent(0.deg)
+                .afterTime(0.s, lift.goToTicks(Lift.autoRampTicks))
                 .afterTime(1.s, ejectPixels())
                 .splineTo(middleRun2.position, 0.deg)
                 .splineTo(middleRun1.position, 0.deg)
