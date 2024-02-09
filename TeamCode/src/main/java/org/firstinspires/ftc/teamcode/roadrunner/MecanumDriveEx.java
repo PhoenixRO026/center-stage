@@ -93,7 +93,7 @@ public final class MecanumDriveEx {
         public double headingGain = 50.0; // shared with turn
 
         public double axialVelGain = 7.0;
-        public double lateralVelGain = 8.0;
+        public double lateralVelGain = 9.0;
         public double headingVelGain = 5.0; // shared with turn
 
         public int imuPersistanceFrequency = 30;
