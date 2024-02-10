@@ -158,12 +158,12 @@ class AutoBlueRightNoIntake : MultiThreadOpMode() {
                 .setTangent(180.deg)
                 .splineToLinearHeading(preStacky, 180.deg)
                 .strafeTo(stacky.position)
-                .stopAndAdd(InstantAction { intake.position = Intake.IntakeConfig.hitStack })
+                //.stopAndAdd(InstantAction { intake.position = Intake.IntakeConfig.hitStack })
                 .strafeTo(stacky2.position)
                 .stopAndAdd(SequentialAction(
                     InstantAction {
                         //intake.power = 1.0
-                        intake.position = 1.0
+                        //intake.position = 1.0
                     },
                     SleepAction(0.2.s),
                 ))
@@ -214,7 +214,7 @@ class AutoBlueRightNoIntake : MultiThreadOpMode() {
                 .splineTo(middleRun2.position, 180.deg)
                 .afterTime(0.s, ParallelAction(
                     InstantAction {
-                        intake.position = Intake.IntakeConfig.hitStack
+                        //intake.position = Intake.IntakeConfig.hitStack
                         //intake.power = 1.0
                     },
                     claw.openRamp()
@@ -279,12 +279,12 @@ class AutoBlueRightNoIntake : MultiThreadOpMode() {
                 .setTangent(90.deg)
                 .splineTo(preStacky.position, 180.deg)
                 .strafeTo(stacky.position)
-                .stopAndAdd(InstantAction { intake.position = Intake.IntakeConfig.hitStack })
+                //.stopAndAdd(InstantAction { intake.position = Intake.IntakeConfig.hitStack })
                 .strafeTo(stacky2.position)
                 .stopAndAdd(SequentialAction(
                     InstantAction {
                         //intake.power = 1.0
-                        intake.position = 1.0
+                        //intake.position = 1.0
                     },
                     SleepAction(0.2.s),
                 ))
@@ -335,14 +335,14 @@ class AutoBlueRightNoIntake : MultiThreadOpMode() {
                 .splineTo(middleRun2.position, 180.deg)
                 .afterTime(0.s, ParallelAction(
                     InstantAction {
-                        intake.position = Intake.IntakeConfig.hitStack
+                       // intake.position = Intake.IntakeConfig.hitStack
                         //intake.power = 1.0
                                   },
                     claw.openRamp()
                 ))
                 .splineTo(stacky2.position + cycle2YOff, 180.deg)
                 .stopAndAdd(SequentialAction(
-                    InstantAction { intake.position = 1.0 },
+                    //InstantAction { intake.position = 1.0 },
                     SleepAction(0.2.s),
                 ))
                 .build(),
@@ -400,12 +400,12 @@ class AutoBlueRightNoIntake : MultiThreadOpMode() {
                 .setTangent(90.deg)
                 .splineTo(preStacky.position, 180.deg)
                 .strafeTo(stacky.position)
-                .stopAndAdd(InstantAction { intake.position = Intake.IntakeConfig.hitStack })
+                //.stopAndAdd(InstantAction { intake.position = Intake.IntakeConfig.hitStack })
                 .strafeTo(stacky2.position)
                 .stopAndAdd(SequentialAction(
                     InstantAction {
                         //intake.power = 1.0
-                        intake.position = 1.0
+                        //intake.position = 1.0
                     },
                     SleepAction(0.2.s),
                 ))
@@ -461,14 +461,14 @@ class AutoBlueRightNoIntake : MultiThreadOpMode() {
                 .splineTo(middleRun2.position, 180.deg)
                 .afterTime(0.s, ParallelAction(
                     InstantAction {
-                        intake.position = Intake.IntakeConfig.hitStack
+                        //intake.position = Intake.IntakeConfig.hitStack
                         //intake.power = 1.0
                     },
                     claw.openRamp()
                 ))
                 .splineTo(stacky2.position + cycle2YOff, 180.deg)
                 .stopAndAdd(SequentialAction(
-                    InstantAction { intake.position = 1.0 },
+                    //InstantAction { intake.position = 1.0 },
                     SleepAction(0.2.s),
                 ))
                 .build(),
@@ -604,7 +604,7 @@ class AutoBlueRightNoIntake : MultiThreadOpMode() {
             )
         ),
         InstantAction {
-            intake.position = 0.0
+            //intake.position = 0.0
         }
     )
 
@@ -612,20 +612,20 @@ class AutoBlueRightNoIntake : MultiThreadOpMode() {
         colorSensors.waitForLeftPixel(),
         claw.closeLeft(),
         InstantAction {
-            intake.position = 0.0
+            //intake.position = 0.0
         }
     )
 
     private fun leftPixelIntake() = SequentialAction(
         //InstantAction { intake.power = 1.0 },
         ParallelAction(
-            intake.waitForPos(Intake.aboveStack),
+            //intake.waitForPos(Intake.aboveStack),
             claw.openRamp()
         ),
-        InstantAction { intake.targetPosition = Intake.IntakeConfig.stack1 },
+        //InstantAction { intake.targetPosition = Intake.IntakeConfig.stack1 },
         colorSensors.waitForLeftPixel(),
         InstantAction {
-            intake.position = Intake.aboveStack
+            //intake.position = Intake.aboveStack
             claw.leftFingerPosition = 1.0
         }
     )
