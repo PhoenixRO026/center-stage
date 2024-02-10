@@ -52,16 +52,16 @@ class AutoRedLeft : MultiThreadOpMode() {
 
     private val leftPurplePixel = Pose(-47.inch, -38.inch, -90.deg)
 
-    private val middleYellowPixel = Pose(47.inch, -36.inch, 180.deg)
+    private val middleYellowPixel = Pose(47.inch, -36.inch - 2.cm, 180.deg)
 
     private val leftYellowPixel = Pose(47.inch, -30.inch + 2.cm, 180.deg)
 
-    private val rightYellowPixel = Pose(47.inch, -42.inch, 180.deg)
+    private val rightYellowPixel = Pose(47.inch + 1.cm, -42.inch, 180.deg)
 
     private val middleRun1 = Pose(24.inch, -12.inch + 1.cm, 180.deg)
     private val middleRun2 = Pose(-30.inch, -12.inch + 1.cm, 180.deg)
-    private val preStacky = Pose(-58.inch, -50.inch, -180.deg)
-    private val stacky = Pose (-54.inch - 14.cm, -12.inch - 18.cm, 180.deg)
+    private val preStacky = Pose(-57.inch, -50.inch, -180.deg)
+    private val stacky = Pose (-54.inch - 9.cm, -12.inch - 16.cm, 180.deg)
     private val stacky2 = stacky + 20.cm.y
     private val stacky3 = stacky2 + 10.cm.x
 
@@ -161,7 +161,7 @@ class AutoRedLeft : MultiThreadOpMode() {
                 .strafeTo(stacky2.position)
                 .stopAndAdd(SequentialAction(
                     InstantAction {
-                        intake.power = 1.0
+                        intake.power = 0.8
                         intake.position = 1.0
                     },
                     SleepAction(0.2.s),
@@ -194,11 +194,16 @@ class AutoRedLeft : MultiThreadOpMode() {
                 .stopAndAdd(SequentialAction(
                     SleepAction(0.2.s),
                     ParallelAction(
-                        claw.openLeft(),
+                        //claw.openLeft(),
                         claw.openRight()
                     ),
                     SleepAction(0.2.s),
                     lift.goToPass(),
+                ))
+                .strafeToLinearHeading(rightYellowPixel.position + 7.inch.y, rightYellowPixel.heading)
+                .stopAndAdd(SequentialAction(
+                        claw.openLeft(),
+                        SleepAction(0.5.s),
                 ))
                 .afterTime(0.s, SequentialAction(
                     claw.closeClaw(),
@@ -214,7 +219,7 @@ class AutoRedLeft : MultiThreadOpMode() {
                 .afterTime(0.s, ParallelAction(
                     InstantAction {
                         intake.position = Intake.IntakeConfig.hitStack
-                        intake.power = 1.0
+                        intake.power = 0.8
                     },
                     claw.openRamp()
                 ))
@@ -282,7 +287,7 @@ class AutoRedLeft : MultiThreadOpMode() {
                 .strafeTo(stacky2.position)
                 .stopAndAdd(SequentialAction(
                     InstantAction {
-                        intake.power = 1.0
+                        intake.power = 0.8
                         intake.position = 1.0
                     },
                     SleepAction(0.2.s),
@@ -335,7 +340,7 @@ class AutoRedLeft : MultiThreadOpMode() {
                 .afterTime(0.s, ParallelAction(
                     InstantAction {
                         intake.position = Intake.IntakeConfig.hitStack
-                        intake.power = 1.0
+                        intake.power = 0.8
                                   },
                     claw.openRamp()
                 ))
@@ -403,7 +408,7 @@ class AutoRedLeft : MultiThreadOpMode() {
                 .strafeTo(stacky2.position)
                 .stopAndAdd(SequentialAction(
                     InstantAction {
-                        intake.power = 1.0
+                        intake.power = 0.8
                         intake.position = 1.0
                     },
                     SleepAction(0.2.s),
@@ -456,7 +461,7 @@ class AutoRedLeft : MultiThreadOpMode() {
                 .afterTime(0.s, ParallelAction(
                     InstantAction {
                         intake.position = Intake.IntakeConfig.hitStack
-                        intake.power = 1.0
+                        intake.power = 0.8
                     },
                     claw.openRamp()
                 ))
@@ -611,7 +616,7 @@ class AutoRedLeft : MultiThreadOpMode() {
     )
 
     private fun leftPixelIntake() = SequentialAction(
-        InstantAction { intake.power = 1.0 },
+        InstantAction { intake.power = 0.8 },
         ParallelAction(
             intake.waitForPos(Intake.aboveStack),
             claw.openRamp()
