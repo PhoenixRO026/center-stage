@@ -40,7 +40,7 @@ public class ColorVisionProcessor implements VisionProcessor {
      */
     static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(0,130 * 2);
     static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(140 * 2,130 * 2);
-    static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(290 * 2,130 * 2);
+    static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(290 * 2 - 60,130 * 2);
     static final int REGION_WIDTH = 30 * 2;
     static final int REGION_HEIGHT = 30 * 2;
 
@@ -65,7 +65,7 @@ public class ColorVisionProcessor implements VisionProcessor {
             REGION1_TOPLEFT_ANCHOR_POINT.x,
             REGION1_TOPLEFT_ANCHOR_POINT.y);
     Point region1_pointB = new Point(
-            REGION1_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
+            REGION1_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH + 60,
             REGION1_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
     Point region2_pointA = new Point(
             REGION2_TOPLEFT_ANCHOR_POINT.x,
@@ -77,7 +77,7 @@ public class ColorVisionProcessor implements VisionProcessor {
             REGION3_TOPLEFT_ANCHOR_POINT.x,
             REGION3_TOPLEFT_ANCHOR_POINT.y);
     Point region3_pointB = new Point(
-            REGION3_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
+            REGION3_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH + 60,
             REGION3_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
 
     /*
