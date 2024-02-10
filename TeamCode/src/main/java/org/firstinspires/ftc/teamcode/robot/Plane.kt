@@ -15,7 +15,7 @@ class Plane(
 ) {
     companion object {
         const val tiltRest = 0.351
-        const val tiltLaunch = 0.469
+        const val tiltLaunch = 0.493
         const val launchPlane = 0.13
         const val hold = 0.292
 
@@ -41,7 +41,12 @@ class Plane(
         launchAction = SequentialAction(
                 InstantAction { tiltPosition = tiltLaunch },
                 SleepAction(0.5.s),
-                InstantAction { launchPosition = launchPlane }
+                InstantAction { launchPosition = launchPlane },
+                SleepAction(1.s),
+                InstantAction {
+                    tiltPosition = tiltRest
+                    launchPosition = hold
+                }
         )
     }
 
