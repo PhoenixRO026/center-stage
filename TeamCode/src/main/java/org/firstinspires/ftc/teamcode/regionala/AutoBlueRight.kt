@@ -55,7 +55,7 @@ class AutoBlueRight : MultiThreadOpMode() {
 
     private val middleYellowPixel = Pose(47.inch + 1.cm, 33.inch, 180.deg)
 
-    private val rightYellowPixel = Pose(47.inch + 1.cm, 30.inch, 180.deg)
+    private val rightYellowPixel = Pose(47.inch + 1.cm, 28.inch -1.cm, 180.deg)
 
     private val middleRun1 = Pose(24.inch, 12.inch - 3.cm, 180.deg)
     private val middleRun2 = Pose(-30.inch, 12.inch - 3.cm, 180.deg)
@@ -437,11 +437,16 @@ class AutoBlueRight : MultiThreadOpMode() {
                 .stopAndAdd(SequentialAction(
                     SleepAction(0.2.s),
                     ParallelAction(
-                        claw.openLeft(),
+                        //claw.openLeft(),
                         claw.openRight()
                     ),
                     SleepAction(0.2.s),
                     lift.goToPass(),
+                ))
+                .strafeToLinearHeading(rightYellowPixel.position + 7.inch.y, rightYellowPixel.heading)
+                .stopAndAdd(SequentialAction(
+                    claw.openLeft(),
+                    SleepAction(0.5.s),
                 ))
                 .afterTime(0.s, SequentialAction(
                     claw.closeClaw(),
