@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.acmerobotics.roadrunner.PoseVelocity2d
 import com.acmerobotics.roadrunner.Vector2d
+import com.arcrobotics.ftclib.gamepad.ButtonReader
 import com.arcrobotics.ftclib.gamepad.ToggleButtonReader
 import com.outoftheboxrobotics.photoncore.Photon
 import com.qualcomm.hardware.lynx.LynxModule
@@ -23,6 +24,7 @@ import org.firstinspires.ftc.teamcode.robot.Claw
 import org.firstinspires.ftc.teamcode.robot.Claw.Companion.claw
 import org.firstinspires.ftc.teamcode.robot.Intake.Companion.intake
 import org.firstinspires.ftc.teamcode.robot.Lift.Companion.lift
+import org.firstinspires.ftc.teamcode.robot.Plane.Companion.plane
 import org.firstinspires.ftc.teamcode.robot.hardware.controlHub
 import org.firstinspires.ftc.teamcode.robot.hardware.expansionHub
 
@@ -44,6 +46,10 @@ class DriveTest: MultiThreadOpMode() {
     }
     private val intake by opModeLazy {
         hardwareMap.intake()
+    }
+
+    private val plane by opModeLazy {
+        hardwareMap.plane()
     }
 
     private var speed = 1.0
@@ -69,6 +75,10 @@ class DriveTest: MultiThreadOpMode() {
             gamepad2.left_stick_button
         }
 
+        val launchButton = ButtonReader {
+            gamepad2.b
+        }
+
         waitForStart()
 
         while (isStarted && !isStopRequested) {
@@ -80,6 +90,13 @@ class DriveTest: MultiThreadOpMode() {
             expansionHub.clearBulkCache()
 
             intakeToggle.readValue()
+            launchButton.readValue()
+
+            plane.update()
+
+            if (launchButton.wasJustPressed()) {
+                plane.launch()
+            }
 
             drive.updatePoseEstimate()
 

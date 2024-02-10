@@ -34,6 +34,7 @@ import org.firstinspires.ftc.teamcode.robot.Intake
 import org.firstinspires.ftc.teamcode.robot.IntakeMulti.Companion.intakeMulti
 import org.firstinspires.ftc.teamcode.robot.Lift
 import org.firstinspires.ftc.teamcode.robot.LiftMulti.Companion.liftMulti
+import org.firstinspires.ftc.teamcode.robot.Plane.Companion.plane
 import org.firstinspires.ftc.teamcode.robot.hardware.controlHub
 import org.firstinspires.ftc.teamcode.robot.hardware.expansionHub
 import kotlin.math.min
@@ -58,6 +59,10 @@ class AutoBlueLeft : MultiThreadOpMode() {
 
     private val drive by opModeLazy {
         MecanumDriveEx(hardwareMap, startPose)
+    }
+
+    private val plane by opModeLazy {
+        hardwareMap.plane()
     }
 
     private val arm by opModeLazy {
