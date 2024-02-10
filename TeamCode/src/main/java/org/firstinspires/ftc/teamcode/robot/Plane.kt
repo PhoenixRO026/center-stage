@@ -14,8 +14,8 @@ class Plane(
         hardwareMap: HardwareMap
 ) {
     companion object {
-        const val tiltRest = 0.351
-        const val tiltLaunch = 0.493
+        const val tiltRest = 0.459
+        const val tiltLaunch = 0.619
         const val launchPlane = 0.13
         const val hold = 0.292
 
