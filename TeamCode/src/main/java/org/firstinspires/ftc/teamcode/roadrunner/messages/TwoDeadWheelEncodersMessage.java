@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.roadrunner.messages;
 
 import com.acmerobotics.roadrunner.ftc.PositionVelocityPair;
 
+/** @noinspection unused*/
 public final class TwoDeadWheelEncodersMessage {
     public long timestamp;
     public PositionVelocityPair par;
