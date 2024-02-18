@@ -51,8 +51,6 @@ class TrajectoryActionBuilderEx(private var builder: TrajectoryActionBuilder) {
      *
      * Cannot be called without an applicable pending trajectory.
      */
-    // TODO: Should calling this without an applicable trajectory implicitly begin an empty trajectory and execute the
-    // action immediately?
     fun afterDisp(ds: Double, a: Action): TrajectoryActionBuilderEx {
         builder = builder.afterDisp(ds, a)
         return this
