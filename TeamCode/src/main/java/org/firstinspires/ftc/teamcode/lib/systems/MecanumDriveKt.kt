@@ -191,6 +191,16 @@ class MecanumDriveKt(
 
             val robotVelRobot = updatePoseEstimate()
 
+            /*val lastDisplacement = 0.0
+
+            val pathDisplacement = project(timeTrajectory.path, pose.position, lastDisplacement)
+
+            val targetPoseArc = timeTrajectory.path[pathDisplacement, 3]
+
+            val timeDisplacement = timeTrajectory.profile.dispProfile[pathDisplacement]
+
+            val targetPos = targetPoseArc.reparam(timeDisplacement)*/
+
             val command = HolonomicController(
                 axialPosGain = MecanumDriveKtParams.axialGain,
                 lateralPosGain = MecanumDriveKtParams.axialGain,
