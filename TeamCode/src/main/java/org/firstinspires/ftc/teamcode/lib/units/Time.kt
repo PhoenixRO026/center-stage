@@ -5,6 +5,10 @@ package org.firstinspires.ftc.teamcode.lib.units
 import com.acmerobotics.roadrunner.SleepAction
 
 class Time(val s: Double) {
+    companion object {
+        fun now() = System.currentTimeMillis().ms
+    }
+
     val ms get() = s * 1000.0
     val min get() = s / 60.0
 
