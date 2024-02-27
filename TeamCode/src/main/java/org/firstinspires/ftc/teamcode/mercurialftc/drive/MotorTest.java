@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.mercurialftc.drive;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.mercurialftc.mercurialftc.scheduler.OpModeEX;
 import org.mercurialftc.mercurialftc.util.hardware.cachinghardwaredevice.CachingDcMotorEX;
 
+@Disabled
 @TeleOp(name = "motor test")
 public class MotorTest extends OpModeEX {
 	private DcMotorEx fl, bl, br, fr;

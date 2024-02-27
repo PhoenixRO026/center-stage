@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.mercurialftc.drive;
 import static org.firstinspires.ftc.teamcode.mercurialftc.drive.MecanumDriveBase.ONE_TILE;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 import org.mercurialftc.mercurialftc.scheduler.OpModeEX;
 import org.mercurialftc.mercurialftc.scheduler.bindings.gamepadex.DomainSupplier;
 import org.mercurialftc.mercurialftc.scheduler.commands.Command;
@@ -12,6 +14,7 @@ import org.mercurialftc.mercurialftc.silversurfer.followable.WaveBuilder;
 import org.mercurialftc.mercurialftc.silversurfer.geometry.Pose2D;
 import org.mercurialftc.mercurialftc.silversurfer.geometry.angle.AngleDegrees;
 
+@Disabled
 @Autonomous
 public class DemoWaveFollowing extends OpModeEX {
 	private Pose2D startPose;

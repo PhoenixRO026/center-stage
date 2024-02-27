@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.mercurialftc.drive.tuners;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.mercurialftc.mercurialftc.scheduler.OpModeEX;
 import org.mercurialftc.mercurialftc.scheduler.bindings.Trigger;
@@ -8,6 +9,7 @@ import org.mercurialftc.mercurialftc.scheduler.commands.LambdaCommand;
 import org.mercurialftc.mercurialftc.silversurfer.geometry.Pose2D;
 import org.firstinspires.ftc.teamcode.mercurialftc.drive.MecanumDriveBase;
 
+@Disabled
 @TeleOp(name = "Rotational Acceleration Tuner")
 public class RotationalAccelerationTuner extends OpModeEX {
 	private MecanumDriveBase mecanumDriveBase;

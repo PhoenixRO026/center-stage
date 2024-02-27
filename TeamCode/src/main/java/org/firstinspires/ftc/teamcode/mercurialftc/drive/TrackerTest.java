@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.mercurialftc.drive;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.mercurialftc.mercurialftc.scheduler.OpModeEX;
@@ -7,6 +8,7 @@ import org.mercurialftc.mercurialftc.scheduler.commands.LambdaCommand;
 import org.mercurialftc.mercurialftc.silversurfer.geometry.Pose2D;
 import org.mercurialftc.mercurialftc.silversurfer.geometry.Vector2D;
 
+@Disabled
 @TeleOp(name = "Tracker test")
 public class TrackerTest extends OpModeEX {
 	private MecanumDriveBase mecanumDriveBase;

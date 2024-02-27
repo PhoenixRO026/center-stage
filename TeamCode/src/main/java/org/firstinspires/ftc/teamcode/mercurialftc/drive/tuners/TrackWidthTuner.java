@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.mercurialftc.drive.tuners;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -9,6 +10,7 @@ import org.mercurialftc.mercurialftc.scheduler.bindings.gamepadex.DomainSupplier
 import org.mercurialftc.mercurialftc.silversurfer.geometry.Pose2D;
 import org.mercurialftc.mercurialftc.silversurfer.tracker.WheeledTrackerConstants;
 
+@Disabled
 @TeleOp(name = "Track Width Tuner")
 public class TrackWidthTuner extends OpModeEX {
 	double measuredTurn;

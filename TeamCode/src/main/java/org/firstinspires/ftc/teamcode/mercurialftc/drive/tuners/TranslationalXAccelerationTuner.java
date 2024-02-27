@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.mercurialftc.drive.tuners;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.mercurialftc.drive.MecanumDriveBase;
@@ -12,6 +13,7 @@ import org.mercurialftc.mercurialftc.silversurfer.geometry.Vector2D;
 import org.mercurialftc.mercurialftc.silversurfer.geometry.angle.AngleDegrees;
 import org.mercurialftc.mercurialftc.silversurfer.tracker.Tracker;
 
+@Disabled
 @TeleOp(name = "Translational X Acceleration Tuner")
 public class TranslationalXAccelerationTuner extends OpModeEX {
 	private MecanumDriveBase mecanumDriveBase;
