@@ -22,6 +22,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegistrar;
 
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
+import org.firstinspires.ftc.teamcode.lib.localizer.ThreeWheelLocalizerEx;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.TankDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.ThreeDeadWheelLocalizer;
@@ -65,8 +66,8 @@ public final class TuningOpModes {
                     leftEncs.add(dl.leftBack);
                     rightEncs.add(dl.rightFront);
                     rightEncs.add(dl.rightBack);
-                } else if (md.localizer instanceof ThreeDeadWheelLocalizer) {
-                    ThreeDeadWheelLocalizer dl = (ThreeDeadWheelLocalizer) md.localizer;
+                } else if (md.localizer instanceof ThreeWheelLocalizerEx) {
+                    ThreeWheelLocalizerEx dl = (ThreeWheelLocalizerEx) md.localizer;
                     parEncs.add(dl.par0);
                     parEncs.add(dl.par1);
                     perpEncs.add(dl.perp);
@@ -162,6 +163,7 @@ public final class TuningOpModes {
 
         manager.register(metaForClass(ManualFeedbackTuner.class), ManualFeedbackTuner.class);
         manager.register(metaForClass(SplineTest.class), SplineTest.class);
+        manager.register(metaForClass(CircleTest.class), CircleTest.class);
         manager.register(metaForClass(LocalizationTest.class), LocalizationTest.class);
 
         FtcDashboard.getInstance().withConfigRoot(configRoot -> {

@@ -40,7 +40,7 @@ import kotlin.math.roundToInt
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 class MecanumDriveKt(
     hardwareMap: HardwareMap,
-    var pose: Pose2d
+    @JvmField var pose: Pose2d
 ) {
     @Config
     data object MecanumDriveKtParams {

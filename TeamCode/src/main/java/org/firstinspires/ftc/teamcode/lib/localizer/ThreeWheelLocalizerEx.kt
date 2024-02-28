@@ -22,13 +22,13 @@ class ThreeWheelLocalizerEx(
 ) : Localizer{
     @Config
     data object ThreeWheelParams {
-        @JvmField var trackWidthTicks: Double = 5221.878178997774 + 4557.065579735478
-        @JvmField var perpXTicks: Double = -5567.90748691027
+        @JvmField var trackWidthTicks: Double = 10232.089701992
+        @JvmField var perpXTicks: Double = -5507.647683897854
     }
 
-    private val par0 = OverflowEncoder(RawEncoder(hardwareMap.get(DcMotorEx::class.java, "leftBack")))
-    private val par1 = OverflowEncoder(RawEncoder(hardwareMap.get(DcMotorEx::class.java, "rightBack")))
-    private val perp = OverflowEncoder(RawEncoder(hardwareMap.get(DcMotorEx::class.java, "leftFront")))
+    @JvmField val par0 = OverflowEncoder(RawEncoder(hardwareMap.get(DcMotorEx::class.java, "leftBack")))
+    @JvmField val par1 = OverflowEncoder(RawEncoder(hardwareMap.get(DcMotorEx::class.java, "rightBack")))
+    @JvmField val perp = OverflowEncoder(RawEncoder(hardwareMap.get(DcMotorEx::class.java, "leftFront")))
 
     private var initialized = false
     private var lastPar0Pos = 0.0
@@ -75,11 +75,11 @@ class ThreeWheelLocalizerEx(
         lastPar1Pos = par1Pos
         lastPerpPos = perpPos
 
-        val deltaTheta = (par0PosDelta - par1PosDelta) / ThreeWheelParams.trackWidthTicks
+        val deltaTheta = (par1PosDelta - par0PosDelta) / ThreeWheelParams.trackWidthTicks
         val deltaX = perpPosDelta - ThreeWheelParams.perpXTicks * deltaTheta
         val deltaY = (par0PosDelta + par1PosDelta) / 2.0
 
-        val thetaVel = (par0Vel - par1Vel) / ThreeWheelParams.trackWidthTicks
+        val thetaVel = (par1Vel - par0Vel) / ThreeWheelParams.trackWidthTicks
         val xVel = perpVel - ThreeWheelParams.perpXTicks * thetaVel
         val yVel = (par0Vel + par1Vel) / 2.0
 

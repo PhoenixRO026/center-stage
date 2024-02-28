@@ -64,12 +64,12 @@ public final class MecanumDrive {
 
         // drive model parameters
         public double inPerTick = (240.0 / 2.54) / 178064.0;
-        public double lateralInPerTick = 0.0002928856520559315;
-        public double trackWidthTicks = 23531.38946745371;
+        public double lateralInPerTick = 0.00026980074992708733;
+        public double trackWidthTicks = 24589.88293684047;
 
         // feedforward parameters (in tick units)
-        public double kS = 3.086012489230172;
-        public double kV = 0.00004;
+        public double kS = 3.203471531908097;
+        public double kV = 0.000040570162421185096;
         public double kA = 0.000014;
 
         // path profile parameters (in inches)
@@ -240,7 +240,7 @@ public final class MecanumDrive {
         // TODO: reverse motor directions if needed
         //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
-        rightBack.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
 
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
@@ -252,6 +252,7 @@ public final class MecanumDrive {
         localizer = new ThreeWheelLocalizerEx(hardwareMap, PARAMS.inPerTick);
 
         imu = lazyImu.get();
+        imu.resetYaw();
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
