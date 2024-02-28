@@ -29,10 +29,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.IMU
 import com.qualcomm.robotcore.hardware.VoltageSensor
 import org.firstinspires.ftc.teamcode.lib.hardware.MotorEx.Companion.rev12to1
+import org.firstinspires.ftc.teamcode.lib.localizer.ThreeWheelLocalizerEx
 import org.firstinspires.ftc.teamcode.lib.units.rad
 import org.firstinspires.ftc.teamcode.roadrunner.Drawing
 import org.firstinspires.ftc.teamcode.roadrunner.Localizer
-import org.firstinspires.ftc.teamcode.roadrunner.ThreeDeadWheelLocalizer
 import java.util.LinkedList
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -110,7 +110,7 @@ class MecanumDriveKt(
 
     val imu: IMU = hardwareMap.get(IMU::class.java, "imu")
 
-    val localizer: Localizer = ThreeDeadWheelLocalizer(
+    val localizer: Localizer = ThreeWheelLocalizerEx(
         hardwareMap,
         MecanumDriveKtParams.inPerTick
     )

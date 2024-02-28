@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.lib
+package org.firstinspires.ftc.teamcode.lib.localizer
 
 import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.DualNum
