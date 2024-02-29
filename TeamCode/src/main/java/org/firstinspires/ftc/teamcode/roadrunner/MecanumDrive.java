@@ -41,6 +41,8 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.lib.localizer.ThreeWheelLocalizerEx;
+import org.firstinspires.ftc.teamcode.lib.units.Pose;
+import org.firstinspires.ftc.teamcode.lib.units.TrajectoryActionBuilderEx;
 import org.firstinspires.ftc.teamcode.roadrunner.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.roadrunner.messages.MecanumCommandMessage;
 import org.firstinspires.ftc.teamcode.roadrunner.messages.MecanumLocalizerInputsMessage;
@@ -83,11 +85,11 @@ public final class MecanumDrive {
 
         // path controller gains
         public double axialGain = 60.0;
-        public double lateralGain = 70.0;
+        public double lateralGain = 60.0;
         public double headingGain = 35.0; // shared with turn
 
         public double axialVelGain = 7.0;
-        public double lateralVelGain = 10.0;
+        public double lateralVelGain = 5.0;
         public double headingVelGain = 5.0; // shared with turn
 
 
@@ -213,6 +215,10 @@ public final class MecanumDrive {
                     DualNum.cons(headingDelta, twist.angle.drop(1))
             );
         }
+    }
+
+    public MecanumDrive(HardwareMap hardwareMap, Pose pose) {
+        this(hardwareMap, pose.getPose2d());
     }
 
     public MecanumDrive(HardwareMap hardwareMap, Pose2d pose) {
@@ -492,6 +498,10 @@ public final class MecanumDrive {
         c.setStrokeWidth(1);
         c.setStroke("#3F51B5");
         c.strokePolyline(xPoints, yPoints);
+    }
+
+    public TrajectoryActionBuilderEx actionBuilder(Pose beginPose) {
+        return new TrajectoryActionBuilderEx(actionBuilder(beginPose.getPose2d()));
     }
 
     public TrajectoryActionBuilder actionBuilder(Pose2d beginPose) {
