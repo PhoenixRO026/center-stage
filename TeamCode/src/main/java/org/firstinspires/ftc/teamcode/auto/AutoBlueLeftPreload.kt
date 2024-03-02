@@ -41,7 +41,7 @@ import kotlin.math.min
 
 @Autonomous
 @Photon
-class AutoBlueLeft : MultiThreadOpMode() {
+class AutoBlueLeftPreload : MultiThreadOpMode() {
     private val startPose = Pose(12.inch, 61.inch, 90.deg)
     private val middlePurplePixel = Pose(12.inch, 33.inch, 90.deg)
     private val leftPurplePixel = Pose(24.inch, 45.inch, 90.deg)
@@ -165,15 +165,8 @@ class AutoBlueLeft : MultiThreadOpMode() {
             lift.goToPass(),
             ParallelAction(
                 drive.actionBuilder(leftYellowPixel)
-                    .setTangent(180.deg)
-                    .splineToConstantHeading(middleRun1.position, 180.deg)
-                    .splineToConstantHeading(middleRun2.position, 180.deg)
-                    .afterTime(0.s, ParallelAction(
-                        InstantAction { intake.position = Intake.IntakeConfig.hitStack },
-                        claw.openRamp()
-                    ))
-                    .splineToConstantHeading(stacky.position, 180.deg)
-                    .strafeTo(stacky2.position)
+                    .strafeTo(leftYellowPixel.position - 4.inch.x)
+                    .strafeTo(leftYellowPixel.position + 16.inch.y - 4.inch.x)
                     .build(),
                 SequentialAction(
                     claw.closeClaw(),
@@ -181,55 +174,10 @@ class AutoBlueLeft : MultiThreadOpMode() {
                         claw.clawToRamp(),
                         arm.goToRamp()
                     ),
-                    lift.goToRamp()
                 )
             ),
-            InstantAction {
-                intake.power = 1.0
-                intake.position = 1.0
-            },
-            SleepAction(0.2.s),
-            ParallelAction(
-                drive.actionBuilder(stacky2)
-                    .strafeTo(stacky3.position, slowSpeed)
-                    .build(),
-                takePixelsIntake()
-            ),
-            drive.actionBuilder(stacky3)
-                .setTangent(0.deg)
-                .afterTime(1.s, ejectPixels())
-                .splineToConstantHeading(middleRun3.position, 0.deg)
-                .splineToConstantHeading(middleRun1.position, 0.deg)
-                .afterTime(0.s, SequentialAction(
-                    lift.goToPass(),
-                    ParallelAction(
-                        claw.clawToScore(),
-                        arm.goToScore(),
-                    ),
-                    lift.goToTicks(Lift.aboveYellowTicks)
-                ))
-                .splineToConstantHeading(leftYellowPixel.position - 10.cm.x, 0.deg)
-                .stopAndAdd(resetPose())
-                .strafeToLinearHeading(leftYellowPixel.position, leftYellowPixel.heading)
-                .build(),
-            SleepAction(0.2.s),
-            ParallelAction(
-                claw.openLeft(),
-                claw.openRight()
-            ),
-            SleepAction(0.2.s),
-            lift.goToPass(),
-            claw.closeClaw(),
-            drive.actionBuilder(leftYellowPixel)
-                .strafeTo(leftYellowPixel.position - 4.inch.x)
-                .afterTime(0.s, ParallelAction(
-                    claw.clawToRamp(),
-                    arm.goToRamp()
-                ),)
-                .strafeTo(leftYellowPixel.position + 16.inch.y - 4.inch.x)
-                .build(),
-            SleepAction(1.0.s),
-            lift.goToRamp()
+            SleepAction(0.5.s),
+            lift.goToRamp(),
         )
 
         val actionRight = SequentialAction(
@@ -260,15 +208,8 @@ class AutoBlueLeft : MultiThreadOpMode() {
             lift.goToPass(),
             ParallelAction(
                 drive.actionBuilder(rightYellowPixel)
-                    .setTangent(180.deg)
-                    .splineToConstantHeading(middleRun1.position, 180.deg)
-                    .splineToConstantHeading(middleRun2.position, 180.deg)
-                    .afterTime(0.s, ParallelAction(
-                        InstantAction { intake.position = Intake.IntakeConfig.hitStack },
-                        claw.openRamp()
-                    ))
-                    .splineToConstantHeading(stacky.position, 180.deg)
-                    .strafeTo(stacky2.position)
+                    .strafeTo(rightYellowPixel.position - 4.inch.x)
+                    .strafeTo(rightYellowPixel.position + 28.inch.y - 4.inch.x)
                     .build(),
                 SequentialAction(
                     claw.closeClaw(),
@@ -276,55 +217,10 @@ class AutoBlueLeft : MultiThreadOpMode() {
                         claw.clawToRamp(),
                         arm.goToRamp()
                     ),
-                    lift.goToRamp()
                 )
             ),
-            InstantAction {
-                intake.power = 1.0
-                intake.position = 1.0
-            },
-            SleepAction(0.2.s),
-            ParallelAction(
-                drive.actionBuilder(stacky2)
-                    .strafeTo(stacky3.position, slowSpeed)
-                    .build(),
-                takePixelsIntake()
-            ),
-            drive.actionBuilder(stacky3)
-                .setTangent(0.deg)
-                .afterTime(1.s, ejectPixels())
-                .splineToConstantHeading(middleRun3.position, 0.deg)
-                .splineToConstantHeading(middleRun1.position, 0.deg)
-                .afterTime(0.s, SequentialAction(
-                    lift.goToPass(),
-                    ParallelAction(
-                        claw.clawToScore(),
-                        arm.goToScore(),
-                    ),
-                    lift.goToTicks(Lift.aboveYellowTicks)
-                ))
-                .splineToConstantHeading(rightYellowPixel.position - 10.cm.x, 0.deg)
-                .stopAndAdd(resetPose())
-                .strafeToLinearHeading(rightYellowPixel.position, rightYellowPixel.heading)
-                .build(),
-            SleepAction(0.2.s),
-            ParallelAction(
-                claw.openLeft(),
-                claw.openRight()
-            ),
-            SleepAction(0.2.s),
-            lift.goToPass(),
-            claw.closeClaw(),
-            drive.actionBuilder(rightYellowPixel)
-                .strafeTo(rightYellowPixel.position - 4.inch.x)
-                .afterTime(0.s, ParallelAction(
-                    claw.clawToRamp(),
-                    arm.goToRamp()
-                ),)
-                .strafeTo(rightYellowPixel.position + 28.inch.y - 4.inch.x)
-                .build(),
-            SleepAction(1.0.s),
-            lift.goToRamp()
+            SleepAction(0.5.s),
+            lift.goToRamp(),
         )
 
         val actionMiddle = SequentialAction(
@@ -352,15 +248,8 @@ class AutoBlueLeft : MultiThreadOpMode() {
             lift.goToPass(),
             ParallelAction(
                 drive.actionBuilder(middleYellowPixel)
-                    .setTangent(180.deg)
-                    .splineToConstantHeading(middleRun1.position, 180.deg)
-                    .splineToConstantHeading(middleRun2.position, 180.deg)
-                    .afterTime(0.s, ParallelAction(
-                        InstantAction { intake.position = Intake.IntakeConfig.hitStack },
-                        claw.openRamp()
-                    ))
-                    .splineToConstantHeading(stacky.position, 180.deg)
-                    .strafeTo(stacky2.position)
+                    .strafeTo(middleYellowPixel.position - 4.inch.x)
+                    .strafeTo(middleYellowPixel.position + 22.inch.y - 4.inch.x)
                     .build(),
                 SequentialAction(
                     claw.closeClaw(),
@@ -368,54 +257,11 @@ class AutoBlueLeft : MultiThreadOpMode() {
                         claw.clawToRamp(),
                         arm.goToRamp()
                     ),
-                    lift.goToRamp()
+
                 )
             ),
-            InstantAction {
-                intake.power = 1.0
-                intake.position = 1.0
-            },
-            SleepAction(0.2.s),
-            ParallelAction(
-                drive.actionBuilder(stacky2)
-                    .strafeTo(stacky3.position, slowSpeed)
-                    .build(),
-                takePixelsIntake()
-            ),
-            drive.actionBuilder(stacky3)
-                .setTangent(0.deg)
-                .afterTime(1.s, ejectPixels())
-                .splineToConstantHeading(middleRun3.position, 0.deg)
-                .splineToConstantHeading(middleRun1.position, 0.deg)
-                .afterTime(0.s, SequentialAction(
-                    lift.goToPass(),
-                    ParallelAction(
-                        claw.clawToScore(),
-                        arm.goToScore(),
-                    ),
-                    lift.goToTicks(Lift.aboveYellowTicks)
-                ))
-                .splineToConstantHeading(middleYellowPixel.position - 10.cm.x, 0.deg)
-                .stopAndAdd(resetPose())
-                .strafeToLinearHeading(middleYellowPixel.position, middleYellowPixel.heading)
-                .build(),
-            SleepAction(0.2.s),
-            ParallelAction(
-                claw.openLeft(),
-                claw.openRight()
-            ),
-            SleepAction(0.2.s),
-            lift.goToPass(),
-            claw.closeClaw(),
-            drive.actionBuilder(middleYellowPixel)
-                .strafeTo(middleYellowPixel.position + 22.inch.y - 4.inch.x)
-                .build(),
-            ParallelAction(
-                claw.clawToRamp(),
-                arm.goToRamp()
-            ),
-            SleepAction(1.0.s),
-            lift.goToRamp()
+            SleepAction(0.5.s),
+            lift.goToRamp(),
         )
 
         while (opModeInInit()) {
