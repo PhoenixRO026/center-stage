@@ -56,4 +56,6 @@ class CachedServo @JvmOverloads constructor(
     fun forceUpdate() {
         innerPosition = position
     }
+
+    fun rangedSpeed(speed: Double = SpeedServo.defaultSpeed, range: ClosedRange<Double> = 0.0..1.0) = SpeedServo(this, speed).rangedSpeed(range)
 }

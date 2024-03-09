@@ -5,5 +5,5 @@ interface ServoEx {
 
     fun ranged(range: ClosedRange<Double> = 0.0..1.0) = RangedServo(this, range)
 
-
+    fun speed(speed: Double = SpeedServo.defaultSpeed) = SpeedServo(this, speed)
 }
