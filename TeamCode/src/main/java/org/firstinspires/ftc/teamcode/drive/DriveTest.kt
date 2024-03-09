@@ -11,6 +11,7 @@ import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.lib.hardware.controlHub
 import org.firstinspires.ftc.teamcode.lib.hardware.expansionHub
+import org.firstinspires.ftc.teamcode.lib.hardware.newer.Servo.Companion.servo
 import org.firstinspires.ftc.teamcode.lib.opmode.MultiThreadOpMode
 import org.firstinspires.ftc.teamcode.lib.systems.Arm
 import org.firstinspires.ftc.teamcode.lib.systems.Arm.Companion.arm
