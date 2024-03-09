@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode.lib2.hardware
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.Servo.Direction
 import org.firstinspires.ftc.teamcode.lib.units.Time
-import org.firstinspires.ftc.teamcode.lib2.hardware.RangedSpeedServo.Companion.rangedSpeedCachedServo
-import org.firstinspires.ftc.teamcode.lib2.hardware.RangedSpeedServo.Companion.rangedSpeedServo
 
 class RangedSpeedServo @JvmOverloads constructor(
     @JvmField val innerServo: SpeedServo,
