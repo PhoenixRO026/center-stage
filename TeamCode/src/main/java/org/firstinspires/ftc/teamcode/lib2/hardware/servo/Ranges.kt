@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.lib2.hardware
+package org.firstinspires.ftc.teamcode.lib2.hardware.servo
 
 import com.qualcomm.robotcore.util.Range
 

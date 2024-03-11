@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.lib2.hardware
+package org.firstinspires.ftc.teamcode.lib2.hardware.servo
 
 import com.qualcomm.hardware.lynx.LynxServoController
 import com.qualcomm.robotcore.hardware.HardwareMap
