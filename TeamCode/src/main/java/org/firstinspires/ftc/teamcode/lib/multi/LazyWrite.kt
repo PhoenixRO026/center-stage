@@ -1,29 +1,42 @@
 package org.firstinspires.ftc.teamcode.lib.multi
 
 import java.util.Queue
+import java.util.concurrent.ConcurrentLinkedQueue
+import java.util.concurrent.atomic.AtomicReference
 import kotlin.reflect.KProperty
 
+//TODO: needs testing
 class LazyWrite<T: Any>(
-    private val queue: Queue<() -> Unit>,
+    private val queue: Queue<Task>,
     private val writeT: (T) -> Unit,
     private val getValueT: () -> T
 ) {
-    @Volatile
-    private var waitingOnQueue = false
+    data class Task(
+        val time: Long = System.nanoTime(),
+        val task: () -> Unit
+    ) {
+        override fun equals(other: Any?): Boolean {
+            return if (other is Task) {
+                time == other.time
+            } else super.equals(other)
+        }
 
-    private var cachedValue: T = getValueT()
+        override fun hashCode(): Int {
+            return time.hashCode()
+        }
+    }
 
-    private fun getCache() = cachedValue
+    private var previousTask: Task? = null
 
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-        cachedValue = value
-        if (!waitingOnQueue) {
-            waitingOnQueue = true
-            queue.add {
-                writeT(getCache())
-                waitingOnQueue = false
-            }
+        previousTask?.let { task ->
+            queue.remove(task)
         }
+        val newTask = Task {
+            writeT(value)
+        }
+        previousTask = newTask
+        queue.add(newTask)
     }
 
     operator fun getValue(thisRef: Any, property: KProperty<*>) = getValueT()
