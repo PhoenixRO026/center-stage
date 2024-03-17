@@ -10,19 +10,18 @@ import org.firstinspires.ftc.teamcode.lib.hardware.servo.SimpleServo.Companion.s
 import org.firstinspires.ftc.teamcode.lib.units.DeltaTime
 
 @TeleOp
-class CutieTest : LinearOpMode() {
+class BratTest : LinearOpMode() {
 
     @Config
-    data object CutieTestConfig {
-        @JvmField var cutieOffset: Double = 0.025
+    data object BratTestConfig {
+        @JvmField var cutieOffset: Double = 0.02
     }
 
     override fun runOpMode() {
-        val leftRange = CutieTestConfig.cutieOffset..1.0
-        val rightRange = 0.0..(1.0 - CutieTestConfig.cutieOffset)
-        val leftServo = hardwareMap.rangedServo("leftBox", Servo.Direction.REVERSE, leftRange)
-        val rightServo = hardwareMap.rangedServo("rightBox", range = rightRange)
-        val wheel = hardwareMap.get(CRServo::class.java, "wheelBox")
+        val rightRange = BratTestConfig.cutieOffset..1.0
+        val leftRange = 0.0..(1.0 - BratTestConfig.cutieOffset)
+        val leftServo = hardwareMap.rangedServo("leftArm", range = leftRange)
+        val rightServo = hardwareMap.rangedServo("rightArm", range = rightRange)
         val time = DeltaTime()
 
         var position = 0.5
@@ -42,8 +41,6 @@ class CutieTest : LinearOpMode() {
 
             leftServo.position = position
             rightServo.position = position
-
-            wheel.power = gamepad1.right_stick_x.toDouble()
 
             telemetry.addData("position", position)
             telemetry.update()
