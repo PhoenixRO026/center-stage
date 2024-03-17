@@ -10,7 +10,8 @@ import kotlin.math.sign
 open class SpeedServo @JvmOverloads constructor(
     servo: Servo,
     direction: Direction = Direction.FORWARD,
-    @JvmField val speed: Double = defaultSpeed
+    @JvmField val speed: Double = defaultSpeed,
+    private val coupledServos: List<SimpleServo> = emptyList()
 ) : SimpleServo(servo, direction) {
     companion object {
         const val defaultSpeed = 0.1
@@ -18,23 +19,28 @@ open class SpeedServo @JvmOverloads constructor(
         fun HardwareMap.speedServo(
             deviceName: String,
             direction: Direction = Direction.FORWARD,
-            speed: Double = defaultSpeed
-        ) = SpeedServo(this, deviceName, direction, speed)
+            speed: Double = defaultSpeed,
+            coupledServos: List<SimpleServo> = emptyList()
+        ) = SpeedServo(this, deviceName, direction, speed, coupledServos)
     }
 
     @JvmOverloads constructor(
         hardwareMap: HardwareMap,
         deviceName: String,
         direction: Direction = Direction.FORWARD,
-        speed: Double = defaultSpeed
-    ) : this(hardwareMap.get(Servo::class.java, deviceName), direction, speed)
+        speed: Double = defaultSpeed,
+        coupledServos: List<SimpleServo> = emptyList()
+    ) : this(hardwareMap.get(Servo::class.java, deviceName), direction, speed, coupledServos)
 
-    private val deltaTime = DeltaTime()
+    protected val deltaTime = DeltaTime()
 
     override var position: Double
         get() = super.position
         set(value) {
             super.position = value
+            coupledServos.forEach {
+                it.position = super.position
+            }
             targetPosition = value.coerceIn(0.0, 1.0)
         }
 
@@ -44,10 +50,13 @@ open class SpeedServo @JvmOverloads constructor(
         val error = targetPosition - position
         if (error == 0.0) return
         val step = speed * deltaTime.calculateDeltaTime().s
-        position += if (abs(error) < step) {
+        super.position += if (abs(error) < step) {
             error
         } else {
             error.sign * step
+        }
+        coupledServos.forEach {
+            it.position = super.position
         }
     }
 }

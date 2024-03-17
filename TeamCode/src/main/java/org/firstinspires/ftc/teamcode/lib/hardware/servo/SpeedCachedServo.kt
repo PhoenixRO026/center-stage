@@ -12,7 +12,8 @@ open class SpeedCachedServo(
     servo: Servo,
     direction: Direction = Direction.FORWARD,
     cachingThreshold: Double = defaultCachingThreshold,
-    @JvmField val speed: Double = defaultSpeed
+    @JvmField val speed: Double = defaultSpeed,
+    private val coupledServos: List<SimpleServo> = emptyList()
 ) : CachedServo(servo, direction, cachingThreshold) {
 
     companion object {
@@ -20,8 +21,9 @@ open class SpeedCachedServo(
             deviceName: String,
             direction: Direction = Direction.FORWARD,
             cachingThreshold: Double = defaultCachingThreshold,
-            speed: Double = defaultSpeed
-        ) = SpeedCachedServo(this, deviceName, direction, cachingThreshold, speed)
+            speed: Double = defaultSpeed,
+            coupledServos: List<SimpleServo> = emptyList()
+        ) = SpeedCachedServo(this, deviceName, direction, cachingThreshold, speed, coupledServos)
     }
 
     @JvmOverloads constructor(
@@ -29,15 +31,19 @@ open class SpeedCachedServo(
         deviceName: String,
         direction: Direction = Direction.FORWARD,
         cachingThreshold: Double = defaultCachingThreshold,
-        speed: Double = defaultSpeed
-    ) : this(hardwareMap.get(Servo::class.java, deviceName), direction, cachingThreshold, speed)
+        speed: Double = defaultSpeed,
+        coupledServos: List<SimpleServo> = emptyList()
+    ) : this(hardwareMap.get(Servo::class.java, deviceName), direction, cachingThreshold, speed, coupledServos)
 
-    private val deltaTime = DeltaTime()
+    protected val deltaTime = DeltaTime()
 
     override var position: Double
         get() = super.position
         set(value) {
             super.position = value
+            coupledServos.forEach {
+                it.position = super.position
+            }
             targetPosition = value.coerceIn(0.0, 1.0)
         }
 
@@ -50,15 +56,18 @@ open class SpeedCachedServo(
         return result
     }
 
-    fun update() {
+    open fun update() {
         val error = targetPosition - position
         if (error == 0.0) return
         val step = speed * deltaTime.calculateDeltaTime().s
         if (abs(error) < step) {
-            position += error
+            super.position += error
             forceUpdate()
         } else {
-            position += error.sign * step
+            super.position += error.sign * step
+        }
+        coupledServos.forEach {
+            it.position = super.position
         }
     }
 }
