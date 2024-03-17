@@ -27,6 +27,8 @@ open class CachedServo @JvmOverloads constructor(
         cachingThreshold: Double = defaultCachingThreshold
     ) : this(hardwareMap.get(Servo::class.java, deviceName), direction, cachingThreshold)
 
+    open val cachedPosition get() = super.position
+
     override var position: Double = super.position
         set(value) {
             val newValue = value.coerceIn(0.0, 1.0)

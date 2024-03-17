@@ -27,6 +27,12 @@ class RangedCachedServo @JvmOverloads constructor(
         range: ClosedRange<Double> = 0.0..1.0
     ) : this(hardwareMap.get(Servo::class.java, deviceName), direction, cachingThreshold, range)
 
+    val unscaledCachedPosition
+        get() = super.cachedPosition
+
+    override val cachedPosition: Double
+        get() = unscaledCachedPosition.reverseScale(range).coerceIn(0.0, 1.0)
+
     var unscaledPosition
         get() = super.position
         set(value) {
