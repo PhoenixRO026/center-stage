@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.tests
 
 import com.arcrobotics.ftclib.gamepad.ButtonReader
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.lib.multi.LazyWrite
 import org.firstinspires.ftc.teamcode.lib.opmode.MultiThreadOpMode
 import java.util.concurrent.ConcurrentLinkedQueue
 
+@Disabled
 @TeleOp
 class QueueTest : MultiThreadOpMode() {
 

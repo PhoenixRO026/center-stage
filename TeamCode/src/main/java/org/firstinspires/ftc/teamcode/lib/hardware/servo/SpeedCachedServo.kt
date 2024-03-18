@@ -51,6 +51,8 @@ open class SpeedCachedServo(
 
     open var targetPosition: Double by ::innerTargetPosition
 
+    val isBusy: Boolean get() = innerTargetPosition != innerPosition
+
     override fun setPositionResult(position: Double): Boolean {
         val pos = position.coerceIn(0.0, 1.0)
         val result = shouldChangePosition(pos)

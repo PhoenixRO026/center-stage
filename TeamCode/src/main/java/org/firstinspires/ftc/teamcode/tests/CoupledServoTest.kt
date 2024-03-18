@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.tests
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.lib.hardware.servo.RangedServo.Companion.rangedServo
 import org.firstinspires.ftc.teamcode.lib.hardware.servo.RangedSpeedCachedServo.Companion.rangedSpeedCachedServo
 import org.firstinspires.ftc.teamcode.lib.hardware.servo.SimpleServo.Companion.simpleServo
 
+@Disabled
 @TeleOp
 class CoupledServoTest : LinearOpMode(){
     override fun runOpMode() {

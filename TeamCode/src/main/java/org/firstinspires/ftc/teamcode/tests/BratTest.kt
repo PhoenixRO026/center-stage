@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.tests
 
 import com.acmerobotics.dashboard.config.Config
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.CRServo
@@ -9,10 +10,10 @@ import org.firstinspires.ftc.teamcode.lib.hardware.servo.RangedServo.Companion.r
 import org.firstinspires.ftc.teamcode.lib.hardware.servo.SimpleServo.Companion.simpleServo
 import org.firstinspires.ftc.teamcode.lib.units.DeltaTime
 
+@Disabled
 @TeleOp
 class BratTest : LinearOpMode() {
 
-    @Config
     data object BratTestConfig {
         @JvmField var cutieOffset: Double = 0.02
     }

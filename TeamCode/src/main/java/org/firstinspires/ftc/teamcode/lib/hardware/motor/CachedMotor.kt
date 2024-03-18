@@ -9,24 +9,27 @@ import kotlin.math.sign
 class CachedMotor @JvmOverloads constructor(
     dcMotor: DcMotorSimple,
     direction: Direction = Direction.FORWARD,
-    @JvmField val cachingThreshold: Double = defaultCachingThreshold
-) : SimpleMotor(dcMotor, direction) {
+    @JvmField val cachingThreshold: Double = defaultCachingThreshold,
+    coupledMotors: List<SimpleMotor> = emptyList()
+) : SimpleMotor(dcMotor, direction, coupledMotors) {
     companion object {
         const val defaultCachingThreshold = 0.01
 
         fun HardwareMap.cachedMotor(
             deviceName: String,
             direction: Direction = Direction.FORWARD,
-            cachingThreshold: Double = defaultCachingThreshold
-        ) = CachedMotor(this, deviceName, direction, cachingThreshold)
+            cachingThreshold: Double = defaultCachingThreshold,
+            coupledMotors: List<SimpleMotor> = emptyList()
+        ) = CachedMotor(this, deviceName, direction, cachingThreshold, coupledMotors)
     }
 
     @JvmOverloads constructor(
         hardwareMap: HardwareMap,
         deviceName: String,
         direction: Direction = Direction.FORWARD,
-        cachingThreshold: Double = defaultCachingThreshold
-    ) : this (hardwareMap.get(DcMotorSimple::class.java, deviceName), direction, cachingThreshold)
+        cachingThreshold: Double = defaultCachingThreshold,
+        coupledMotors: List<SimpleMotor> = emptyList()
+    ) : this (hardwareMap.get(DcMotorSimple::class.java, deviceName), direction, cachingThreshold, coupledMotors)
 
     private var innerPower
         get() = super.power

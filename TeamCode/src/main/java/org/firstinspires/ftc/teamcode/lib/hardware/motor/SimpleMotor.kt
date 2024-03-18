@@ -9,34 +9,42 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 
 open class SimpleMotor @JvmOverloads constructor(
     dcMotor: DcMotorSimple,
-    direction: Direction = Direction.FORWARD
+    direction: Direction = Direction.FORWARD,
+    private val coupledMotors: List<SimpleMotor> = emptyList()
 ) {
     companion object {
         fun HardwareMap.simpleMotor(
             deviceName: String,
-            direction: Direction = Direction.FORWARD
-        ) = SimpleMotor(this, deviceName, direction)
+            direction: Direction = Direction.FORWARD,
+            coupledMotors: List<SimpleMotor> = emptyList()
+        ) = SimpleMotor(this, deviceName, direction, coupledMotors)
     }
 
     @JvmOverloads constructor(
         hardwareMap: HardwareMap,
         deviceName: String,
-        direction: Direction = Direction.FORWARD
-    ) : this(hardwareMap.get(DcMotorSimple::class.java, deviceName), direction)
+        direction: Direction = Direction.FORWARD,
+        coupledMotors: List<SimpleMotor> = emptyList()
+    ) : this(hardwareMap.get(DcMotorSimple::class.java, deviceName), direction, coupledMotors)
 
     @JvmField val innerMotor = dcMotor as DcMotorImplEx
     @JvmField val controller = innerMotor.controller as LynxDcMotorController
 
     private var positionOffset: Int = 0
 
-    open var power: Double = 0.0
+    private var innerPower: Double = 0.0
         set(value) {
             val newValue = value.coerceIn(-1.0, 1.0)
             if (field != newValue) {
                 innerMotor.power = newValue
+                coupledMotors.forEach {
+                    it.power = newValue
+                }
             }
             field = newValue
         }
+
+    open var power: Double by ::innerPower
 
     var direction = direction
         set(value) {

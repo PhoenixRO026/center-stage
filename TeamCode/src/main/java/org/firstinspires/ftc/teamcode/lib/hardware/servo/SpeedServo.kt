@@ -50,6 +50,8 @@ open class SpeedServo @JvmOverloads constructor(
 
     open var targetPosition: Double by :: innerTargetPosition
 
+    val isBusy: Boolean get() = innerTargetPosition != innerPosition
+
     fun update() {
         val error = innerTargetPosition - innerPosition
         val step = speed * deltaTime.calculateDeltaTime().s
