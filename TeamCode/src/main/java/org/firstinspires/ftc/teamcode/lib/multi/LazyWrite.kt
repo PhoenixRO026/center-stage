@@ -5,7 +5,6 @@ import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.reflect.KProperty
 
-//TODO: needs testing
 class LazyWrite<T: Any>(
     private val queue: Queue<Task>,
     private val writeT: (T) -> Unit,
