@@ -13,9 +13,9 @@ class CoupledServoTest : LinearOpMode(){
     override fun runOpMode() {
         val servo2 = hardwareMap.rangedServo("servo2", range = 0.5..1.0)
         val servo3 = hardwareMap.simpleServo("servo3")
-        val servo1 = hardwareMap.rangedSpeedServo(
+        val servo1 = hardwareMap.rangedSpeedCachedServo(
             deviceName = "servo1",
-            //cachingThreshold = 0.01,
+            cachingThreshold = 0.01,
             speed = 0.1,
             range = 0.0..0.5,
             coupledServos = listOf(servo2, servo3)
@@ -35,9 +35,10 @@ class CoupledServoTest : LinearOpMode(){
             servo1.update()
 
             telemetry.addData("servo1 target pos", servo1.targetPosition)
-            //telemetry.addData("servo 1 cached pos", servo1.cachedPosition)
+            telemetry.addData("servo 1 cached pos", servo1.cachedPosition)
             telemetry.addData("servo1 unscaled target pos", servo1.unscaledTargetPosition)
-            //telemetry.addData("servo1 unscaled pos", servo1.unscaledCachedPosition)
+            telemetry.addData("servo1 unscaled cached pos", servo1.unscaledCachedPosition)
+            telemetry.addData("servo1 unscaled pos", servo1.unscaledPosition)
             telemetry.addData("servo2 unscaled pos", servo2.unscaledPosition)
             telemetry.addData("servo3 pos", servo3.position)
             telemetry.update()
