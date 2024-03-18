@@ -29,7 +29,7 @@ open class CachedServo @JvmOverloads constructor(
 
     open val cachedPosition get() = super.position
 
-    override var position: Double = super.position
+    private var innerPosition: Double = super.position
         set(value) {
             val newValue = value.coerceIn(0.0, 1.0)
             if (shouldChangePosition(newValue)) {
@@ -37,6 +37,8 @@ open class CachedServo @JvmOverloads constructor(
             }
             field = newValue
         }
+
+    override var position: Double by ::innerPosition
 
     fun shouldChangePosition(pos: Double): Boolean {
         val newPosition = pos.coerceIn(0.0, 1.0)
@@ -46,13 +48,13 @@ open class CachedServo @JvmOverloads constructor(
     }
 
     fun forceUpdate() {
-        super.position = position
+        super.position = innerPosition
     }
 
     open fun setPositionResult(position: Double): Boolean {
         val pos = position.coerceIn(0.0, 1.0)
         val result = shouldChangePosition(pos)
-        this.position = pos
+        innerPosition = pos
         return result
     }
 }

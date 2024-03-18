@@ -34,29 +34,33 @@ open class SpeedServo @JvmOverloads constructor(
 
     protected val deltaTime = DeltaTime()
 
-    override var position: Double
+    private var innerPosition: Double
         get() = super.position
         set(value) {
             super.position = value
             coupledServos.forEach {
-                it.position = super.position
+                it.position = position
             }
-            targetPosition = value.coerceIn(0.0, 1.0)
+            innerTargetPosition = value.coerceIn(0.0, 1.0)
         }
 
-    open var targetPosition: Double = super.position
+    override var position: Double by ::innerPosition
 
-    open fun update() {
-        val error = targetPosition - position
-        if (error == 0.0) return
+    private var innerTargetPosition = super.position
+
+    open var targetPosition: Double by :: innerTargetPosition
+
+    fun update() {
+        val error = innerTargetPosition - innerPosition
         val step = speed * deltaTime.calculateDeltaTime().s
+        if (error == 0.0) return
         super.position += if (abs(error) < step) {
             error
         } else {
             error.sign * step
         }
         coupledServos.forEach {
-            it.position = super.position
+            it.position = position
         }
     }
 }

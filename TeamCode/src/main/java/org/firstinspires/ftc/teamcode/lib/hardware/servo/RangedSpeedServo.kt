@@ -11,8 +11,8 @@ class RangedSpeedServo(
     direction: Direction = Direction.FORWARD,
     speed: Double = defaultSpeed,
     @JvmField val range: ClosedRange<Double> = 0.0..1.0,
-    private val coupledServos: List<SimpleServo> = emptyList()
-) : SpeedServo(servo, direction, speed) {
+    coupledServos: List<SimpleServo> = emptyList()
+) : SpeedServo(servo, direction, speed, coupledServos) {
     companion object {
         fun HardwareMap.rangedSpeedServo(
             deviceName: String,
@@ -36,9 +36,6 @@ class RangedSpeedServo(
         get() = super.position
         set(value) {
             super.position = value
-            coupledServos.forEach {
-                it.position = position
-            }
         }
 
     override var position: Double
@@ -58,18 +55,4 @@ class RangedSpeedServo(
         set(value) {
             unscaledTargetPosition = value.coerceIn(0.0, 1.0).scaleTo(range)
         }
-
-    override fun update() {
-        val error = unscaledTargetPosition - unscaledPosition
-        if (error == 0.0) return
-        val step = speed * deltaTime.calculateDeltaTime().s
-        super.position += if (abs(error) < step) {
-            error
-        } else {
-            error.sign * step
-        }
-        coupledServos.forEach {
-            it.position = position
-        }
-    }
 }

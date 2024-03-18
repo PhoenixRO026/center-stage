@@ -12,8 +12,8 @@ class RangedSpeedCachedServo(
     cachingThreshold: Double = defaultCachingThreshold,
     speed: Double = defaultSpeed,
     @JvmField val range: ClosedRange<Double> = 0.0..1.0,
-    private val coupledServos: List<SimpleServo> = emptyList()
-) : SpeedCachedServo(servo, direction, cachingThreshold, speed) {
+    coupledServos: List<SimpleServo> = emptyList()
+) : SpeedCachedServo(servo, direction, cachingThreshold, speed, coupledServos) {
     companion object {
         fun HardwareMap.rangedSpeedCachedServo(
             deviceName: String,
@@ -45,9 +45,6 @@ class RangedSpeedCachedServo(
         get() = super.position
         set(value) {
             super.position = value
-            coupledServos.forEach {
-                it.position = position
-            }
         }
 
     override var position: Double
@@ -71,18 +68,4 @@ class RangedSpeedCachedServo(
     fun setUnscaledPositionResult(position: Double): Boolean = super.setPositionResult(position)
 
     override fun setPositionResult(position: Double): Boolean = setUnscaledPositionResult(position.coerceIn(0.0, 1.0).scaleTo(range))
-
-    override fun update() {
-        val error = unscaledTargetPosition - unscaledPosition
-        if (error == 0.0) return
-        val step = speed * deltaTime.calculateDeltaTime().s
-        super.position += if (abs(error) < step) {
-            error
-        } else {
-            error.sign * step
-        }
-        coupledServos.forEach {
-            it.position = position
-        }
-    }
 }

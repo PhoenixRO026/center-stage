@@ -35,39 +35,45 @@ open class SpeedCachedServo(
         coupledServos: List<SimpleServo> = emptyList()
     ) : this(hardwareMap.get(Servo::class.java, deviceName), direction, cachingThreshold, speed, coupledServos)
 
-    protected val deltaTime = DeltaTime()
+    private val deltaTime = DeltaTime()
 
-    override var position: Double
+    private var innerPosition: Double
         get() = super.position
         set(value) {
             super.position = value
-            coupledServos.forEach {
-                it.position = super.position
-            }
+            updateCoupledServos()
             targetPosition = value.coerceIn(0.0, 1.0)
         }
 
-    open var targetPosition: Double = super.position
+    override var position: Double by ::innerPosition
+
+    private var innerTargetPosition: Double = super.position
+
+    open var targetPosition: Double by ::innerTargetPosition
 
     override fun setPositionResult(position: Double): Boolean {
         val pos = position.coerceIn(0.0, 1.0)
         val result = shouldChangePosition(pos)
-        this.position = pos
+        this.innerPosition = pos
         return result
     }
 
-    open fun update() {
-        val error = targetPosition - position
-        if (error == 0.0) return
+    fun updateCoupledServos() {
+        coupledServos.forEach {
+            it.position = cachedPosition
+        }
+    }
+
+    fun update() {
         val step = speed * deltaTime.calculateDeltaTime().s
+        val error = innerTargetPosition - innerPosition
+        if (error == 0.0) return
         if (abs(error) < step) {
             super.position += error
             forceUpdate()
         } else {
             super.position += error.sign * step
         }
-        coupledServos.forEach {
-            it.position = super.position
-        }
+        updateCoupledServos()
     }
 }
