@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.systems
 
 import com.acmerobotics.dashboard.config.Config
+import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.lib.hardware.motor.SimpleMotor.Companion.simpleMotor
@@ -15,11 +16,11 @@ class Intake(
 
     @Config
     data object IntakeConfig {
-        @JvmField var rangeStart = 0.0
+        @JvmField var rangeStart = 0.05
         @JvmField var rangeEnd = 0.5
         @JvmField var speed = 0.2
 
-        @JvmField var groundPos = 0.1
+        @JvmField var groundPos = 0.0
         @JvmField var initPos = groundPos
     }
 
@@ -31,7 +32,7 @@ class Intake(
         speed =  IntakeConfig.speed,
         range = servoRange
     )
-    private val motor = hardwareMap.simpleMotor("intake")
+    private val motor = hardwareMap.simpleMotor("intake", DcMotorSimple.Direction.REVERSE)
 
     var position by angleServo::position
 

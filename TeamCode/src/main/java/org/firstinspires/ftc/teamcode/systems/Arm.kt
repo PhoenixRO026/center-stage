@@ -16,8 +16,8 @@ class Arm(
     data object ArmConfig {
         @JvmField var armServoOffset: Double = 0.02
         @JvmField var armSpeed: Double = 0.6
-        @JvmField var intakePos: Double = 0.7
-        @JvmField var scorePos: Double = 0.3
+        @JvmField var intakePos: Double = 0.674
+        @JvmField var scorePos: Double = 0.251
     }
 
     private val leftRange = 0.0..(1.0 - ArmConfig.armServoOffset)

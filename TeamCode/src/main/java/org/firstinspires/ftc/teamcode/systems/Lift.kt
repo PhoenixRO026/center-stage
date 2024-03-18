@@ -24,9 +24,10 @@ class Lift(
         @JvmField var toleranceTicks = 10
     }
 
-    private val leftMotor = hardwareMap.simpleMotor("leftLift", DcMotorSimple.Direction.REVERSE)
+    private val leftMotor = hardwareMap.simpleMotor("leftLift")
     private val rightMotor = hardwareMap.simpleMotor(
         deviceName = "rightLift",
+        direction = DcMotorSimple.Direction.REVERSE,
         coupledMotors = listOf(leftMotor)
     )
 

@@ -26,6 +26,8 @@ class IntakeTuning : LinearOpMode() {
             } else if (gamepad1.dpad_down) {
                 intake.position -= dts
             }
+
+            intake.power = gamepad1.left_stick_x.toDouble()
             
             telemetry.addData("intake position", intake.position)
             telemetry.addData("intake unscaled position", intake.angleServo.unscaledPosition)
