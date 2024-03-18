@@ -4,9 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.lib.hardware.servo.RangedServo.Companion.rangedServo
 import org.firstinspires.ftc.teamcode.lib.hardware.servo.RangedSpeedCachedServo.Companion.rangedSpeedCachedServo
-import org.firstinspires.ftc.teamcode.lib.hardware.servo.RangedSpeedServo.Companion.rangedSpeedServo
 import org.firstinspires.ftc.teamcode.lib.hardware.servo.SimpleServo.Companion.simpleServo
-import org.firstinspires.ftc.teamcode.lib.hardware.servo.SpeedCachedServo.Companion.speedCachedServo
 
 @TeleOp
 class CoupledServoTest : LinearOpMode(){
