@@ -5,8 +5,6 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.lib.units.DeltaTime
-import org.firstinspires.ftc.teamcode.systems.Arm.Companion.arm
-import org.firstinspires.ftc.teamcode.systems.Box.Companion.box
 import org.firstinspires.ftc.teamcode.systems.Intake.Companion.intake
 
 @TeleOp
