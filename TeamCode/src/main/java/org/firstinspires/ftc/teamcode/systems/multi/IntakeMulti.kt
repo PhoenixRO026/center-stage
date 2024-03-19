@@ -32,6 +32,14 @@ class IntakeMulti(
 
     val isBusy by innerIntake::isBusy
 
+    fun goDown() {
+        position -= innerIntake.pubDeltaTime.s
+    }
+
+    fun goUp() {
+        position += innerIntake.pubDeltaTime.s
+    }
+
     fun write() {
         var task: LazyWrite.Task? = queue.poll()
 

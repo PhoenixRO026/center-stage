@@ -34,6 +34,14 @@ class BoxMulti(
 
     val isBusy by innerBox::isBusy
 
+    fun intakePos() {
+        targetPosition = Box.BoxConfig.intakePos
+    }
+
+    fun scorePos() {
+        targetPosition = Box.BoxConfig.scorePos
+    }
+
 
     fun goToIntake() = object : Action {
         var init = true

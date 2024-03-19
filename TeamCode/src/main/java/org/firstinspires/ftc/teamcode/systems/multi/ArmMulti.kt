@@ -27,6 +27,14 @@ class ArmMulti(
 
     val isBusy by innerArm::isBusy
 
+    fun intakePos() {
+        targetPosition = Arm.ArmConfig.intakePos
+    }
+
+    fun scorePos() {
+        targetPosition = Arm.ArmConfig.scorePos
+    }
+
     fun goToIntake() = object : Action {
         var init = true
         override fun run(p: TelemetryPacket): Boolean {

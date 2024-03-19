@@ -20,7 +20,7 @@ class Intake(
     @Config
     data object IntakeConfig {
         @JvmField var rangeStart = 0.04
-        @JvmField var rangeEnd = 0.45
+        @JvmField var rangeEnd = 0.35
         @JvmField var speed = 0.2
 
         @JvmField var groundPos = 0.0
@@ -39,6 +39,8 @@ class Intake(
 
     private val time = DeltaTime()
     private var deltaTime: Time = 0.ms
+
+    val pubDeltaTime by ::deltaTime
 
     var position by angleServo::position
 

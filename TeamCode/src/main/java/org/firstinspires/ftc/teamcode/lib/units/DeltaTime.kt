@@ -7,7 +7,7 @@ class DeltaTime {
         val now = System.currentTimeMillis().ms
         val deltaTime = previousTime?.let { prevTime ->
             now - prevTime
-        } ?: 0.ms
+        } ?: 1.ms
         previousTime = now
         return deltaTime
     }

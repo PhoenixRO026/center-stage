@@ -17,12 +17,11 @@ class Lift(
     @Config
     data object LiftConfig {
         @JvmField var controller = PIDController(
-            kP = 0.0,
-            kI = 0.0,
-            kD = 0.0
+            kP = 0.01,
+            kI = 0.005,
+            kD = 0.001
         )
         @JvmField var toleranceTicks = 16
-        @JvmField var kP = 0.015
         @JvmField var kF = 0.16
     }
 
@@ -61,9 +60,7 @@ class Lift(
     val isBusy get() = mode == MODE.TARGET && abs(targetPositionTicks - positionTicks) > LiftConfig.toleranceTicks
 
     fun update() {
-        //val feedback = LiftConfig.controller.calculate(positionTicks.toDouble(), targetPositionTicks.toDouble())
-
-        val feedback = LiftConfig.kP * (targetPositionTicks - positionTicks) + LiftConfig.kF
+        val feedback = LiftConfig.controller.calculate(positionTicks.toDouble(), targetPositionTicks.toDouble()) + LiftConfig.kF
 
         if (mode == MODE.TARGET) {
             rightMotor.power = -feedback

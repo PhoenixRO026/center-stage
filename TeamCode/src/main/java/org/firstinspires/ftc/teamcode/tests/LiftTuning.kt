@@ -32,6 +32,7 @@ class LiftTuning : LinearOpMode() {
 
             telemetry.addData("lift pos", lift.positionTicks)
             telemetry.addData("lift target", lift.targetPositionTicks)
+            telemetry.addData("kP", Lift.LiftConfig.controller.kP)
             telemetry.update()
         }
     }

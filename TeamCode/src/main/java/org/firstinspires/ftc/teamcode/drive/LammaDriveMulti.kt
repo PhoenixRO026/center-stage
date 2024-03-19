@@ -19,26 +19,49 @@ import org.firstinspires.ftc.teamcode.systems.Arm.Companion.arm
 import org.firstinspires.ftc.teamcode.systems.Box.Companion.box
 import org.firstinspires.ftc.teamcode.systems.Intake.Companion.intake
 import org.firstinspires.ftc.teamcode.systems.Lift.Companion.lift
+import org.firstinspires.ftc.teamcode.systems.multi.ArmMulti.Companion.armMulti
+import org.firstinspires.ftc.teamcode.systems.multi.BoxMulti.Companion.boxMulti
+import org.firstinspires.ftc.teamcode.systems.multi.IntakeMulti.Companion.intakeMulti
+import org.firstinspires.ftc.teamcode.systems.multi.LiftMulti.Companion.liftMulti
 
 @Photon
 @TeleOp
-class LammaDrive : MultiThreadOpMode() {
-    override fun sideRunOpMode() {}
+class LammaDriveMulti : MultiThreadOpMode() {
+    override fun sideRunOpMode() {
+        val expansionHub = hardwareMap.expansionHub()
+
+        expansionHub.bulkCachingMode = LynxModule.BulkCachingMode.MANUAL
+
+        waitForStart()
+
+        while (isStarted && !isStopRequested) {
+            expansionHub.clearBulkCache()
+
+            lift.write()
+            lift.update()
+            box.write()
+            box.update()
+            intake.write()
+            intake.update()
+            arm.write()
+            arm.update()
+        }
+    }
 
     private val lift by opModeLazy {
-        hardwareMap.lift()
+        hardwareMap.liftMulti()
     }
 
     private val box by opModeLazy {
-        hardwareMap.box()
+        hardwareMap.boxMulti()
     }
 
     private val intake by opModeLazy {
-        hardwareMap.intake()
+        hardwareMap.intakeMulti()
     }
 
     private val arm by opModeLazy {
-        hardwareMap.arm()
+        hardwareMap.armMulti()
     }
 
     private val drive by opModeLazy {
@@ -55,10 +78,10 @@ class LammaDrive : MultiThreadOpMode() {
         telemetry = MultipleTelemetry(telemetry, dash.telemetry)
 
         val controlHub = hardwareMap.controlHub()
-        val expansionHub = hardwareMap.expansionHub()
+
 
         controlHub.bulkCachingMode = LynxModule.BulkCachingMode.MANUAL
-        expansionHub.bulkCachingMode = LynxModule.BulkCachingMode.MANUAL
+
 
         val intakeToggle = ToggleButtonReader {
             gamepad2.left_stick_button
@@ -70,7 +93,6 @@ class LammaDrive : MultiThreadOpMode() {
             val deltaTime = deltaTimeCalc.calculateDeltaTime()
 
             controlHub.clearBulkCache()
-            expansionHub.clearBulkCache()
 
             intakeToggle.readValue()
 
