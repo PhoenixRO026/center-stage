@@ -29,42 +29,50 @@ data class PIDController(
     private var previousTime = 0.ms
     private var init = true
     private var previousError = 0.0
-    private var integralSumError = 0.0
     private var previousTarget = 0.0
 
     private val deltaTime = DeltaTime()
+
+    private var innerIntegralSum = 0.0
+    private var innerDerivative = 0.0
+
+    val derivative by ::innerDerivative
+    val integralSum by ::innerIntegralSum
+
+    val derivativeKD get() = derivative * kD
+    val integralSumKI get() = integralSum * kI
 
     fun calculate(position: Double, target: Double): Double {
         val dt = deltaTime.calculateDeltaTime()
 
         val error = target - position
 
-        val derivativeError = calculateDerivative(error, dt.s)
+        innerDerivative = calculateDerivative(error, dt.s)
 
-        integrate(error, target, dt.s, derivativeError)
+        integrate(error, target, dt.s, derivative)
 
         previousTarget = target
 
         previousError = error
 
-        return error * kP + integralSumError * kI + derivativeError * kD
+        return error * kP + integralSum * kI + derivative * kD
     }
 
     private fun integrate(error: Double, target: Double, dt: Double, derivative: Double) {
         if (crossOverDetected(error)) {
-            integralSumError = 0.0
+            innerIntegralSum = 0.0
         }
 
         if (newTargetReset && target != previousTarget) {
-            integralSumError = 0.0
+            innerIntegralSum = 0.0
         }
 
         if (stabilityThreshold > 0.0 && derivative.absoluteValue > stabilityThreshold) return
 
-        integralSumError += ((error + previousError) / 2) * dt
+        innerIntegralSum += ((error + previousError) / 2) * dt
 
         if (integralSumLimit > 0) {
-            integralSumError = integralSumError.coerceIn(-integralSumLimit, integralSumLimit)
+            innerIntegralSum = innerIntegralSum.coerceIn(-integralSumLimit, integralSumLimit)
         }
     }
 
@@ -78,6 +86,6 @@ data class PIDController(
     }
 
     fun resetIntegral() {
-        integralSumError = 0.0
+        innerIntegralSum = 0.0
     }
 }

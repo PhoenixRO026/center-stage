@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.lib.hardware.motor.SimpleMotor.Companion.simpleMotor
 import org.firstinspires.ftc.teamcode.lib.hardware.servo.RangedSpeedServo.Companion.rangedSpeedServo
+import org.firstinspires.ftc.teamcode.lib.units.DeltaTime
+import org.firstinspires.ftc.teamcode.lib.units.Time
+import org.firstinspires.ftc.teamcode.lib.units.ms
 
 class Intake(
     hardwareMap: HardwareMap
@@ -34,6 +37,9 @@ class Intake(
     )
     private val motor = hardwareMap.simpleMotor("intake", DcMotorSimple.Direction.REVERSE)
 
+    private val time = DeltaTime()
+    private var deltaTime: Time = 0.ms
+
     var position by angleServo::position
 
     var targetPosition by angleServo::targetPosition
@@ -42,7 +48,16 @@ class Intake(
 
     val isBusy by angleServo::isBusy
 
+    fun goDown() {
+        position -= deltaTime.s
+    }
+
+    fun goUp() {
+        position += deltaTime.s
+    }
+
     fun update() {
+        deltaTime = time.calculateDeltaTime()
         angleServo.update()
     }
 

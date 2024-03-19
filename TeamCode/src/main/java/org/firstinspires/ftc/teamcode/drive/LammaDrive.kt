@@ -120,10 +120,18 @@ class LammaDrive : MultiThreadOpMode() {
             box.power = -gamepad2.left_stick_y.toDouble()
             intake.power = -gamepad2.left_stick_y.toDouble()
 
-            if (intakeToggle.state) {
-                intake.position = 1.0
-            } else {
-                intake.position = 0.0
+            if (intakeToggle.wasJustReleased()) {
+                if (intakeToggle.state) {
+                    intake.position = 1.0
+                } else {
+                    intake.position = 0.0
+                }
+            }
+
+            if (gamepad2.left_stick_x <= -0.7) {
+                intake.goDown()
+            } else if (gamepad2.left_stick_x >= 0.7) {
+                intake.goUp()
             }
 
             arm.update()
