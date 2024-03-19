@@ -25,11 +25,13 @@ class Intake(
 
         @JvmField var groundPos = 0.0
         @JvmField var initPos = groundPos
-        @JvmField var aboveStackPose = 0.8
-        @JvmField var firstStack = 0.6
+        @JvmField var aboveStackPose = 0.65
+        @JvmField var firstStack = 0.55
         @JvmField var stackPower = 1.0
 
         @JvmField var ejectPower = -0.5
+
+        @JvmField var intakeWaitSec = 1.0
     }
 
     private val servoRange = IntakeConfig.rangeStart..IntakeConfig.rangeEnd

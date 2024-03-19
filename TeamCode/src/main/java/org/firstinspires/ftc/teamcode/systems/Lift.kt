@@ -23,6 +23,8 @@ class Lift(
         )
         @JvmField var toleranceTicks = 16
         @JvmField var kF = 0.16
+
+        @JvmField var yellowTicks = 1000
     }
 
     private val leftMotor = hardwareMap.simpleMotor("leftLift")
@@ -53,7 +55,7 @@ class Lift(
             field = value
         }
 
-    val positionTicks get() = -rightMotor.positionTicks
+    val positionTicks by rightMotor::positionTicks
 
     var targetPositionTicks = 0
 
@@ -63,7 +65,7 @@ class Lift(
         val feedback = LiftConfig.controller.calculate(positionTicks.toDouble(), targetPositionTicks.toDouble()) + LiftConfig.kF
 
         if (mode == MODE.TARGET) {
-            rightMotor.power = -feedback
+            rightMotor.power = feedback
         }
     }
 }

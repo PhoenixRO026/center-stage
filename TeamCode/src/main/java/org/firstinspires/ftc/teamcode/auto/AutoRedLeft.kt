@@ -25,6 +25,7 @@ import org.firstinspires.ftc.teamcode.lib.units.ms
 import org.firstinspires.ftc.teamcode.lib.units.s
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive
 import org.firstinspires.ftc.teamcode.systems.Camera
+import org.firstinspires.ftc.teamcode.systems.Intake
 import org.firstinspires.ftc.teamcode.systems.multi.ArmMulti.Companion.armMulti
 import org.firstinspires.ftc.teamcode.systems.multi.BoxMulti.Companion.boxMulti
 import org.firstinspires.ftc.teamcode.systems.multi.IntakeMulti.Companion.intakeMulti
@@ -52,9 +53,9 @@ class AutoRedLeft : MultiThreadOpMode() {
     private val middleRun1 = Pose(24.inch, -12.inch + 1.cm, 180.deg)
     private val middleRun2 = Pose(-30.inch, -12.inch + 1.cm, 180.deg)
     private val preStacky = Pose(-57.inch, -50.inch, -180.deg)
-    private val stacky = Pose (-54.inch - 9.cm, -12.inch - 16.cm, 180.deg)
-    private val stacky2 = stacky + 20.cm.y
-    private val stacky3 = stacky2 + 10.cm.x
+    private val stacky = Pose (-54.inch - 9.cm + 10.cm, -12.inch - 16.cm + 16.cm, 180.deg)
+    private val stacky2 = stacky - 12.cm.x
+    private val stacky3 = stacky2
 
     private val drive by opModeLazy {
         MecanumDrive(hardwareMap, startPose.pose2d)
@@ -140,12 +141,13 @@ class AutoRedLeft : MultiThreadOpMode() {
                 .setTangent(-90.deg)
                 .splineTo(preStacky.position, 180.deg)
                 .strafeTo(stacky.position)
-                .stopAndAdd(InstantAction { intake.aboveStack() })
+                .stopAndAdd(InstantAction {
+                    intake.aboveStack()
+                    intake.stackPower()
+                })
                 .strafeTo(stacky2.position)
-                .stopAndAdd(SequentialAction(
-                    InstantAction {
-                        intake.stackPower()
-                        intake.firstStack()/*ParallelAction(
+                .build(),
+            /*ParallelAction(
                 drive.actionBuilder(stacky2)
                     .strafeTo(stacky3.position, slowSpeed)
                     .build(),
@@ -190,18 +192,27 @@ class AutoRedLeft : MultiThreadOpMode() {
                 ))
                 .strafeTo(middleYellowPixel.position + 22.inch.y - 6.inch.x)
                 .build()*/
-                    },
-                    SleepAction(0.2.s),
-                ))
-                .build(),
-            SleepAction(1.s),
-            InstantAction { intake.power = 0.0 },
+            InstantAction {
+                intake.stackPower()
+                box.power = 1.0
+                intake.firstStack()
+            },
+            SleepAction(Intake.IntakeConfig.intakeWaitSec.s),
+            InstantAction {
+                intake.power = 0.0
+                box.power = 0.0
+                          },
             drive.actionBuilder(stacky3)
                 .setTangent(0.deg)
                 .afterTime(1.s, intake.ejectPixels())
                 .splineToConstantHeading(middleRun2.position, 0.deg)
+                .afterTime(0.5.s, lift.goToYellow())
+                .afterTime(0.5.s, ParallelAction(
+                    box.goToScore(),
+                    arm.goToScore()
+                ))
                 .splineToConstantHeading(middleRun1.position, 0.deg)
-                .splineToConstantHeading(middleYellowPixel.position, 0.deg)
+                .splineToConstantHeading(middleYellowPixel.position, -30.deg)
                 /*.afterTime(0.s, SequentialAction(
                     lift.goToPass(),
                     ParallelAction(
@@ -323,6 +334,8 @@ class AutoRedLeft : MultiThreadOpMode() {
             telemetry.addData("main delta time ms", deltaTime.ms)
             telemetry.addData("side delta fps", 1.s / sideDeltaTime)
             telemetry.addData("side delta time ms", sideDeltaTime.ms)
+            telemetry.addData("lift pos", lift.positionTicks)
+            telemetry.addData("lift target pos", lift.targetPositionTicks)
             telemetry.update()
         }
     }

@@ -51,7 +51,7 @@ class IntakeMulti(
     }
 
     fun firstStack() {
-        position = Intake.IntakeConfig.firstStack
+        targetPosition = Intake.IntakeConfig.firstStack
     }
 
     fun goDown() {
