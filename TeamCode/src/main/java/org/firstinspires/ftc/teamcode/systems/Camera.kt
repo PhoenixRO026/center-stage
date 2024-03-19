@@ -1,6 +1,11 @@
 package org.firstinspires.ftc.teamcode.systems
 
+import com.acmerobotics.dashboard.config.Config
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket
+import com.acmerobotics.roadrunner.Action
+import com.acmerobotics.roadrunner.InstantAction
 import com.acmerobotics.roadrunner.Pose2d
+import com.acmerobotics.roadrunner.SequentialAction
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl
@@ -10,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
 import org.firstinspires.ftc.teamcode.lib.units.Distance2d
+import org.firstinspires.ftc.teamcode.lib.units.SleepAction
 import org.firstinspires.ftc.teamcode.lib.units.Time
 import org.firstinspires.ftc.teamcode.lib.units.cm
 import org.firstinspires.ftc.teamcode.lib.units.inch
@@ -24,6 +30,13 @@ import kotlin.math.sin
 class Camera(
         hardwareMap: HardwareMap
 ) {
+    @Config
+    data object CameraConfig {
+        @JvmField var cameraOffset = 16.0
+        @JvmField var cameraExposure: Long = 1
+        @JvmField var cameraGain = 230
+    }
+
     val aprilTagProcessor = AprilTagProcessor.Builder()
             .setOutputUnits(DistanceUnit.INCH, AngleUnit.RADIANS)
             .setNumThreads(1)
@@ -34,12 +47,29 @@ class Camera(
             .addProcessors(aprilTagProcessor)
             .build()
 
-    private var init = true
-    private var initTime = 0.s
-    private var setExposure = false
-    private var setGain = false
+    private lateinit var exposureControl: ExposureControl
 
-    private var expTime = 0.s
+    private lateinit var gainControl: GainControl
+
+    val exposureAction = SequentialAction(
+        Action { visionPortal.cameraState != VisionPortal.CameraState.STREAMING },
+        SleepAction(0.5.s),
+        InstantAction {
+            exposureControl = visionPortal.getCameraControl(ExposureControl::class.java)
+            gainControl = visionPortal.getCameraControl(GainControl::class.java)
+            exposureControl.setMode(ExposureControl.Mode.Manual)
+        },
+        SleepAction(0.5.s),
+        InstantAction {
+            exposureControl.setExposure(CameraConfig.cameraExposure, TimeUnit.MILLISECONDS)
+        },
+        SleepAction(0.5.s),
+        InstantAction {
+            gainControl.setGain(CameraConfig.cameraGain)
+        }
+    )
+
+    private var initNotDone = true
 
     fun runDetection(): Distance2d? {
         val detection = aprilTagProcessor.freshDetections?.firstOrNull { it.id in 1..6 } ?: return null
@@ -48,7 +78,7 @@ class Camera(
 
         val angle = detection.ftcPose.yaw + tagPose.heading.toDouble()
 
-        val yRobot = detection.ftcPose.y + 20.cm.inch
+        val yRobot = detection.ftcPose.y + CameraConfig.cameraOffset.cm.inch
 
         val x = cos(angle) * yRobot - sin(angle) * detection.ftcPose.x
         val y = sin(angle) * yRobot + cos(angle) * detection.ftcPose.x
@@ -71,8 +101,12 @@ class Camera(
         )
     }
 
-    fun init() {
-        if (visionPortal.cameraState == VisionPortal.CameraState.STREAMING && init) {
+    fun update() {
+        if (initNotDone) {
+            initNotDone = exposureAction.run(TelemetryPacket())
+        }
+
+        /*if (visionPortal.cameraState == VisionPortal.CameraState.STREAMING && init) {
             init = false
             initTime = Time.now()
             return
@@ -90,6 +124,6 @@ class Camera(
             gainControl.setGain(100)
 
             setGain = true
-        }
+        }*/
     }
 }

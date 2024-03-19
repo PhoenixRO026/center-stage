@@ -25,6 +25,11 @@ class Intake(
 
         @JvmField var groundPos = 0.0
         @JvmField var initPos = groundPos
+        @JvmField var aboveStackPose = 0.8
+        @JvmField var firstStack = 0.6
+        @JvmField var stackPower = 1.0
+
+        @JvmField var ejectPower = -0.5
     }
 
     private val servoRange = IntakeConfig.rangeStart..IntakeConfig.rangeEnd
@@ -49,6 +54,18 @@ class Intake(
     var power by motor::power
 
     val isBusy by angleServo::isBusy
+
+    fun stackPower() {
+        power = IntakeConfig.stackPower
+    }
+
+    fun aboveStack() {
+        position = IntakeConfig.aboveStackPose
+    }
+
+    fun firstStack() {
+        position = IntakeConfig.firstStack
+    }
 
     fun goDown() {
         position -= deltaTime.s

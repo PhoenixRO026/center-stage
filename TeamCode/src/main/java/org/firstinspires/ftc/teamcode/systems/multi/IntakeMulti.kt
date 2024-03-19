@@ -1,7 +1,11 @@
 package org.firstinspires.ftc.teamcode.systems.multi
 
+import com.acmerobotics.roadrunner.InstantAction
+import com.acmerobotics.roadrunner.SequentialAction
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.lib.multi.LazyWrite
+import org.firstinspires.ftc.teamcode.lib.units.SleepAction
+import org.firstinspires.ftc.teamcode.lib.units.s
 import org.firstinspires.ftc.teamcode.systems.Arm.Companion.arm
 import org.firstinspires.ftc.teamcode.systems.Intake
 import org.firstinspires.ftc.teamcode.systems.Intake.Companion.intake
@@ -31,6 +35,24 @@ class IntakeMulti(
     )
 
     val isBusy by innerIntake::isBusy
+
+    fun ejectPixels() = SequentialAction(
+        InstantAction { power = Intake.IntakeConfig.ejectPower },
+        SleepAction(1.s),
+        InstantAction { power = 0.0 }
+    )
+
+    fun stackPower() {
+        power = Intake.IntakeConfig.stackPower
+    }
+
+    fun aboveStack() {
+        position = Intake.IntakeConfig.aboveStackPose
+    }
+
+    fun firstStack() {
+        position = Intake.IntakeConfig.firstStack
+    }
 
     fun goDown() {
         position -= innerIntake.pubDeltaTime.s

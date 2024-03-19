@@ -41,6 +41,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+import org.firstinspires.ftc.teamcode.lib.controller.ChangeKalmanFilter;
 import org.firstinspires.ftc.teamcode.lib.hardware.motor.CachedMotor;
 import org.firstinspires.ftc.teamcode.lib.roadrunner.ThreeWheelLocalizerEx;
 import org.firstinspires.ftc.teamcode.lib.units.Distance2d;
@@ -88,13 +89,13 @@ public final class MecanumDrive {
         public double maxAngAccel = 4;
 
         // path controller gains
-        public double axialGain = 60.0;
-        public double lateralGain = 60.0;
-        public double headingGain = 35.0; // shared with turn
+        public double axialGain = 20;
+        public double lateralGain = 20;
+        public double headingGain = 20; // shared with turn
 
-        public double axialVelGain = 7.0;
-        public double lateralVelGain = 1;
-        public double headingVelGain = 1; // shared with turn
+        public double axialVelGain = 1.5;
+        public double lateralVelGain = 0.5;
+        public double headingVelGain = 0.5; // shared with turn
 
         public int imuPersistanceFrequency = 30;
     }
@@ -102,6 +103,10 @@ public final class MecanumDrive {
     private int persistentImuCounter = 1;
 
     public static Params PARAMS = new Params();
+
+    public final ChangeKalmanFilter.Vector2dKalmanFilter posFilter = new ChangeKalmanFilter.Vector2dKalmanFilter();
+
+    public Vector2d filteredPos = new Vector2d(0.0, 0.0);
 
     public final MecanumKinematics kinematics = new MecanumKinematics(
             PARAMS.inPerTick * PARAMS.trackWidthTicks, PARAMS.inPerTick / PARAMS.lateralInPerTick);
@@ -125,6 +130,7 @@ public final class MecanumDrive {
 
     public final Localizer localizer;
     public Pose2d pose;
+    public PoseVelocity2d velocity = new PoseVelocity2d(new Vector2d(0.0, 0.0), 0.0);
 
     public final double imuStartHeading;
 
@@ -321,8 +327,8 @@ public final class MecanumDrive {
 
             Pose2d error = txWorldTarget.value().minusExp(pose);
 
-            if ((t >= timeTrajectory.duration && error.position.norm() < 2
-                        && robotVelRobot.linearVel.norm() < 0.5)
+            if ((t >= timeTrajectory.duration && error.position.norm() < 3
+                        && robotVelRobot.linearVel.norm() < 1)
                         || t >= timeTrajectory.duration + 1) {
                 leftFront.setPower(0);
                 leftBack.setPower(0);
@@ -474,6 +480,7 @@ public final class MecanumDrive {
     public PoseVelocity2d updatePoseEstimate() {
         Twist2dDual<Time> twist = localizer.update();
         pose = pose.plus(twist.value());
+        velocity = twist.velocity().value();
 
         if (persistentImuCounter >= PARAMS.imuPersistanceFrequency) {
             double imuHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS) + imuStartHeading;
@@ -486,8 +493,12 @@ public final class MecanumDrive {
         if (camera != null) {
             Distance2d robotPose = camera.runDetection();
 
-            if (robotPose != null) {
-               // pose = new Pose2d(robotPose.getInch(), pose.heading);
+            if (robotPose != null && velocity.angVel < Math.toRadians(15) && velocity.linearVel.norm() < 30) {
+                filteredPos = posFilter.update(twist.value(), robotPose.getInch());
+
+                pose = new Pose2d(filteredPos, pose.heading);
+            } else {
+                filteredPos = posFilter.update(twist.value(), pose.position);
             }
         }
 

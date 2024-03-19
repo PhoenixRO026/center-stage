@@ -51,6 +51,11 @@ class LiftMulti(
         }
     }
 
+    fun read() {
+        innerPositionTicks = innerLift.positionTicks
+        innerIsBusy = innerLift.isBusy
+    }
+
     fun write() {
         var task: LazyWrite.Task? = queue.poll()
 
@@ -62,7 +67,5 @@ class LiftMulti(
 
     fun update() {
         innerLift.update()
-        innerPositionTicks = innerLift.positionTicks
-        innerIsBusy = innerLift.isBusy
     }
 }

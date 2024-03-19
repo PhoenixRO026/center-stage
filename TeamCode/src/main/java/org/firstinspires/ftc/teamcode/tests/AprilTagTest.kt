@@ -10,10 +10,12 @@ class AprilTagTest : LinearOpMode() {
         val camera = Camera(hardwareMap)
 
         while (opModeInInit()) {
-            camera.init()
+            camera.update()
         }
 
         while (opModeIsActive()) {
+            camera.update()
+
             camera.runDetection()?.let {
                 telemetry.addData("x", it.x.inch)
                 telemetry.addData("y", it.y.inch)
