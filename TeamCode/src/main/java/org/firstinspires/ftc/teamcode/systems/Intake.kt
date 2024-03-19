@@ -19,8 +19,8 @@ class Intake(
 
     @Config
     data object IntakeConfig {
-        @JvmField var rangeStart = 0.05
-        @JvmField var rangeEnd = 0.5
+        @JvmField var rangeStart = 0.04
+        @JvmField var rangeEnd = 0.45
         @JvmField var speed = 0.2
 
         @JvmField var groundPos = 0.0
