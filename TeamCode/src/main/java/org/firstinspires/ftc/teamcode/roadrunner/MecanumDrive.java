@@ -43,10 +43,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.lib.hardware.motor.CachedMotor;
 import org.firstinspires.ftc.teamcode.lib.roadrunner.ThreeWheelLocalizerEx;
+import org.firstinspires.ftc.teamcode.lib.units.Distance2d;
+import org.firstinspires.ftc.teamcode.lib.units.Pose;
+import org.firstinspires.ftc.teamcode.lib.units.TrajectoryActionBuilderEx;
 import org.firstinspires.ftc.teamcode.roadrunner.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.roadrunner.messages.MecanumCommandMessage;
 import org.firstinspires.ftc.teamcode.roadrunner.messages.MecanumLocalizerInputsMessage;
 import org.firstinspires.ftc.teamcode.roadrunner.messages.PoseMessage;
+import org.firstinspires.ftc.teamcode.systems.Camera;
 
 import java.lang.Math;
 import java.util.Arrays;
@@ -75,9 +79,9 @@ public final class MecanumDrive {
         public double kA = 0.000014;
 
         // path profile parameters (in inches)
-        public double maxWheelVel = 70.0;
-        public double minProfileAccel = -35.0;
-        public double maxProfileAccel = 45.0;
+        public double maxWheelVel = 85;
+        public double minProfileAccel = -50;
+        public double maxProfileAccel = 80;
 
         // turn profile parameters (in radians)
         public double maxAngVel = 5; // shared with path
@@ -89,8 +93,8 @@ public final class MecanumDrive {
         public double headingGain = 35.0; // shared with turn
 
         public double axialVelGain = 7.0;
-        public double lateralVelGain = 5.0;
-        public double headingVelGain = 5.0; // shared with turn
+        public double lateralVelGain = 1;
+        public double headingVelGain = 1; // shared with turn
 
         public int imuPersistanceFrequency = 30;
     }
@@ -123,6 +127,8 @@ public final class MecanumDrive {
     public Pose2d pose;
 
     public final double imuStartHeading;
+
+    public Camera camera = null;
 
     private final LinkedList<Pose2d> poseHistory = new LinkedList<>();
 
@@ -308,7 +314,16 @@ public final class MecanumDrive {
                 t = Actions.now() - beginTs;
             }
 
-            if (t >= timeTrajectory.duration) {
+            Pose2dDual<Time> txWorldTarget = timeTrajectory.get(t);
+            targetPoseWriter.write(new PoseMessage(txWorldTarget.value()));
+
+            PoseVelocity2d robotVelRobot = updatePoseEstimate();
+
+            Pose2d error = txWorldTarget.value().minusExp(pose);
+
+            if ((t >= timeTrajectory.duration && error.position.norm() < 2
+                        && robotVelRobot.linearVel.norm() < 0.5)
+                        || t >= timeTrajectory.duration + 1) {
                 leftFront.setPower(0);
                 leftBack.setPower(0);
                 rightBack.setPower(0);
@@ -317,10 +332,7 @@ public final class MecanumDrive {
                 return false;
             }
 
-            Pose2dDual<Time> txWorldTarget = timeTrajectory.get(t);
-            targetPoseWriter.write(new PoseMessage(txWorldTarget.value()));
 
-            PoseVelocity2d robotVelRobot = updatePoseEstimate();
 
             PoseVelocity2dDual<Time> command = new HolonomicController(
                     PARAMS.axialGain, PARAMS.lateralGain, PARAMS.headingGain,
@@ -351,7 +363,6 @@ public final class MecanumDrive {
             p.put("y", pose.position.y);
             p.put("heading (deg)", Math.toDegrees(pose.heading.toDouble()));
 
-            Pose2d error = txWorldTarget.value().minusExp(pose);
             p.put("xError", error.position.x);
             p.put("yError", error.position.y);
             p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));
@@ -472,6 +483,14 @@ public final class MecanumDrive {
 
         persistentImuCounter++;
 
+        if (camera != null) {
+            Distance2d robotPose = camera.runDetection();
+
+            if (robotPose != null) {
+               // pose = new Pose2d(robotPose.getInch(), pose.heading);
+            }
+        }
+
         poseHistory.add(pose);
         while (poseHistory.size() > 100) {
             poseHistory.removeFirst();
@@ -497,6 +516,10 @@ public final class MecanumDrive {
         c.setStrokeWidth(1);
         c.setStroke("#3F51B5");
         c.strokePolyline(xPoints, yPoints);
+    }
+
+    public TrajectoryActionBuilderEx actionBuilder(Pose beginPose) {
+        return new TrajectoryActionBuilderEx(actionBuilder(beginPose.getPose2d()));
     }
 
     public TrajectoryActionBuilder actionBuilder(Pose2d beginPose) {

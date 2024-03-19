@@ -26,8 +26,8 @@ class ThreeWheelLocalizerEx(
         @JvmField var perpXTicks: Double = -5507.647683897854
     }
 
-    @JvmField val par0 = OverflowEncoder(RawEncoder(hardwareMap.get(DcMotorEx::class.java, "leftBack")))
-    @JvmField val par1 = OverflowEncoder(RawEncoder(hardwareMap.get(DcMotorEx::class.java, "rightFront")))
+    @JvmField val par0 = OverflowEncoder(RawEncoder(hardwareMap.get(DcMotorEx::class.java, "rightFront")))
+    @JvmField val par1 = OverflowEncoder(RawEncoder(hardwareMap.get(DcMotorEx::class.java, "leftBack")))
     @JvmField val perp = OverflowEncoder(RawEncoder(hardwareMap.get(DcMotorEx::class.java, "leftFront")))
 
     private var initialized = false

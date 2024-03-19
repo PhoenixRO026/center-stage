@@ -21,7 +21,9 @@ class Lift(
             kI = 0.0,
             kD = 0.0
         )
-        @JvmField var toleranceTicks = 10
+        @JvmField var toleranceTicks = 16
+        @JvmField var kP = 0.015
+        @JvmField var kF = 0.16
     }
 
     private val leftMotor = hardwareMap.simpleMotor("leftLift")
@@ -52,17 +54,19 @@ class Lift(
             field = value
         }
 
-    val positionTicks by rightMotor::positionTicks
+    val positionTicks get() = -rightMotor.positionTicks
 
     var targetPositionTicks = 0
 
     val isBusy get() = mode == MODE.TARGET && abs(targetPositionTicks - positionTicks) > LiftConfig.toleranceTicks
 
     fun update() {
-        val feedback = LiftConfig.controller.calculate(positionTicks.toDouble(), targetPositionTicks.toDouble())
+        //val feedback = LiftConfig.controller.calculate(positionTicks.toDouble(), targetPositionTicks.toDouble())
+
+        val feedback = LiftConfig.kP * (targetPositionTicks - positionTicks) + LiftConfig.kF
 
         if (mode == MODE.TARGET) {
-            rightMotor.power = feedback
+            rightMotor.power = -feedback
         }
     }
 }

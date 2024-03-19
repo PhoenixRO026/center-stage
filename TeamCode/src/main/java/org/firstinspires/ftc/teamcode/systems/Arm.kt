@@ -15,7 +15,7 @@ class Arm(
     @Config
     data object ArmConfig {
         @JvmField var armServoOffset: Double = 0.02
-        @JvmField var armSpeed: Double = 0.6
+        @JvmField var armSpeed: Double = 1.0
         @JvmField var intakePos: Double = 0.666
         @JvmField var scorePos: Double = 0.251
     }
