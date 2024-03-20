@@ -104,7 +104,7 @@ public final class MecanumDrive {
         public int imuPersistanceFrequency = 30;
 
         public double kalmanQ = 0.8;
-        public double kalmanR = 0.1;
+        public double kalmanR = 0.2;
     }
 
     private int persistentImuCounter = 1;
@@ -342,7 +342,7 @@ public final class MecanumDrive {
 
             Pose2d error = target.minusExp(pose);
 
-            if ((error.position.norm() < 1 && robotVelRobot.linearVel.norm() < 1) || t >= maxTimeS) {
+            if ((error.position.norm() < 0.5 && robotVelRobot.linearVel.norm() < 1) || t >= maxTimeS) {
                 leftFront.setPower(0);
                 leftBack.setPower(0);
                 rightBack.setPower(0);

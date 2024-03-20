@@ -61,6 +61,14 @@ class IntakeMulti(
         targetPosition = Intake.IntakeConfig.firstStack
     }
 
+    fun secondStack() {
+        targetPosition = Intake.IntakeConfig.secondStack
+    }
+
+    fun thirdStack() {
+        targetPosition = Intake.IntakeConfig.thirdStack
+    }
+
     fun goDown() {
         position -= innerIntake.pubDeltaTime.s
     }

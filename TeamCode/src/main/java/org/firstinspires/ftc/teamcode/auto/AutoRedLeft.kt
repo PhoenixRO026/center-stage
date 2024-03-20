@@ -42,23 +42,28 @@ class AutoRedLeft : MultiThreadOpMode() {
 
     private val middlePurplePixel = Pose(-36.inch, -16.inch, -90.deg)
 
-    private val rightPurplePixel = Pose(-34.inch + 8.cm, -45.inch + 12.cm, -135.deg)
-    private val rightPrePurplePixel = Pose(-36.inch, -47.inch, -90.deg)
+    private val rightPurplePixel = Pose(-30.inch, -36.inch, 0.deg)
+    private val rightPrePurplePixel = Pose(-38.inch, -45.inch, 0.deg)
 
     private val leftPurplePixel = Pose(-47.inch, -38.inch, -90.deg)
 
-    private val middleYellowPixel = Pose(48.5.inch, -36.inch - 2.cm, 180.deg)
+    private val middleYellowPixel = Pose(49.5.inch, -36.inch - 2.cm, 180.deg)
 
-    private val leftYellowPixel = Pose(48.5.inch, -33.inch + 2.cm, 180.deg)
+    private val leftYellowPixel = Pose(49.5.inch, -32.inch, 180.deg)
+    private val leftYellowPixel2 = Pose(49.8.inch, -30.inch, 180.deg)
 
-    private val rightYellowPixel = Pose(47.inch + 1.cm, -42.inch, 180.deg)
+    private val rightYellowPixel = Pose(49.5.inch, -42.inch, 180.deg)
 
     private val middleRun1 = Pose(18.inch, -12.inch + 1.cm, 180.deg)
     private val middleRun2 = Pose(-30.inch, -12.inch + 1.cm, 180.deg)
     private val preStacky = Pose(-55.inch, -50.inch, -180.deg)
-    private val stacky = Pose (-54.inch - 9.cm + 10.cm, -12.inch - 16.cm + 16.cm, 180.deg)
-    private val stacky2 = stacky - 10.cm.x
-    private val stacky3 = stacky2
+    private val stacky = Pose (-54.inch - 9.cm + 10.cm, -12.inch, 180.deg)
+    private val stacky2 = stacky - 12.cm.x
+    private val stacky3 = stacky2 - 2.cm.x + 3.cm.y
+
+    private val rightCaseOffset = 8.cm.x + 2.cm.y
+
+    private val cycleOffset = 5.cm.y
 
     private val drive by opModeLazy {
         MecanumDrive(hardwareMap, startPose.pose2d)
@@ -152,6 +157,169 @@ class AutoRedLeft : MultiThreadOpMode() {
 
         val slowDecel = ProfileAccelConstraint(-15.0, 80.0)
 
+        val actionRight = SequentialAction(
+            drive.actionBuilder(startPose)
+                .setTangent(135.deg)
+                .splineToLinearHeading(rightPurplePixel, 0.deg)
+                .stopAndAdd(intake.ejectPurple())
+                .setTangent(180.deg)
+                .afterTime(0.s, InstantAction {
+                    intake.aboveStack()
+                    intake.stackPower()
+                    box.power = 1.0
+                })
+                .splineTo(rightPurplePixel.position - 4.cm.x, 180.deg)
+                .splineToLinearHeading(stacky + rightCaseOffset, 180.deg)
+                .strafeTo(stacky2.position + rightCaseOffset)
+                .build(),
+            drive.CorrectionAction(stacky2 + rightCaseOffset, 1.s),
+            InstantAction {
+                intake.firstStack()
+            },
+            color.waitForFrontPixel(),
+            InstantAction { box.power = 0.0 },
+            drive.actionBuilder(stacky2 + rightCaseOffset)
+                .setTangent(0.deg)
+                .afterTime(0.s, intake.ejectPixels())
+                .splineToConstantHeading(middleRun2.position + rightCaseOffset, 0.deg)
+                .afterTime(0.3.s, lift.goToPass())
+                .afterTime(0.8.s, InstantAction {
+                    arm.scorePosNow()
+                    box.scorePosNow()
+                })
+                .afterTime(1.3.s, lift.goToYellow())
+                .splineToConstantHeading(middleRun1.position + rightCaseOffset, 0.deg)
+                .splineToConstantHeading(leftYellowPixel.position + rightCaseOffset, -30.deg, /*slow50Speed, slowDecel*/)
+                .build(),
+            InstantAction{ drive.useApril = true },
+            drive.CorrectionAction(leftYellowPixel, 1.s),
+            SleepAction(0.1.s),
+            InstantAction {
+                box.power = -1.0
+            },
+            SleepAction(0.25.s),
+            InstantAction {
+                box.power = 0.0
+                drive.useApril = false
+            },
+            SleepAction(0.1.s),
+            drive.actionBuilder(leftYellowPixel)
+                .strafeTo(rightYellowPixel.position)
+                .build(),
+            drive.CorrectionAction(rightYellowPixel, 1.s),
+            SleepAction(0.1.s),
+            InstantAction {
+                box.power = -1.0
+            },
+            SleepAction(0.45.s),
+            drive.actionBuilder(rightYellowPixel)
+                .afterTime(0.s, lift.goToPass())
+                .afterTime(0.3.s, SequentialAction(
+                    InstantAction {
+                        box.intakePosNow()
+                        arm.intakePosNow()
+                    },
+                    SleepAction(0.5.s),
+                    lift.goToIntake(),
+                    InstantAction {
+                        box.power = 0.0
+                    }
+                ))
+                .setTangent(150.deg)
+                .splineToConstantHeading(middleRun1.position + cycleOffset, 180.deg)
+                .splineToConstantHeading(middleRun2.position + cycleOffset, 180.deg)
+                .splineToConstantHeading(stacky.position + cycleOffset, 180.deg)
+                .afterTime(0.s, InstantAction {
+                    intake.firstStack()
+                    intake.stackPower()
+                    box.power = 1.0
+                })
+                .strafeTo(stacky3.position + cycleOffset)
+                .build(),
+            drive.CorrectionAction(stacky3 + cycleOffset, 1.s),
+            InstantAction {
+                intake.secondStack()
+            },
+            color.waitForPixels(),
+            InstantAction { box.power = 0.0 },
+            drive.actionBuilder(stacky3 + cycleOffset)
+                .setTangent(0.deg)
+                .afterTime(0.s, intake.ejectPixels())
+                .splineToConstantHeading(middleRun2.position + cycleOffset, 0.deg)
+                .afterTime(0.3.s, lift.goToPass())
+                .afterTime(0.8.s, InstantAction {
+                    arm.scorePosNow()
+                    box.scorePosNow()
+                })
+                //.afterTime(1.3.s, lift.goToYellow())
+                .splineToConstantHeading(middleRun1.position + cycleOffset, 0.deg)
+                .splineToConstantHeading(leftYellowPixel2.position + cycleOffset, -30.deg, /*slow50Speed, slowDecel*/)
+                .build(),
+            InstantAction{ drive.useApril = true },
+            drive.CorrectionAction(leftYellowPixel2, 1.s),
+            SleepAction(0.1.s),
+            InstantAction {
+                box.power = -1.0
+            },
+            SleepAction(0.6.s),
+            InstantAction {
+                drive.useApril = false
+            },
+            drive.actionBuilder(leftYellowPixel2)
+                .afterTime(0.s, lift.goToPass())
+                .afterTime(0.3.s, SequentialAction(
+                    InstantAction {
+                        box.intakePosNow()
+                        arm.intakePosNow()
+                    },
+                    SleepAction(0.5.s),
+                    lift.goToIntake(),
+                    InstantAction {
+                        box.power = 0.0
+                    }
+                ))
+                .setTangent(150.deg)
+                .splineToConstantHeading(middleRun1.position + cycleOffset, 180.deg)
+                .splineToConstantHeading(middleRun2.position + cycleOffset, 180.deg)
+                .splineToConstantHeading(stacky.position + cycleOffset, 180.deg)
+                .afterTime(0.s, InstantAction {
+                    intake.secondStack()
+                    intake.stackPower()
+                    box.power = 1.0
+                })
+                .strafeTo(stacky3.position + cycleOffset)
+                .build(),
+            drive.CorrectionAction(stacky3 + cycleOffset, 1.s),
+            InstantAction {
+                intake.thirdStack()
+            },
+            color.waitForPixels(),
+            InstantAction { box.power = 0.0 },
+            drive.actionBuilder(stacky3 + cycleOffset)
+                .setTangent(0.deg)
+                .afterTime(0.s, intake.ejectPixels())
+                .splineToConstantHeading(middleRun2.position + cycleOffset, 0.deg)
+                .afterTime(0.3.s, lift.goToPass())
+                .afterTime(0.8.s, InstantAction {
+                    arm.scorePosNow()
+                    box.scorePosNow()
+                })
+                //.afterTime(1.3.s, lift.goToYellow())
+                .splineToConstantHeading(middleRun1.position + cycleOffset, 0.deg)
+                .splineToConstantHeading(leftYellowPixel2.position + cycleOffset, -30.deg, /*slow50Speed, slowDecel*/)
+                .build(),
+            InstantAction{ drive.useApril = true },
+            drive.CorrectionAction(leftYellowPixel2, 1.s),
+            SleepAction(0.1.s),
+            InstantAction {
+                box.power = -1.0
+            },
+            SleepAction(0.6.s),
+            InstantAction {
+                drive.useApril = false
+            },
+        )
+
         val actionMiddle = SequentialAction(
             drive.actionBuilder(startPose)
                 .strafeToLinearHeading(middlePurplePixel.position, middlePurplePixel.heading)
@@ -171,7 +339,7 @@ class AutoRedLeft : MultiThreadOpMode() {
             },
             color.waitForFrontPixel(),
             InstantAction { box.power = 0.0 },
-            drive.actionBuilder(stacky3)
+            drive.actionBuilder(stacky2)
                 .setTangent(0.deg)
                 .afterTime(0.s, intake.ejectPixels())
                 .splineToConstantHeading(middleRun2.position, 0.deg)
@@ -219,31 +387,46 @@ class AutoRedLeft : MultiThreadOpMode() {
                     }
                 ))
                 .setTangent(150.deg)
-                .splineToConstantHeading(middleRun1.position, 180.deg)
-                .splineToConstantHeading(middleRun2.position, 180.deg)
-                .splineToConstantHeading(stacky.position, 180.deg)
-                .strafeTo(stacky2.position)
+                .splineToConstantHeading(middleRun1.position + cycleOffset, 180.deg)
+                .splineToConstantHeading(middleRun2.position + cycleOffset, 180.deg)
+                .splineToConstantHeading(stacky.position + cycleOffset, 180.deg)
+                .afterTime(0.s, InstantAction {
+                    intake.firstStack()
+                    intake.stackPower()
+                    box.power = 1.0
+                })
+                .strafeTo(stacky3.position + cycleOffset)
                 .build(),
-            drive.CorrectionAction(stacky2, 1.s),
-            drive.actionBuilder(stacky3)
+            drive.CorrectionAction(stacky3 + cycleOffset, 1.s),
+            InstantAction {
+                intake.secondStack()
+            },
+            color.waitForPixels(),
+            InstantAction { box.power = 0.0 },
+            drive.actionBuilder(stacky3 + cycleOffset)
                 .setTangent(0.deg)
                 .afterTime(0.s, intake.ejectPixels())
-                .splineToConstantHeading(middleRun2.position, 0.deg)
+                .splineToConstantHeading(middleRun2.position + cycleOffset, 0.deg)
                 .afterTime(0.3.s, lift.goToPass())
                 .afterTime(0.8.s, InstantAction {
                     arm.scorePosNow()
                     box.scorePosNow()
                 })
-                .afterTime(1.3.s, lift.goToYellow())
-                .splineToConstantHeading(middleRun1.position, 0.deg)
-                .splineToConstantHeading(leftYellowPixel.position, -30.deg, /*slow50Speed, slowDecel*/)
+                //.afterTime(1.3.s, lift.goToYellow())
+                .splineToConstantHeading(middleRun1.position + cycleOffset, 0.deg)
+                .splineToConstantHeading(leftYellowPixel2.position + cycleOffset, -30.deg, /*slow50Speed, slowDecel*/)
                 .build(),
             InstantAction{ drive.useApril = true },
-            drive.CorrectionAction(leftYellowPixel, 1.s),
+            drive.CorrectionAction(leftYellowPixel2, 1.s),
+            SleepAction(0.1.s),
+            InstantAction {
+                box.power = -1.0
+            },
+            SleepAction(0.6.s),
             InstantAction {
                 drive.useApril = false
             },
-            drive.actionBuilder(leftYellowPixel)
+            drive.actionBuilder(leftYellowPixel2)
                 .afterTime(0.s, lift.goToPass())
                 .afterTime(0.3.s, SequentialAction(
                     InstantAction {
@@ -257,38 +440,52 @@ class AutoRedLeft : MultiThreadOpMode() {
                     }
                 ))
                 .setTangent(150.deg)
-                .splineToConstantHeading(middleRun1.position, 180.deg)
-                .splineToConstantHeading(middleRun2.position, 180.deg)
-                .splineToConstantHeading(stacky.position, 180.deg)
-                .strafeTo(stacky2.position)
+                .splineToConstantHeading(middleRun1.position + cycleOffset, 180.deg)
+                .splineToConstantHeading(middleRun2.position + cycleOffset, 180.deg)
+                .splineToConstantHeading(stacky.position + cycleOffset, 180.deg)
+                .afterTime(0.s, InstantAction {
+                    intake.secondStack()
+                    intake.stackPower()
+                    box.power = 1.0
+                })
+                .strafeTo(stacky3.position + cycleOffset)
                 .build(),
-            drive.CorrectionAction(stacky2, 1.s),
-            drive.actionBuilder(stacky3)
+            drive.CorrectionAction(stacky3 + cycleOffset, 1.s),
+            InstantAction {
+                intake.thirdStack()
+            },
+            color.waitForPixels(),
+            InstantAction { box.power = 0.0 },
+            drive.actionBuilder(stacky3 + cycleOffset)
                 .setTangent(0.deg)
                 .afterTime(0.s, intake.ejectPixels())
-                .splineToConstantHeading(middleRun2.position, 0.deg)
+                .splineToConstantHeading(middleRun2.position + cycleOffset, 0.deg)
                 .afterTime(0.3.s, lift.goToPass())
                 .afterTime(0.8.s, InstantAction {
                     arm.scorePosNow()
                     box.scorePosNow()
                 })
-                .afterTime(1.3.s, lift.goToYellow())
-                .splineToConstantHeading(middleRun1.position, 0.deg)
-                .splineToConstantHeading(leftYellowPixel.position, -30.deg, /*slow50Speed, slowDecel*/)
+                //.afterTime(1.3.s, lift.goToYellow())
+                .splineToConstantHeading(middleRun1.position + cycleOffset, 0.deg)
+                .splineToConstantHeading(leftYellowPixel2.position + cycleOffset, -30.deg, /*slow50Speed, slowDecel*/)
                 .build(),
             InstantAction{ drive.useApril = true },
-            drive.CorrectionAction(leftYellowPixel, 1.s),
+            drive.CorrectionAction(leftYellowPixel2, 1.s),
+            SleepAction(0.1.s),
+            InstantAction {
+                box.power = -1.0
+            },
+            SleepAction(0.6.s),
             InstantAction {
                 drive.useApril = false
             },
-            SleepAction(1.s)
         )
 
         while (opModeInInit()) {
             sleep(10)
         }
 
-        val action = actionMiddle
+        val action = actionRight
 
         val canvas = Canvas()
         action.preview(canvas)

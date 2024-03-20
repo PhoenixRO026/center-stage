@@ -36,6 +36,8 @@ public class MeepMeepTesting {
 
         Pose2d leftYellowPixel2 = new Pose2d(48.5, -32, Math.toRadians(180));
 
+        Pose2d park2 = new Pose2d(48.5, -60, Math.toRadians(180));
+
         Pose2d middleRun12 = new Pose2d(24, -60, Math.toRadians(180));
 
         Pose2d middleRun22 = new Pose2d(-30, -60, Math.toRadians(180));
@@ -135,6 +137,7 @@ public class MeepMeepTesting {
                 .splineToConstantHeading(middleRun12.position, Math.toRadians(0))
                 .splineToConstantHeading(leftYellowPixel2.position, Math.toRadians(30))
                 .waitSeconds(1)
+                .strafeTo(park2.position)
                 .build();
 
         myBot.runAction(action);

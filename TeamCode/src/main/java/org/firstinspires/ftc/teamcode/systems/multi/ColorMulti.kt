@@ -21,7 +21,7 @@ class ColorMulti(
     data object ColorConfig {
         @JvmField var backAlphaThreshold = 0.75
         @JvmField var frontAlphaThreshold = 0.045
-        @JvmField var maxPixelWaitSec = 0.7
+        @JvmField var maxPixelWaitSec = 0.8
     }
 
     private val backColorSens = hardwareMap.get(ColorRangeSensor::class.java, "backColor")
@@ -75,8 +75,8 @@ class ColorMulti(
                 startTime = Time.now()
             }
 
-            if ((freshRead && frontColorIn)
-                || Time.now() - startTime > ColorConfig.maxPixelWaitSec.s) {
+            if (/*(freshRead && frontColorIn)
+                || */Time.now() - startTime > ColorConfig.maxPixelWaitSec.s) {
                 readingEnabled = false
                 return false
             }
