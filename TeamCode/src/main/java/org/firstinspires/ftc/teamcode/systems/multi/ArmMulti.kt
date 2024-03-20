@@ -35,6 +35,14 @@ class ArmMulti(
         targetPosition = Arm.ArmConfig.scorePos
     }
 
+    fun intakePosNow() {
+        position = Arm.ArmConfig.intakePos
+    }
+
+    fun scorePosNow() {
+        position = Arm.ArmConfig.scorePos
+    }
+
     fun goToIntake() = object : Action {
         var init = true
         override fun run(p: TelemetryPacket): Boolean {

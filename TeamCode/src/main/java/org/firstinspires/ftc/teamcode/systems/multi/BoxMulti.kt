@@ -42,6 +42,15 @@ class BoxMulti(
         targetPosition = Box.BoxConfig.scorePos
     }
 
+    fun intakePosNow() {
+        position = Box.BoxConfig.intakePos
+    }
+
+    fun scorePosNow() {
+        position = Box.BoxConfig.scorePos
+    }
+
+
 
     fun goToIntake() = object : Action {
         var init = true

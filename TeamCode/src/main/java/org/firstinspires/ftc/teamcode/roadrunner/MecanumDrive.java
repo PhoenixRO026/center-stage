@@ -89,22 +89,30 @@ public final class MecanumDrive {
         public double maxAngAccel = 4;
 
         // path controller gains
-        public double axialGain = 20;
-        public double lateralGain = 20;
-        public double headingGain = 20; // shared with turn
+        public double axialGain = 30;
+        public double lateralGain = 40;
+        public double headingGain = 30; // shared with turn
 
-        public double axialVelGain = 1.5;
-        public double lateralVelGain = 0.5;
-        public double headingVelGain = 0.5; // shared with turn
+        public double axialVelGain = 6;
+        public double lateralVelGain = 4;
+        public double headingVelGain = 3; // shared with turn
+
+        public double correctionAxialGain = 3;
+        public double correctionLateralGain = 3;
+        public double correctionHeadingGain = 3; // shared with turn
 
         public int imuPersistanceFrequency = 30;
+
+        public double kalmanQ = 0.8;
+        public double kalmanR = 0.1;
     }
 
     private int persistentImuCounter = 1;
 
     public static Params PARAMS = new Params();
 
-    public final ChangeKalmanFilter.Vector2dKalmanFilter posFilter = new ChangeKalmanFilter.Vector2dKalmanFilter();
+    public final ChangeKalmanFilter.Vector2dKalmanFilter posFilter = new ChangeKalmanFilter.Vector2dKalmanFilter(PARAMS.kalmanQ, PARAMS.kalmanR);
+    public Vector2d aprilTagVec = new Vector2d(0.0, 0.0);
 
     public Vector2d filteredPos = new Vector2d(0.0, 0.0);
 
@@ -133,6 +141,8 @@ public final class MecanumDrive {
     public PoseVelocity2d velocity = new PoseVelocity2d(new Vector2d(0.0, 0.0), 0.0);
 
     public final double imuStartHeading;
+
+    public boolean useApril = false;
 
     public Camera camera = null;
 
@@ -289,6 +299,120 @@ public final class MecanumDrive {
         rightFront.setPower(wheelVels.rightFront.get(0) / maxPowerMag);
     }
 
+    public final class CorrectionAction implements Action {
+        //public final TimeTrajectory timeTrajectory;
+        public final Pose2d target;
+        private double beginTs = -1;
+
+        private final double maxTimeS;
+
+        //private final double[] xPoints, yPoints;
+
+        public CorrectionAction(Pose target, org.firstinspires.ftc.teamcode.lib.units.Time maxTime) {
+            this.target = target.getPose2d();
+            this.maxTimeS = maxTime.getS();
+            //timeTrajectory = t;
+
+            /*List<Double> disps = com.acmerobotics.roadrunner.Math.range(
+                    0, t.path.length(),
+                    Math.max(2, (int) Math.ceil(t.path.length() / 2)));
+            xPoints = new double[disps.size()];
+            yPoints = new double[disps.size()];
+            for (int i = 0; i < disps.size(); i++) {
+                Pose2d p = t.path.get(disps.get(i), 1).value();
+                xPoints[i] = p.position.x;
+                yPoints[i] = p.position.y;
+            }*/
+        }
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket p) {
+            double t;
+            if (beginTs < 0) {
+                beginTs = Actions.now();
+                t = 0;
+            } else {
+                t = Actions.now() - beginTs;
+            }
+
+            Pose2dDual<Time> txWorldTarget = Pose2dDual.constant(target, 3);
+            //targetPoseWriter.write(new PoseMessage(txWorldTarget.value()));
+
+            PoseVelocity2d robotVelRobot = updatePoseEstimate();
+
+            Pose2d error = target.minusExp(pose);
+
+            if ((error.position.norm() < 1 && robotVelRobot.linearVel.norm() < 1) || t >= maxTimeS) {
+                leftFront.setPower(0);
+                leftBack.setPower(0);
+                rightBack.setPower(0);
+                rightFront.setPower(0);
+
+                return false;
+            }
+
+            PoseVelocity2dDual<Time> command = new HolonomicController(
+                    PARAMS.correctionAxialGain, PARAMS.correctionLateralGain, PARAMS.correctionHeadingGain,
+                    0, 0, 0
+            )
+                    .compute(txWorldTarget, pose, robotVelRobot);
+            //driveCommandWriter.write(new DriveCommandMessage(command));
+
+            MecanumKinematics.WheelVelocities<Time> wheelVels = kinematics.inverse(command);
+            double voltage = voltageSensor.getVoltage();
+
+            final MotorFeedforward feedforward = new MotorFeedforward(PARAMS.kS,
+                    PARAMS.kV / PARAMS.inPerTick, PARAMS.kA / PARAMS.inPerTick);
+            double leftFrontPower = feedforward.compute(wheelVels.leftFront) / voltage;
+            double leftBackPower = feedforward.compute(wheelVels.leftBack) / voltage;
+            double rightBackPower = feedforward.compute(wheelVels.rightBack) / voltage;
+            double rightFrontPower = feedforward.compute(wheelVels.rightFront) / voltage;
+                /*mecanumCommandWriter.write(new MecanumCommandMessage(
+                        voltage, leftFrontPower, leftBackPower, rightBackPower, rightFrontPower
+                ));*/
+
+            leftFront.setPower(leftFrontPower);
+            leftBack.setPower(leftBackPower);
+            rightBack.setPower(rightBackPower);
+            rightFront.setPower(rightFrontPower);
+
+            p.put("x", pose.position.x);
+            p.put("y", pose.position.y);
+            p.put("heading (deg)", Math.toDegrees(pose.heading.toDouble()));
+
+            p.put("xError", error.position.x);
+            p.put("yError", error.position.y);
+            p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));
+
+            // only draw when active; only one drive action should be active at a time
+            Canvas c = p.fieldOverlay();
+            drawPoseHistory(c);
+
+            c.setStroke("#4CAF50");
+            Drawing.drawRobot(c, txWorldTarget.value());
+
+            c.setStroke("#3F51B5");
+            Drawing.drawRobot(c, pose);
+
+            c.setStroke("#D60230");
+            Drawing.drawRobot(c, new Pose2d(filteredPos, 0.0));
+
+            c.setStroke("#FBFF00");
+            Drawing.drawRobot(c, new Pose2d(aprilTagVec, 0.0));
+
+            c.setStroke("#4CAF50FF");
+            c.setStrokeWidth(1);
+
+            return true;
+        }
+
+        @Override
+        public void preview(Canvas c) {
+            c.setStroke("#4CAF507A");
+            c.setStrokeWidth(1);
+        }
+    }
+
     public final class FollowTrajectoryAction implements Action {
         public final TimeTrajectory timeTrajectory;
         private double beginTs = -1;
@@ -327,9 +451,9 @@ public final class MecanumDrive {
 
             Pose2d error = txWorldTarget.value().minusExp(pose);
 
-            if ((t >= timeTrajectory.duration && error.position.norm() < 3
+            if (/*(*/t >= timeTrajectory.duration /*&& error.position.norm() < 3
                         && robotVelRobot.linearVel.norm() < 1)
-                        || t >= timeTrajectory.duration + 1) {
+                        || t >= timeTrajectory.duration + 1*/) {
                 leftFront.setPower(0);
                 leftBack.setPower(0);
                 rightBack.setPower(0);
@@ -382,6 +506,12 @@ public final class MecanumDrive {
 
             c.setStroke("#3F51B5");
             Drawing.drawRobot(c, pose);
+
+            c.setStroke("#D60230");
+            Drawing.drawRobot(c, new Pose2d(filteredPos, 0.0));
+
+            c.setStroke("#FBFF00");
+            Drawing.drawRobot(c, new Pose2d(aprilTagVec, 0.0));
 
             c.setStroke("#4CAF50FF");
             c.setStrokeWidth(1);
@@ -493,7 +623,11 @@ public final class MecanumDrive {
         if (camera != null) {
             Distance2d robotPose = camera.runDetection();
 
-            if (robotPose != null && velocity.angVel < Math.toRadians(15) && velocity.linearVel.norm() < 30) {
+            if (robotPose != null) {
+                aprilTagVec = robotPose.getInch();
+            }
+
+            if (robotPose != null && velocity.angVel < Math.toRadians(15) && velocity.linearVel.norm() < 15 && useApril) {
                 filteredPos = posFilter.update(twist.value(), robotPose.getInch());
 
                 pose = new Pose2d(filteredPos, pose.heading);

@@ -21,6 +21,7 @@ import org.firstinspires.ftc.teamcode.systems.Intake.Companion.intake
 import org.firstinspires.ftc.teamcode.systems.Lift.Companion.lift
 import org.firstinspires.ftc.teamcode.systems.multi.ArmMulti.Companion.armMulti
 import org.firstinspires.ftc.teamcode.systems.multi.BoxMulti.Companion.boxMulti
+import org.firstinspires.ftc.teamcode.systems.multi.ColorMulti.Companion.colorMulti
 import org.firstinspires.ftc.teamcode.systems.multi.IntakeMulti.Companion.intakeMulti
 import org.firstinspires.ftc.teamcode.systems.multi.LiftMulti.Companion.liftMulti
 
@@ -45,7 +46,12 @@ class LammaDriveMulti : MultiThreadOpMode() {
             intake.update()
             arm.write()
             arm.update()
+            color.read()
         }
+    }
+
+    private val color by opModeLazy {
+        hardwareMap.colorMulti()
     }
 
     private val lift by opModeLazy {
@@ -164,6 +170,10 @@ class LammaDriveMulti : MultiThreadOpMode() {
             lift.update()
 
             telemetry.addData("lift power", liftPower)
+            telemetry.addData("back alpha", color.backColor.alpha)
+            telemetry.addData("front alpha", color.frontColor.alpha)
+            telemetry.addData("is back in", color.backColorIn)
+            telemetry.addData("is front in", color.frontColorIn)
 
             telemetry.update()
         }

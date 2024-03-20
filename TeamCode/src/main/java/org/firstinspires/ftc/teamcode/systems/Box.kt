@@ -17,10 +17,10 @@ class Box(
 
     @Config
     data object BoxConfig {
-        @JvmField var boxServoOffset: Double = 0.025
+        @JvmField var boxServoOffset: Double = 0.062
         @JvmField var boxSpeed = 0.8
-        @JvmField var intakePos = 0.826
-        @JvmField var scorePos = 0.424
+        @JvmField var intakePos = 0.9337
+        @JvmField var scorePos = 0.4677
     }
 
     private val leftServoRange = BoxConfig.boxServoOffset..1.0

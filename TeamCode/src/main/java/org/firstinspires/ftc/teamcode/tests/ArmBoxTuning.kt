@@ -43,6 +43,9 @@ class ArmBoxTuning : LinearOpMode() {
                 box.scorePos()
                 arm.scorePos()
             }
+
+            arm.update()
+            box.update()
             
             telemetry.addData("box position", box.position)
             telemetry.addData("arm position", arm.position)

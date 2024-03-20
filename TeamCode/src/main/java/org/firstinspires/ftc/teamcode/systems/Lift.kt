@@ -17,14 +17,15 @@ class Lift(
     @Config
     data object LiftConfig {
         @JvmField var controller = PIDController(
-            kP = 0.01,
+            kP = 0.008,
             kI = 0.005,
-            kD = 0.001
+            kD = 0.0008
         )
         @JvmField var toleranceTicks = 16
         @JvmField var kF = 0.16
 
-        @JvmField var yellowTicks = 1000
+        @JvmField var yellowTicks = 700
+        @JvmField var passTicks = 1000
     }
 
     private val leftMotor = hardwareMap.simpleMotor("leftLift")

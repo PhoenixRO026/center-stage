@@ -53,6 +53,10 @@ class LiftMulti(
 
     fun goToYellow() = goToPos(Lift.LiftConfig.yellowTicks)
 
+    fun goToIntake() = goToPos(0)
+
+    fun goToPass() = goToPos(Lift.LiftConfig.passTicks)
+
     fun read() {
         innerPositionTicks = innerLift.positionTicks
         innerIsBusy = innerLift.isBusy

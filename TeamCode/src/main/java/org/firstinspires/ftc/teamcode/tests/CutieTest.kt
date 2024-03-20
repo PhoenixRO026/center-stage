@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.tests
 
+import com.acmerobotics.dashboard.config.Config
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
@@ -8,12 +9,13 @@ import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.lib.hardware.servo.RangedServo.Companion.rangedServo
 import org.firstinspires.ftc.teamcode.lib.units.DeltaTime
 
-@Disabled
+//@Disabled
 @TeleOp
 class CutieTest : LinearOpMode() {
 
+    @Config
     data object CutieTestConfig {
-        @JvmField var cutieOffset: Double = 0.025
+        @JvmField var cutieOffset: Double = 0.062
     }
 
     override fun runOpMode() {

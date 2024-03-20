@@ -27,10 +27,12 @@ class ChangeKalmanFilter {
     @JvmOverloads
     constructor(Q: Double = 0.1, R: Double = 0.4) {
         kalman = KalmanCoefficients(Q, R)
+        findK()
     }
 
     constructor(kalman: KalmanCoefficients = KalmanCoefficients()) {
         this.kalman = kalman
+        findK()
     }
 
     private var x_previous = x
@@ -55,6 +57,16 @@ class ChangeKalmanFilter {
         x_previous = x
         p_previous = p
         return x
+    }
+
+    private fun findK() {
+        for (i in 1..2000) solveDARE()
+    }
+
+    private fun solveDARE() {
+        p += kalman.Q
+        K = p / (p + kalman.R)
+        p *= (1 - K)
     }
 
     class Vector2dKalmanFilter {

@@ -46,6 +46,13 @@ class IntakeMulti(
         power = Intake.IntakeConfig.stackPower
     }
 
+    fun ejectPurple() = SequentialAction(
+        InstantAction { position = Intake.IntakeConfig.purplePos },
+        SleepAction(0.08.s),
+        InstantAction { power = Intake.IntakeConfig.purplePower },
+        SleepAction(0.3.s)
+    )
+
     fun aboveStack() {
         position = Intake.IntakeConfig.aboveStackPose
     }
