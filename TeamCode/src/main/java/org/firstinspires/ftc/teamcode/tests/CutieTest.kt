@@ -15,7 +15,7 @@ class CutieTest : LinearOpMode() {
 
     @Config
     data object CutieTestConfig {
-        @JvmField var cutieOffset: Double = 0.062
+        @JvmField var cutieOffset: Double = 0.08
     }
 
     override fun runOpMode() {
