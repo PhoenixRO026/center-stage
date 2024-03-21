@@ -9,6 +9,9 @@ class AprilTagTest : LinearOpMode() {
     override fun runOpMode() {
         val camera = Camera(hardwareMap)
 
+        camera.enableAprilTagDetection()
+        camera.lowerExposure()
+
         while (opModeInInit()) {
             camera.update()
         }

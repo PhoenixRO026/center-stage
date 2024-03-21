@@ -44,19 +44,20 @@ class AutoRedLeft : MultiThreadOpMode() {
 
     private val leftPurplePixel = Pose(-47.inch, -38.inch, -90.deg)
 
-    private val middleYellowPixel = Pose(49.5.inch, -36.inch - 2.cm, 180.deg)
+    private val middleYellowPixel = Pose(52.5.inch, -36.inch - 2.cm, 180.deg)
 
-    private val leftYellowPixel = Pose(49.5.inch, -32.inch, 180.deg)
-    private val leftYellowPixel2 = Pose(49.8.inch, -30.inch, 180.deg)
+    private val leftYellowPixel = Pose(52.5.inch, -32.inch, 180.deg)
+    private val leftYellowPixel2 = Pose(52.inch, -30.inch, 180.deg)
 
-    private val rightYellowPixel = Pose(49.5.inch, -42.inch, 180.deg)
+    private val rightYellowPixel = Pose(51.5.inch, -42.inch, 180.deg)
 
-    private val middleRun1 = Pose(18.inch, -12.inch + 1.cm, 180.deg)
-    private val middleRun2 = Pose(-30.inch, -12.inch + 1.cm, 180.deg)
+    private val middleRun1 = Pose(18.inch, -11.inch + 1.cm, 180.deg)
+    private val middleRun2 = Pose(-30.inch, -11.inch + 1.cm, 180.deg)
     private val preStacky = Pose(-55.inch, -50.inch, -180.deg)
     private val stacky = Pose (-54.inch - 9.cm + 10.cm, -12.inch, 180.deg)
-    private val stacky2 = stacky - 12.cm.x
-    private val stacky3 = stacky2 - 2.cm.x + 3.cm.y
+    private val stacky2 = stacky - 18.cm.x
+    private val stacky3 = stacky2 + 2.cm.x
+
 
     private val rightCaseOffset = 8.cm.x + 2.cm.y
 
@@ -101,9 +102,13 @@ class AutoRedLeft : MultiThreadOpMode() {
 
         drive.camera = camera
 
+        camera.lowerExposure()
+
         while (opModeInInit()) {
             camera.update()
         }
+
+        camera.enableAprilTagDetection()
 
         while (isStarted && !isStopRequested) {
             val now = Time.now()
@@ -335,7 +340,6 @@ class AutoRedLeft : MultiThreadOpMode() {
                 intake.firstStack()
             },
             color.waitForFrontPixel(),
-            InstantAction { box.power = 0.0 },
             drive.actionBuilder(stacky2)
                 .setTangent(0.deg)
                 .afterTime(0.s, intake.ejectPixels())
@@ -344,6 +348,7 @@ class AutoRedLeft : MultiThreadOpMode() {
                 .afterTime(0.8.s, InstantAction {
                     arm.scorePosNow()
                     box.scorePosNow()
+                    box.power = 0.0
                 })
                 .afterTime(1.3.s, lift.goToYellow())
                 .splineToConstantHeading(middleRun1.position, 0.deg)
@@ -482,7 +487,7 @@ class AutoRedLeft : MultiThreadOpMode() {
             sleep(10)
         }
 
-        val action = actionRight
+        val action = actionMiddle
 
         val canvas = Canvas()
         action.preview(canvas)

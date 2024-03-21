@@ -35,7 +35,7 @@ class Camera(
 ) {
     @Config
     data object CameraConfig {
-        @JvmField var cameraOffset = 16.0
+        @JvmField var cameraOffset = 13.0
         @JvmField var cameraExposure: Long = 1
         @JvmField var cameraGain = 230
     }
@@ -50,7 +50,7 @@ class Camera(
     private val visionPortal = VisionPortal.Builder()
             .setCamera(hardwareMap.get(WebcamName::class.java, "Webcam 1"))
             .addProcessors(aprilTagProcessor, detectionProcessor)
-            .enableLiveView(false)
+            //.enableLiveView(false)
             .build()
 
     private lateinit var exposureControl: ExposureControl
@@ -143,6 +143,7 @@ class Camera(
 
     init {
         disableAprilTagDetection()
+        disableColorDetection()
     }
 
     fun update() {

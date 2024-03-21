@@ -21,7 +21,12 @@ public class LocalizationTest2 extends LinearOpMode {
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
             MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
 
-            drive.camera = new Camera(hardwareMap);
+            drive.camera = new Camera(hardwareMap, null);
+
+            drive.camera.enableAprilTagDetection();
+            drive.camera.lowerExposure();
+
+            drive.useApril = true;
 
             while (opModeInInit()) {
                 drive.camera.update();
