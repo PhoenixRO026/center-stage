@@ -25,9 +25,11 @@ class Intake(
 
         @JvmField var groundPos = 0.0
         @JvmField var initPos = groundPos
-        @JvmField var aboveStackPose = 0.65
+        @JvmField var aboveFirstStack = 0.65
         @JvmField var firstStack = 0.618
+        @JvmField var aboveSecondStack = 0.618
         @JvmField var secondStack = 0.42
+        @JvmField var aboveThirdStack = 0.618
         @JvmField var thirdStack = 0.1
         @JvmField var stackPower = 1.0
 
@@ -35,6 +37,11 @@ class Intake(
 
         @JvmField var purplePower = -0.8
         @JvmField var purplePos = 0.4
+
+        @JvmField var onePixelStackWaitSec = 0.8
+        @JvmField var twoPixelStackWaitSec = 0.8
+
+        @JvmField var ejectPixelTimeSec = 1.0
     }
 
     private val servoRange = IntakeConfig.rangeStart..IntakeConfig.rangeEnd
@@ -65,7 +72,7 @@ class Intake(
     }
 
     fun aboveStack() {
-        position = IntakeConfig.aboveStackPose
+        position = IntakeConfig.aboveFirstStack
     }
 
     fun firstStack() {

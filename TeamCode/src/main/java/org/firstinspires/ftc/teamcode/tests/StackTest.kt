@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.lib.units.DeltaTime
 import org.firstinspires.ftc.teamcode.systems.Intake
 import org.firstinspires.ftc.teamcode.systems.Intake.Companion.intake
-import org.firstinspires.ftc.teamcode.systems.multi.IntakeMulti.Companion.intakeMulti
 
 @TeleOp
 class StackTest : LinearOpMode() {
@@ -16,7 +15,7 @@ class StackTest : LinearOpMode() {
 
         val intake = hardwareMap.intake()
 
-        intake.position = Intake.IntakeConfig.aboveStackPose
+        intake.position = Intake.IntakeConfig.aboveFirstStack
 
         val dtime = DeltaTime()
 
@@ -26,7 +25,7 @@ class StackTest : LinearOpMode() {
             val deltaTime = dtime.calculateDeltaTime()
 
             if (gamepad1.a) {
-                intake.position = Intake.IntakeConfig.aboveStackPose
+                intake.position = Intake.IntakeConfig.aboveFirstStack
             } else if (gamepad1.b) {
                 intake.position = Intake.IntakeConfig.firstStack
             }

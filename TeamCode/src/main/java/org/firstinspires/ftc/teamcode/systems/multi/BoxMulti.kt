@@ -2,8 +2,13 @@ package org.firstinspires.ftc.teamcode.systems.multi
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket
 import com.acmerobotics.roadrunner.Action
+import com.acmerobotics.roadrunner.InstantAction
+import com.acmerobotics.roadrunner.SequentialAction
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.lib.multi.LazyWrite
+import org.firstinspires.ftc.teamcode.lib.units.SleepAction
+import org.firstinspires.ftc.teamcode.lib.units.s
+import org.firstinspires.ftc.teamcode.systems.Arm
 import org.firstinspires.ftc.teamcode.systems.Arm.Companion.arm
 import org.firstinspires.ftc.teamcode.systems.Box
 import org.firstinspires.ftc.teamcode.systems.Box.Companion.box
@@ -33,6 +38,37 @@ class BoxMulti(
     )
 
     val isBusy by innerBox::isBusy
+
+    fun intakePosQuick() = SequentialAction(
+        InstantAction { position = Box.BoxConfig.intakePos },
+        Action { position != Box.BoxConfig.intakePos },
+        SleepAction(Box.BoxConfig.intakeToScoreTravelWaitSec.s)
+    )
+
+    fun scorePosQuick() = SequentialAction(
+        InstantAction { position = Box.BoxConfig.scorePos },
+        Action { position != Box.BoxConfig.scorePos },
+        SleepAction(Box.BoxConfig.intakeToScoreTravelWaitSec.s)
+    )
+
+    fun ejectOneWhitePixel() = SequentialAction(
+        InstantAction { power = -1.0 },
+        Action { power != -1.0 },
+        SleepAction(Box.BoxConfig.ejectOneWhitePixelWaitSec.s),
+        InstantAction { power = 0.0 }
+    )
+
+    fun ejectYellowPixel() = SequentialAction(
+        InstantAction { power = -1.0 },
+        Action { power != -1.0 },
+        SleepAction(Box.BoxConfig.ejectYellowPixelWaitSec.s),
+    )
+
+    fun ejectTwoPixels() = SequentialAction(
+        InstantAction { power = -1.0 },
+        Action { power != -1.0 },
+        SleepAction(Box.BoxConfig.ejectTwoPixelWaitSec.s),
+    )
 
     fun intakePos() {
         targetPosition = Box.BoxConfig.intakePos

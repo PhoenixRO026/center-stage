@@ -21,6 +21,12 @@ class Box(
         @JvmField var boxSpeed = 0.8
         @JvmField var intakePos = 0.9337
         @JvmField var scorePos = 0.4989
+
+        @JvmField var intakeToScoreTravelWaitSec = Arm.ArmConfig.intakeToScoreTravelWaitSec
+
+        @JvmField var ejectOneWhitePixelWaitSec = 0.25
+        @JvmField var ejectYellowPixelWaitSec = 0.45
+        @JvmField var ejectTwoPixelWaitSec = 0.6
     }
 
     private val leftServoRange = BoxConfig.boxServoOffset..1.0

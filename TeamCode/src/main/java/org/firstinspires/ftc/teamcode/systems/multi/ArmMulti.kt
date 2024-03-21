@@ -2,8 +2,12 @@ package org.firstinspires.ftc.teamcode.systems.multi
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket
 import com.acmerobotics.roadrunner.Action
+import com.acmerobotics.roadrunner.InstantAction
+import com.acmerobotics.roadrunner.SequentialAction
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.lib.multi.LazyWrite
+import org.firstinspires.ftc.teamcode.lib.units.SleepAction
+import org.firstinspires.ftc.teamcode.lib.units.s
 import org.firstinspires.ftc.teamcode.systems.Arm
 import org.firstinspires.ftc.teamcode.systems.Arm.Companion.arm
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -34,6 +38,18 @@ class ArmMulti(
     fun scorePos() {
         targetPosition = Arm.ArmConfig.scorePos
     }
+
+    fun intakePosQuick() = SequentialAction(
+        InstantAction { position = Arm.ArmConfig.intakePos },
+        Action { position != Arm.ArmConfig.intakePos },
+        SleepAction(Arm.ArmConfig.intakeToScoreTravelWaitSec.s)
+    )
+
+    fun scorePosQuick() = SequentialAction(
+        InstantAction { position = Arm.ArmConfig.scorePos },
+        Action { position != Arm.ArmConfig.scorePos },
+        SleepAction(Arm.ArmConfig.intakeToScoreTravelWaitSec.s)
+    )
 
     fun intakePosNow() {
         position = Arm.ArmConfig.intakePos

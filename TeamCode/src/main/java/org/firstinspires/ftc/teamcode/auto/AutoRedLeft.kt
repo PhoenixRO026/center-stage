@@ -7,10 +7,8 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket
 import com.acmerobotics.roadrunner.AngularVelConstraint
 import com.acmerobotics.roadrunner.InstantAction
 import com.acmerobotics.roadrunner.MinVelConstraint
-import com.acmerobotics.roadrunner.ParallelAction
 import com.acmerobotics.roadrunner.ProfileAccelConstraint
 import com.acmerobotics.roadrunner.SequentialAction
-import com.acmerobotics.roadrunner.Vector2d
 import com.outoftheboxrobotics.photoncore.Photon
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
@@ -27,7 +25,6 @@ import org.firstinspires.ftc.teamcode.lib.units.ms
 import org.firstinspires.ftc.teamcode.lib.units.s
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive
 import org.firstinspires.ftc.teamcode.systems.Camera
-import org.firstinspires.ftc.teamcode.systems.Intake
 import org.firstinspires.ftc.teamcode.systems.multi.ArmMulti.Companion.armMulti
 import org.firstinspires.ftc.teamcode.systems.multi.BoxMulti.Companion.boxMulti
 import org.firstinspires.ftc.teamcode.systems.multi.ColorMulti.Companion.colorMulti
@@ -164,7 +161,7 @@ class AutoRedLeft : MultiThreadOpMode() {
                 .stopAndAdd(intake.ejectPurple())
                 .setTangent(180.deg)
                 .afterTime(0.s, InstantAction {
-                    intake.aboveStack()
+                    intake.aboveFirstStack()
                     intake.stackPower()
                     box.power = 1.0
                 })
@@ -326,7 +323,7 @@ class AutoRedLeft : MultiThreadOpMode() {
                 .stopAndAdd(intake.ejectPurple())
                 .setTangent(90.deg)
                 .afterTime(0.s, InstantAction {
-                    intake.aboveStack()
+                    intake.aboveFirstStack()
                     intake.stackPower()
                     box.power = 1.0
                 })

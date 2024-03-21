@@ -105,6 +105,8 @@ public final class MecanumDrive {
 
         public double kalmanQ = 0.8;
         public double kalmanR = 0.2;
+
+        public double maxStackCorrectTimeSec = 1.0;
     }
 
     private int persistentImuCounter = 1;
@@ -627,10 +629,12 @@ public final class MecanumDrive {
                 aprilTagVec = robotPose.getInch();
             }
 
-            if (robotPose != null && velocity.angVel < Math.toRadians(15) && velocity.linearVel.norm() < 15 && useApril) {
+            if (robotPose != null && velocity.angVel < Math.toRadians(15) && velocity.linearVel.norm() < 15) {
                 filteredPos = posFilter.update(twist.value(), robotPose.getInch());
 
-                pose = new Pose2d(filteredPos, pose.heading);
+                if (useApril) {
+                    pose = new Pose2d(filteredPos, pose.heading);
+                }
             } else {
                 filteredPos = posFilter.update(twist.value(), pose.position);
             }

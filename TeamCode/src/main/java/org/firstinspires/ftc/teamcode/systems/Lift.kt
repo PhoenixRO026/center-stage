@@ -26,6 +26,10 @@ class Lift(
 
         @JvmField var yellowTicks = 700
         @JvmField var passTicks = 1000
+        @JvmField var aboveWhiteTicks = 1000
+
+        @JvmField var postStackRiseWaitSec = 0.3
+        @JvmField var postBoardDecendWaitSec = 0.3
     }
 
     private val leftMotor = hardwareMap.simpleMotor("leftLift")

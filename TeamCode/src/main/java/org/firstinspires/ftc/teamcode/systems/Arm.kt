@@ -18,6 +18,8 @@ class Arm(
         @JvmField var armSpeed: Double = 0.8
         @JvmField var intakePos: Double = 0.6645
         @JvmField var scorePos: Double = 0.251
+
+        @JvmField var intakeToScoreTravelWaitSec = 0.5
     }
 
     private val leftRange = 0.0..(1.0 - ArmConfig.armServoOffset)

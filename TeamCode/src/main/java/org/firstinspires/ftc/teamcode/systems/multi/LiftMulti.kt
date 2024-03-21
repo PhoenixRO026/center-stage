@@ -53,6 +53,8 @@ class LiftMulti(
 
     fun goToYellow() = goToPos(Lift.LiftConfig.yellowTicks)
 
+    fun goToAboveWhite() = goToPos(Lift.LiftConfig.aboveWhiteTicks)
+
     fun goToIntake() = goToPos(0)
 
     fun goToPass() = goToPos(Lift.LiftConfig.passTicks)

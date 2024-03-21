@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.lib.multi.LazyWrite
 import org.firstinspires.ftc.teamcode.lib.units.SleepAction
 import org.firstinspires.ftc.teamcode.lib.units.s
-import org.firstinspires.ftc.teamcode.systems.Arm.Companion.arm
 import org.firstinspires.ftc.teamcode.systems.Intake
 import org.firstinspires.ftc.teamcode.systems.Intake.Companion.intake
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -38,13 +37,15 @@ class IntakeMulti(
 
     fun ejectPixels() = SequentialAction(
         InstantAction { power = Intake.IntakeConfig.ejectPower },
-        SleepAction(1.s),
+        SleepAction(Intake.IntakeConfig.ejectPixelTimeSec.s),
         InstantAction { power = 0.0 }
     )
 
     fun stackPower() {
         power = Intake.IntakeConfig.stackPower
     }
+
+    fun waitForPixel() = SleepAction(Intake.IntakeConfig.onePixelStackWaitSec.s)
 
     fun ejectPurple() = SequentialAction(
         InstantAction { position = Intake.IntakeConfig.purplePos },
@@ -53,16 +54,24 @@ class IntakeMulti(
         SleepAction(0.3.s)
     )
 
-    fun aboveStack() {
-        position = Intake.IntakeConfig.aboveStackPose
+    fun aboveFirstStack() {
+        position = Intake.IntakeConfig.aboveFirstStack
     }
 
     fun firstStack() {
         targetPosition = Intake.IntakeConfig.firstStack
     }
 
+    fun aboveSecondStack() {
+        position = Intake.IntakeConfig.aboveSecondStack
+    }
+
     fun secondStack() {
         targetPosition = Intake.IntakeConfig.secondStack
+    }
+
+    fun aboveThirdStack() {
+        position = Intake.IntakeConfig.aboveThirdStack
     }
 
     fun thirdStack() {
