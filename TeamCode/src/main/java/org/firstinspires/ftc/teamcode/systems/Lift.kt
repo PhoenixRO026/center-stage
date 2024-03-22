@@ -28,7 +28,7 @@ class Lift(
         @JvmField var passTicks = 1000
         @JvmField var aboveWhiteTicks = 1000
 
-        @JvmField var postStackRiseWaitSec = 0.3
+        @JvmField var postStackRiseWaitSec = 0.5
         @JvmField var postBoardDecendWaitSec = 0.3
     }
 

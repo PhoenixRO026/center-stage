@@ -292,7 +292,7 @@ class AutoRedLeft2 : MultiThreadOpMode() {
 
         val actionMiddle = SequentialAction(
             drive.actionBuilder(startPose)
-                .strafeTo(middlePurplePixel.position)
+                .strafeToLinearHeading(middlePurplePixel.position, middlePurplePixel.heading)
                 .stopAndAdd(intake.ejectPurple())
                 .setTangent(90.deg)
                 .afterTime(0.s, firstStackPrep())
@@ -454,15 +454,15 @@ class AutoRedLeft2 : MultiThreadOpMode() {
             sleep(10)
         }
 
-        //val action = actionMiddle
+        val action = actionMiddle
 
-        val action = when(camera.detectionPosition) {
+        /*val action = when(camera.detectionPosition) {
             ColorVisionProcessor.DetectionPosition.LEFT -> actionLeft
             ColorVisionProcessor.DetectionPosition.CENTER -> actionMiddle
             ColorVisionProcessor.DetectionPosition.RIGHT -> actionRight
-        }
+        }*/
 
-        camera.displayDetection()
+        camera.disableColorDetection()
         camera.enableAprilTagDetection()
         camera.lowerExposure()
 

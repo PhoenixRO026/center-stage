@@ -143,7 +143,7 @@ class Camera(
 
     init {
         disableAprilTagDetection()
-        disableColorDetection()
+        //disableColorDetection()
     }
 
     fun update() {

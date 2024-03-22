@@ -94,7 +94,7 @@ public final class MecanumDrive {
         public double headingGain = 30; // shared with turn
 
         public double axialVelGain = 6;
-        public double lateralVelGain = 4;
+        public double lateralVelGain = 8;
         public double headingVelGain = 3; // shared with turn
 
         public double correctionAxialGain = 10;
@@ -103,10 +103,10 @@ public final class MecanumDrive {
 
         public int imuPersistanceFrequency = 30;
 
-        public double kalmanQ = 0.8;
-        public double kalmanR = 0.2;
+        public double kalmanQ = 0.1;
+        public double kalmanR = 0.4;
 
-        public double maxStackCorrectTimeSec = 1.0;
+        public double maxStackCorrectTimeSec = 0.5;
     }
 
     private int persistentImuCounter = 1;
@@ -629,7 +629,7 @@ public final class MecanumDrive {
                 aprilTagVec = robotPose.getInch();
             }
 
-            if (robotPose != null && velocity.angVel < Math.toRadians(15) && velocity.linearVel.norm() < 15) {
+            if (robotPose != null && velocity.angVel < Math.toRadians(15) && velocity.linearVel.norm() < 30) {
                 filteredPos = posFilter.update(twist.value(), robotPose.getInch());
 
                 if (useApril) {
