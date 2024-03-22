@@ -34,19 +34,21 @@ import org.firstinspires.ftc.teamcode.systems.multi.LiftMulti.Companion.liftMult
 import kotlin.math.min
 
 @Photon
-@Autonomous(preselectTeleOp = "LammaDrive")
+@Autonomous(preselectTeleOp = "LammaDriveBlue")
 class AutoBlueRight : MultiThreadOpMode() {
     private val startPose =             Pose(-36.inch, 61.inch, 90.deg)
 
-    private val cycleOffset = 2.inch.y
+    private val cycleOffset = 0.4.inch.y
+    private val rightYellowOffset = -2.5.inch.y
+    private val leftOffset = 8.cm.x
 
     private val middlePurplePixel =     Pose(-38.inch, 16.inch, 90.deg)
-    private val leftPurplePixel =       Pose(-30.inch, 36.inch, 0.deg)
-    private val rightPurplePixel =      Pose(-47.inch, 38.inch, 90.deg)
+    private val leftPurplePixel =       Pose(-32.inch, 35.inch, 0.deg)
+    private val rightPurplePixel =      Pose(-47.inch, 16.inch, 90.deg)
 
     private val middleStacky1 =         Pose(-54.inch - 18.cm, 12.inch, 180.deg)
     private val rightStacky1 =          middleStacky1
-    private val leftStacky1 =           middleStacky1
+    private val leftStacky1 =           middleStacky1 + leftOffset
 
     private val middlePreStacky1 =      middleStacky1 + 10.cm.x
     private val rightPreStacky1 =       rightStacky1 + 10.cm.x
@@ -54,11 +56,11 @@ class AutoBlueRight : MultiThreadOpMode() {
 
     private val middlePostStackRun1 =   Pose(-30.inch, 12.inch - 1.cm, 180.deg)
     private val rightPostStackRun1 =    middlePostStackRun1
-    private val leftPostStackRun1 =     middlePostStackRun1
+    private val leftPostStackRun1 =     middlePostStackRun1 + leftOffset
 
     private val middlePreBoardRun1 =    Pose(18.inch, 12.inch - 1.cm, 180.deg)
     private val rightPreBoardRun1 =     middlePreBoardRun1
-    private val leftPreBoardRun1 =      middlePreBoardRun1
+    private val leftPreBoardRun1 =      middlePreBoardRun1 + leftOffset
 
     private val middleYellowPixel2 =    Pose(51.inch, 35.inch, 180.deg)
     private val leftYellowPixel2 =      Pose(51.inch, 42.inch, 180.deg)
@@ -66,7 +68,7 @@ class AutoBlueRight : MultiThreadOpMode() {
 
     private val middlePreYellowPixel1 = middleYellowPixel2
     private val rightPreYellowPixel1 =  rightYellowPixel2
-    private val leftPreYellowPixel1 =   leftYellowPixel2
+    private val leftPreYellowPixel1 =   leftYellowPixel2 + leftOffset
 
     private val middlePostBoardRun2 =   Pose(18.inch, 12.inch - 1.cm, 180.deg) + cycleOffset - 1.inch.y
     private val rightPostBoardRun2 =    middlePostBoardRun2
@@ -78,7 +80,7 @@ class AutoBlueRight : MultiThreadOpMode() {
 
     private val middleStacky2 =         middleStacky1 + cycleOffset
     private val rightStacky2 =          middleStacky2
-    private val leftStacky2 =           middleStacky2
+    private val leftStacky2 =           middleStacky2 + 2.cm.x
 
     private val middlePreStacky2 =      middleStacky2 + 10.cm.x
     private val rightPreStacky2 =       rightStacky2 + 10.cm.x
@@ -100,29 +102,29 @@ class AutoBlueRight : MultiThreadOpMode() {
     private val rightPreYellowPixel2 =  rightPreYellowPixel1 + cycleOffset
     private val leftPreYellowPixel2 =   leftPreYellowPixel1 + cycleOffset
 
-    private val middlePostBoardRun3 =   middlePostBoardRun2
-    private val rightPostBoardRun3 =    rightPostBoardRun2
-    private val leftPostBoardRun3 =     leftPostBoardRun2
+    private val middlePostBoardRun3 =   middlePostBoardRun2 + cycleOffset
+    private val rightPostBoardRun3 =    rightPostBoardRun2 + cycleOffset
+    private val leftPostBoardRun3 =     leftPostBoardRun2 - cycleOffset
 
-    private val middlePreStackRun3 =    middlePreStackRun2
-    private val rightPreStackRun3 =     rightPreStackRun2
-    private val leftPreStackRun3 =      leftPreStackRun2
+    private val middlePreStackRun3 =    middlePreStackRun2 + cycleOffset
+    private val rightPreStackRun3 =     rightPreStackRun2 + cycleOffset
+    private val leftPreStackRun3 =      leftPreStackRun2 - cycleOffset
 
     private val middleStacky3 =         middleStacky2
-    private val rightStacky3 =          rightStacky2
+    private val rightStacky3 =          rightStacky2 + cycleOffset
     private val leftStacky3 =           leftStacky2
 
     private val middlePreStacky3 =      middleStacky3 + 10.cm.x
     private val rightPreStacky3 =       rightStacky3 + 10.cm.x
     private val leftPreStacky3 =        leftStacky3 + 10.cm.x
 
-    private val middlePostStackRun3 =   middlePostStackRun2
-    private val rightPostStackRun3 =    rightPostStackRun2
-    private val leftPostStackRun3 =     leftPostStackRun2
+    private val middlePostStackRun3 =   middlePostStackRun2 + cycleOffset
+    private val rightPostStackRun3 =    rightPostStackRun2 + cycleOffset
+    private val leftPostStackRun3 =     leftPostStackRun2 - cycleOffset
 
-    private val middlePreBoardRun3 =    middlePreBoardRun2
-    private val rightPreBoardRun3 =     rightPreBoardRun2
-    private val leftPreBoardRun3 =      leftPreBoardRun2
+    private val middlePreBoardRun3 =    middlePreBoardRun2 + cycleOffset
+    private val rightPreBoardRun3 =     rightPreBoardRun2 + cycleOffset
+    private val leftPreBoardRun3 =      leftPreBoardRun2 - cycleOffset
 
     private val middleYellowPixel4 =    middleYellowPixel3
     private val rightYellowPixel4 =     rightYellowPixel3
@@ -290,7 +292,7 @@ class AutoBlueRight : MultiThreadOpMode() {
                 .afterTime(0.s, intake.ejectPixels())
                 .setTangent(0.deg)
                 .splineToConstantHeading(leftPostStackRun3.position, 0.deg)
-                .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
+                .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToUpUp())
                 .splineToConstantHeading(leftPreBoardRun3.position, 0.deg)
                 .splineToConstantHeading(rightPreYellowPixel3.position, rightBoardAproachAngle, speed60)
                 .build(),
@@ -369,7 +371,7 @@ class AutoBlueRight : MultiThreadOpMode() {
                 .afterTime(0.s, intake.ejectPixels())
                 .setTangent(0.deg)
                 .splineToConstantHeading(middlePostStackRun3.position, 0.deg)
-                .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
+                .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToUpUp())
                 .splineToConstantHeading(middlePreBoardRun3.position, 0.deg)
                 .splineToConstantHeading(rightPreYellowPixel3.position, rightBoardAproachAngle, speed60)
                 .build(),
@@ -404,11 +406,10 @@ class AutoBlueRight : MultiThreadOpMode() {
             box.ejectOneWhitePixel(),
             InstantAction { drive.useApril = false },
             drive.actionBuilder(middleYellowPixel2)
-                .strafeTo(rightYellowPixel2.position)
+                .strafeTo(rightYellowPixel2.position + rightYellowOffset)
                 .build(),
-            drive.CorrectionAction(rightYellowPixel2, MecanumDrive.PARAMS.maxStackCorrectTimeSec.s),
             box.ejectYellowPixel(),
-            drive.actionBuilder(rightYellowPixel2)
+            drive.actionBuilder(rightYellowPixel2 + rightYellowOffset)
                 .afterTime(Lift.LiftConfig.postBoardDecendWaitSec.s, systemsToIntake())
                 .setTangent(rightBoardLeavingAngle)
                 .splineToConstantHeading(rightPostBoardRun2.position, 180.deg, speed60)
@@ -448,7 +449,7 @@ class AutoBlueRight : MultiThreadOpMode() {
                 .afterTime(0.s, intake.ejectPixels())
                 .setTangent(0.deg)
                 .splineToConstantHeading(rightPostStackRun3.position, 0.deg)
-                .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
+                .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToUpUp())
                 .splineToConstantHeading(rightPreBoardRun3.position, 0.deg)
                 .splineToConstantHeading(middlePreYellowPixel3.position, middleBoardAproachAngle, speed60)
                 .build(),
@@ -463,13 +464,13 @@ class AutoBlueRight : MultiThreadOpMode() {
             sleep(10)
         }
 
-        val action = actionMiddle
+        //val action = actionMiddle
 
-        /*val action = when(camera.detectionPosition) {
+        val action = when(camera.detectionPosition) {
             ColorVisionProcessor.DetectionPosition.LEFT -> actionLeft
             ColorVisionProcessor.DetectionPosition.CENTER -> actionMiddle
             ColorVisionProcessor.DetectionPosition.RIGHT -> actionRight
-        }*/
+        }
 
         camera.disableColorDetection()
         camera.enableAprilTagDetection()
@@ -538,6 +539,15 @@ class AutoBlueRight : MultiThreadOpMode() {
             box.scorePosQuick()
         ),
         lift.goToAboveWhite()
+    )
+
+    private fun systemsToUpUp() = SequentialAction(
+            lift.goToPass(),
+            ParallelAction(
+                    arm.scorePosQuick(),
+                    box.scorePosQuick()
+            ),
+            lift.goToUpUp()
     )
 
     private fun systemsToIntake() = SequentialAction(

@@ -24,24 +24,24 @@ class ColorMulti(
         @JvmField var maxPixelWaitSec = 0.8
     }
 
-    private val backColorSens = hardwareMap.get(ColorRangeSensor::class.java, "backColor")
-    private val frontColorSens = hardwareMap.get(ColorRangeSensor::class.java, "frontColor")
+    //private val backColorSens = hardwareMap.get(ColorRangeSensor::class.java, "backColor")
+    //private val frontColorSens = hardwareMap.get(ColorRangeSensor::class.java, "frontColor")
 
-    val backColorIn get() = backColor.alpha > ColorConfig.backAlphaThreshold
+    val backColorIn get() = false
 
-    val frontColorIn get() = frontColor.alpha > ColorConfig.frontAlphaThreshold
+    val frontColorIn get() = false
 
     private var freshRead = false
 
     private var readingEnabled = false
 
-    private var innerBackColor: NormalizedRGBA = backColorSens.normalizedColors
+    //private var innerBackColor: NormalizedRGBA = backColorSens.normalizedColors
 
-    private var innerFrontColor: NormalizedRGBA = frontColorSens.normalizedColors
+    //private var innerFrontColor: NormalizedRGBA = frontColorSens.normalizedColors
 
-    val backColor by ::innerBackColor
+    //val backColor by ::innerBackColor
 
-    val frontColor by ::innerFrontColor
+    //val frontColor by ::innerFrontColor
 
     fun waitForPixels() = object : Action {
         var init = true

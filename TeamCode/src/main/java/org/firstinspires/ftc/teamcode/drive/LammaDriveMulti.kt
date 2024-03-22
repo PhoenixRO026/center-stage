@@ -170,8 +170,8 @@ class LammaDriveMulti : MultiThreadOpMode() {
             lift.update()
 
             telemetry.addData("lift power", liftPower)
-            telemetry.addData("back alpha", color.backColor.alpha)
-            telemetry.addData("front alpha", color.frontColor.alpha)
+            //telemetry.addData("back alpha", color.backColor.alpha)
+            //telemetry.addData("front alpha", color.frontColor.alpha)
             telemetry.addData("is back in", color.backColorIn)
             telemetry.addData("is front in", color.frontColorIn)
 

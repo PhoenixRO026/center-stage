@@ -24,7 +24,7 @@ class Box(
 
         @JvmField var intakeToScoreTravelWaitSec = Arm.ArmConfig.intakeToScoreTravelWaitSec
 
-        @JvmField var ejectOneWhitePixelWaitSec = 0.25
+        @JvmField var ejectOneWhitePixelWaitSec = 0.4
         @JvmField var ejectYellowPixelWaitSec = 0.45
         @JvmField var ejectTwoPixelWaitSec = 0.6
     }

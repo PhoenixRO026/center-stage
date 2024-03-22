@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.systems.multi
 
+import com.acmerobotics.roadrunner.Action
 import com.acmerobotics.roadrunner.InstantAction
 import com.acmerobotics.roadrunner.SequentialAction
 import com.qualcomm.robotcore.hardware.HardwareMap
@@ -49,7 +50,8 @@ class IntakeMulti(
 
     fun ejectPurple() = SequentialAction(
         InstantAction { position = Intake.IntakeConfig.purplePos },
-        SleepAction(0.08.s),
+        Action { position != Intake.IntakeConfig.purplePos },
+        SleepAction(0.13.s),
         InstantAction { power = Intake.IntakeConfig.purplePower },
         SleepAction(0.3.s)
     )

@@ -26,10 +26,13 @@ class Lift(
 
         @JvmField var yellowTicks = 700
         @JvmField var passTicks = 1000
-        @JvmField var aboveWhiteTicks = 1000
+        @JvmField var aboveWhiteTicks = 1200
+        @JvmField var upUpTicks = 1600
 
         @JvmField var postStackRiseWaitSec = 0.5
         @JvmField var postBoardDecendWaitSec = 0.3
+
+        @JvmField var hangTicks = 1000
     }
 
     private val leftMotor = hardwareMap.simpleMotor("leftLift")
@@ -65,6 +68,17 @@ class Lift(
     var targetPositionTicks = 0
 
     val isBusy get() = mode == MODE.TARGET && abs(targetPositionTicks - positionTicks) > LiftConfig.toleranceTicks
+
+    fun unhang() {
+        mode = MODE.RAW
+    }
+
+    fun hang() {
+        if (mode != MODE.TARGET) {
+            targetPositionTicks = positionTicks - LiftConfig.hangTicks
+            mode = MODE.TARGET
+        }
+    }
 
     fun update() {
         val feedback = LiftConfig.controller.calculate(positionTicks.toDouble(), targetPositionTicks.toDouble()) + LiftConfig.kF

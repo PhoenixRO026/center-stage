@@ -29,7 +29,7 @@ class Intake(
         @JvmField var firstStack = 0.618
         @JvmField var aboveSecondStack = 0.43
         @JvmField var secondStack = 0.38
-        @JvmField var aboveThirdStack = 0.2
+        @JvmField var aboveThirdStack = 0.1
         @JvmField var thirdStack = 0.0
         @JvmField var stackPower = 1.0
 
@@ -41,7 +41,7 @@ class Intake(
         @JvmField var onePixelStackWaitSec = 0.5
         @JvmField var twoPixelStackWaitSec = 0.5
 
-        @JvmField var ejectPixelTimeSec = 1.0
+        @JvmField var ejectPixelTimeSec = 2.0
     }
 
     private val servoRange = IntakeConfig.rangeStart..IntakeConfig.rangeEnd

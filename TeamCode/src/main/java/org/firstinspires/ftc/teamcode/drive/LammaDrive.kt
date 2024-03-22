@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.systems.Lift.Companion.lift
 
 @Photon
 @TeleOp
-class LammaDrive : MultiThreadOpMode() {
+open class LammaDrive : MultiThreadOpMode() {
     override fun sideRunOpMode() {}
 
     private val lift by opModeLazy {
@@ -41,7 +41,7 @@ class LammaDrive : MultiThreadOpMode() {
         hardwareMap.arm()
     }
 
-    private val drive by opModeLazy {
+    val drive by opModeLazy {
         MecanumDrive(hardwareMap, Pose2d(0.0, 0.0, 0.0))
     }
 
@@ -96,6 +96,14 @@ class LammaDrive : MultiThreadOpMode() {
 
             lift.power = liftPower
 
+            if (gamepad2.back) {
+                lift.hang()
+            }
+
+            if (gamepad2.start) {
+                lift.unhang()
+            }
+
             if (gamepad2.dpad_up) {
                 arm.position += 0.1 * deltaTime.s
             }
@@ -147,7 +155,7 @@ class LammaDrive : MultiThreadOpMode() {
         }
     }
 
-    private fun driveRobotCentric(forward: Double, strafe: Double, turn: Double) = drive.setDrivePowers(
+    fun driveRobotCentric(forward: Double, strafe: Double, turn: Double) = drive.setDrivePowers(
         PoseVelocity2d(
         Vector2d(
             forward * speed,
@@ -155,8 +163,9 @@ class LammaDrive : MultiThreadOpMode() {
         ),
         -turn * speed
     )
+
     )
-    private fun driveFieldCentric(forward: Double, strafe: Double, turn: Double) {
+    open fun driveFieldCentric(forward: Double, strafe: Double, turn: Double) {
         val newInputVec = Vector2d(forward, strafe).rotate(drive.pose.heading.log())
         driveRobotCentric(newInputVec.x, newInputVec.y, turn)
     }
