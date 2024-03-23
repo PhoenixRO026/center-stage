@@ -11,6 +11,7 @@ import com.acmerobotics.roadrunner.SequentialAction
 import com.outoftheboxrobotics.photoncore.Photon
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import org.firstinspires.ftc.teamcode.lib.hardware.controlHub
 import org.firstinspires.ftc.teamcode.lib.hardware.expansionHub
 import org.firstinspires.ftc.teamcode.lib.opmode.MultiThreadOpMode
@@ -31,6 +32,7 @@ import org.firstinspires.ftc.teamcode.systems.multi.IntakeMulti.Companion.intake
 import org.firstinspires.ftc.teamcode.systems.multi.LiftMulti.Companion.liftMulti
 import kotlin.math.min
 
+@Disabled
 @Photon
 @Autonomous(preselectTeleOp = "LammaDrive")
 class AutoRedLeft2 : MultiThreadOpMode() {

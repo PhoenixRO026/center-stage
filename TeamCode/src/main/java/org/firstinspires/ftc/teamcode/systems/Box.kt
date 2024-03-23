@@ -21,6 +21,7 @@ class Box(
         @JvmField var boxSpeed = 0.8
         @JvmField var intakePos = 0.9727
         @JvmField var scorePos = 0.3745
+        @JvmField var scoreLongPos = 0.6221
 
         @JvmField var intakeToScoreTravelWaitSec = Arm.ArmConfig.intakeToScoreTravelWaitSec
 
@@ -55,6 +56,10 @@ class Box(
 
     fun scorePos() {
         targetPosition = BoxConfig.scorePos
+    }
+
+    fun scoreLongPos() {
+        targetPosition = BoxConfig.scoreLongPos
     }
 
     fun update() {

@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.acmerobotics.roadrunner.Pose2d
 import com.acmerobotics.roadrunner.PoseVelocity2d
 import com.acmerobotics.roadrunner.Vector2d
+import com.arcrobotics.ftclib.gamepad.ButtonReader
 import com.arcrobotics.ftclib.gamepad.ToggleButtonReader
 import com.outoftheboxrobotics.photoncore.Photon
 import com.qualcomm.hardware.lynx.LynxModule
@@ -16,9 +17,11 @@ import org.firstinspires.ftc.teamcode.lib.units.DeltaTime
 import org.firstinspires.ftc.teamcode.lib.units.rotate
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive
 import org.firstinspires.ftc.teamcode.systems.Arm.Companion.arm
+import org.firstinspires.ftc.teamcode.systems.Box
 import org.firstinspires.ftc.teamcode.systems.Box.Companion.box
 import org.firstinspires.ftc.teamcode.systems.Intake.Companion.intake
 import org.firstinspires.ftc.teamcode.systems.Lift.Companion.lift
+import org.firstinspires.ftc.teamcode.systems.Plane.Companion.plane
 
 @Photon
 @TeleOp
@@ -45,6 +48,10 @@ open class LammaDrive : MultiThreadOpMode() {
         MecanumDrive(hardwareMap, Pose2d(0.0, 0.0, 0.0))
     }
 
+    private val plane by opModeLazy {
+        hardwareMap.plane()
+    }
+
     private var speed: Double = 1.0
 
     private val deltaTimeCalc = DeltaTime()
@@ -64,6 +71,10 @@ open class LammaDrive : MultiThreadOpMode() {
             gamepad2.left_stick_button
         }
 
+        val scoreButton = ButtonReader {
+            gamepad2.right_bumper
+        }
+
         waitForStart()
 
         while (isStarted && !isStopRequested) {
@@ -73,6 +84,7 @@ open class LammaDrive : MultiThreadOpMode() {
             expansionHub.clearBulkCache()
 
             intakeToggle.readValue()
+            scoreButton.readValue()
 
             drive.updatePoseEstimate()
 
@@ -122,13 +134,21 @@ open class LammaDrive : MultiThreadOpMode() {
                 arm.intakePos()
             }
 
-            if (gamepad2.right_bumper) {
-                box.scorePos()
+            if (scoreButton.wasJustPressed()) {
+                if (box.targetPosition == Box.BoxConfig.scorePos) {
+                    box.scoreLongPos()
+                } else {
+                    box.scorePos()
+                }
                 arm.scorePos()
             }
 
             box.power = -gamepad2.left_stick_y.toDouble()
             intake.power = -gamepad2.left_stick_y.toDouble()
+
+            if (gamepad2.x) {
+                intake.power = -1.0
+            }
 
             if (intakeToggle.wasJustReleased()) {
                 if (intakeToggle.state) {
@@ -138,11 +158,17 @@ open class LammaDrive : MultiThreadOpMode() {
                 }
             }
 
-            if (gamepad2.left_stick_x <= -0.7) {
+            if (gamepad2.left_stick_x <= -0.7 || gamepad2.left_trigger >= 0.3) {
                 intake.goDown()
-            } else if (gamepad2.left_stick_x >= 0.7) {
+            } else if (gamepad2.left_stick_x >= 0.7 || gamepad2.right_trigger >= 0.3) {
                 intake.goUp()
             }
+
+            if (gamepad2.b) {
+                plane.launch()
+            }
+
+            plane.update()
 
             arm.update()
             box.update()
