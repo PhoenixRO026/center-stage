@@ -7,8 +7,8 @@ import com.acmerobotics.roadrunner.InstantAction
 import com.acmerobotics.roadrunner.SequentialAction
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.Servo
-import org.firstinspires.ftc.teamcode.lib.units.SleepAction
-import org.firstinspires.ftc.teamcode.lib.units.s
+import com.phoenix.phoenixlib.units.SleepAction
+import com.phoenix.phoenixlib.units.s
 
 class Plane(
         hardwareMap: HardwareMap

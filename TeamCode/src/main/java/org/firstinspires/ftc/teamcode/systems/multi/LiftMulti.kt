@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket
 import com.acmerobotics.roadrunner.Action
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.lib.multi.LazyWrite
-import org.firstinspires.ftc.teamcode.systems.Intake.Companion.intake
 import org.firstinspires.ftc.teamcode.systems.Lift
 import org.firstinspires.ftc.teamcode.systems.Lift.Companion.lift
 import java.util.concurrent.ConcurrentLinkedQueue

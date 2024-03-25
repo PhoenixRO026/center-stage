@@ -6,9 +6,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.lib.hardware.motor.SimpleMotor.Companion.simpleMotor
 import org.firstinspires.ftc.teamcode.lib.hardware.servo.RangedSpeedServo.Companion.rangedSpeedServo
-import org.firstinspires.ftc.teamcode.lib.units.DeltaTime
-import org.firstinspires.ftc.teamcode.lib.units.Time
-import org.firstinspires.ftc.teamcode.lib.units.ms
+import com.phoenix.phoenixlib.units.DeltaTime
+import com.phoenix.phoenixlib.units.Time
+import com.phoenix.phoenixlib.units.ms
 
 class Intake(
     hardwareMap: HardwareMap

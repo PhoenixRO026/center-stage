@@ -4,13 +4,16 @@ package com.phoenix.phoenixlib.units
 
 import com.acmerobotics.roadrunner.Pose2d
 import com.acmerobotics.roadrunner.Vector2d
+import kotlin.math.cos
+import kotlin.math.sin
 
-data class Distance(
-        @JvmField var inch: Double
-) {
+data class Distance(@JvmField var inch: Double) {
     val cm get() = inch * 2.54
     val mm get() = cm * 10.0
     val m get() = cm / 100.0
+
+    val x get() = Distance2d(this, 0.m)
+    val y get() = Distance2d(0.m, this)
 
     operator fun plus(other: Distance) = Distance(inch + other.inch)
     operator fun minus(other: Distance) = Distance(inch - other.inch)
@@ -86,3 +89,20 @@ data class Pose(@JvmField var position: Distance2d, @JvmField var heading: Angle
 
     val pose2d get() = Pose2d(position.inch, heading.rad)
 }
+
+val Pose2d.m get() = Pose(position.m, heading.angle)
+val Pose2d.mm get() = Pose(position.mm, heading.angle)
+val Pose2d.cm get() = Pose(position.cm, heading.angle)
+val Pose2d.inch get() = Pose(position.inch, heading.angle)
+val Pose2d.pose get() = inch
+
+fun m(pose2d: Pose2d) = pose2d.m
+fun mm(pose2d: Pose2d) = pose2d.mm
+fun cm(pose2d: Pose2d) = pose2d.cm
+fun inch(pose2d: Pose2d) = pose2d.inch
+fun pose(pose2d: Pose2d) = pose2d.pose
+
+fun Vector2d.rotate(radians: Double) = Vector2d(
+        x * cos(radians) - y * sin(radians),
+        x * sin(radians) + y * cos(radians)
+)

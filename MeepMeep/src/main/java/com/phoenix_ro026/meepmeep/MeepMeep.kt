@@ -7,7 +7,10 @@ import com.acmerobotics.roadrunner.Pose2d
 import com.noahbres.meepmeep.MeepMeep
 import com.noahbres.meepmeep.MeepMeep.Background
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder
+import com.phoenix.phoenixlib.units.Distance
+import com.phoenix.phoenixlib.units.Distance2d
 import com.phoenix.phoenixlib.units.TrajectoryActionBuilderEx
+import com.phoenix.phoenixlib.units.ex
 
 fun main() {
     System.setProperty("sun.java2d.opengl", "true")
@@ -65,9 +68,7 @@ fun main() {
     val kinematics = MecanumKinematics(13.0, 1.0)
     val speed60 = kinematics.WheelVelConstraint(60.0)
 
-    //val actionBuilderEx = TrajectoryActionBuilderEx()
-
-    val action = myBot.drive.actionBuilder(startPose)
+    val action = myBot.drive.actionBuilder(startPose).ex()
             .strafeToLinearHeading(position, heading)
             .waitSeconds(purpleWait)
             .strafeToSplineHeading(position5, heading1)

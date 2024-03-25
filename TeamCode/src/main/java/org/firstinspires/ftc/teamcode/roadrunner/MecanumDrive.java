@@ -30,6 +30,9 @@ import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.acmerobotics.roadrunner.ftc.OverflowEncoder;
 import com.acmerobotics.roadrunner.ftc.PositionVelocityPair;
 import com.acmerobotics.roadrunner.ftc.RawEncoder;
+import com.phoenix.phoenixlib.units.Distance2d;
+import com.phoenix.phoenixlib.units.Pose;
+import com.phoenix.phoenixlib.units.TrajectoryActionBuilderEx;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -44,9 +47,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.lib.controller.ChangeKalmanFilter;
 import org.firstinspires.ftc.teamcode.lib.hardware.motor.CachedMotor;
 import org.firstinspires.ftc.teamcode.lib.roadrunner.ThreeWheelLocalizerEx;
-import org.firstinspires.ftc.teamcode.lib.units.Distance2d;
-import org.firstinspires.ftc.teamcode.lib.units.Pose;
-import org.firstinspires.ftc.teamcode.lib.units.TrajectoryActionBuilderEx;
 import org.firstinspires.ftc.teamcode.roadrunner.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.roadrunner.messages.MecanumCommandMessage;
 import org.firstinspires.ftc.teamcode.roadrunner.messages.MecanumLocalizerInputsMessage;
@@ -310,9 +310,9 @@ public final class MecanumDrive {
 
         //private final double[] xPoints, yPoints;
 
-        public CorrectionAction(Pose target, org.firstinspires.ftc.teamcode.lib.units.Time maxTime) {
+        public CorrectionAction(Pose target, com.phoenix.phoenixlib.units.Time maxTime) {
             this.target = target.getPose2d();
-            this.maxTimeS = maxTime.getS();
+            this.maxTimeS = maxTime.s;
             //timeTrajectory = t;
 
             /*List<Double> disps = com.acmerobotics.roadrunner.Math.range(

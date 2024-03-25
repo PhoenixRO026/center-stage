@@ -2,7 +2,7 @@
 
 package com.phoenix.phoenixlib.units
 
-data class AngularVelocity(val angle: Angle, val time: Time) {
+data class AngularVelocity(@JvmField var angle: Angle, @JvmField var time: Time) {
     val radsec get() = this / (rad / s)
     val degsec get() = this / (deg / s)
     val revsec get() = this / (rev / s)

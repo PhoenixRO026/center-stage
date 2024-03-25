@@ -4,8 +4,8 @@ import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.lib.units.Time
-import org.firstinspires.ftc.teamcode.lib.units.ms
+import com.phoenix.phoenixlib.units.Time
+import com.phoenix.phoenixlib.units.ms
 import org.firstinspires.ftc.teamcode.systems.Plane.Companion.plane
 import org.firstinspires.ftc.teamcode.systems.Plane.PlaneConfig.hold
 import org.firstinspires.ftc.teamcode.systems.Plane.PlaneConfig.tiltRest
