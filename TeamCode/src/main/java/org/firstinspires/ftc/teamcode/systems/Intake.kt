@@ -25,13 +25,18 @@ class Intake(
 
         @JvmField var groundPos = 0.0
         @JvmField var initPos = groundPos
-        @JvmField var aboveFirstStack = 0.65
-        @JvmField var firstStack = 0.618
+        @JvmField var aboveFirstStack = 0.628
+        @JvmField var firstStack = 0.614
         @JvmField var aboveSecondStack = 0.43
-        @JvmField var secondStack = 0.38
+        @JvmField var secondStack = 0.35
         @JvmField var aboveThirdStack = 0.1
         @JvmField var thirdStack = 0.0
         @JvmField var stackPower = 1.0
+
+        @JvmField var boardSideAboveFirstStack = 0.628
+        @JvmField var boardSideFirstStack = 0.614
+        @JvmField var boardSideAboveSecondStack = 0.43
+        @JvmField var boardSideSecondStack = 0.35
 
         @JvmField var ejectPower = -1.0
 

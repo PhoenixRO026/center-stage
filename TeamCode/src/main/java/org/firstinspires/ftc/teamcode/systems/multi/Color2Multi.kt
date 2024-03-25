@@ -29,7 +29,7 @@ class Color2Multi(
         @JvmField var greenLowerThreshold = 0.02
         @JvmField var redUpperThreshold = 0.026
         @JvmField var greenUpperThreshold = 0.04
-        @JvmField var afterYellowWaitSec = 0.1
+        @JvmField var afterYellowWaitSec = 0.05
         @JvmField var maxWaitSec = 1.0
     }
 

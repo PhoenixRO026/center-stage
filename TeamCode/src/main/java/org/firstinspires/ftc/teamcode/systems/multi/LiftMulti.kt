@@ -51,6 +51,8 @@ class LiftMulti(
         }
     }
 
+    fun goToLowYellow() = goToPos(Lift.LiftConfig.subYellowTicks)
+
     fun goToYellow() = goToPos(Lift.LiftConfig.yellowTicks)
 
     fun goToAboveWhite() = goToPos(Lift.LiftConfig.aboveWhiteTicks)

@@ -25,11 +25,13 @@ class Lift(
         @JvmField var kF = 0.16
 
         @JvmField var yellowTicks = 700
+        @JvmField var subYellowTicks = 500
         @JvmField var passTicks = 1000
         @JvmField var aboveWhiteTicks = 1200
         @JvmField var upUpTicks = 1600
 
         @JvmField var postStackRiseWaitSec = 0.5
+        @JvmField var boardSidePostStackRiseWaitSec = 0.8
         @JvmField var postBoardDecendWaitSec = 0.3
 
         @JvmField var hangTicks = 1000

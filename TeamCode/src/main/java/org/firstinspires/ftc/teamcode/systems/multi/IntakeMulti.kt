@@ -72,6 +72,22 @@ class IntakeMulti(
         targetPosition = Intake.IntakeConfig.secondStack
     }
 
+    fun boardSideAboveFirstStack() {
+        position = Intake.IntakeConfig.boardSideAboveFirstStack
+    }
+
+    fun boardSideFirstStack() {
+        targetPosition = Intake.IntakeConfig.boardSideFirstStack
+    }
+
+    fun boardSideAboveSecondStack() {
+        position = Intake.IntakeConfig.boardSideAboveSecondStack
+    }
+
+    fun boardSideSecondStack() {
+        targetPosition = Intake.IntakeConfig.boardSideSecondStack
+    }
+
     fun aboveThirdStack() {
         position = Intake.IntakeConfig.aboveThirdStack
     }
