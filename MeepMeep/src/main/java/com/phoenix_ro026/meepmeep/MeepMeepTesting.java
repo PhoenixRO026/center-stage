@@ -1,11 +1,13 @@
 package com.phoenix_ro026.meepmeep;
 
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.Actions;
 import com.acmerobotics.roadrunner.MecanumKinematics;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
+import com.phoenix.phoenixlib.units.TrajectoryActionBuilderEx;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -69,7 +71,9 @@ public class MeepMeepTesting {
         MecanumKinematics kinematics = new MecanumKinematics(13, 1.0);
         MecanumKinematics.WheelVelConstraint speed60 = kinematics.new WheelVelConstraint(60);
 
-        Action action = myBot.getDrive().actionBuilder(startPose)
+        TrajectoryActionBuilderEx actionBuilderEx = new TrajectoryActionBuilderEx(myBot.getDrive().actionBuilder(startPose));
+
+        Action action = actionBuilderEx
                 .strafeToLinearHeading(middlePurplePixel.position, middlePurplePixel.heading)
                 .waitSeconds(purpleWait)
                 .strafeToSplineHeading(stacky.position, stacky.heading)
