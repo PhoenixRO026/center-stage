@@ -7,10 +7,12 @@ import com.acmerobotics.roadrunner.Vector2d
 import kotlin.math.cos
 import kotlin.math.sin
 
-data class Distance(@JvmField var inch: Double) {
-    val cm get() = inch * 2.54
-    val mm get() = cm * 10.0
-    val m get() = cm / 100.0
+data class Distance(
+    @JvmField var inch: Double
+) {
+    val cm get() = inch.inchToCm()
+    val mm get() = inch.inchToMm()
+    val m get() = inch.inchToM()
 
     val x get() = Distance2d(this, 0.m)
     val y get() = Distance2d(0.m, this)
@@ -26,20 +28,36 @@ data class Distance(@JvmField var inch: Double) {
     override fun toString() = "$inch " + if (inch == 1.0) "inch" else "inches"
 }
 
-val Number.m get() = Distance(toDouble() / 0.0254)
-val Number.mm get() = Distance(toDouble() / 25.4)
-val Number.cm get() = Distance(toDouble() / 2.54)
+fun Number.cmToInch() = toDouble() / 2.54
+fun Number.cmToM() = toDouble() / 100.0
+fun Number.cmToMm() = toDouble() * 10.0
+fun Number.inchToCm() = toDouble() * 2.54
+fun Number.inchToM() = toDouble() * 0.0254
+fun Number.inchToMm() = toDouble() * 25.4
+fun Number.mToCm() = toDouble() * 100.0
+fun Number.mToInch() = toDouble() / 0.0254
+fun Number.mToMm() = toDouble() * 1000.0
+fun Number.mmToCm() = toDouble() / 10.0
+fun Number.mmToInch() = toDouble() / 25.4
+fun Number.mmToM() = toDouble() / 1000.0
+
+val Number.m get() = Distance(mToInch())
+val Number.mm get() = Distance(mmToInch())
+val Number.cm get() = Distance(cmToInch())
 val Number.inch get() = Distance(toDouble())
+val Number.tile get() = com.phoenix.phoenixlib.units.tile * this
 
 fun m(number: Double) = number.m
 fun mm(number: Double) = number.mm
 fun cm(number: Double) = number.cm
 fun inch(number: Double) = number.inch
+fun tile(number: Double) = number.tile
 
 @JvmField val m = 1.m
 @JvmField val mm = 1.mm
 @JvmField val cm = 1.cm
 @JvmField val inch = 1.inch
+@JvmField val tile = 23.75.inch
 
 @Suppress("FunctionName")
 fun Vector2d(x: Distance, y: Distance) = Distance2d(x, y)
@@ -105,4 +123,9 @@ fun pose(pose2d: Pose2d) = pose2d.pose
 fun Vector2d.rotate(radians: Double) = Vector2d(
         x * cos(radians) - y * sin(radians),
         x * sin(radians) + y * cos(radians)
+)
+
+fun Vector2d.rotate(angle: Angle) = Vector2d(
+    x * cos(angle) - y * sin(angle),
+    x * sin(angle) + y * cos(angle)
 )

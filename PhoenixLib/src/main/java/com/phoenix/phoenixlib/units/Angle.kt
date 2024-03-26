@@ -6,8 +6,8 @@ import com.acmerobotics.roadrunner.Rotation2d
 import kotlin.math.PI
 
 data class Angle(@JvmField var deg: Double) {
-    val rev get() = deg / 360.0
-    val rad get() = deg / 180.0 * PI
+    val rev get() = deg.degToRev()
+    val rad get() = deg.degToRad()
 
     val rotation2d get() = Rotation2d.exp(rad)
 
@@ -24,9 +24,16 @@ data class Angle(@JvmField var deg: Double) {
     fun coerceIn(minAng: Angle, maxAng: Angle) = Angle(deg.coerceIn(minAng.deg, maxAng.deg))
 }
 
-val Number.rad get() = Angle(toDouble() / PI * 180.0)
+fun Number.degToRev() = toDouble() / 360.0
+fun Number.degToRad() = toDouble() / 180.0 * PI
+fun Number.revToDeg() = toDouble() * 360.0
+fun Number.revToRad() = toDouble() * 2 * PI
+fun Number.radToDeg() = toDouble() * 180 / PI
+fun Number.radToRev() = toDouble() / (2 * PI)
+
+val Number.rad get() = Angle(radToDeg())
 val Number.deg get() = Angle(toDouble())
-val Number.rev get() = Angle(toDouble() * 360.0)
+val Number.rev get() = Angle(revToDeg())
 
 fun rad(number: Double) = number.rad
 fun deg(number: Double) = number.deg
@@ -37,3 +44,6 @@ fun rev(number: Double) = number.rev
 @JvmField val rev = 1.rev
 
 val Rotation2d.angle get() = Angle(toDouble() / PI * 180.0)
+
+fun sin(angle: Angle) = kotlin.math.sin(angle.rad)
+fun cos(angle: Angle) = kotlin.math.cos(angle.rad)
