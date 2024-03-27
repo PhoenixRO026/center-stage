@@ -609,6 +609,10 @@ public final class MecanumDrive {
         }
     }
 
+    public void updatePoseWithApril() {
+        pose = new Pose2d(filteredPos, pose.heading);
+    }
+
     public PoseVelocity2d updatePoseEstimate() {
         Twist2dDual<Time> twist = localizer.update();
         pose = pose.plus(twist.value());

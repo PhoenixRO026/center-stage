@@ -31,6 +31,7 @@ class Intake(
         @JvmField var secondStack = 0.35
         @JvmField var aboveThirdStack = 0.1
         @JvmField var thirdStack = 0.0
+        @JvmField var forthStack = 0.6
         @JvmField var stackPower = 1.0
 
         @JvmField var boardSideAboveFirstStack = 0.628

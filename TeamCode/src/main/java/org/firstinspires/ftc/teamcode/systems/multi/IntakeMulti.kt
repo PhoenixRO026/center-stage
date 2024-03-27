@@ -92,6 +92,14 @@ class IntakeMulti(
         position = Intake.IntakeConfig.aboveThirdStack
     }
 
+    fun aboveForthStack() {
+        position = Intake.IntakeConfig.aboveFirstStack
+    }
+
+    fun forthStack() {
+        position = Intake.IntakeConfig.forthStack
+    }
+
     fun thirdStack() {
         targetPosition = Intake.IntakeConfig.thirdStack
     }

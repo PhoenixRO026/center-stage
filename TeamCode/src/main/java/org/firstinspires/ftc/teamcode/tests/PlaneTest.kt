@@ -6,10 +6,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.phoenix.phoenixlib.units.Time
 import com.phoenix.phoenixlib.units.ms
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import org.firstinspires.ftc.teamcode.systems.Plane.Companion.plane
 import org.firstinspires.ftc.teamcode.systems.Plane.PlaneConfig.hold
 import org.firstinspires.ftc.teamcode.systems.Plane.PlaneConfig.tiltRest
 
+@Disabled
 @TeleOp
 class PlaneTest : LinearOpMode() {
     override fun runOpMode() {

@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.lib.hardware.expansionHub
 import org.firstinspires.ftc.teamcode.lib.opmode.MultiThreadOpMode
 import com.phoenix.phoenixlib.units.DeltaTime
 import com.phoenix.phoenixlib.units.rotate
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive
 import org.firstinspires.ftc.teamcode.systems.multi.ArmMulti.Companion.armMulti
 import org.firstinspires.ftc.teamcode.systems.multi.BoxMulti.Companion.boxMulti
@@ -21,6 +22,7 @@ import org.firstinspires.ftc.teamcode.systems.multi.ColorMulti.Companion.colorMu
 import org.firstinspires.ftc.teamcode.systems.multi.IntakeMulti.Companion.intakeMulti
 import org.firstinspires.ftc.teamcode.systems.multi.LiftMulti.Companion.liftMulti
 
+@Disabled
 @Photon
 @TeleOp
 class LammaDriveMulti : MultiThreadOpMode() {
