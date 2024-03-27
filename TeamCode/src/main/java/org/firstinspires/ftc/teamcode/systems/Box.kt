@@ -20,7 +20,7 @@ class Box(
         @JvmField var boxServoOffset: Double = 0.08
         @JvmField var boxSpeed = 0.8
         @JvmField var intakePos = 0.9727
-        @JvmField var scorePos = 0.3745
+        @JvmField var scorePos = 0.3945
         @JvmField var scoreLongPos = 0.6221
 
         @JvmField var intakeToScoreTravelWaitSec = Arm.ArmConfig.intakeToScoreTravelWaitSec

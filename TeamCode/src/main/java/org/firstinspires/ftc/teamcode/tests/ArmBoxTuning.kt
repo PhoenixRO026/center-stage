@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import org.firstinspires.ftc.teamcode.systems.Arm.Companion.arm
 import org.firstinspires.ftc.teamcode.systems.Box.Companion.box
 
-@Disabled
+//@Disabled
 @TeleOp
 class ArmBoxTuning : LinearOpMode() {
     override fun runOpMode() {
