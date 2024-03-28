@@ -3,7 +3,6 @@
 package com.phoenix_ro026.meepmeep
 
 import com.acmerobotics.roadrunner.MecanumKinematics
-import com.acmerobotics.roadrunner.Pose2d
 import com.noahbres.meepmeep.MeepMeep
 import com.noahbres.meepmeep.MeepMeep.Background
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder
@@ -16,15 +15,29 @@ import com.phoenix.phoenixlib.units.s
 import com.phoenix.phoenixlib.units.tile
 
 fun main() {
+
+    /*val result = 1 + cos(2 * PI / 5) + cos(4 * PI / 5) + cos(6 * PI / 5) + cos(8 * PI / 5)
+
+    println(result.roundToInt())
+
+    return*/
+
     System.setProperty("sun.java2d.opengl", "true")
 
     val meepMeep = MeepMeep(800)
 
-    val stackWait = 0.5.s
-    val boardWait = 0.5.s
+    val stackWait = 0.4.s
+    val boardWait = 0.7.s
+    val oneWhiteWait = 0.3.s
+    val yellowWait = 0.4.s
     val purpleWait = 0.4.s
 
     val myBot = DefaultBotBuilder(meepMeep) // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+        .setConstraints(85.0, 80.0, 4.0, 4.0, 13.0)
+        .setDimensions(40.cm.inch, 43.cm.inch)
+        .build()
+
+    val myBot2 = DefaultBotBuilder(meepMeep) // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
         .setConstraints(85.0, 80.0, 4.0, 4.0, 13.0)
         .setDimensions(40.cm.inch, 43.cm.inch)
         .build()
@@ -37,6 +50,8 @@ fun main() {
     val middlePurplePixel =     Pose(-36 .inch, -16.inch, -60.deg)
     val rightPurplePixel =      Pose(-32.inch, -35.inch, 0.deg)
     val leftPurplePixel =       Pose(-47.5.inch, -16.inch, -90.deg)
+
+    val middlePurplePixel2 =    Pose(-36 .inch, -30.inch, -90.deg)
 
     val middleStacky1 =         Pose(-54.inch - 15.5.cm, -0.5.tile, 180.deg)
     val rightStacky1 =          Pose(-54.inch - 15.5.cm, -0.5.tile, 180.deg)
@@ -146,6 +161,18 @@ fun main() {
     val rightPreBoardRun4 =     Pose(18.inch, -0.5.tile, 180.deg)
     val leftPreBoardRun4 =      Pose(18.inch, -0.5.tile, 180.deg)
 
+    val middlePostBoardRun5 =   Pose(18.inch, -1.5.tile, 180.deg)
+
+    val middlePreStackRun5 =    Pose(-30.inch, -1.5.tile, 180.deg)
+
+    val middleStacky5 =         Pose(-54.inch - 15.5.cm, -1.5.tile, 180.deg)
+
+    val middlePreStacky5 =      Pose(-54.inch - 15.5.cm, -1.5.tile, 180.deg)
+
+    val middlePostStackRun5 =   Pose(-30.inch, -1.5.tile, 180.deg)
+
+    val middlePreBoardRun5 =    Pose(18.inch, -1.5.tile, 180.deg)
+
     val middleYellowPixel5 =    middleYellowPixel4
     val rightYellowPixel5 =     rightYellowPixel4
     val leftYellowPixel5 =      leftYellowPixel4
@@ -172,9 +199,9 @@ fun main() {
         .splineToConstantHeading(middlePostStackRun1.position, 0.deg)
         .splineToConstantHeading(middlePreBoardRun1.position, 0.deg)
         .splineToConstantHeading(leftPreYellowPixel1.position, leftBoardAproachAngle, speed60)
-        .waitSeconds(boardWait)
+        .waitSeconds(oneWhiteWait)
         .strafeTo(middleYellowPixel2.position)
-        .waitSeconds(boardWait)
+        .waitSeconds(yellowWait)
         .setTangent(leftBoardLeavingAngle)
         .splineToConstantHeading(middlePostBoardRun2.position, 180.deg, speed60)
         .splineToConstantHeading(middlePreStackRun2.position, 180.deg)
@@ -207,11 +234,67 @@ fun main() {
         .waitSeconds(boardWait)
         .build()
 
+    val action2 = myBot2.drive.actionBuilder(startPose.pose2d).ex()
+        .strafeToLinearHeading(middlePurplePixel2.position, middlePurplePixel2.heading)
+        .waitSeconds(purpleWait)
+        .strafeToLinearHeading(middleStacky5.position, middleStacky5.heading)
+        .waitSeconds(stackWait)
+        .setTangent(0.deg)
+        .splineToConstantHeading(middlePostStackRun5.position, 0.deg)
+        .splineToConstantHeading(middlePreBoardRun5.position, 0.deg)
+        .splineToConstantHeading(leftPreYellowPixel1.position, 0.deg)
+        .waitSeconds(oneWhiteWait)
+        .strafeTo(middleYellowPixel2.position)
+        .waitSeconds(yellowWait)
+        .setTangent(180.deg)
+        .splineToConstantHeading(middlePostBoardRun5.position, 180.deg)
+        .splineToConstantHeading(middlePreStackRun5.position, 180.deg)
+        .splineToConstantHeading(middleStacky5.position, 180.deg)
+        .waitSeconds(stackWait)
+        .setTangent(0.deg)
+        .splineToConstantHeading(middlePostStackRun5.position, 0.deg)
+        .splineToConstantHeading(middlePreBoardRun5.position, 0.deg)
+        .splineToConstantHeading(middleYellowPixel2.position, 0.deg)
+        .waitSeconds(boardWait)
+        .setTangent(180.deg)
+        .splineToConstantHeading(middlePostBoardRun5.position, 180.deg)
+        .splineToConstantHeading(middlePreStackRun5.position, 180.deg)
+        .splineToConstantHeading(middleStacky5.position, 180.deg)
+        .waitSeconds(stackWait)
+        .setTangent(0.deg)
+        .splineToConstantHeading(middlePostStackRun5.position, 0.deg)
+        .splineToConstantHeading(middlePreBoardRun5.position, 0.deg)
+        .splineToConstantHeading(middleYellowPixel2.position, 0.deg)
+        .waitSeconds(boardWait)
+        .setTangent(180.deg)
+        .splineToConstantHeading(middlePostBoardRun5.position, 180.deg)
+        .splineToConstantHeading(middlePreStackRun5.position, 180.deg)
+        .splineToConstantHeading(middleStacky5.position, 180.deg)
+        .waitSeconds(stackWait)
+        .setTangent(0.deg)
+        .splineToConstantHeading(middlePostStackRun5.position, 0.deg)
+        .splineToConstantHeading(middlePreBoardRun5.position, 0.deg)
+        .splineToConstantHeading(middleYellowPixel2.position, 0.deg)
+        .waitSeconds(boardWait)
+        .setTangent(180.deg)
+        .splineToConstantHeading(middlePostBoardRun5.position, 180.deg)
+        .splineToConstantHeading(middlePreStackRun5.position, 180.deg)
+        .splineToConstantHeading(middleStacky5.position, 180.deg)
+        .waitSeconds(stackWait)
+        .setTangent(0.deg)
+        .splineToConstantHeading(middlePostStackRun5.position, 0.deg)
+        .splineToConstantHeading(middlePreBoardRun5.position, 0.deg)
+        .splineToConstantHeading(middleYellowPixel2.position, 0.deg)
+        .waitSeconds(boardWait)
+        .build()
+
     myBot.runAction(action)
+    myBot2.runAction(action2)
 
     meepMeep.setBackground(Background.FIELD_CENTERSTAGE_JUICE_LIGHT)
             .setDarkMode(false)
             .setBackgroundAlpha(0.95f)
             .addEntity(myBot)
+             .addEntity(myBot2)
             .start()
 }
