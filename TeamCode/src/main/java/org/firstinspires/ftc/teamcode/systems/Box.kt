@@ -27,7 +27,7 @@ class Box(
 
         @JvmField var ejectOneWhitePixelWaitSec = 0.4
         @JvmField var ejectYellowPixelWaitSec = 0.45
-        @JvmField var ejectTwoPixelWaitSec = 0.6
+        @JvmField var ejectTwoPixelWaitSec = 0.7
     }
 
     private val leftServoRange = BoxConfig.boxServoOffset..1.0

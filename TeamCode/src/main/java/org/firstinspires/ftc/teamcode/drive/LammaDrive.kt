@@ -8,13 +8,13 @@ import com.acmerobotics.roadrunner.Vector2d
 import com.arcrobotics.ftclib.gamepad.ButtonReader
 import com.arcrobotics.ftclib.gamepad.ToggleButtonReader
 import com.outoftheboxrobotics.photoncore.Photon
+import com.phoenix.phoenixlib.units.DeltaTime
+import com.phoenix.phoenixlib.units.rotate
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.lib.hardware.controlHub
 import org.firstinspires.ftc.teamcode.lib.hardware.expansionHub
 import org.firstinspires.ftc.teamcode.lib.opmode.MultiThreadOpMode
-import com.phoenix.phoenixlib.units.DeltaTime
-import com.phoenix.phoenixlib.units.rotate
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive
 import org.firstinspires.ftc.teamcode.systems.Arm.Companion.arm
 import org.firstinspires.ftc.teamcode.systems.Box
@@ -72,7 +72,7 @@ open class LammaDrive : MultiThreadOpMode() {
         }
 
         val scoreButton = ButtonReader {
-            gamepad2.right_bumper
+            gamepad2.right_bumper || gamepad1.right_bumper
         }
 
         waitForStart()
@@ -104,7 +104,9 @@ open class LammaDrive : MultiThreadOpMode() {
                 drive.imu.resetYaw()
             }
 
-            val liftPower = -gamepad2.right_stick_y.toDouble()
+            val liftPower = if (gamepad1.dpad_up) 1.0
+                else if (gamepad1.dpad_down) -1.0
+                else -gamepad2.right_stick_y.toDouble()
 
             lift.power = liftPower
 
@@ -129,7 +131,7 @@ open class LammaDrive : MultiThreadOpMode() {
                 box.position -= 0.1 * deltaTime.s
             }
 
-            if (gamepad2.left_bumper) {
+            if (gamepad2.left_bumper || gamepad1.left_bumper) {
                 box.intakePos()
                 arm.intakePos()
             }
@@ -143,10 +145,14 @@ open class LammaDrive : MultiThreadOpMode() {
                 arm.scorePos()
             }
 
-            box.power = -gamepad2.left_stick_y.toDouble()
-            intake.power = -gamepad2.left_stick_y.toDouble()
+            val boxAndIntakePower = if (gamepad1.right_trigger >= 0.3) 1.0
+                else if (gamepad1.dpad_left) -1.0
+                else -gamepad2.left_stick_y.toDouble()
 
-            if (gamepad2.x) {
+            box.power = boxAndIntakePower
+            intake.power = boxAndIntakePower
+
+            if (gamepad2.x || gamepad1.dpad_right) {
                 intake.power = -1.0
             }
 

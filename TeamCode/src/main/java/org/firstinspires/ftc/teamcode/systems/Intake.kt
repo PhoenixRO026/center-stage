@@ -1,14 +1,14 @@
 package org.firstinspires.ftc.teamcode.systems
 
 import com.acmerobotics.dashboard.config.Config
+import com.phoenix.phoenixlib.units.DeltaTime
+import com.phoenix.phoenixlib.units.Time
+import com.phoenix.phoenixlib.units.ms
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.lib.hardware.motor.SimpleMotor.Companion.simpleMotor
 import org.firstinspires.ftc.teamcode.lib.hardware.servo.RangedSpeedServo.Companion.rangedSpeedServo
-import com.phoenix.phoenixlib.units.DeltaTime
-import com.phoenix.phoenixlib.units.Time
-import com.phoenix.phoenixlib.units.ms
 
 class Intake(
     hardwareMap: HardwareMap
@@ -31,7 +31,7 @@ class Intake(
         @JvmField var secondStack = 0.35
         @JvmField var aboveThirdStack = 0.1
         @JvmField var thirdStack = 0.0
-        @JvmField var forthStack = 0.6
+        @JvmField var forthStack = 0.59
         @JvmField var stackPower = 1.0
 
         @JvmField var boardSideAboveFirstStack = 0.628
@@ -44,7 +44,7 @@ class Intake(
         @JvmField var purplePower = -0.8
         @JvmField var purplePos = 0.4
 
-        @JvmField var onePixelStackWaitSec = 0.5
+        @JvmField var onePixelStackWaitSec = 0.4
         @JvmField var twoPixelStackWaitSec = 0.5
 
         @JvmField var ejectPixelTimeSec = 2.0
