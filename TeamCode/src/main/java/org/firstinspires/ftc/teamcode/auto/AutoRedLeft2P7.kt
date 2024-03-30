@@ -76,7 +76,7 @@ class AutoRedLeft2P7 : MultiThreadOpMode() {
 
         @JvmField var middlePreYellowPixel1 = middleYellowPixel2
         //@JvmField var rightPreYellowPixel1 =  rightYellowPixel2
-        @JvmField var leftPreYellowPixel1 =   leftYellowPixel2 - 2.5.inch.y
+        @JvmField var leftPreYellowPixel1 =   leftYellowPixel2 - 2.6.inch.y
 
         @JvmField var middlePostBoardRun2 =   Pose(18.inch, -0.5.tile, 180.deg) + middleCycleOffset - 1.inch.y
         @JvmField var rightPostBoardRun2 =    Pose(18.inch, -0.5.tile, 180.deg) + rightCycleOffset - 1.inch.y
@@ -104,7 +104,7 @@ class AutoRedLeft2P7 : MultiThreadOpMode() {
 
         @JvmField var middlePreYellowPixel2 = middleYellowPixel3
         //@JvmField var rightPreYellowPixel2 =  rightYellowPixel3
-        @JvmField var leftPreYellowPixel2 =   leftYellowPixel3 - 4.5.inch.y
+        @JvmField var leftPreYellowPixel2 =   leftYellowPixel3 - 6.5.inch.y
 
         @JvmField var middlePostBoardRun3 =   Pose(18.inch, -0.5.tile, 180.deg) + middleCycleOffset - 1.inch.y
         @JvmField var rightPostBoardRun3 =    Pose(18.inch, -0.5.tile, 180.deg) + rightCycleOffset - 1.inch.y
@@ -132,27 +132,27 @@ class AutoRedLeft2P7 : MultiThreadOpMode() {
 
         @JvmField var middlePreYellowPixel3 = middleYellowPixel4
         //@JvmField var rightPreYellowPixel3 =  rightYellowPixel4
-        @JvmField var leftPreYellowPixel3 =   leftYellowPixel4 - 4.5.inch.y
+        @JvmField var leftPreYellowPixel3 =   leftYellowPixel4 - 6.5.inch.y
 
-        @JvmField var middlePostBoardRun4 =   Pose(18.inch, -0.5.tile, 180.deg) + middleCycleOffset + 2.inch.y
-        @JvmField var rightPostBoardRun4 =    Pose(18.inch, -0.5.tile, 180.deg) + rightCycleOffset + 2.inch.y
-        @JvmField var leftPostBoardRun4 =     Pose(18.inch, -0.5.tile, 180.deg) + leftCycleOffset + 2.inch.y
+        @JvmField var middlePostBoardRun4 =   Pose(18.inch, -0.5.tile, 180.deg) + middleCycleOffset - 3.inch.y
+        @JvmField var rightPostBoardRun4 =    Pose(18.inch, -0.5.tile, 180.deg) + rightCycleOffset - 3.inch.y
+        @JvmField var leftPostBoardRun4 =     Pose(18.inch, -0.5.tile, 180.deg) + leftCycleOffset - 3.inch.y
 
-        @JvmField var middlePreStackRun4 =    Pose(-30.inch, -0.5.tile, 180.deg) + middleCycleOffset + 2.inch.y
-        @JvmField var rightPreStackRun4 =     Pose(-30.inch, -0.5.tile, 180.deg) + rightCycleOffset + 2.inch.y
-        @JvmField var leftPreStackRun4 =      Pose(-30.inch, -0.5.tile, 180.deg) + leftCycleOffset + 2.inch.y
+        @JvmField var middlePreStackRun4 =    Pose(-30.inch, -0.5.tile, 180.deg) + middleCycleOffset - 3.inch.y
+        @JvmField var rightPreStackRun4 =     Pose(-30.inch, -0.5.tile, 180.deg) + rightCycleOffset - 3.inch.y
+        @JvmField var leftPreStackRun4 =      Pose(-30.inch, -0.5.tile, 180.deg) + leftCycleOffset - 3.inch.y
 
-        @JvmField var middleStacky4 =         Pose(-55.inch, -1.tile, 180.deg) + middleCycleOffset + 1.inch.y + 1.inch.x
-        @JvmField var rightStacky4 =          Pose(-55.3.inch, -1.tile, 180.deg) + rightCycleOffset + 1.inch.y + 1.inch.x
-        @JvmField var leftStacky4 =           Pose(-55.3.inch, -1.tile, 180.deg) + leftCycleOffset + 1.inch.y + 1.inch.x
+        @JvmField var middleStacky4 =         Pose(-55.inch, -1.tile, 180.deg) + middleCycleOffset - 8.inch.y
+        @JvmField var rightStacky4 =          Pose(-55.3.inch, -1.tile, 180.deg) + rightCycleOffset - 8.inch.y
+        @JvmField var leftStacky4 =           Pose(-55.3.inch, -1.tile, 180.deg) + leftCycleOffset - 8.inch.y
 
-        @JvmField var middlePostStackRun4 =   Pose(-30.inch, -0.5.tile, 180.deg) + middleCycleOffset + secondStackOffset + 2.inch.y
-        @JvmField var rightPostStackRun4 =    Pose(-30.inch, -0.5.tile, 180.deg) + rightCycleOffset + secondStackOffset + 2.inch.y
-        @JvmField var leftPostStackRun4 =     Pose(-30.inch, -0.5.tile, 180.deg) + leftCycleOffset + secondStackOffset + 2.inch.y
+        @JvmField var middlePostStackRun4 =   Pose(-30.inch, -0.5.tile, 180.deg) + middleCycleOffset + secondStackOffset - 3.inch.y
+        @JvmField var rightPostStackRun4 =    Pose(-30.inch, -0.5.tile, 180.deg) + rightCycleOffset + secondStackOffset - 3.inch.y
+        @JvmField var leftPostStackRun4 =     Pose(-30.inch, -0.5.tile, 180.deg) + leftCycleOffset + secondStackOffset - 3.inch.y
 
-        @JvmField var middlePreBoardRun4 =    Pose(18.inch, -0.5.tile, 180.deg) + middleCycleOffset + secondStackOffset + 2.inch.y
-        @JvmField var rightPreBoardRun4 =     Pose(18.inch, -0.5.tile, 180.deg) + rightCycleOffset + secondStackOffset + 2.inch.y
-        @JvmField var leftPreBoardRun4 =      Pose(18.inch, -0.5.tile, 180.deg) + leftCycleOffset + secondStackOffset + 2.inch.y
+        @JvmField var middlePreBoardRun4 =    Pose(18.inch, -0.5.tile, 180.deg) + middleCycleOffset + secondStackOffset - 4.inch.y
+        @JvmField var rightPreBoardRun4 =     Pose(18.inch, -0.5.tile, 180.deg) + rightCycleOffset + secondStackOffset - 4.inch.y
+        @JvmField var leftPreBoardRun4 =      Pose(18.inch, -0.5.tile, 180.deg) + leftCycleOffset + secondStackOffset - 4.inch.y
 
         @JvmField var middleYellowPixel5 =    middleYellowPixel4 + secondStackOffset
         //@JvmField var rightYellowPixel5 =     rightYellowPixel4
@@ -160,7 +160,7 @@ class AutoRedLeft2P7 : MultiThreadOpMode() {
 
         @JvmField var middlePreYellowPixel4 = middleYellowPixel5
         //@JvmField var rightPreYellowPixel4 =  rightYellowPixel5
-        @JvmField var leftPreYellowPixel4 =   leftYellowPixel5 + 1.5.inch.x
+        @JvmField var leftPreYellowPixel4 =   leftYellowPixel5 + 1.5.inch.x - 6.5.inch.y
 
         @JvmField var middleBoardAproachAngle = -30.deg
         //@JvmField var rightBoardAproachAngle = -30.deg
