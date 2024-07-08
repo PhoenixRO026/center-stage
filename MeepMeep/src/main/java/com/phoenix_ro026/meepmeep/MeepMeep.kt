@@ -24,7 +24,7 @@ fun main() {
 
     System.setProperty("sun.java2d.opengl", "true")
 
-    val meepMeep = MeepMeep(800)
+    val meepMeep = MeepMeep(1200, 900, 60)
 
     val stackWait = 0.4.s
     val boardWait = 0.7.s
@@ -291,10 +291,10 @@ fun main() {
     myBot.runAction(action)
     myBot2.runAction(action2)
 
-    meepMeep.setBackground(Background.FIELD_CENTERSTAGE_JUICE_LIGHT)
+    meepMeep.setBackground(Background.FIELD_CENTERSTAGE_JUICE_LIGHT_CRI)
             .setDarkMode(false)
             .setBackgroundAlpha(0.95f)
             .addEntity(myBot)
-             .addEntity(myBot2)
+            .addEntity(myBot2)
             .start()
 }
