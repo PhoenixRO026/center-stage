@@ -7,7 +7,7 @@ import com.phoenix.phoenixlib.units.deg
 import com.phoenix.phoenixlib.units.rotate
 
 @Photon
-@TeleOp
+@TeleOp(group = "Normal")
 class LammaDriveBlue : LammaDrive() {
     override fun driveFieldCentric(forward: Double, strafe: Double, turn: Double) {
         val newInputVec = Vector2d(forward, strafe).rotate(drive.pose.heading.log() - 90.deg.rad)

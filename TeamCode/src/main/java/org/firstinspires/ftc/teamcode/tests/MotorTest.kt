@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.lib.hardware.motor.SimpleMotor.Companion.simpleMotor
 
 @Disabled
-@TeleOp
+@TeleOp(group = "Debug")
 class MotorTest : LinearOpMode() {
     override fun runOpMode() {
         val motor = hardwareMap.simpleMotor("motor")

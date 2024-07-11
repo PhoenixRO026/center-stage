@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.systems.Lift
 import org.firstinspires.ftc.teamcode.systems.Lift.Companion.lift
 
 @Disabled
-@TeleOp
+@TeleOp(group = "Debug")
 class LiftTuning : LinearOpMode() {
 
     @Config

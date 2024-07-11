@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple
 import org.firstinspires.ftc.teamcode.lib.hardware.motor.SimpleMotor.Companion.simpleMotor
 
 @Disabled
-@TeleOp
+@TeleOp(group = "Debug")
 class LiftTest : LinearOpMode(){
     override fun runOpMode() {
         val leftMotor = hardwareMap.simpleMotor("leftLift", DcMotorSimple.Direction.REVERSE)

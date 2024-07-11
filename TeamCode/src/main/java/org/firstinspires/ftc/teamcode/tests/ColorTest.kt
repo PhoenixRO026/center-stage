@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.systems.multi.Color2Multi.Companion.color2Multi
 
 @Disabled
-@TeleOp
+@TeleOp(group = "Debug")
 class ColorTest : LinearOpMode() {
     override fun runOpMode() {
         val color = hardwareMap.color2Multi()

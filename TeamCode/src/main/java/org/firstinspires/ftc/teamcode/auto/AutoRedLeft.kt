@@ -35,7 +35,7 @@ import kotlin.math.min
 
 @Disabled
 @Photon
-@Autonomous(preselectTeleOp = "LammaDrive")
+@Autonomous(preselectTeleOp = "LammaDrive", group = "Normal")
 class AutoRedLeft : MultiThreadOpMode() {
     private val startPose = Pose(-36.inch, -61.inch, -90.deg)
 

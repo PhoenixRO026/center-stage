@@ -140,7 +140,7 @@ public final class MecanumDrive {
     public Pose2d pose;
     public PoseVelocity2d velocity = new PoseVelocity2d(new Vector2d(0.0, 0.0), 0.0);
 
-    public final double imuStartHeading;
+    public double imuStartHeading;
 
     public boolean useApril = false;
 

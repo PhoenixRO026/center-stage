@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.systems.Intake
 import org.firstinspires.ftc.teamcode.systems.Intake.Companion.intake
 
 @Disabled
-@TeleOp
+@TeleOp(group = "Debug")
 class StackTest : LinearOpMode() {
     override fun runOpMode() {
         telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)

@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.systems.Lift.Companion.lift
 import org.firstinspires.ftc.teamcode.systems.Plane.Companion.plane
 
 @Photon
-@TeleOp
+@TeleOp(group = "Normal")
 open class LammaDrive : MultiThreadOpMode() {
     override fun sideRunOpMode() {}
 

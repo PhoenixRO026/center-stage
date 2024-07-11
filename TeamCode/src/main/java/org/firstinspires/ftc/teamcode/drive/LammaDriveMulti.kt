@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.systems.multi.LiftMulti.Companion.liftMult
 
 @Disabled
 @Photon
-@TeleOp
+@TeleOp(group = "Normal")
 class LammaDriveMulti : MultiThreadOpMode() {
     override fun sideRunOpMode() {
         val expansionHub = hardwareMap.expansionHub()

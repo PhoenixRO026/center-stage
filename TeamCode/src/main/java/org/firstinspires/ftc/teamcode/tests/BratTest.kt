@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.lib.hardware.servo.RangedServo.Companion.r
 import com.phoenix.phoenixlib.units.DeltaTime
 
 @Disabled
-@TeleOp
+@TeleOp(group = "Debug")
 class BratTest : LinearOpMode() {
 
     data object BratTestConfig {

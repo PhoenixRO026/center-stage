@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.lib.hardware.servo.RangedSpeedCachedServo.
 import org.firstinspires.ftc.teamcode.lib.hardware.servo.SimpleServo.Companion.simpleServo
 
 @Disabled
-@TeleOp
+@TeleOp(group = "Debug")
 class CoupledServoTest : LinearOpMode(){
     override fun runOpMode() {
         val servo2 = hardwareMap.rangedServo("servo2", range = 0.5..1.0)

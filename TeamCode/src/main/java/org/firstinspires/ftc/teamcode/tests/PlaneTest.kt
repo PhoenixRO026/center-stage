@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.systems.Plane.PlaneConfig.hold
 import org.firstinspires.ftc.teamcode.systems.Plane.PlaneConfig.tiltRest
 
 @Disabled
-@TeleOp
+@TeleOp(group = "Debug")
 class PlaneTest : LinearOpMode() {
     override fun runOpMode() {
         telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)

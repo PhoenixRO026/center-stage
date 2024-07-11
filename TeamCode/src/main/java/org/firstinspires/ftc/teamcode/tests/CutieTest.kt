@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.lib.hardware.servo.RangedServo.Companion.rangedServo
 
 @Disabled
-@TeleOp
+@TeleOp(group = "Debug")
 class CutieTest : LinearOpMode() {
 
     @Config

@@ -39,7 +39,7 @@ import kotlin.math.min
 
 @Config
 @Photon
-@Autonomous(preselectTeleOp = "LammaDriveRed")
+@Autonomous(preselectTeleOp = "LammaDriveRed", group = "Normal")
 class AutoRedLeft2P7 : MultiThreadOpMode() {
     companion object {
         @JvmField var startPose =             Pose(-1.5.tile, -61.inch, -90.deg)

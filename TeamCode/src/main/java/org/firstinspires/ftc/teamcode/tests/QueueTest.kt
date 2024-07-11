@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.lib.opmode.MultiThreadOpMode
 import java.util.concurrent.ConcurrentLinkedQueue
 
 @Disabled
-@TeleOp
+@TeleOp(group = "Debug")
 class QueueTest : MultiThreadOpMode() {
 
     private val queue = ConcurrentLinkedQueue<LazyWrite.Task>()

@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.systems.Arm.Companion.arm
 import org.firstinspires.ftc.teamcode.systems.Box.Companion.box
 
 //@Disabled
-@TeleOp
+@TeleOp(group = "Debug")
 class ArmBoxTuning : LinearOpMode() {
     override fun runOpMode() {
         telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)

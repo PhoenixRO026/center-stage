@@ -35,7 +35,7 @@ import org.firstinspires.ftc.teamcode.systems.multi.LiftMulti.Companion.liftMult
 import kotlin.math.min
 
 @Photon
-@Autonomous(preselectTeleOp = "LammaDriveRed")
+@Autonomous(preselectTeleOp = "LammaDriveRed", group = "Normal")
 class AutoRedLeft3 : MultiThreadOpMode() {
     private val startPose =             Pose(-36.inch, -61.inch, -90.deg)
 

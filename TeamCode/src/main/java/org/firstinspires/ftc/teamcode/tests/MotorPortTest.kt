@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorImplEx
 
 @Disabled
-@TeleOp
+@TeleOp(group = "Debug")
 class MotorPortTest : LinearOpMode(){
     override fun runOpMode() {
         val motors = hardwareMap.getAll(DcMotor::class.java).map { it as DcMotorImplEx }.sortedBy { it.portNumber }

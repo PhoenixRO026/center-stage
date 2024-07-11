@@ -9,7 +9,7 @@ import com.phoenix.phoenixlib.units.DeltaTime
 import org.firstinspires.ftc.teamcode.systems.Intake.Companion.intake
 
 @Disabled
-@TeleOp
+@TeleOp(group = "Debug")
 class IntakeTuning : LinearOpMode() {
     override fun runOpMode() {
         telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)

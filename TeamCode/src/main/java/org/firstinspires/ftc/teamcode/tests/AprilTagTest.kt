@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.systems.Camera
 
 @Disabled
-@TeleOp
+@TeleOp(group = "Debug")
 class AprilTagTest : LinearOpMode() {
     override fun runOpMode() {
         val camera = Camera(hardwareMap)
