@@ -68,7 +68,7 @@ class AutoRedLeft3 : MultiThreadOpMode() {
 
     private val middleYellowPixel2 =    Pose(52.5.inch, -35.inch, 180.deg)
     private val rightYellowPixel2 =     Pose(53.inch, -43.5.inch, 180.deg)
-    private val leftYellowPixel2 =      Pose(52.5.inch, -29.inch, 180.deg)
+    private val leftYellowPixel2 =      Pose(52.5.inch, -30.inch, 180.deg)
 
     private val middlePreYellowPixel1 = middleYellowPixel2 + 1.inch.y
     private val rightPreYellowPixel1 =  rightYellowPixel2
@@ -83,7 +83,7 @@ class AutoRedLeft3 : MultiThreadOpMode() {
     private val leftPreStackRun2 =      middlePreStackRun2
 
     private val middleStacky2 =         middleStacky1 + cycleOffset + 2.cm.x
-    private val rightStacky2 =          middleStacky2 + 4.cm.x
+    private val rightStacky2 =          middleStacky2
     private val leftStacky2 =           middleStacky2 - 1.cm.x - 1.cm.y
 
     private val middlePreStacky2 =      middleStacky2 + 10.cm.x
