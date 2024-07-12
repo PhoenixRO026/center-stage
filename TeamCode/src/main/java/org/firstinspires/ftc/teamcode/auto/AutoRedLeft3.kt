@@ -51,7 +51,7 @@ class AutoRedLeft3 : MultiThreadOpMode() {
     private val leftPurplePixel =       Pose(-47.5.inch, -16.inch, -90.deg)
 
     private val middleStacky1 =         Pose(-54.inch - 15.5.cm, -12.inch, 180.deg)
-    private val rightStacky1 =          middleStacky1 + rightOffset + 1.5.inch.y - 3.cm.x
+    private val rightStacky1 =          middleStacky1 + rightOffset + 1.5.inch.y - 6.cm.x
     private val leftStacky1 =           middleStacky1 + leftOffset + 0.7.inch.x - 2.cm.x
 
     private val middlePreStacky1 =      middleStacky1 + 10.cm.x
@@ -67,34 +67,34 @@ class AutoRedLeft3 : MultiThreadOpMode() {
     private val leftPreBoardRun1 =      middlePreBoardRun1 + leftOffset
 
     private val middleYellowPixel2 =    Pose(52.5.inch, -35.inch, 180.deg)
-    private val rightYellowPixel2 =     Pose(52.5.inch, -43.5.inch, 180.deg)
-    private val leftYellowPixel2 =      Pose(52.5.inch, -29.5.inch, 180.deg)
+    private val rightYellowPixel2 =     Pose(53.inch, -43.5.inch, 180.deg)
+    private val leftYellowPixel2 =      Pose(52.5.inch, -29.inch, 180.deg)
 
     private val middlePreYellowPixel1 = middleYellowPixel2 + 1.inch.y
     private val rightPreYellowPixel1 =  rightYellowPixel2
-    private val leftPreYellowPixel1 =   leftYellowPixel2 + 1.5.inch.y + 1.inch.x
+    private val leftPreYellowPixel1 =   leftYellowPixel2 + 1.inch.x
 
-    private val middlePostBoardRun2 =   Pose(18.inch, -12.inch + 1.cm, 180.deg) + cycleOffset + 1.inch.y
-    private val rightPostBoardRun2 =    middlePostBoardRun2 + 1.inch.y
-    private val leftPostBoardRun2 =     middlePostBoardRun2 + 1.inch.y
+    private val middlePostBoardRun2 =   Pose(18.inch, -12.inch + 1.cm, 180.deg) + cycleOffset
+    private val rightPostBoardRun2 =    middlePostBoardRun2
+    private val leftPostBoardRun2 =     middlePostBoardRun2
 
-    private val middlePreStackRun2 =    Pose(-30.inch, -12.inch + 1.cm, 180.deg) + cycleOffset + 1.inch.y
-    private val rightPreStackRun2 =     middlePreStackRun2 + 1.inch.y
-    private val leftPreStackRun2 =      middlePreStackRun2 + 1.inch.y
+    private val middlePreStackRun2 =    Pose(-30.inch, -12.inch + 1.cm, 180.deg) + cycleOffset
+    private val rightPreStackRun2 =     middlePreStackRun2 + 0.5.inch.y
+    private val leftPreStackRun2 =      middlePreStackRun2
 
-    private val middleStacky2 =         middleStacky1 + cycleOffset + 2.cm.x + 1.inch.y
-    private val rightStacky2 =          middleStacky2 + 1.inch.y + 4.cm.x
+    private val middleStacky2 =         middleStacky1 + cycleOffset + 2.cm.x
+    private val rightStacky2 =          middleStacky2 + 4.cm.x
     private val leftStacky2 =           middleStacky2 - 1.cm.x - 1.cm.y
 
     private val middlePreStacky2 =      middleStacky2 + 10.cm.x
     private val rightPreStacky2 =       rightStacky2 + 10.cm.x
     private val leftPreStacky2 =        leftStacky2 + 10.cm.x
 
-    private val middlePostStackRun2 =   middlePostStackRun1 + cycleOffset + 1.inch.y
+    private val middlePostStackRun2 =   middlePostStackRun1 + cycleOffset
     private val rightPostStackRun2 =    middlePostStackRun2 + 1.inch.y
     private val leftPostStackRun2 =     middlePostStackRun2
 
-    private val middlePreBoardRun2 =    middlePreBoardRun1 + cycleOffset + 1.inch.y
+    private val middlePreBoardRun2 =    middlePreBoardRun1 + cycleOffset
     private val rightPreBoardRun2 =     middlePreBoardRun2 + 1.inch.y
     private val leftPreBoardRun2 =      middlePreBoardRun2
 
@@ -114,7 +114,7 @@ class AutoRedLeft3 : MultiThreadOpMode() {
     private val rightPreStackRun3 =     rightPreStackRun2 + cycleOffset
     private val leftPreStackRun3 =      leftPreStackRun2 - cycleOffset
 
-    private val middleStacky3 =         middleStacky2 + 1.inch.y
+    private val middleStacky3 =         middleStacky2
     private val rightStacky3 =          rightStacky2
     private val leftStacky3 =           leftStacky2
 
@@ -247,7 +247,7 @@ class AutoRedLeft3 : MultiThreadOpMode() {
                 .setTangent(0.deg)
                 .afterTime(0.s, intake.ejectPixels())
                 .splineToConstantHeading(leftPostStackRun1.position, 0.deg)
-                .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToYellow())
+                .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
                 .splineToConstantHeading(leftPreBoardRun1.position, 0.deg)
                 .splineToConstantHeading(middlePreYellowPixel1.position, middleBoardAproachAngle, speed60)
                 .build(),
@@ -260,7 +260,10 @@ class AutoRedLeft3 : MultiThreadOpMode() {
             drive.actionBuilder(middleYellowPixel2)
                 .strafeTo(leftYellowPixel2.position)
                 .build(),
-            drive.CorrectionAction(leftYellowPixel2, MecanumDrive.PARAMS.maxStackCorrectTimeSec.s),
+            ParallelAction(
+                drive.CorrectionAction(leftYellowPixel2, MecanumDrive.PARAMS.maxStackCorrectTimeSec.s),
+                lift.goToYellow()
+            ),
             box.ejectYellowPixel(),
             InstantAction { lift.targetPositionTicks = Lift.LiftConfig.aboveWhiteTicks },
             drive.actionBuilder(leftYellowPixel2)
@@ -329,7 +332,7 @@ class AutoRedLeft3 : MultiThreadOpMode() {
                 .setTangent(0.deg)
                 .afterTime(0.s, intake.ejectPixels())
                 .splineToConstantHeading(middlePostStackRun1.position, 0.deg)
-                .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToYellow())
+                .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
                 .splineToConstantHeading(middlePreBoardRun1.position, 0.deg)
                 .splineToConstantHeading(leftPreYellowPixel1.position, leftBoardAproachAngle, speed60)
                 .build(),
@@ -342,7 +345,10 @@ class AutoRedLeft3 : MultiThreadOpMode() {
             drive.actionBuilder(leftYellowPixel2)
                 .strafeTo(middleYellowPixel2.position)
                 .build(),
-            drive.CorrectionAction(middleYellowPixel2, MecanumDrive.PARAMS.maxStackCorrectTimeSec.s),
+            ParallelAction(
+                drive.CorrectionAction(middleYellowPixel2, MecanumDrive.PARAMS.maxStackCorrectTimeSec.s),
+                lift.goToYellow()
+            ),
             box.ejectYellowPixel(),
             InstantAction { lift.targetPositionTicks = Lift.LiftConfig.aboveWhiteTicks },
             drive.actionBuilder(middleYellowPixel2)
@@ -413,7 +419,7 @@ class AutoRedLeft3 : MultiThreadOpMode() {
                 .setTangent(0.deg)
                 .afterTime(0.s, intake.ejectPixels())
                 .splineToConstantHeading(rightPostStackRun1.position, 0.deg)
-                .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToYellow())
+                .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
                 .splineToConstantHeading(rightPreBoardRun1.position, 0.deg)
                 .splineToConstantHeading(leftPreYellowPixel1.position + 1.5.inch.y, leftBoardAproachAngle, speed60)
                 .build(),
@@ -424,9 +430,12 @@ class AutoRedLeft3 : MultiThreadOpMode() {
             InstantAction { box.power = 0.0 },
             InstantAction { drive.useApril = false },
             drive.actionBuilder(leftYellowPixel2)
-                .afterTime(0.2.s, InstantAction{ lift.targetPositionTicks = Lift.LiftConfig.yellowTicks })
                 .strafeTo(rightYellowPixel2.position + rightYellowOffset)
                 .build(),
+            ParallelAction(
+                drive.CorrectionAction(rightYellowPixel2, MecanumDrive.PARAMS.maxStackCorrectTimeSec.s),
+                lift.goToYellow()
+            ),
             box.ejectYellowPixel(),
             InstantAction { lift.targetPositionTicks = Lift.LiftConfig.aboveWhiteTicks },
             drive.actionBuilder(rightYellowPixel2 + rightYellowOffset)
