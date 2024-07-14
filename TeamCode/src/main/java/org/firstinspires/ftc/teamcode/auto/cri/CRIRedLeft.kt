@@ -28,11 +28,13 @@ import org.firstinspires.ftc.teamcode.systems.multi.BoxMulti.Companion.boxMulti
 import org.firstinspires.ftc.teamcode.systems.multi.Color2Multi.Companion.color2Multi
 import org.firstinspires.ftc.teamcode.systems.multi.IntakeMulti.Companion.intakeMulti
 import org.firstinspires.ftc.teamcode.systems.multi.LiftMulti.Companion.liftMulti
-import kotlin.math.min
+import java.util.ArrayDeque
 
 @Photon
 @Autonomous(preselectTeleOp = "LammaDriveRed", group = "CRI")
 class CRIRedLeft : MultiThreadOpMode() {
+
+    private val avgWindow = 100
 
     private val stackWait = 0.4.s
     private val boardWait = 0.7.s
@@ -51,6 +53,10 @@ class CRIRedLeft : MultiThreadOpMode() {
     private val midTransition = Pose(2.tile, -0.5.tile, 180.deg)
     private val leftTransition = midTransition
     private val rightTransition = midTransition
+
+    private val midPreTransition = Pose(1.tile, -0.5.tile, 180.deg)
+    private val leftPreTransition = midPreTransition
+    private val rightPreTransition = midPreTransition
 
     private val midCenterBoard = Pose(3.tile + 3.inch, -1.5.tile, 180.deg)
     private val leftLeftBoard = Pose(3.tile + 3.inch, -1.5.tile + 6.inch, 180.deg)
@@ -132,6 +138,10 @@ class CRIRedLeft : MultiThreadOpMode() {
             drive.kinematics.WheelVelConstraint(60.0),
             AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel)
         ))
+        val speed20 = MinVelConstraint(listOf(
+            drive.kinematics.WheelVelConstraint(20.0),
+            AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel)
+        ))
 
         var previousTime = Time.now()
         var mainDeltaTime: Time
@@ -156,15 +166,18 @@ class CRIRedLeft : MultiThreadOpMode() {
                 .splineToLinearHeading(leftStacky, 180.deg)
                 .waitSeconds(stackWait)
                 .setTangent(0.deg)
-                .splineToConstantHeading(leftTransition.position, 0.deg)
+                .splineToConstantHeading(leftPreTransition.position, 0.deg)
+                .splineToConstantHeading(leftTransition.position, 0.deg, speed20)
                 .splineToConstantHeading(leftLeftBoard.position, leftBoardAproachAngle, speed60)
                 .waitSeconds(boardWait)
                 .setTangent(leftBoardLeavingAngle)
-                .splineToConstantHeading(leftTransition.position, 180.deg)
+                .splineToConstantHeading(leftTransition.position, 180.deg, speed60)
+                .splineToConstantHeading(leftPreTransition.position, 0.deg, speed20)
                 .splineToConstantHeading(leftStacky.position, 180.deg)
                 .waitSeconds(stackWait)
                 .setTangent(0.deg)
-                .splineToConstantHeading(leftTransition.position, 0.deg)
+                .splineToConstantHeading(leftPreTransition.position, 0.deg)
+                .splineToConstantHeading(leftTransition.position, 0.deg, speed20)
                 .splineToConstantHeading(leftLeftBoard.position, leftBoardAproachAngle, speed60)
                 .build()
         )
@@ -177,15 +190,18 @@ class CRIRedLeft : MultiThreadOpMode() {
                 .splineToLinearHeading(midStacky, 180.deg)
                 .waitSeconds(stackWait)
                 .setTangent(0.deg)
-                .splineToConstantHeading(midTransition.position, 0.deg)
+                .splineToConstantHeading(midPreTransition.position, 0.deg)
+                .splineToConstantHeading(midTransition.position, 0.deg, speed20)
                 .splineToConstantHeading(midCenterBoard.position, midBoardAproachAngle, speed60)
                 .waitSeconds(boardWait)
                 .setTangent(midBoardLeavingAngle)
-                .splineToConstantHeading(midTransition.position, 180.deg)
+                .splineToConstantHeading(midTransition.position, 180.deg, speed60)
+                .splineToConstantHeading(midPreTransition.position, 180.deg, speed20)
                 .splineToConstantHeading(midStacky.position, 180.deg)
                 .waitSeconds(stackWait)
                 .setTangent(0.deg)
-                .splineToConstantHeading(midTransition.position, 0.deg)
+                .splineToConstantHeading(midPreTransition.position, 0.deg)
+                .splineToConstantHeading(midTransition.position, 0.deg, speed20)
                 .splineToConstantHeading(midCenterBoard.position, midBoardAproachAngle, speed60)
                 .build()
         )
@@ -198,15 +214,18 @@ class CRIRedLeft : MultiThreadOpMode() {
                 .splineToLinearHeading(rightStacky, 180.deg)
                 .waitSeconds(stackWait)
                 .setTangent(0.deg)
-                .splineToConstantHeading(rightTransition.position, 0.deg)
+                .splineToConstantHeading(rightPreTransition.position, 0.deg)
+                .splineToConstantHeading(rightTransition.position, 0.deg, speed20)
                 .splineToConstantHeading(rightRightBoard.position, rightBoardAproachAngle, speed60)
                 .waitSeconds(boardWait)
                 .setTangent(rightBoardLeavingAngle)
-                .splineToConstantHeading(rightTransition.position, 180.deg)
+                .splineToConstantHeading(rightTransition.position, 180.deg, speed60)
+                .splineToConstantHeading(rightPreTransition.position, 180.deg, speed20)
                 .splineToConstantHeading(rightStacky.position, 180.deg)
                 .waitSeconds(stackWait)
                 .setTangent(0.deg)
-                .splineToConstantHeading(rightTransition.position, 0.deg)
+                .splineToConstantHeading(rightPreTransition.position, 0.deg)
+                .splineToConstantHeading(rightTransition.position, 0.deg, speed20)
                 .splineToConstantHeading(rightRightBoard.position, rightBoardAproachAngle, speed60)
                 .build()
         )
@@ -234,6 +253,11 @@ class CRIRedLeft : MultiThreadOpMode() {
 
         var running = true
 
+        val avgMainFpsQueue = ArrayDeque<Double>()
+        val avgMainTimeQueue = ArrayDeque<Double>()
+        val avgSideFpsQueue = ArrayDeque<Double>()
+        val avgSideTimeQueue = ArrayDeque<Double>()
+
         while (isStarted && !isStopRequested && running) {
             val now = Time.now()
             mainDeltaTime = now - previousTime
@@ -248,10 +272,31 @@ class CRIRedLeft : MultiThreadOpMode() {
 
             dash.sendTelemetryPacket(packet)
 
-            telemetry.addData("main delta fps", min(1.s / mainDeltaTime, 200.0))
-            telemetry.addData("main delta time ms", mainDeltaTime.ms)
-            telemetry.addData("side delta fps", 1.s / sideDeltaTime)
-            telemetry.addData("side delta time ms", sideDeltaTime.ms)
+            if (mainDeltaTime.ms >= 5.0) {
+                avgMainFpsQueue.push(1.s / mainDeltaTime)
+                avgMainTimeQueue.push(mainDeltaTime.ms)
+            }
+
+            avgSideFpsQueue.push(1.s / sideDeltaTime)
+            avgSideTimeQueue.push(sideDeltaTime.ms)
+
+            while (avgMainFpsQueue.size > avgWindow) {
+                avgMainFpsQueue.removeLast()
+            }
+            while (avgMainTimeQueue.size > avgWindow) {
+                avgMainTimeQueue.removeLast()
+            }
+            while (avgSideFpsQueue.size > avgWindow) {
+                avgSideFpsQueue.removeLast()
+            }
+            while (avgSideTimeQueue.size > avgWindow) {
+                avgSideTimeQueue.removeLast()
+            }
+
+            telemetry.addData("avg main fps", avgMainFpsQueue.average())
+            telemetry.addData("avg main time ms", avgMainTimeQueue.average())
+            telemetry.addData("avg side fps", avgSideFpsQueue.average())
+            telemetry.addData("avg side time ms", avgSideTimeQueue.average())
             telemetry.addData("lift pos", lift.positionTicks)
             telemetry.addData("lift target pos", lift.targetPositionTicks)
             telemetry.update()
