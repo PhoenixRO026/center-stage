@@ -78,7 +78,7 @@ public final class MecanumDrive {
         public double kA = 0.000014;
 
         // path profile parameters (in inches)
-        public double maxWheelVel = 85;
+        public double maxWheelVel = 70;
         public double minProfileAccel = -50;
         public double maxProfileAccel = 80;
 
@@ -87,13 +87,23 @@ public final class MecanumDrive {
         public double maxAngAccel = 4;
 
         // path controller gains
-        public double axialGain = 30;
-        public double lateralGain = 40;
-        public double headingGain = 30; // shared with turn
+        public double bigAxialGain = 30;
+        public double bigLateralGain = 40;
+        public double bigHeadingGain = 30; // shared with turn
 
-        public double axialVelGain = 10;
-        public double lateralVelGain = 12;
-        public double headingVelGain = 5; // shared with turn
+        public double bigAxialVelGain = 10;
+        public double bigLateralVelGain = 12;
+        public double bigHeadingVelGain = 5; // shared with turn
+
+        public double smallSpeed = 20;
+
+        public double smallAxialGain = 8;
+        public double smallLateralGain = 10;
+        public double smallHeadingGain = 8; // shared with turn
+
+        public double smallAxialVelGain = 1;
+        public double smallLateralVelGain = 1;
+        public double smallHeadingVelGain = 1; // shared with turn
 
         public double correctionAxialGain = 10;
         public double correctionLateralGain = 10;
@@ -434,6 +444,11 @@ public final class MecanumDrive {
             }
         }
 
+        public double scaleGain(double speed, double minGain, double maxGain) {
+            double scale = (Math.max(speed, PARAMS.smallSpeed) - PARAMS.smallSpeed) / (PARAMS.maxWheelVel - PARAMS.smallSpeed);
+            return minGain + (maxGain - minGain) * scale;
+        }
+
         @Override
         public boolean run(@NonNull TelemetryPacket p) {
             double t;
@@ -462,11 +477,19 @@ public final class MecanumDrive {
                 return false;
             }
 
+            double speed = robotVelRobot.linearVel.norm();
 
+            double axialGain = scaleGain(speed, PARAMS.smallAxialGain, PARAMS.bigAxialGain);
+            double lateralGain = scaleGain(speed, PARAMS.smallLateralGain, PARAMS.bigLateralGain);
+            double headingGain = scaleGain(speed, PARAMS.smallHeadingGain, PARAMS.bigHeadingGain);
+
+            double axialVelGain = scaleGain(speed, PARAMS.smallAxialVelGain, PARAMS.bigAxialVelGain);
+            double lateralVelGain = scaleGain(speed, PARAMS.smallLateralVelGain, PARAMS.bigLateralVelGain);
+            double headingVelGain = scaleGain(speed, PARAMS.smallHeadingVelGain, PARAMS.bigHeadingVelGain);
 
             PoseVelocity2dDual<Time> command = new HolonomicController(
-                    PARAMS.axialGain, PARAMS.lateralGain, PARAMS.headingGain,
-                    PARAMS.axialVelGain, PARAMS.lateralVelGain, PARAMS.headingVelGain
+                    axialGain, lateralGain, headingGain,
+                    axialVelGain, lateralVelGain, headingVelGain
             )
                     .compute(txWorldTarget, pose, robotVelRobot);
             driveCommandWriter.write(new DriveCommandMessage(command));
@@ -562,8 +585,8 @@ public final class MecanumDrive {
             PoseVelocity2d robotVelRobot = updatePoseEstimate();
 
             PoseVelocity2dDual<Time> command = new HolonomicController(
-                    PARAMS.axialGain, PARAMS.lateralGain, PARAMS.headingGain,
-                    PARAMS.axialVelGain, PARAMS.lateralVelGain, PARAMS.headingVelGain
+                    PARAMS.bigAxialGain, PARAMS.bigLateralGain, PARAMS.bigHeadingGain,
+                    PARAMS.bigAxialVelGain, PARAMS.bigLateralVelGain, PARAMS.bigHeadingVelGain
             )
                     .compute(txWorldTarget, pose, robotVelRobot);
             driveCommandWriter.write(new DriveCommandMessage(command));
