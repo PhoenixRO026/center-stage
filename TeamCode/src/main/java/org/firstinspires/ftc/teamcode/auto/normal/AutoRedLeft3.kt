@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auto
+package org.firstinspires.ftc.teamcode.auto.normal
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.canvas.Canvas

@@ -57,7 +57,7 @@ fun tile(number: Double) = number.tile
 @JvmField val mm = 1.mm
 @JvmField val cm = 1.cm
 @JvmField val inch = 1.inch
-@JvmField var tile = 23.75.inch
+@JvmField var tile = 61.cm
 
 @Suppress("FunctionName")
 fun Vector2d(x: Distance, y: Distance) = Distance2d(x, y)

@@ -19,7 +19,7 @@ class Box(
     data object BoxConfig {
         @JvmField var boxServoOffset: Double = 0.08
         @JvmField var boxSpeed = 0.8
-        @JvmField var intakePos = 0.9727
+        @JvmField var intakePos = 0.9504
         @JvmField var scorePos = 0.3945
         @JvmField var scoreLongPos = 0.6221
 

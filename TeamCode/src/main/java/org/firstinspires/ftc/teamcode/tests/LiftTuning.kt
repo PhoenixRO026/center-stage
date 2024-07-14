@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.systems.Lift
 import org.firstinspires.ftc.teamcode.systems.Lift.Companion.lift
 
-@Disabled
+//@Disabled
 @TeleOp(group = "Debug")
 class LiftTuning : LinearOpMode() {
 

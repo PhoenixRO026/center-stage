@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auto
+package org.firstinspires.ftc.teamcode.auto.cri
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.canvas.Canvas
@@ -10,7 +10,6 @@ import com.acmerobotics.roadrunner.SequentialAction
 import com.outoftheboxrobotics.photoncore.Photon
 import com.phoenix.phoenixlib.units.Pose
 import com.phoenix.phoenixlib.units.Time
-import com.phoenix.phoenixlib.units.cm
 import com.phoenix.phoenixlib.units.deg
 import com.phoenix.phoenixlib.units.inch
 import com.phoenix.phoenixlib.units.ms
@@ -34,9 +33,39 @@ import kotlin.math.min
 @Photon
 @Autonomous(preselectTeleOp = "LammaDriveRed", group = "CRI")
 class CRIRedLeft : MultiThreadOpMode() {
+
+    private val stackWait = 0.4.s
+    private val boardWait = 0.7.s
+    private val purpleWait = 0.4.s
+
+    private val startPose = Pose(-2.5.tile, -2.5.tile - 1.inch, -90.deg)
+
+    private val midPurplePixel = Pose(-2.5.tile, -0.5.tile - 4.inch, -90.deg)
+    private val leftPurplePixel = Pose(-3.tile, -1.tile, -90.deg)
+    private val rightPurplePixel = Pose(-2.tile, -1.tile, -90.deg)
+
+    private val midStacky = Pose(-3.5.tile, -0.5.tile, 180.deg)
+    private val leftStacky = midStacky
+    private val rightStacky = midStacky
+
+    private val midTransition = Pose(2.tile, -0.5.tile, 180.deg)
+    private val leftTransition = midTransition
+    private val rightTransition = midTransition
+
+    private val midCenterBoard = Pose(3.tile + 3.inch, -1.5.tile, 180.deg)
+    private val leftLeftBoard = Pose(3.tile + 3.inch, -1.5.tile + 6.inch, 180.deg)
+    private val rightRightBoard = Pose(3.tile + 3.inch, -1.5.tile - 6.inch, 180.deg)
+
+    private val midBoardAproachAngle = -30.deg
+    private val leftBoardAproachAngle = midBoardAproachAngle
+    private val rightBoardAproachAngle = midBoardAproachAngle
+
+    private val midBoardLeavingAngle = 150.deg
+    private val leftBoardLeavingAngle = midBoardLeavingAngle
+    private val rightBoardLeavingAngle = midBoardLeavingAngle
     
     private val drive by opModeLazy {
-        MecanumDrive(hardwareMap, Pose(0.cm, 0.cm, 0.deg).pose2d)
+        MecanumDrive(hardwareMap, startPose.pose2d)
     }
 
     private val arm by opModeLazy {
@@ -98,48 +127,11 @@ class CRIRedLeft : MultiThreadOpMode() {
     }
 
     override fun mainRunOpMode() {
-        val oldTileSize = tile
-        //tile = 61.cm
-
-        val stackWait = 0.4.s
-        val boardWait = 0.7.s
-        val purpleWait = 0.4.s
-
-        val startPose = Pose(-2.5.tile, -2.5.tile - 1.inch, -90.deg)
-
-        val midPurplePixel = Pose(-2.5.tile, -0.5.tile - 4.inch, -90.deg)
-        val leftPurplePixel = Pose(-3.tile, -1.tile, -90.deg)
-        val rightPurplePixel = Pose(-2.tile, -1.tile, -90.deg)
-
-        val midStacky = Pose(-3.5.tile, -0.5.tile, 180.deg)
-        val leftStacky = midStacky
-        val rightStacky = midStacky
-
-        val midTransition = Pose(2.tile, -0.5.tile, 180.deg)
-        val leftTransition = midTransition
-        val rightTransition = midTransition
-
-        val midCenterBoard = Pose(3.tile + 3.inch, -1.5.tile, 180.deg)
-        val leftLeftBoard = Pose(3.tile + 3.inch, -1.5.tile + 6.inch, 180.deg)
-        val rightRightBoard = Pose(3.tile + 3.inch, -1.5.tile - 6.inch, 180.deg)
-
-        val midBoardAproachAngle = -30.deg
-        val leftBoardAproachAngle = midBoardAproachAngle
-        val rightBoardAproachAngle = midBoardAproachAngle
-
-        val midBoardLeavingAngle = 150.deg
-        val leftBoardLeavingAngle = midBoardLeavingAngle
-        val rightBoardLeavingAngle = midBoardLeavingAngle
 
         val speed60 = MinVelConstraint(listOf(
             drive.kinematics.WheelVelConstraint(60.0),
             AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel)
         ))
-
-        drive.pose = startPose.pose2d
-        drive.imuStartHeading = drive.pose.heading.toDouble()
-
-        tile = oldTileSize
 
         var previousTime = Time.now()
         var mainDeltaTime: Time
