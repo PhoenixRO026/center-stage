@@ -44,7 +44,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.lib.controller.ChangeKalmanFilter;
 import org.firstinspires.ftc.teamcode.lib.hardware.motor.CachedMotor;
-import org.firstinspires.ftc.teamcode.lib.roadrunner.ThreeWheelLocalizerEx;
+import org.firstinspires.ftc.teamcode.lib.roadrunner.SimpleLocalizer;
 import org.firstinspires.ftc.teamcode.roadrunner.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.roadrunner.messages.MecanumCommandMessage;
 import org.firstinspires.ftc.teamcode.roadrunner.messages.MecanumLocalizerInputsMessage;
@@ -259,25 +259,12 @@ public final class MecanumDrive {
 
         // TODO: make sure your config has motors with these names (or change them)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
-        /*leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
-        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");*/
-
+        // TODO: reverse motor directions if needed
+        //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftFront = new CachedMotor(hardwareMap, "leftFront");
         leftBack = new CachedMotor(hardwareMap, "leftBack");
         rightBack = new CachedMotor(hardwareMap, "rightBack", DcMotorSimple.Direction.REVERSE);
         rightFront = new CachedMotor(hardwareMap, "rightFront", DcMotorSimple.Direction.REVERSE);
-
-        /*leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);*/
-
-        // TODO: reverse motor directions if needed
-        //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        /*rightBack.setDirection(DcMotor.Direction.REVERSE);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);*/
 
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
@@ -286,7 +273,8 @@ public final class MecanumDrive {
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        localizer = new ThreeWheelLocalizerEx(hardwareMap, PARAMS.inPerTick);
+        //localizer = new ThreeWheelLocalizerEx(hardwareMap, PARAMS.inPerTick);
+        localizer = new SimpleLocalizer(hardwareMap, PARAMS.inPerTick);
 
         imu = lazyImu.get();
         imu.resetYaw();
@@ -310,29 +298,14 @@ public final class MecanumDrive {
     }
 
     public final class CorrectionAction implements Action {
-        //public final TimeTrajectory timeTrajectory;
         public final Pose2d target;
         private double beginTs = -1;
 
         private final double maxTimeS;
 
-        //private final double[] xPoints, yPoints;
-
         public CorrectionAction(Pose target, com.phoenix.phoenixlib.units.Time maxTime) {
             this.target = target.getPose2d();
             this.maxTimeS = maxTime.s;
-            //timeTrajectory = t;
-
-            /*List<Double> disps = com.acmerobotics.roadrunner.Math.range(
-                    0, t.path.length(),
-                    Math.max(2, (int) Math.ceil(t.path.length() / 2)));
-            xPoints = new double[disps.size()];
-            yPoints = new double[disps.size()];
-            for (int i = 0; i < disps.size(); i++) {
-                Pose2d p = t.path.get(disps.get(i), 1).value();
-                xPoints[i] = p.position.x;
-                yPoints[i] = p.position.y;
-            }*/
         }
 
         @Override
@@ -346,7 +319,6 @@ public final class MecanumDrive {
             }
 
             Pose2dDual<Time> txWorldTarget = Pose2dDual.constant(target, 3);
-            //targetPoseWriter.write(new PoseMessage(txWorldTarget.value()));
 
             PoseVelocity2d robotVelRobot = updatePoseEstimate();
 
@@ -366,7 +338,6 @@ public final class MecanumDrive {
                     0, 0, 0
             )
                     .compute(txWorldTarget, pose, robotVelRobot);
-            //driveCommandWriter.write(new DriveCommandMessage(command));
 
             MecanumKinematics.WheelVelocities<Time> wheelVels = kinematics.inverse(command);
             double voltage = voltageSensor.getVoltage();
@@ -377,9 +348,6 @@ public final class MecanumDrive {
             double leftBackPower = feedforward.compute(wheelVels.leftBack) / voltage;
             double rightBackPower = feedforward.compute(wheelVels.rightBack) / voltage;
             double rightFrontPower = feedforward.compute(wheelVels.rightFront) / voltage;
-                /*mecanumCommandWriter.write(new MecanumCommandMessage(
-                        voltage, leftFrontPower, leftBackPower, rightBackPower, rightFrontPower
-                ));*/
 
             leftFront.setPower(leftFrontPower);
             leftBack.setPower(leftBackPower);
@@ -466,9 +434,7 @@ public final class MecanumDrive {
 
             Pose2d error = txWorldTarget.value().minusExp(pose);
 
-            if (/*(*/t >= timeTrajectory.duration /*&& error.position.norm() < 3
-                        && robotVelRobot.linearVel.norm() < 1)
-                        || t >= timeTrajectory.duration + 1*/) {
+            if (t >= timeTrajectory.duration) {
                 leftFront.setPower(0);
                 leftBack.setPower(0);
                 rightBack.setPower(0);

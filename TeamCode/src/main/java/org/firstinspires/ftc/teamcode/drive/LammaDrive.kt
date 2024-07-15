@@ -150,10 +150,10 @@ open class LammaDrive : MultiThreadOpMode() {
                 else -gamepad2.left_stick_y.toDouble()
 
             box.power = boxAndIntakePower
-            intake.power = boxAndIntakePower
-
-            if (gamepad2.x || gamepad1.dpad_right) {
-                intake.power = -1.0
+            intake.power = if (gamepad2.x || gamepad1.dpad_right) {
+                -1.0
+            } else {
+                boxAndIntakePower
             }
 
             if (intakeToggle.wasJustReleased()) {
