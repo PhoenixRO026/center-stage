@@ -45,32 +45,32 @@ class Camera(
     private val aprilTagLibrary = AprilTagLibrary.Builder()
         .addTag(
             1, "BlueAllianceLeft",
-            2.0, VectorF(60.25f, 41.41f, 4f), DistanceUnit.INCH,
+            2.0, VectorF(83.86f, 41.41f, 4f), DistanceUnit.INCH,
             Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
         )
         .addTag(
             2, "BlueAllianceCenter",
-            2.0, VectorF(60.25f, 35.41f, 4f), DistanceUnit.INCH,
+            2.0, VectorF(83.86f, 35.41f, 4f), DistanceUnit.INCH,
             Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
         )
         .addTag(
             3, "BlueAllianceRight",
-            2.0, VectorF(60.25f, 29.41f, 4f), DistanceUnit.INCH,
+            2.0, VectorF(83.86f, 29.41f, 4f), DistanceUnit.INCH,
             Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
         )
         .addTag(
             4, "RedAllianceLeft",
-            2.0, VectorF(60.25f, -29.41f, 4f), DistanceUnit.INCH,
+            2.0, VectorF(83.86f, -29.41f, 4f), DistanceUnit.INCH,
             Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
         )
         .addTag(
             5, "RedAllianceCenter",
-            2.0, VectorF(60.25f, -35.41f, 4f), DistanceUnit.INCH,
+            2.0, VectorF(83.86f, -35.41f, 4f), DistanceUnit.INCH,
             Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
         )
         .addTag(
             6, "RedAllianceRight",
-            2.0, VectorF(60.25f, -41.41f, 4f), DistanceUnit.INCH,
+            2.0, VectorF(83.86f, -41.41f, 4f), DistanceUnit.INCH,
             Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
         )
         .addTag(
@@ -95,17 +95,18 @@ class Camera(
         )
         .addTag(
             11, "SharedBackdropLeft",
-            2.0, VectorF(60.25f, 6.0f, 4f), DistanceUnit.INCH,
+            2.0, VectorF(83.86f, 6.0f, 4f), DistanceUnit.INCH,
             Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
         )
         .addTag(
             12, "SharedBackdropCenter",
-            2.0, VectorF(60.25f, 0.0f, 4f), DistanceUnit.INCH,
+            2.0, VectorF(83.86f, 0.0f, 4f), DistanceUnit.INCH,
             Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
         )
         .addTag(
             13, "SharedBackdropRight",
-            2.0, VectorF(60.25f, -6.0f, 4f), DistanceUnit.INCH,
+            2.0, VectorF(83.86f, -6.0f, 4f), DistanceUnit.INCH,
+
             Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
         )
         .build()
@@ -182,7 +183,7 @@ class Camera(
     }
 
     fun runDetection(): Distance2d? {
-        val detection = aprilTagProcessor.freshDetections?.firstOrNull { it.id in 1..6 } ?: return null
+        val detection = aprilTagProcessor.freshDetections?.firstOrNull { it.id in 1..6 || it.id in 11..13 } ?: return null
 
         val tagPose = getTagPose(detection.id)
 
