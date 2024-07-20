@@ -106,7 +106,6 @@ class Camera(
         .addTag(
             13, "SharedBackdropRight",
             2.0, VectorF(83.86f, -6.0f, 4f), DistanceUnit.INCH,
-
             Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
         )
         .build()
@@ -114,6 +113,7 @@ class Camera(
     private val aprilTagProcessor = AprilTagProcessor.Builder()
             .setOutputUnits(DistanceUnit.INCH, AngleUnit.RADIANS)
             .setNumThreads(1)
+            .setTagLibrary(aprilTagLibrary)
             .build()
 
     private val detectionProcessor = ColorVisionProcessor()
