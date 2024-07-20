@@ -41,15 +41,15 @@ class CRIBlueRight : MultiThreadOpMode() {
 
     private val avgWindow = 100
 
-    private val startPose = Pose(-2.5.tile, 2.5.tile - 1.inch, 90.deg)
+    private val startPose = Pose(-2.5.tile, 2.5.tile + 3.inch, 90.deg)
 
     private val midPurplePixel = Pose(-2.5.tile, 0.5.tile + 4.inch, 90.deg)
     private val rightPurplePixel = Pose(-3.tile, 1.tile, -90.deg)
     private val leftPurplePixel = Pose(2.5.tile - 5.inch, -1.5.tile, 0.deg)
 
-    private val midStacky1 = Pose(-3.3.tile, 0.5.tile, 180.deg)
-    private val leftStacky1 = Pose(-3.3.tile, 0.5.tile, 180.deg)
-    private val rightStacky1 = Pose(-3.3.tile, 0.5.tile, 180.deg)
+    private val midStacky1 = Pose(-3.4.tile, 0.5.tile, 180.deg)
+    private val leftStacky1 = Pose(-3.4.tile, 0.5.tile, 180.deg)
+    private val rightStacky1 = Pose(-3.4.tile, 0.5.tile, 180.deg)
 
     private val midStacky2 = Pose(-3.3.tile, 0.5.tile, 180.deg)
     private val leftStacky2 = Pose(-3.3.tile, 0.5.tile, 180.deg)
@@ -93,7 +93,7 @@ class CRIBlueRight : MultiThreadOpMode() {
 
     private val parkReverseDistance = 10.cm
 
-    private val parkY = -0.5.tile
+    private val parkY = 0.5.tile
 
     private val midBoardAproachAngle = 30.deg
     private val leftBoardAproachAngle = midBoardAproachAngle
