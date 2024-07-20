@@ -16,13 +16,16 @@ import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
+import org.firstinspires.ftc.robotcore.external.navigation.Quaternion
 import org.firstinspires.ftc.teamcode.lib.vision.ColorVisionProcessor
 import org.firstinspires.ftc.vision.VisionPortal
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase
+import org.firstinspires.ftc.vision.apriltag.AprilTagLibrary
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor
 import java.util.concurrent.TimeUnit
 import kotlin.math.cos
@@ -38,6 +41,74 @@ class Camera(
         @JvmField var cameraExposure: Long = 1
         @JvmField var cameraGain = 230
     }
+
+    private val aprilTagLibrary = AprilTagLibrary.Builder()
+        .addTag(
+            1, "BlueAllianceLeft",
+            2.0, VectorF(60.25f, 41.41f, 4f), DistanceUnit.INCH,
+            Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
+        )
+        .addTag(
+            2, "BlueAllianceCenter",
+            2.0, VectorF(60.25f, 35.41f, 4f), DistanceUnit.INCH,
+            Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
+        )
+        .addTag(
+            3, "BlueAllianceRight",
+            2.0, VectorF(60.25f, 29.41f, 4f), DistanceUnit.INCH,
+            Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
+        )
+        .addTag(
+            4, "RedAllianceLeft",
+            2.0, VectorF(60.25f, -29.41f, 4f), DistanceUnit.INCH,
+            Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
+        )
+        .addTag(
+            5, "RedAllianceCenter",
+            2.0, VectorF(60.25f, -35.41f, 4f), DistanceUnit.INCH,
+            Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
+        )
+        .addTag(
+            6, "RedAllianceRight",
+            2.0, VectorF(60.25f, -41.41f, 4f), DistanceUnit.INCH,
+            Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
+        )
+        .addTag(
+            7, "RedAudienceWallLarge",
+            5.0, VectorF(-70.25f, -40.625f, 5.5f), DistanceUnit.INCH,
+            Quaternion(0.5f, -0.5f, -0.5f, 0.5f, 0)
+        )
+        .addTag(
+            8, "RedAudienceWallSmall",
+            2.0, VectorF(-70.25f, -35.125f, 4f), DistanceUnit.INCH,
+            Quaternion(0.5f, -0.5f, -0.5f, 0.5f, 0)
+        )
+        .addTag(
+            9, "BlueAudienceWallSmall",
+            2.0, VectorF(-70.25f, 35.125f, 4f), DistanceUnit.INCH,
+            Quaternion(0.5f, -0.5f, -0.5f, 0.5f, 0)
+        )
+        .addTag(
+            10, "BlueAudienceWallLarge",
+            5.0, VectorF(-70.25f, 40.625f, 5.5f), DistanceUnit.INCH,
+            Quaternion(0.5f, -0.5f, -0.5f, 0.5f, 0)
+        )
+        .addTag(
+            11, "SharedBackdropLeft",
+            2.0, VectorF(60.25f, 6.0f, 4f), DistanceUnit.INCH,
+            Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
+        )
+        .addTag(
+            12, "SharedBackdropCenter",
+            2.0, VectorF(60.25f, 0.0f, 4f), DistanceUnit.INCH,
+            Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
+        )
+        .addTag(
+            13, "SharedBackdropRight",
+            2.0, VectorF(60.25f, -6.0f, 4f), DistanceUnit.INCH,
+            Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0)
+        )
+        .build()
 
     private val aprilTagProcessor = AprilTagProcessor.Builder()
             .setOutputUnits(DistanceUnit.INCH, AngleUnit.RADIANS)
@@ -129,7 +200,7 @@ class Camera(
     }
 
     fun getTagPose(tagId: Int): Pose2d {
-        val aprilTagMetadata = AprilTagGameDatabase.getCenterStageTagLibrary().lookupTag(tagId)
+        val aprilTagMetadata = aprilTagLibrary.lookupTag(tagId)
 
         val orientation = aprilTagMetadata.fieldOrientation.toOrientation(AxesReference.EXTRINSIC, AxesOrder.YXZ, AngleUnit.RADIANS)
 

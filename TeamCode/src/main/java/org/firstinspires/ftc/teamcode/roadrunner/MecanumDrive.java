@@ -308,6 +308,11 @@ public final class MecanumDrive {
             this.maxTimeS = maxTime.s;
         }
 
+        public CorrectionAction(Pose target) {
+            this.target = target.getPose2d();
+            this.maxTimeS = PARAMS.maxStackCorrectTimeSec;
+        }
+
         @Override
         public boolean run(@NonNull TelemetryPacket p) {
             double t;

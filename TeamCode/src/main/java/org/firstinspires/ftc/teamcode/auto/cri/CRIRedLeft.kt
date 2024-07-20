@@ -55,9 +55,13 @@ class CRIRedLeft : MultiThreadOpMode() {
     private val leftTransition = midTransition
     private val rightTransition = midTransition
 
-    private val midPreTransition = Pose(1.tile, -0.5.tile, 180.deg)
-    private val leftPreTransition = midPreTransition
-    private val rightPreTransition = midPreTransition
+    private val midPreTruss = Pose(0.tile, -0.5.tile, 180.deg)
+    private val leftPreTruss = midPreTruss
+    private val rightPreTruss = midPreTruss
+
+    private val midPostTruss = Pose(1.tile, -0.5.tile, 180.deg)
+    private val leftPostTruss = midPostTruss
+    private val rightPostTruss = midPostTruss
 
     private val midCenterBoard = Pose(3.tile + 3.inch, -1.5.tile, 180.deg)
     private val midLeftBoard = Pose(3.tile + 3.inch, -1.5.tile + 6.inch, 180.deg)
@@ -168,6 +172,9 @@ class CRIRedLeft : MultiThreadOpMode() {
         camera.telemetry = telemetry
         camera.setColor(ColorVisionProcessor.DetectionColor.RED)
 
+        fun enableApril() = InstantAction { drive.useApril = true }
+        fun disableApril() = InstantAction { drive.useApril = false }
+
         val actionLeft = SequentialAction(
             drive.actionBuilder(startPose)
                 .strafeToLinearHeading(leftPurplePixel.position, leftPurplePixel.heading)
@@ -176,43 +183,55 @@ class CRIRedLeft : MultiThreadOpMode() {
                 .afterTime(0.s, firstStackPrep())
                 .splineToLinearHeading(leftStacky, 180.deg)
                 .build(),
+            drive.CorrectionAction(leftStacky),
             InstantAction { intake.firstStack() },
             intake.waitForPixel(),
             InstantAction { box.power = 0.0 },
             drive.actionBuilder(leftStacky)
                 .setTangent(0.deg)
                 .afterTime(0.s, intake.ejectPixels())
-                .splineToConstantHeading(leftPreTransition.position, 0.deg)
-                .splineToConstantHeading(leftTransition.position, 0.deg, speed20)
+                .splineToConstantHeading(leftPreTruss.position, 0.deg)
+                .splineToConstantHeading(leftPostTruss.position, 0.deg, speed20)
                 .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
+                .splineToConstantHeading(leftTransition.position, 0.deg)
                 .splineToConstantHeading(leftCenterBoard.position, leftBoardAproachAngle, speed60)
                 .build(),
+            drive.CorrectionAction(leftCenterBoard),
+            enableApril(),
             ejectTillYellow(),
+            disableApril(),
             drive.actionBuilder(leftCenterBoard)
                 .strafeTo(leftLeftBoard.position)
                 .build(),
+            drive.CorrectionAction(leftLeftBoard),
+            enableApril(),
             lift.goToYellow(),
             box.ejectYellowPixel(),
             InstantAction { lift.targetPositionTicks = Lift.LiftConfig.aboveWhiteTicks },
+            disableApril(),
             drive.actionBuilder(leftLeftBoard)
                 .setTangent(leftBoardLeavingAngle)
                 .afterTime(Lift.LiftConfig.postBoardDecendWaitSec.s, systemsToIntake())
                 .splineToConstantHeading(leftTransition.position, 180.deg, speed60)
-                .splineToConstantHeading(leftPreTransition.position, 180.deg, speed20)
+                .splineToConstantHeading(leftPostTruss.position, 180.deg)
+                .splineToConstantHeading(leftPreTruss.position, 180.deg, speed20)
                 .afterTime(0.s, secondStackPrep())
                 .splineToConstantHeading(leftStacky.position, 180.deg)
                 .build(),
+            drive.CorrectionAction(leftStacky),
             InstantAction { intake.secondStack() },
             intake.waitForPixel(),
             InstantAction { box.power = 0.0 },
             drive.actionBuilder(leftStacky)
                 .setTangent(0.deg)
                 .afterTime(0.s, intake.ejectPixels())
-                .splineToConstantHeading(leftPreTransition.position, 0.deg)
-                .splineToConstantHeading(leftTransition.position, 0.deg, speed20)
+                .splineToConstantHeading(leftPreTruss.position, 0.deg)
+                .splineToConstantHeading(leftPostTruss.position, 0.deg, speed20)
                 .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
+                .splineToConstantHeading(leftTransition.position, 0.deg)
                 .splineToConstantHeading(leftCenterBoard.position, leftBoardAproachAngle, speed60)
                 .build(),
+            drive.CorrectionAction(leftCenterBoard),
             box.ejectTwoPixels(),
             drive.actionBuilder(leftCenterBoard)
                 .setTangent(180.deg)
@@ -231,43 +250,55 @@ class CRIRedLeft : MultiThreadOpMode() {
                 .afterTime(0.s, firstStackPrep())
                 .splineToLinearHeading(midStacky, 180.deg)
                 .build(),
+            drive.CorrectionAction(midStacky),
             InstantAction { intake.firstStack() },
             intake.waitForPixel(),
             InstantAction { box.power = 0.0 },
             drive.actionBuilder(midStacky)
                 .setTangent(0.deg)
                 .afterTime(0.s, intake.ejectPixels())
-                .splineToConstantHeading(midPreTransition.position, 0.deg)
-                .splineToConstantHeading(midTransition.position, 0.deg, speed20)
+                .splineToConstantHeading(midPreTruss.position, 0.deg)
+                .splineToConstantHeading(midPostTruss.position, 0.deg, speed20)
                 .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
+                .splineToConstantHeading(midTransition.position, 0.deg)
                 .splineToConstantHeading(midLeftBoard.position, midBoardAproachAngle, speed60)
                 .build(),
+            drive.CorrectionAction(midLeftBoard),
+            enableApril(),
             ejectTillYellow(),
+            disableApril(),
             drive.actionBuilder(midLeftBoard)
                 .strafeTo(midCenterBoard.position)
                 .build(),
+            drive.CorrectionAction(midCenterBoard),
+            enableApril(),
             lift.goToYellow(),
             box.ejectYellowPixel(),
             InstantAction { lift.targetPositionTicks = Lift.LiftConfig.aboveWhiteTicks },
+            disableApril(),
             drive.actionBuilder(midCenterBoard)
                 .setTangent(midBoardLeavingAngle)
                 .afterTime(Lift.LiftConfig.postBoardDecendWaitSec.s, systemsToIntake())
                 .splineToConstantHeading(midTransition.position, 180.deg, speed60)
-                .splineToConstantHeading(midPreTransition.position, 180.deg, speed20)
+                .splineToConstantHeading(midPostTruss.position, 180.deg)
+                .splineToConstantHeading(midPreTruss.position, 180.deg, speed20)
                 .afterTime(0.s, secondStackPrep())
                 .splineToConstantHeading(midStacky.position, 180.deg)
                 .build(),
+            drive.CorrectionAction(midStacky),
             InstantAction { intake.secondStack() },
             intake.waitForPixel(),
             InstantAction { box.power = 0.0 },
             drive.actionBuilder(midStacky)
                 .setTangent(0.deg)
                 .afterTime(0.s, intake.ejectPixels())
-                .splineToConstantHeading(midPreTransition.position, 0.deg)
-                .splineToConstantHeading(midTransition.position, 0.deg, speed20)
+                .splineToConstantHeading(midPreTruss.position, 0.deg)
+                .splineToConstantHeading(midPostTruss.position, 0.deg, speed20)
                 .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
+                .splineToConstantHeading(midTransition.position, 0.deg)
                 .splineToConstantHeading(midLeftBoard.position, midBoardAproachAngle, speed60)
                 .build(),
+            drive.CorrectionAction(midLeftBoard),
             box.ejectTwoPixels(),
             drive.actionBuilder(midLeftBoard)
                 .setTangent(180.deg)
@@ -288,43 +319,55 @@ class CRIRedLeft : MultiThreadOpMode() {
                 .afterTime(0.s, firstStackPrep())
                 .splineToLinearHeading(rightStacky, 180.deg)
                 .build(),
+            drive.CorrectionAction(rightStacky),
             InstantAction { intake.firstStack() },
             intake.waitForPixel(),
             InstantAction { box.power = 0.0 },
             drive.actionBuilder(rightStacky)
                 .setTangent(0.deg)
                 .afterTime(0.s, intake.ejectPixels())
-                .splineToConstantHeading(rightPreTransition.position, 0.deg)
-                .splineToConstantHeading(rightTransition.position, 0.deg, speed20)
+                .splineToConstantHeading(rightPreTruss.position, 0.deg)
+                .splineToConstantHeading(rightPostTruss.position, 0.deg, speed20)
                 .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
+                .splineToConstantHeading(rightTransition.position, 0.deg)
                 .splineToConstantHeading(rightLeftBoard.position, rightBoardAproachAngle, speed60)
                 .build(),
+            drive.CorrectionAction(rightLeftBoard),
+            enableApril(),
             ejectTillYellow(),
+            disableApril(),
             drive.actionBuilder(rightLeftBoard)
                 .strafeTo(rightRightBoard.position)
                 .build(),
+            drive.CorrectionAction(rightRightBoard),
+            enableApril(),
             lift.goToYellow(),
             box.ejectYellowPixel(),
             InstantAction { lift.targetPositionTicks = Lift.LiftConfig.aboveWhiteTicks },
+            disableApril(),
             drive.actionBuilder(rightRightBoard)
                 .setTangent(rightBoardLeavingAngle)
                 .afterTime(Lift.LiftConfig.postBoardDecendWaitSec.s, systemsToIntake())
                 .splineToConstantHeading(rightTransition.position, 180.deg, speed60)
-                .splineToConstantHeading(rightPreTransition.position, 180.deg, speed20)
+                .splineToConstantHeading(rightPostTruss.position, 180.deg)
+                .splineToConstantHeading(rightPreTruss.position, 180.deg, speed20)
                 .afterTime(0.s, secondStackPrep())
                 .splineToConstantHeading(rightStacky.position, 180.deg)
                 .build(),
+            drive.CorrectionAction(rightStacky),
             InstantAction { intake.secondStack() },
             intake.waitForPixel(),
             InstantAction { box.power = 0.0 },
             drive.actionBuilder(rightStacky)
                 .setTangent(0.deg)
                 .afterTime(0.s, intake.ejectPixels())
-                .splineToConstantHeading(rightPreTransition.position, 0.deg)
-                .splineToConstantHeading(rightTransition.position, 0.deg, speed20)
+                .splineToConstantHeading(rightPreTruss.position, 0.deg)
+                .splineToConstantHeading(rightPostTruss.position, 0.deg, speed20)
                 .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
+                .splineToConstantHeading(rightTransition.position, 0.deg)
                 .splineToConstantHeading(rightLeftBoard.position, rightBoardAproachAngle, speed60)
                 .build(),
+            drive.CorrectionAction(rightLeftBoard),
             box.ejectTwoPixels(),
             drive.actionBuilder(rightLeftBoard)
                 .setTangent(180.deg)
