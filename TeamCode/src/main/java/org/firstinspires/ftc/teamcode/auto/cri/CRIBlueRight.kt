@@ -41,19 +41,19 @@ class CRIBlueRight : MultiThreadOpMode() {
 
     private val avgWindow = 100
 
-    private val startPose = Pose(-2.5.tile, 2.5.tile + 3.inch, 90.deg)
+    private val startPose = Pose(-2.5.tile, 2.5.tile + 2.inch, 90.deg)
 
     private val midPurplePixel = Pose(-2.5.tile, 0.5.tile + 4.inch, 90.deg)
     private val rightPurplePixel = Pose(-3.tile, 1.tile, -90.deg)
-    private val leftPurplePixel = Pose(2.5.tile - 5.inch, -1.5.tile, 0.deg)
+    private val leftPurplePixel = Pose(-2.5.tile + 5.inch, 1.5.tile, 180.deg)
 
-    private val midStacky1 = Pose(-3.4.tile, 0.5.tile, 180.deg)
-    private val leftStacky1 = Pose(-3.4.tile, 0.5.tile, 180.deg)
-    private val rightStacky1 = Pose(-3.4.tile, 0.5.tile, 180.deg)
+    private val midStacky1 = Pose(-3.5.tile, 0.5.tile, 180.deg)
+    private val leftStacky1 = Pose(-3.5.tile, 0.5.tile, 180.deg)
+    private val rightStacky1 = Pose(-3.5.tile, 0.5.tile, 180.deg)
 
-    private val midStacky2 = Pose(-3.3.tile, 0.5.tile, 180.deg)
-    private val leftStacky2 = Pose(-3.3.tile, 0.5.tile, 180.deg)
-    private val rightStacky2 = Pose(-3.3.tile, 0.5.tile, 180.deg)
+    private val midStacky2 = Pose(-3.5.tile, 0.5.tile, 180.deg)
+    private val leftStacky2 = Pose(-3.5.tile, 0.5.tile, 180.deg)
+    private val rightStacky2 = Pose(-3.5.tile, 0.5.tile, 180.deg)
 
     private val midTransition1 = Pose(2.tile, 0.5.tile, 180.deg)
     private val leftTransition1 = Pose(2.tile, 0.5.tile, 180.deg)
@@ -197,12 +197,12 @@ class CRIBlueRight : MultiThreadOpMode() {
         val actionLeft = SequentialAction(
             drive.actionBuilder(startPose)
                 .setTangent(225.deg)
-                .splineToLinearHeading(rightPurplePixel, 0.deg)
+                .splineToLinearHeading(leftPurplePixel, 0.deg)
                 .stopAndAdd(intake.ejectPurple())
                 .setTangent(180.deg)
-                .splineTo(rightPurplePixel.position - 4.cm.x, 180.deg)
+                .splineTo(leftPurplePixel.position - 4.cm.x, 180.deg)
                 .afterTime(0.s, firstStackPrep())
-                .splineToLinearHeading(rightStacky1, 180.deg)
+                .splineToLinearHeading(leftStacky1, 180.deg)
                 .build(),
             drive.CorrectionAction(leftStacky1),
             InstantAction { intake.firstStack() },
@@ -332,11 +332,11 @@ class CRIBlueRight : MultiThreadOpMode() {
 
         val actionRight = SequentialAction(
             drive.actionBuilder(startPose)
-                .strafeToLinearHeading(leftPurplePixel.position, leftPurplePixel.heading)
+                .strafeToLinearHeading(rightPurplePixel.position, rightPurplePixel.heading)
                 .stopAndAdd(intake.ejectPurple())
                 .setTangent(-90.deg)
                 .afterTime(0.s, firstStackPrep())
-                .splineToLinearHeading(leftStacky1, 180.deg)
+                .splineToLinearHeading(rightStacky1, 180.deg)
                 .build(),
             drive.CorrectionAction(rightStacky1),
             InstantAction { intake.firstStack() },
