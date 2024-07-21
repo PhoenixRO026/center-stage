@@ -47,7 +47,7 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
     private val rightPurplePixel = Pose(-3.tile, 1.tile, 90.deg)
     private val leftPurplePixel = Pose(-2.5.tile + 3.inch, 1.5.tile, 0.deg)
 
-    private val midStacky1 = Pose(-3.5.tile, 0.5.tile, 180.deg)
+    private val midStacky1 = Pose(-3.55.tile, 0.5.tile, 180.deg)
     private val leftStacky1 = Pose(-3.45.tile, 0.5.tile, 180.deg)
     private val rightStacky1 = Pose(-3.55.tile, 0.5.tile, 180.deg)
 
@@ -79,8 +79,8 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
     private val leftPostTruss2 = Pose(1.tile, 0.5.tile, 180.deg)
     private val rightPostTruss2 = Pose(1.tile, 0.5.tile, 180.deg)
 
-    private val midCenterBoard = Pose(3.tile + 3.inch, 1.5.tile, 180.deg)
-    private val midRightBoard1 = Pose(3.tile + 3.inch, 1.5.tile - 6.inch, 180.deg)
+    private val midCenterBoard = Pose(3.tile + 3.inch, 1.5.tile - 1.5.inch, 180.deg)
+    private val midRightBoard1 = Pose(3.tile + 3.inch, 1.5.tile - 6.inch - 2.cm, 180.deg)
     private val midRightBoard2 = Pose(3.tile + 3.inch, 1.5.tile - 6.inch, 180.deg)
 
     private val leftLeftBoard = Pose(3.tile + 2.inch, 1.5.tile + 6.5.inch, 180.deg)
@@ -230,7 +230,7 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
             box.ejectYellowPixel(),
             InstantAction { lift.targetPositionTicks = Lift.LiftConfig.aboveWhiteTicks },
             disableApril(),
-            drive.actionBuilder(leftLeftBoard)
+            /*drive.actionBuilder(leftLeftBoard)
                 .setTangent(leftBoardLeavingAngle)
                 .afterTime(Lift.LiftConfig.postBoardDecendWaitSec.s, systemsToIntake())
                 .splineToConstantHeading(leftTransition2.position, 180.deg, speed60)
@@ -253,10 +253,10 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
                 .splineToConstantHeading(leftRightBoard2.position, leftBoardAproachAngle, speed60)
                 .build(),
             drive.CorrectionAction(leftRightBoard2),
-            box.ejectTwoPixels(),
-            drive.actionBuilder(leftRightBoard2)
+            box.ejectTwoPixels(),*/
+            drive.actionBuilder(/*leftRightBoard2*/leftLeftBoard)
                 .setTangent(180.deg)
-                .lineToX(leftRightBoard2.position.x - parkReverseDistance)
+                .lineToX(/*leftRightBoard2*/leftLeftBoard.position.x - parkReverseDistance)
                 .afterTime(0.s, systemsToIntake())
                 .setTangent(90.deg)
                 .lineToY(parkY)
@@ -297,7 +297,7 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
             box.ejectYellowPixel(),
             InstantAction { lift.targetPositionTicks = Lift.LiftConfig.aboveWhiteTicks },
             disableApril(),
-            drive.actionBuilder(midCenterBoard)
+            /*drive.actionBuilder(midCenterBoard)
                 .setTangent(midBoardLeavingAngle)
                 .afterTime(Lift.LiftConfig.postBoardDecendWaitSec.s, systemsToIntake())
                 .splineToConstantHeading(midTransition2.position, 180.deg, speed60)
@@ -320,10 +320,10 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
                 .splineToConstantHeading(midRightBoard2.position, midBoardAproachAngle, speed60)
                 .build(),
             drive.CorrectionAction(midRightBoard2),
-            box.ejectTwoPixels(),
-            drive.actionBuilder(midRightBoard2)
+            box.ejectTwoPixels(),*/
+            drive.actionBuilder(/*midRightBoard2*/midCenterBoard)
                 .setTangent(180.deg)
-                .lineToX(midRightBoard2.position.x - parkReverseDistance)
+                .lineToX(/*midRightBoard2*/midCenterBoard.position.x - parkReverseDistance)
                 .afterTime(0.s, systemsToIntake())
                 .setTangent(90.deg)
                 .lineToY(parkY)
@@ -365,7 +365,7 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
             box.ejectYellowPixel(),
             InstantAction { lift.targetPositionTicks = Lift.LiftConfig.aboveWhiteTicks },
             disableApril(),
-            drive.actionBuilder(rightRightBoard)
+            /*drive.actionBuilder(rightRightBoard)
                 .setTangent(rightBoardLeavingAngle)
                 .afterTime(Lift.LiftConfig.postBoardDecendWaitSec.s, systemsToIntake())
                 .splineToConstantHeading(rightTransition2.position, 180.deg, speed60)
@@ -388,10 +388,10 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
                 .splineToConstantHeading(rightCenterBoard2.position, rightBoardAproachAngle, speed60)
                 .build(),
             drive.CorrectionAction(rightCenterBoard2),
-            box.ejectTwoPixels(),
-            drive.actionBuilder(rightCenterBoard2)
+            box.ejectTwoPixels(),*/
+            drive.actionBuilder(/*rightCenterBoard2*/rightRightBoard)
                 .setTangent(180.deg)
-                .lineToX(rightCenterBoard2.position.x - parkReverseDistance)
+                .lineToX(/*rightCenterBoard2*/rightRightBoard.position.x - parkReverseDistance)
                 .afterTime(0.s, systemsToIntake())
                 .setTangent(90.deg)
                 .lineToY(parkY)
