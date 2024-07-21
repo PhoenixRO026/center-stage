@@ -31,20 +31,22 @@ import org.firstinspires.ftc.teamcode.systems.multi.LiftMulti.Companion.liftMult
 import java.util.ArrayDeque
 
 @Photon
-@Autonomous(preselectTeleOp = "LammaDriveBlue", group = "CRI")
-class CRIBlueMiddlePurple : MultiThreadOpMode() {
+@Autonomous(preselectTeleOp = "LammaDriveRed", group = "CRI")
+class CRIRedRightPreload : MultiThreadOpMode() {
 
     private val avgWindow = 100
 
-    private val startPose = Pose(-0.5.tile, 2.5.tile + 2.inch, 90.deg)
+    private val startPose = Pose(1.5.tile, -2.5.tile - 2.inch, -90.deg)
 
-    private val midPurplePixel = Pose(-0.5.tile, 1.5.tile - 2.inch, -90.deg)
-    private val leftPurplePixel = Pose(-0.5.tile + 2.inch, 1.5.tile, 0.deg)
-    private val rightPurplePixel = Pose(-0.5.tile - 2.inch, 1.5.tile, 180.deg)
+    private val midPurplePixel = Pose(1.5.tile, -1.5.tile + 2.inch, 90.deg)
+    private val leftPurplePixel = Pose(1.5.tile - 2.inch, -1.5.tile, 180.deg)
+    private val rightPurplePixel = Pose(-0.5.tile + 2.inch, -1.5.tile, 0.deg)
 
-    private val midTile = Distance2d(-0.5.tile, 1.5.tile)
+    private val midTile = Distance2d(-0.5.tile, -1.5.tile)
 
-    private val clearence = 10.cm
+    private val wallClearance = 10.cm
+
+    private val clearance = 10.cm
     
     private val drive by opModeLazy {
         MecanumDrive(hardwareMap, startPose.pose2d)
@@ -123,7 +125,7 @@ class CRIBlueMiddlePurple : MultiThreadOpMode() {
 
         drive.camera = camera
         camera.telemetry = telemetry
-        camera.setColor(ColorVisionProcessor.DetectionColor.BLUE)
+        camera.setColor(ColorVisionProcessor.DetectionColor.RED)
 
         val actionLeft = SequentialAction(
             drive.actionBuilder(startPose)
@@ -131,7 +133,7 @@ class CRIBlueMiddlePurple : MultiThreadOpMode() {
                 .turnTo(leftPurplePixel.heading)
                 .strafeTo(leftPurplePixel.position)
                 .stopAndAdd(intake.ejectPurple())
-                .strafeTo(leftPurplePixel.position - clearence.x)
+                .strafeTo(leftPurplePixel.position + clearance.x)
                 .build()
         )
 
@@ -141,7 +143,7 @@ class CRIBlueMiddlePurple : MultiThreadOpMode() {
                 .turnTo(midPurplePixel.heading)
                 .strafeTo(midPurplePixel.position)
                 .stopAndAdd(intake.ejectPurple())
-                .strafeTo(midPurplePixel.position + clearence.y)
+                .strafeTo(midPurplePixel.position - clearance.y)
                 .build()
         )
 
@@ -151,7 +153,7 @@ class CRIBlueMiddlePurple : MultiThreadOpMode() {
                 .turnTo(rightPurplePixel.heading)
                 .strafeTo(rightPurplePixel.position)
                 .stopAndAdd(intake.ejectPurple())
-                .strafeTo(rightPurplePixel.position + clearence.x)
+                .strafeTo(rightPurplePixel.position - clearance.x)
                 .build()
         )
 
