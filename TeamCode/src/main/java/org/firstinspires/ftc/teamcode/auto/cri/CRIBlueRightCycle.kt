@@ -49,7 +49,7 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
 
     private val midStacky1 = Pose(-3.5.tile, 0.5.tile, 180.deg)
     private val leftStacky1 = Pose(-3.45.tile, 0.5.tile, 180.deg)
-    private val rightStacky1 = Pose(-3.5.tile, 0.5.tile, 180.deg)
+    private val rightStacky1 = Pose(-3.55.tile, 0.5.tile, 180.deg)
 
     private val midStacky2 = Pose(-3.5.tile, 0.5.tile, 180.deg)
     private val leftStacky2 = Pose(-3.5.tile, 0.5.tile + 1.cm, 180.deg)
@@ -87,8 +87,8 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
     private val leftRightBoard1 = Pose(3.tile + 1.inch, 1.5.tile - 3.6.inch, 180.deg)
     private val leftRightBoard2 = Pose(3.tile + 3.inch, 1.5.tile - 6.inch, 180.deg)
 
-    private val rightRightBoard = Pose(3.tile + 3.inch, 1.5.tile - 6.inch, 180.deg)
-    private val rightCenterBoard1 = Pose(3.tile + 3.inch, 1.5.tile, 180.deg)
+    private val rightRightBoard = Pose(3.tile + 2.inch, 1.5.tile - 6.inch, 180.deg)
+    private val rightCenterBoard1 = Pose(3.tile + 1.inch, 1.5.tile, 180.deg)
     private val rightCenterBoard2 = Pose(3.tile + 3.inch, 1.5.tile, 180.deg)
 
     private val parkReverseDistance = 10.cm
