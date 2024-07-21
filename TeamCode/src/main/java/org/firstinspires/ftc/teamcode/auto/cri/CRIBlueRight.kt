@@ -36,7 +36,7 @@ import org.firstinspires.ftc.teamcode.systems.multi.LiftMulti.Companion.liftMult
 import java.util.ArrayDeque
 
 @Photon
-@Autonomous(preselectTeleOp = "LammaDriveRed", group = "CRI")
+@Autonomous(preselectTeleOp = "LammaDriveBlue", group = "CRI")
 class CRIBlueRight : MultiThreadOpMode() {
 
     private val avgWindow = 100

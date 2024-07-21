@@ -31,16 +31,16 @@ import org.firstinspires.ftc.teamcode.systems.multi.LiftMulti.Companion.liftMult
 import java.util.ArrayDeque
 
 @Photon
-@Autonomous(preselectTeleOp = "LammaDriveRed", group = "CRI")
-class CRIRedMiddlePurple : MultiThreadOpMode() {
+@Autonomous(preselectTeleOp = "LammaDriveBlue", group = "CRI")
+class CRIBlueMiddlePurple : MultiThreadOpMode() {
 
     private val avgWindow = 100
 
-    private val startPose = Pose(-0.5.tile, -2.5.tile - 2.inch, -90.deg)
+    private val startPose = Pose(-0.5.tile, 2.5.tile + 2.inch, 90.deg)
 
-    private val midPurplePixel = Pose(-0.5.tile, -1.5.tile + 2.inch, 90.deg)
-    private val leftPurplePixel = Pose(-0.5.tile - 2.inch, -1.5.tile, 180.deg)
-    private val rightPurplePixel = Pose(-0.5.tile + 2.inch, -1.5.tile, 0.deg)
+    private val midPurplePixel = Pose(-0.5.tile, 1.5.tile - 2.inch, -90.deg)
+    private val leftPurplePixel = Pose(-0.5.tile + 2.inch, -1.5.tile, 0.deg)
+    private val rightPurplePixel = Pose(-0.5.tile - 2.inch, -1.5.tile, 180.deg)
 
     private val midTile = Distance2d(-0.5.tile, -1.5.tile)
 
@@ -123,7 +123,7 @@ class CRIRedMiddlePurple : MultiThreadOpMode() {
 
         drive.camera = camera
         camera.telemetry = telemetry
-        camera.setColor(ColorVisionProcessor.DetectionColor.RED)
+        camera.setColor(ColorVisionProcessor.DetectionColor.BLUE)
 
         val actionLeft = SequentialAction(
             drive.actionBuilder(startPose)
@@ -131,7 +131,7 @@ class CRIRedMiddlePurple : MultiThreadOpMode() {
                 .turnTo(leftPurplePixel.heading)
                 .strafeTo(leftPurplePixel.position)
                 .stopAndAdd(intake.ejectPurple())
-                .strafeTo(leftPurplePixel.position + clearence.x)
+                .strafeTo(leftPurplePixel.position - clearence.x)
                 .build()
         )
 
@@ -141,7 +141,7 @@ class CRIRedMiddlePurple : MultiThreadOpMode() {
                 .turnTo(midPurplePixel.heading)
                 .strafeTo(midPurplePixel.position)
                 .stopAndAdd(intake.ejectPurple())
-                .strafeTo(midPurplePixel.position - clearence.y)
+                .strafeTo(midPurplePixel.position + clearence.y)
                 .build()
         )
 
@@ -151,7 +151,7 @@ class CRIRedMiddlePurple : MultiThreadOpMode() {
                 .turnTo(rightPurplePixel.heading)
                 .strafeTo(rightPurplePixel.position)
                 .stopAndAdd(intake.ejectPurple())
-                .strafeTo(rightPurplePixel.position - clearence.x)
+                .strafeTo(rightPurplePixel.position + clearence.x)
                 .build()
         )
 
