@@ -44,7 +44,7 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
     private val startPose = Pose(-2.5.tile, 2.5.tile + 2.inch, 90.deg)
 
     private val midPurplePixel = Pose(-2.5.tile, 0.5.tile + 4.inch, 90.deg)
-    private val rightPurplePixel = Pose(-3.tile, 1.tile, -90.deg)
+    private val rightPurplePixel = Pose(-3.tile, 1.tile, 90.deg)
     private val leftPurplePixel = Pose(-2.5.tile + 3.inch, 1.5.tile, 0.deg)
 
     private val midStacky1 = Pose(-3.5.tile, 0.5.tile, 180.deg)
@@ -52,11 +52,11 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
     private val rightStacky1 = Pose(-3.5.tile, 0.5.tile, 180.deg)
 
     private val midStacky2 = Pose(-3.5.tile, 0.5.tile, 180.deg)
-    private val leftStacky2 = Pose(-3.5.tile, 0.5.tile, 180.deg)
+    private val leftStacky2 = Pose(-3.5.tile, 0.5.tile + 1.cm, 180.deg)
     private val rightStacky2 = Pose(-3.5.tile, 0.5.tile, 180.deg)
 
     private val midTransition1 = Pose(2.tile, 0.5.tile, 180.deg)
-    private val leftTransition1 = Pose(2.tile, 0.5.tile + 3.cm, 180.deg)
+    private val leftTransition1 = Pose(2.tile, 0.5.tile + 4.cm, 180.deg)
     private val rightTransition1 = Pose(2.tile, 0.5.tile, 180.deg)
 
     private val midTransition2 = Pose(2.tile, 0.5.tile, 180.deg)
@@ -64,7 +64,7 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
     private val rightTransition2 = Pose(2.tile, 0.5.tile, 180.deg)
 
     private val midPreTruss1 = Pose(0.tile, 0.5.tile, 180.deg)
-    private val leftPreTruss1 = Pose(0.tile, 0.5.tile + 3.cm, 180.deg)
+    private val leftPreTruss1 = Pose(0.tile, 0.5.tile + 4.cm, 180.deg)
     private val rightPreTruss1 = Pose(0.tile, 0.5.tile, 180.deg)
 
     private val midPreTruss2 = Pose(0.tile, 0.5.tile, 180.deg)
@@ -72,7 +72,7 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
     private val rightPreTruss2 = Pose(0.tile, 0.5.tile, 180.deg)
 
     private val midPostTruss1 = Pose(1.tile, 0.5.tile, 180.deg)
-    private val leftPostTruss1 = Pose(1.tile, 0.5.tile + 3.cm, 180.deg)
+    private val leftPostTruss1 = Pose(1.tile, 0.5.tile + 4.cm, 180.deg)
     private val rightPostTruss1 = Pose(1.tile, 0.5.tile, 180.deg)
 
     private val midPostTruss2 = Pose(1.tile, 0.5.tile, 180.deg)
