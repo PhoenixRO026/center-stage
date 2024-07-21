@@ -107,14 +107,14 @@ public final class MecanumDrive {
 
         public double correctionAxialGain = 10;
         public double correctionLateralGain = 10;
-        public double correctionHeadingGain = 9; // shared with turn
+        public double correctionHeadingGain = 10; // shared with turn
 
         public int imuPersistanceFrequency = 30;
 
         public double kalmanQ = 0.1;
         public double kalmanR = 0.4;
 
-        public double maxStackCorrectTimeSec = 0.5;
+        public double maxStackCorrectTimeSec = 0.8;
     }
 
     private int persistentImuCounter = 1;
@@ -329,7 +329,7 @@ public final class MecanumDrive {
 
             Pose2d error = target.minusExp(pose);
 
-            if ((error.position.norm() < 0.5 && robotVelRobot.linearVel.norm() < 1) || t >= maxTimeS) {
+            if ((error.position.norm() < 0.5 && robotVelRobot.linearVel.norm() < 1 && error.heading.toDouble() < Math.toRadians(5)) || t >= maxTimeS) {
                 leftFront.setPower(0);
                 leftBack.setPower(0);
                 rightBack.setPower(0);
