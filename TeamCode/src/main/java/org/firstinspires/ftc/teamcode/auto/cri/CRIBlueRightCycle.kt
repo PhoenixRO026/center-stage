@@ -36,70 +36,70 @@ import org.firstinspires.ftc.teamcode.systems.multi.LiftMulti.Companion.liftMult
 import java.util.ArrayDeque
 
 @Photon
-@Autonomous(preselectTeleOp = "LammaDriveRed", group = "CRI")
-class CRIRedLeft : MultiThreadOpMode() {
+@Autonomous(preselectTeleOp = "LammaDriveBlue", group = "CRI")
+open class CRIBlueRightCycle : MultiThreadOpMode() {
 
     private val avgWindow = 100
 
-    private val startPose = Pose(-2.5.tile, -2.5.tile - 1.inch, -90.deg)
+    private val startPose = Pose(-2.5.tile, 2.5.tile + 2.inch, 90.deg)
 
-    private val midPurplePixel = Pose(-2.5.tile, -0.5.tile - 4.inch, -90.deg)
-    private val leftPurplePixel = Pose(-3.tile, -1.tile, -90.deg)
-    private val rightPurplePixel = Pose(-2.5.tile + 5.inch, -1.5.tile, 0.deg)
+    private val midPurplePixel = Pose(-2.5.tile, 0.5.tile + 4.inch, 90.deg)
+    private val rightPurplePixel = Pose(-3.tile, 1.tile, -90.deg)
+    private val leftPurplePixel = Pose(-2.5.tile + 5.inch, 1.5.tile, 180.deg)
 
-    private val midStacky1 = Pose(-3.5.tile, -0.5.tile, 180.deg)
-    private val leftStacky1 = Pose(-3.5.tile, -0.5.tile, 180.deg)
-    private val rightStacky1 = Pose(-3.5.tile, -0.5.tile, 180.deg)
+    private val midStacky1 = Pose(-3.5.tile, 0.5.tile, 180.deg)
+    private val leftStacky1 = Pose(-3.5.tile, 0.5.tile, 180.deg)
+    private val rightStacky1 = Pose(-3.5.tile, 0.5.tile, 180.deg)
 
-    private val midStacky2 = Pose(-3.5.tile, -0.5.tile, 180.deg)
-    private val leftStacky2 = Pose(-3.5.tile, -0.5.tile, 180.deg)
-    private val rightStacky2 = Pose(-3.5.tile, -0.5.tile, 180.deg)
+    private val midStacky2 = Pose(-3.5.tile, 0.5.tile, 180.deg)
+    private val leftStacky2 = Pose(-3.5.tile, 0.5.tile, 180.deg)
+    private val rightStacky2 = Pose(-3.5.tile, 0.5.tile, 180.deg)
 
-    private val midTransition1 = Pose(2.tile, -0.5.tile, 180.deg)
-    private val leftTransition1 = Pose(2.tile, -0.5.tile, 180.deg)
-    private val rightTransition1 = Pose(2.tile, -0.5.tile, 180.deg)
+    private val midTransition1 = Pose(2.tile, 0.5.tile, 180.deg)
+    private val leftTransition1 = Pose(2.tile, 0.5.tile, 180.deg)
+    private val rightTransition1 = Pose(2.tile, 0.5.tile, 180.deg)
 
-    private val midTransition2 = Pose(2.tile, -0.5.tile, 180.deg)
-    private val leftTransition2 = Pose(2.tile, -0.5.tile, 180.deg)
-    private val rightTransition2 = Pose(2.tile, -0.5.tile, 180.deg)
+    private val midTransition2 = Pose(2.tile, 0.5.tile, 180.deg)
+    private val leftTransition2 = Pose(2.tile, 0.5.tile, 180.deg)
+    private val rightTransition2 = Pose(2.tile, 0.5.tile, 180.deg)
 
-    private val midPreTruss1 = Pose(0.tile, -0.5.tile, 180.deg)
-    private val leftPreTruss1 = Pose(0.tile, -0.5.tile, 180.deg)
-    private val rightPreTruss1 = Pose(0.tile, -0.5.tile, 180.deg)
+    private val midPreTruss1 = Pose(0.tile, 0.5.tile, 180.deg)
+    private val leftPreTruss1 = Pose(0.tile, 0.5.tile, 180.deg)
+    private val rightPreTruss1 = Pose(0.tile, 0.5.tile, 180.deg)
 
-    private val midPreTruss2 = Pose(0.tile, -0.5.tile, 180.deg)
-    private val leftPreTruss2 = Pose(0.tile, -0.5.tile, 180.deg)
-    private val rightPreTruss2 = Pose(0.tile, -0.5.tile, 180.deg)
+    private val midPreTruss2 = Pose(0.tile, 0.5.tile, 180.deg)
+    private val leftPreTruss2 = Pose(0.tile, 0.5.tile, 180.deg)
+    private val rightPreTruss2 = Pose(0.tile, 0.5.tile, 180.deg)
 
-    private val midPostTruss1 = Pose(1.tile, -0.5.tile, 180.deg)
-    private val leftPostTruss1 = Pose(1.tile, -0.5.tile, 180.deg)
-    private val rightPostTruss1 = Pose(1.tile, -0.5.tile, 180.deg)
+    private val midPostTruss1 = Pose(1.tile, 0.5.tile, 180.deg)
+    private val leftPostTruss1 = Pose(1.tile, 0.5.tile, 180.deg)
+    private val rightPostTruss1 = Pose(1.tile, 0.5.tile, 180.deg)
 
-    private val midPostTruss2 = Pose(1.tile, -0.5.tile, 180.deg)
-    private val leftPostTruss2 = Pose(1.tile, -0.5.tile, 180.deg)
-    private val rightPostTruss2 = Pose(1.tile, -0.5.tile, 180.deg)
+    private val midPostTruss2 = Pose(1.tile, 0.5.tile, 180.deg)
+    private val leftPostTruss2 = Pose(1.tile, 0.5.tile, 180.deg)
+    private val rightPostTruss2 = Pose(1.tile, 0.5.tile, 180.deg)
 
-    private val midCenterBoard = Pose(3.tile + 3.inch, -1.5.tile, 180.deg)
-    private val midLeftBoard1 = Pose(3.tile + 3.inch, -1.5.tile + 6.inch, 180.deg)
-    private val midLeftBoard2 = Pose(3.tile + 3.inch, -1.5.tile + 6.inch, 180.deg)
+    private val midCenterBoard = Pose(3.tile + 3.inch, 1.5.tile, 180.deg)
+    private val midRightBoard1 = Pose(3.tile + 3.inch, 1.5.tile - 6.inch, 180.deg)
+    private val midRightBoard2 = Pose(3.tile + 3.inch, 1.5.tile - 6.inch, 180.deg)
 
-    private val leftLeftBoard = Pose(3.tile + 3.inch, -1.5.tile + 6.inch, 180.deg)
-    private val leftCenterBoard1 = Pose(3.tile + 3.inch, -1.5.tile, 180.deg)
-    private val leftCenterBoard2 = Pose(3.tile + 3.inch, -1.5.tile, 180.deg)
+    private val leftLeftBoard = Pose(3.tile + 3.inch, 1.5.tile + 6.inch, 180.deg)
+    private val leftRightBoard1 = Pose(3.tile + 3.inch, 1.5.tile - 6.inch, 180.deg)
+    private val leftRightBoard2 = Pose(3.tile + 3.inch, 1.5.tile - 6.inch, 180.deg)
 
-    private val rightRightBoard = Pose(3.tile + 3.inch, -1.5.tile - 6.inch, 180.deg)
-    private val rightLeftBoard1 = Pose(3.tile + 3.inch, -1.5.tile + 6.inch, 180.deg)
-    private val rightLeftBoard2 = Pose(3.tile + 3.inch, -1.5.tile + 6.inch, 180.deg)
+    private val rightRightBoard = Pose(3.tile + 3.inch, 1.5.tile - 6.inch, 180.deg)
+    private val rightCenterBoard1 = Pose(3.tile + 3.inch, 1.5.tile, 180.deg)
+    private val rightCenterBoard2 = Pose(3.tile + 3.inch, 1.5.tile, 180.deg)
 
     private val parkReverseDistance = 10.cm
 
-    private val parkY = -0.5.tile
+    open val parkY = 0.5.tile
 
-    private val midBoardAproachAngle = -30.deg
+    private val midBoardAproachAngle = 30.deg
     private val leftBoardAproachAngle = midBoardAproachAngle
     private val rightBoardAproachAngle = midBoardAproachAngle
 
-    private val midBoardLeavingAngle = 150.deg
+    private val midBoardLeavingAngle = 210.deg
     private val leftBoardLeavingAngle = midBoardLeavingAngle
     private val rightBoardLeavingAngle = midBoardLeavingAngle
     
@@ -189,16 +189,18 @@ class CRIRedLeft : MultiThreadOpMode() {
 
         drive.camera = camera
         camera.telemetry = telemetry
-        camera.setColor(ColorVisionProcessor.DetectionColor.RED)
+        camera.setColor(ColorVisionProcessor.DetectionColor.BLUE)
 
         fun enableApril() = InstantAction { drive.useApril = true }
         fun disableApril() = InstantAction { drive.useApril = false }
 
         val actionLeft = SequentialAction(
             drive.actionBuilder(startPose)
-                .strafeToLinearHeading(leftPurplePixel.position, leftPurplePixel.heading)
+                .setTangent(225.deg)
+                .splineToLinearHeading(leftPurplePixel, 0.deg)
                 .stopAndAdd(intake.ejectPurple())
-                .setTangent(90.deg)
+                .setTangent(180.deg)
+                .splineTo(leftPurplePixel.position - 4.cm.x, 180.deg)
                 .afterTime(0.s, firstStackPrep())
                 .splineToLinearHeading(leftStacky1, 180.deg)
                 .build(),
@@ -213,13 +215,13 @@ class CRIRedLeft : MultiThreadOpMode() {
                 .splineToConstantHeading(leftPostTruss1.position, 0.deg, speed20)
                 .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
                 .splineToConstantHeading(leftTransition1.position, 0.deg)
-                .splineToConstantHeading(leftCenterBoard1.position, leftBoardAproachAngle, speed60)
+                .splineToConstantHeading(leftRightBoard1.position, leftBoardAproachAngle, speed60)
                 .build(),
-            drive.CorrectionAction(leftCenterBoard1),
+            drive.CorrectionAction(leftRightBoard1),
             enableApril(),
             ejectTillYellow(),
             disableApril(),
-            drive.actionBuilder(leftCenterBoard1)
+            drive.actionBuilder(leftRightBoard1)
                 .strafeTo(leftLeftBoard.position)
                 .build(),
             drive.CorrectionAction(leftLeftBoard),
@@ -248,13 +250,13 @@ class CRIRedLeft : MultiThreadOpMode() {
                 .splineToConstantHeading(leftPostTruss2.position, 0.deg, speed20)
                 .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
                 .splineToConstantHeading(leftTransition2.position, 0.deg)
-                .splineToConstantHeading(leftCenterBoard2.position, leftBoardAproachAngle, speed60)
+                .splineToConstantHeading(leftRightBoard2.position, leftBoardAproachAngle, speed60)
                 .build(),
-            drive.CorrectionAction(leftCenterBoard2),
+            drive.CorrectionAction(leftRightBoard2),
             box.ejectTwoPixels(),
-            drive.actionBuilder(leftCenterBoard2)
+            drive.actionBuilder(leftRightBoard2)
                 .setTangent(180.deg)
-                .lineToX(leftCenterBoard2.position.x - parkReverseDistance)
+                .lineToX(leftRightBoard2.position.x - parkReverseDistance)
                 .afterTime(0.s, systemsToIntake())
                 .setTangent(90.deg)
                 .lineToY(parkY)
@@ -265,7 +267,7 @@ class CRIRedLeft : MultiThreadOpMode() {
             drive.actionBuilder(startPose)
                 .strafeToLinearHeading(midPurplePixel.position, midPurplePixel.heading)
                 .stopAndAdd(intake.ejectPurple())
-                .setTangent(90.deg)
+                .setTangent(-90.deg)
                 .afterTime(0.s, firstStackPrep())
                 .splineToLinearHeading(midStacky1, 180.deg)
                 .build(),
@@ -280,13 +282,13 @@ class CRIRedLeft : MultiThreadOpMode() {
                 .splineToConstantHeading(midPostTruss1.position, 0.deg, speed20)
                 .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
                 .splineToConstantHeading(midTransition1.position, 0.deg)
-                .splineToConstantHeading(midLeftBoard1.position, midBoardAproachAngle, speed60)
+                .splineToConstantHeading(midRightBoard1.position, midBoardAproachAngle, speed60)
                 .build(),
-            drive.CorrectionAction(midLeftBoard1),
+            drive.CorrectionAction(midRightBoard1),
             enableApril(),
             ejectTillYellow(),
             disableApril(),
-            drive.actionBuilder(midLeftBoard1)
+            drive.actionBuilder(midRightBoard1)
                 .strafeTo(midCenterBoard.position)
                 .build(),
             drive.CorrectionAction(midCenterBoard),
@@ -315,13 +317,13 @@ class CRIRedLeft : MultiThreadOpMode() {
                 .splineToConstantHeading(midPostTruss2.position, 0.deg, speed20)
                 .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
                 .splineToConstantHeading(midTransition2.position, 0.deg)
-                .splineToConstantHeading(midLeftBoard2.position, midBoardAproachAngle, speed60)
+                .splineToConstantHeading(midRightBoard2.position, midBoardAproachAngle, speed60)
                 .build(),
-            drive.CorrectionAction(midLeftBoard2),
+            drive.CorrectionAction(midRightBoard2),
             box.ejectTwoPixels(),
-            drive.actionBuilder(midLeftBoard2)
+            drive.actionBuilder(midRightBoard2)
                 .setTangent(180.deg)
-                .lineToX(midLeftBoard2.position.x - parkReverseDistance)
+                .lineToX(midRightBoard2.position.x - parkReverseDistance)
                 .afterTime(0.s, systemsToIntake())
                 .setTangent(90.deg)
                 .lineToY(parkY)
@@ -330,11 +332,9 @@ class CRIRedLeft : MultiThreadOpMode() {
 
         val actionRight = SequentialAction(
             drive.actionBuilder(startPose)
-                .setTangent(135.deg)
-                .splineToLinearHeading(rightPurplePixel, 0.deg)
+                .strafeToLinearHeading(rightPurplePixel.position, rightPurplePixel.heading)
                 .stopAndAdd(intake.ejectPurple())
-                .setTangent(180.deg)
-                .splineTo(rightPurplePixel.position - 4.cm.x, 180.deg)
+                .setTangent(-90.deg)
                 .afterTime(0.s, firstStackPrep())
                 .splineToLinearHeading(rightStacky1, 180.deg)
                 .build(),
@@ -349,13 +349,13 @@ class CRIRedLeft : MultiThreadOpMode() {
                 .splineToConstantHeading(rightPostTruss1.position, 0.deg, speed20)
                 .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
                 .splineToConstantHeading(rightTransition1.position, 0.deg)
-                .splineToConstantHeading(rightLeftBoard1.position, rightBoardAproachAngle, speed60)
+                .splineToConstantHeading(rightCenterBoard1.position, rightBoardAproachAngle, speed60)
                 .build(),
-            drive.CorrectionAction(rightLeftBoard1),
+            drive.CorrectionAction(rightCenterBoard1),
             enableApril(),
             ejectTillYellow(),
             disableApril(),
-            drive.actionBuilder(rightLeftBoard1)
+            drive.actionBuilder(rightCenterBoard1)
                 .strafeTo(rightRightBoard.position)
                 .build(),
             drive.CorrectionAction(rightRightBoard),
@@ -384,13 +384,13 @@ class CRIRedLeft : MultiThreadOpMode() {
                 .splineToConstantHeading(rightPostTruss2.position, 0.deg, speed20)
                 .afterTime(Lift.LiftConfig.postStackRiseWaitSec.s, systemsToAboveWhite())
                 .splineToConstantHeading(rightTransition2.position, 0.deg)
-                .splineToConstantHeading(rightLeftBoard2.position, rightBoardAproachAngle, speed60)
+                .splineToConstantHeading(rightCenterBoard2.position, rightBoardAproachAngle, speed60)
                 .build(),
-            drive.CorrectionAction(rightLeftBoard2),
+            drive.CorrectionAction(rightCenterBoard2),
             box.ejectTwoPixels(),
-            drive.actionBuilder(rightLeftBoard2)
+            drive.actionBuilder(rightCenterBoard2)
                 .setTangent(180.deg)
-                .lineToX(rightLeftBoard2.position.x - parkReverseDistance)
+                .lineToX(rightCenterBoard2.position.x - parkReverseDistance)
                 .afterTime(0.s, systemsToIntake())
                 .setTangent(90.deg)
                 .lineToY(parkY)
