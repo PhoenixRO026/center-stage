@@ -56,7 +56,7 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
     private val rightStacky2 = Pose(-3.5.tile, 0.5.tile, 180.deg)
 
     private val midTransition1 = Pose(2.tile, 0.5.tile, 180.deg)
-    private val leftTransition1 = Pose(2.tile, 0.5.tile + 2.cm, 180.deg)
+    private val leftTransition1 = Pose(2.tile, 0.5.tile + 3.cm, 180.deg)
     private val rightTransition1 = Pose(2.tile, 0.5.tile, 180.deg)
 
     private val midTransition2 = Pose(2.tile, 0.5.tile, 180.deg)
@@ -64,7 +64,7 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
     private val rightTransition2 = Pose(2.tile, 0.5.tile, 180.deg)
 
     private val midPreTruss1 = Pose(0.tile, 0.5.tile, 180.deg)
-    private val leftPreTruss1 = Pose(0.tile, 0.5.tile + 2.cm, 180.deg)
+    private val leftPreTruss1 = Pose(0.tile, 0.5.tile + 3.cm, 180.deg)
     private val rightPreTruss1 = Pose(0.tile, 0.5.tile, 180.deg)
 
     private val midPreTruss2 = Pose(0.tile, 0.5.tile, 180.deg)
@@ -72,7 +72,7 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
     private val rightPreTruss2 = Pose(0.tile, 0.5.tile, 180.deg)
 
     private val midPostTruss1 = Pose(1.tile, 0.5.tile, 180.deg)
-    private val leftPostTruss1 = Pose(1.tile, 0.5.tile + 2.cm, 180.deg)
+    private val leftPostTruss1 = Pose(1.tile, 0.5.tile + 3.cm, 180.deg)
     private val rightPostTruss1 = Pose(1.tile, 0.5.tile, 180.deg)
 
     private val midPostTruss2 = Pose(1.tile, 0.5.tile, 180.deg)
