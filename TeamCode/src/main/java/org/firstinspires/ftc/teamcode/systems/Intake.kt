@@ -26,7 +26,7 @@ class Intake(
         @JvmField var groundPos = 0.0
         @JvmField var initPos = groundPos
         @JvmField var aboveFirstStack = 0.628
-        @JvmField var firstStack = 0.58
+        @JvmField var firstStack = 0.57
         @JvmField var aboveSecondStack = 0.43
         @JvmField var secondStack = 0.335
         @JvmField var aboveThirdStack = 0.1

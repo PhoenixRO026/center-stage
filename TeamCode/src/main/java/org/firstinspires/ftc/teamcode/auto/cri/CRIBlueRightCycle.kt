@@ -84,7 +84,7 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
     private val midRightBoard2 = Pose(3.tile + 3.inch, 1.5.tile - 6.inch, 180.deg)
 
     private val leftLeftBoard = Pose(3.tile + 3.inch, 1.5.tile + 6.inch, 180.deg)
-    private val leftRightBoard1 = Pose(3.tile + 1.inch, 1.5.tile - 3.4.inch, 180.deg)
+    private val leftRightBoard1 = Pose(3.tile + 1.inch, 1.5.tile - 3.6.inch, 180.deg)
     private val leftRightBoard2 = Pose(3.tile + 3.inch, 1.5.tile - 6.inch, 180.deg)
 
     private val rightRightBoard = Pose(3.tile + 3.inch, 1.5.tile - 6.inch, 180.deg)
