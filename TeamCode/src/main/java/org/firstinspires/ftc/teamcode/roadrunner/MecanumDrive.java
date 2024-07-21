@@ -107,7 +107,7 @@ public final class MecanumDrive {
 
         public double correctionAxialGain = 10;
         public double correctionLateralGain = 10;
-        public double correctionHeadingGain = 6; // shared with turn
+        public double correctionHeadingGain = 8; // shared with turn
 
         public int imuPersistanceFrequency = 30;
 
