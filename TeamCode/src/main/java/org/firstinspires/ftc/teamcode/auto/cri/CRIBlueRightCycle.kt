@@ -332,7 +332,8 @@ open class CRIBlueRightCycle : MultiThreadOpMode() {
 
         val actionRight = SequentialAction(
             drive.actionBuilder(startPose)
-                .strafeToLinearHeading(rightPurplePixel.position, rightPurplePixel.heading)
+                .setTangent(-90.deg)
+                .splineTo(rightPurplePixel.position, -90.deg)
                 .stopAndAdd(intake.ejectPurple())
                 .setTangent(-90.deg)
                 .afterTime(0.s, firstStackPrep())
