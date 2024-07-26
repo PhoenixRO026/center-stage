@@ -14,6 +14,7 @@ import com.acmerobotics.roadrunner.SequentialAction
 import com.outoftheboxrobotics.photoncore.Photon
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import org.firstinspires.ftc.teamcode.lib.opmode.MultiThreadOpMode
 import org.firstinspires.ftc.teamcode.lib.units.Pose
 import org.firstinspires.ftc.teamcode.lib.units.SleepAction
@@ -39,6 +40,7 @@ import org.firstinspires.ftc.teamcode.robot.hardware.controlHub
 import org.firstinspires.ftc.teamcode.robot.hardware.expansionHub
 import kotlin.math.min
 
+@Disabled
 @Autonomous
 @Photon
 class AutoRedRight : MultiThreadOpMode() {

@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.SequentialAction
 import com.outoftheboxrobotics.photoncore.Photon
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.hardware.configuration.LynxConstants
 import org.firstinspires.ftc.teamcode.lib.opmode.MultiThreadOpMode
 import org.firstinspires.ftc.teamcode.lib.units.Pose
@@ -26,6 +27,7 @@ import org.firstinspires.ftc.teamcode.robot.LiftMulti.Companion.liftMulti
 import org.firstinspires.ftc.teamcode.robot.hardware.controlHub
 import org.firstinspires.ftc.teamcode.robot.hardware.expansionHub
 
+@Disabled
 @Autonomous
 @Photon
 class ExampleAuto : MultiThreadOpMode() {

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.regionala
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.lib.units.Time
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.robot.Plane
 import org.firstinspires.ftc.teamcode.robot.Plane.Companion.hold
 import org.firstinspires.ftc.teamcode.robot.Plane.Companion.plane
 
+@Disabled
 @TeleOp
 class PlaneTest : LinearOpMode() {
     override fun runOpMode() {

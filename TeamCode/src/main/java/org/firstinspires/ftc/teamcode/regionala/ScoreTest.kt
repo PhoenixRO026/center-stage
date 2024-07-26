@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.outoftheboxrobotics.photoncore.Photon
 import com.qualcomm.hardware.lynx.LynxModule
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.lib.opmode.MultiThreadOpMode
 import org.firstinspires.ftc.teamcode.lib.units.Time
@@ -16,7 +17,7 @@ import org.firstinspires.ftc.teamcode.robot.Claw.Companion.claw
 import org.firstinspires.ftc.teamcode.robot.hardware.controlHub
 import org.firstinspires.ftc.teamcode.robot.hardware.expansionHub
 
-
+@Disabled
 @Photon
 @TeleOp
 class ScoreTest: MultiThreadOpMode() {

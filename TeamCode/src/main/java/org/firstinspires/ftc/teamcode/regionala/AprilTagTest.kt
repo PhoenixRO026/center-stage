@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode.regionala
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.robot.Camera
 
+@Disabled
 @Autonomous
 class AprilTagTest : LinearOpMode() {
     override fun runOpMode() {

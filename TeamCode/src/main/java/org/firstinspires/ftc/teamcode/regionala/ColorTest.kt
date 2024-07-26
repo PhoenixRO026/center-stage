@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.outoftheboxrobotics.photoncore.Photon
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.hardware.configuration.LynxConstants
 import org.firstinspires.ftc.teamcode.lib.opmode.MultiThreadOpMode
 import org.firstinspires.ftc.teamcode.lib.units.Time
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.lib.units.ms
 import org.firstinspires.ftc.teamcode.lib.units.s
 import org.firstinspires.ftc.teamcode.robot.ColorSensorsMulti.Companion.colorSensMulti
 
+@Disabled
 @Autonomous
 @Photon
 class ColorTest : MultiThreadOpMode() {
