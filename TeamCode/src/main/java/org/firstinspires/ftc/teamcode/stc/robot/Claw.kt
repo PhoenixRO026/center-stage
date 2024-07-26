@@ -15,6 +15,10 @@ class Claw (hardwareMap: HardwareMap) {
 
     init {
         leftFingerServo.direction = Servo.Direction.REVERSE
+
+        leftFingerServo.position = closedFinger
+        rightFingerServo.position = closedFinger
+        clawAngleServo.position = intakeTilt
     }
 
     companion object{
@@ -26,21 +30,21 @@ class Claw (hardwareMap: HardwareMap) {
         val fingerWait = 0.5.s
     }
 
-    var leftFinger : Double = 0.0
+    var leftFinger : Double = 1.0
         set(value) {
             val clippedValue = value.coerceIn(0.0, 1.0)
             leftFingerServo.position = clippedValue.ranged(openFinger, closedFinger)
             field = clippedValue
         }
 
-    var rightFinger : Double = 0.0
+    var rightFinger : Double = 1.0
         set(value) {
             val clippedValue = value.coerceIn(0.0, 1.0)
             rightFingerServo.position = clippedValue.ranged(openFinger, closedFinger)
             field = clippedValue
         }
 
-    var tilt : Double = 0.0
+    var tilt : Double = intakeTilt
         set(value) {
             val clippedValue = value.coerceIn(0.0, 1.0)
             clawAngleServo.position = clippedValue

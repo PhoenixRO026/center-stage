@@ -20,9 +20,12 @@ class Arm (hardwareMap: HardwareMap) {
     }
     init {
         servoLeft.direction = Servo.Direction.REVERSE
+
+        servoLeft.position = intakePos.ranged(0.0, 1.0 - servoOffset)
+        servoRight.position = intakePos.ranged(servoOffset, 1.0)
     }
 
-    var pos : Double = 0.0
+    var pos : Double = intakePos
         set(value) {
             val clippedValue = value.coerceIn(0.0, 1.0)
             servoLeft.position = clippedValue.ranged(0.0, 1.0 - servoOffset)

@@ -2,9 +2,12 @@ package org.firstinspires.ftc.teamcode.stc.robot
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket
 import com.acmerobotics.roadrunner.Action
+import com.acmerobotics.roadrunner.SequentialAction
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
+import org.firstinspires.ftc.teamcode.lib.units.SleepAction
+import org.firstinspires.ftc.teamcode.lib.units.s
 import org.firstinspires.ftc.teamcode.stc.PIDController
 import kotlin.math.abs
 
@@ -48,20 +51,23 @@ class Lift (hardwareMap: HardwareMap) {
         rightLiftMotor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
     }
 
-    fun goToPos(newPos: Int) = object: Action {
-        var init = true
-        override fun run(p: TelemetryPacket): Boolean {
-            if (init) {
-                init = false
+    fun goToPos(newPos: Int) = SequentialAction(
+        object: Action {
+            var init = true
+            override fun run(p: TelemetryPacket): Boolean {
+                if (init) {
+                    init = false
 
-                targetPositionTicks = newPos
+                    targetPositionTicks = newPos
 
-                mode = Mode.TARGET
+                    mode = Mode.TARGET
+                }
+
+                return busy
             }
-
-            return busy
-        }
-    }
+        },
+        SleepAction(0.1.s)
+    )
 
     fun goToIntake() = goToPos(0)
 
