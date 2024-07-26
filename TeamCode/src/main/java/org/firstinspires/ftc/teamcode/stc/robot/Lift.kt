@@ -18,6 +18,8 @@ class Lift (hardwareMap: HardwareMap) {
             kD = 0.0008
         )
         val toleranceTicks = 16
+        const val passTicks = 1000
+        const val yellowTicks = 700
         val kF = 0.16
     }
 
@@ -60,6 +62,12 @@ class Lift (hardwareMap: HardwareMap) {
             return busy
         }
     }
+
+    fun goToIntake() = goToPos(0)
+
+    fun goToPass() = goToPos(passTicks)
+
+    fun goToYellow() = goToPos(yellowTicks)
 
     val busy get() = abs(leftLiftMotor.currentPosition - targetPositionTicks) > toleranceTicks
 
