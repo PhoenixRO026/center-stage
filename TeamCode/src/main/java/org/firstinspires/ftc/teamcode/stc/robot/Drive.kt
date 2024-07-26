@@ -13,7 +13,7 @@ class Drive (hardwareMap: HardwareMap, startPose: Pose2d, side: Side){
     private val offSet = when(side){
         Side.BLUE -> Math.toRadians(-90.0)
         Side.RED -> Math.toRadians(90.0)
-        Side.NEUTRAl -> 0.0
+        Side.NEUTRAL -> 0.0
     }
 
     fun resetHeading() {
@@ -36,6 +36,6 @@ class Drive (hardwareMap: HardwareMap, startPose: Pose2d, side: Side){
     enum class Side {
         BLUE,
         RED,
-        NEUTRAl
+        NEUTRAL
     }
 }

@@ -16,7 +16,7 @@ class SleepyTele: LinearOpMode() {
         val claw = Claw(hardwareMap)
         val arm = Arm(hardwareMap)
         val intake = Intake(hardwareMap)
-        val drive = Drive(hardwareMap, Pose2d(0.0, 0.0, 0.0), Drive.Side.NEUTRAl)
+        val drive = Drive(hardwareMap, Pose2d(0.0, 0.0, 0.0), Drive.Side.NEUTRAL)
 
         claw.tilt = Claw.intakeTilt
         arm.pos = Arm.intakePos
