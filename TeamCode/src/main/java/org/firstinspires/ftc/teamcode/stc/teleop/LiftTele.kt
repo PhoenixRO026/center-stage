@@ -2,14 +2,12 @@ package org.firstinspires.ftc.teamcode.stc.teleop
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import com.qualcomm.robotcore.hardware.DcMotor
-import com.qualcomm.robotcore.hardware.HardwareMap
-import org.firstinspires.ftc.teamcode.stc.robot.LiftForTele
+import org.firstinspires.ftc.teamcode.stc.robot.Lift
 
 @TeleOp
 class LiftTele : LinearOpMode(){
     override fun runOpMode() {
-        val lift = LiftForTele(hardwareMap)
+        val lift = Lift(hardwareMap)
 
         waitForStart()
 

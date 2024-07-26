@@ -4,24 +4,30 @@ import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.stc.PIDController
+import kotlin.math.abs
 
-class LiftForTele (hardwareMap: HardwareMap) {
+class Lift (hardwareMap: HardwareMap) {
     companion object {
-        const val hangTics = -20
-        const val hangPow = 0.1
+        const val hangTics = -600
 
-        @JvmField var controller = PIDController(
+        val controller = PIDController(
             kP = 0.008,
             kI = 0.005,
             kD = 0.0008
         )
-        @JvmField var toleranceTicks = 16
-        @JvmField var kF = 0.16
+        val toleranceTicks = 16
+        val kF = 0.16
     }
 
     val leftLiftMotor: DcMotor = hardwareMap.get(DcMotor::class.java, "leftLift")
     val rightLiftMotor: DcMotor = hardwareMap.get(DcMotor::class.java, "rightLift")
 
+    enum class Mode {
+        POWER,
+        TARGET
+    }
+
+    private var mode = Mode.POWER
     private var hanging = false
     private var targetPositionTicks = 0
 
@@ -37,10 +43,15 @@ class LiftForTele (hardwareMap: HardwareMap) {
         leftLiftMotor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
         rightLiftMotor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
     }
+
+    val busy get() = abs(leftLiftMotor.currentPosition - targetPositionTicks) > toleranceTicks
+
     fun hang(){
         if (hanging) return
 
         targetPositionTicks = leftLiftMotor.currentPosition + hangTics
+
+        mode = Mode.TARGET
 
         hanging = true
     }
@@ -48,15 +59,18 @@ class LiftForTele (hardwareMap: HardwareMap) {
     fun unhang(){
         if (!hanging) return
 
+        mode = Mode.POWER
+
         leftLiftMotor.power = 0.0
         rightLiftMotor.power = 0.0
 
         hanging = false
     }
+
     var power : Number
         get() = leftLiftMotor.power
         set(value){
-            if (hanging) return
+            if (mode != Mode.POWER) return
 
             leftLiftMotor.power = value.toDouble()
             rightLiftMotor.power = value.toDouble()
@@ -65,10 +79,9 @@ class LiftForTele (hardwareMap: HardwareMap) {
     fun update() {
         val feedback = controller.calculate(leftLiftMotor.currentPosition.toDouble(), targetPositionTicks.toDouble()) + kF
 
-        if (hanging) {
+        if (mode == Mode.TARGET) {
             leftLiftMotor.power = feedback
             rightLiftMotor.power = feedback
         }
     }
-
 }
