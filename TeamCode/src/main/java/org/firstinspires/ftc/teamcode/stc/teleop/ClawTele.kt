@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.stc.teleop
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.stc.robot.Claw
+
 @TeleOp
 class ClawTele : LinearOpMode() {
     override fun runOpMode() {
