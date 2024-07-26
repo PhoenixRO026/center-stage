@@ -16,6 +16,10 @@ class Drive (hardwareMap: HardwareMap, startPose: Pose2d, side: Side){
         Side.NEUTRAl -> 0.0
     }
 
+    fun resetHeading() {
+        mechanumDrive.pose = Pose2d(mechanumDrive.pose.position, 0.0)
+    }
+
     var speed = 1.0
 
     fun drive(forward : Double, strafe : Double, rotate : Double) {

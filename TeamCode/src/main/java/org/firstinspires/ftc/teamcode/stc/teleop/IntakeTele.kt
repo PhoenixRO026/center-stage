@@ -12,7 +12,6 @@ class IntakeTele : LinearOpMode(){
 
         while(opModeIsActive()){
             intake.power = gamepad1.left_stick_y
-            intake.pos = gamepad1.left_trigger
         }
     }
 
