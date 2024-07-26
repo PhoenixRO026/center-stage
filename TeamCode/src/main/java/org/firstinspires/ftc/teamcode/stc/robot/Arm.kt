@@ -5,11 +5,13 @@ import com.qualcomm.robotcore.hardware.Servo
 import com.qualcomm.robotcore.util.Range
 
 class Arm (hardwareMap: HardwareMap) {
-    private val servoLeft = hardwareMap.get(Servo::class.java, "leftArmServo")
-    private val servoRight = hardwareMap.get(Servo::class.java, "rightArmServo")
+    val servoLeft = hardwareMap.get(Servo::class.java, "leftArmServo")
+    val servoRight = hardwareMap.get(Servo::class.java, "rightArmServo")
 
     companion object{
         const val servoOffset = 0.01
+        const val intakePos = 0.5512
+        const val scorePos = 0.8669
     }
     init {
         servoLeft.direction = Servo.Direction.REVERSE
@@ -17,9 +19,9 @@ class Arm (hardwareMap: HardwareMap) {
 
     var pos : Double = 0.0
         set(value) {
-            servoLeft.position = Range.scale(value, 0.0, 1.0, 0.0, 1.0 - servoOffset)
-            servoRight.position = Range.scale(value, 0.0, 1.0, servoOffset, 1.0)
-            field = value.coerceIn(0.0, 1.0)
+            val clippedValue = value.coerceIn(0.0, 1.0)
+            servoLeft.position = clippedValue.ranged(0.0, 1.0 - servoOffset)
+            servoRight.position = clippedValue.ranged(servoOffset, 1.0)
+            field = clippedValue
         }
-
 }

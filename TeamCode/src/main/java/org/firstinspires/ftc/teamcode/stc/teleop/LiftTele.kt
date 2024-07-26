@@ -14,11 +14,17 @@ class LiftTele : LinearOpMode(){
         waitForStart()
 
         while(opModeIsActive()){
-            lift.power = gamepad2.left_trigger
+            lift.power = -gamepad1.right_stick_y
 
-            if(gamepad2.a) lift.hang()
-            if(gamepad2.b) lift.unhang()
+            if(gamepad1.back) lift.hang()
+            if(gamepad1.start) lift.unhang()
 
+            telemetry.addData("lift power", lift.power)
+            telemetry.addData("left pos", lift.leftLiftMotor.currentPosition)
+            telemetry.addData("right pos", lift.rightLiftMotor.currentPosition)
+            telemetry.addData("left target", lift.leftLiftMotor.targetPosition)
+            telemetry.addData("right target", lift.rightLiftMotor.targetPosition)
+            telemetry.update()
         }
     }
 

@@ -14,24 +14,30 @@ class Claw (hardwareMap: HardwareMap) {
     }
 
     companion object{
-        const val servoOffset = 0.01
+        const val intakeTilt = 0.6746
+        const val scoreTilt = 0.7988
+        const val closedFinger = 0.6
+        const val openFinger = 0.4
     }
 
-    var leftFinger : Number
-        get() = leftFingerServo.position
+    var leftFinger : Double = 0.0
         set(value) {
-            leftFingerServo.position = value.toDouble()
+            val clippedValue = value.coerceIn(0.0, 1.0)
+            leftFingerServo.position = clippedValue.ranged(openFinger, closedFinger)
+            field = clippedValue
         }
 
-    var rightFinger : Number
-        get() = rightFingerServo.position
+    var rightFinger : Double = 0.0
         set(value) {
-            rightFingerServo.position = value.toDouble()
+            val clippedValue = value.coerceIn(0.0, 1.0)
+            rightFingerServo.position = clippedValue.ranged(openFinger, closedFinger)
+            field = clippedValue
         }
 
-    var tilt : Double
-        get() = clawAngleServo.position
+    var tilt : Double = 0.0
         set(value) {
-            clawAngleServo.position = value
+            val clippedValue = value.coerceIn(0.0, 1.0)
+            clawAngleServo.position = clippedValue
+            field = clippedValue
         }
 }

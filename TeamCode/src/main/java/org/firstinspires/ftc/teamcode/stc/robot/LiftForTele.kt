@@ -1,21 +1,26 @@
 package org.firstinspires.ftc.teamcode.stc.robot
 
 import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
-import com.qualcomm.robotcore.hardware.Servo
 
 class LiftForTele (hardwareMap: HardwareMap) {
     companion object {
-        const val hangTics = -300
-        const val hangPow = 0.5
+        const val hangTics = -20
+        const val hangPow = 0.1
     }
 
-    val leftLiftMotor = hardwareMap.get(DcMotor::class.java, "leftLift")
-    val rightLiftMotor = hardwareMap.get(DcMotor::class.java, "rightLift")
+    val leftLiftMotor: DcMotor = hardwareMap.get(DcMotor::class.java, "leftLift")
+    val rightLiftMotor: DcMotor = hardwareMap.get(DcMotor::class.java, "rightLift")
 
-    var hanging = false
+    private var hanging = false
 
     init {
+        rightLiftMotor.direction = DcMotorSimple.Direction.REVERSE
+
+        leftLiftMotor.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
+        rightLiftMotor.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
+
         leftLiftMotor.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
         rightLiftMotor.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
 
@@ -23,13 +28,10 @@ class LiftForTele (hardwareMap: HardwareMap) {
         rightLiftMotor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
     }
     fun hang(){
-        if(hanging) return
+        if (hanging) return
 
-        leftLiftMotor.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
-        rightLiftMotor.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
-
-        leftLiftMotor.targetPosition = hangTics
-        rightLiftMotor.targetPosition = hangTics
+        leftLiftMotor.targetPosition = leftLiftMotor.currentPosition + hangTics
+        rightLiftMotor.targetPosition = rightLiftMotor.currentPosition + hangTics
 
         leftLiftMotor.mode = DcMotor.RunMode.RUN_TO_POSITION
         rightLiftMotor.mode = DcMotor.RunMode.RUN_TO_POSITION
@@ -41,7 +43,7 @@ class LiftForTele (hardwareMap: HardwareMap) {
     }
 
     fun unhang(){
-        if(!hanging) return
+        if (!hanging) return
         leftLiftMotor.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
         rightLiftMotor.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
 
@@ -53,7 +55,7 @@ class LiftForTele (hardwareMap: HardwareMap) {
     var power : Number
         get() = leftLiftMotor.power
         set(value){
-            if(hanging) return
+            if (hanging) return
 
             leftLiftMotor.power = value.toDouble()
             rightLiftMotor.power = value.toDouble()
