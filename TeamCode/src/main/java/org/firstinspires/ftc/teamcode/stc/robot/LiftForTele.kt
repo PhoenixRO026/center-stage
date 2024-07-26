@@ -3,11 +3,20 @@ package org.firstinspires.ftc.teamcode.stc.robot
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
+import org.firstinspires.ftc.teamcode.stc.PIDController
 
 class LiftForTele (hardwareMap: HardwareMap) {
     companion object {
         const val hangTics = -20
         const val hangPow = 0.1
+
+        @JvmField var controller = PIDController(
+            kP = 0.008,
+            kI = 0.005,
+            kD = 0.0008
+        )
+        @JvmField var toleranceTicks = 16
+        @JvmField var kF = 0.16
     }
 
     val leftLiftMotor: DcMotor = hardwareMap.get(DcMotor::class.java, "leftLift")
