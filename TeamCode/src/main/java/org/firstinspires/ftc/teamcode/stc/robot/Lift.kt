@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.stc.robot
 
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket
+import com.acmerobotics.roadrunner.Action
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
@@ -42,6 +44,21 @@ class Lift (hardwareMap: HardwareMap) {
 
         leftLiftMotor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
         rightLiftMotor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+    }
+
+    fun goToPos(newPos: Int) = object: Action {
+        var init = true
+        override fun run(p: TelemetryPacket): Boolean {
+            if (init) {
+                init = false
+
+                targetPositionTicks = newPos
+
+                mode = Mode.TARGET
+            }
+
+            return busy
+        }
     }
 
     val busy get() = abs(leftLiftMotor.currentPosition - targetPositionTicks) > toleranceTicks
