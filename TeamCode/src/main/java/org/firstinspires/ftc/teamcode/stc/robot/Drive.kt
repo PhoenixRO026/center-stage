@@ -26,7 +26,7 @@ class Drive (hardwareMap: HardwareMap, startPose: Pose2d, side: Side){
         mechanumDrive.updatePoseEstimate()
 
         val driveVector = Vector2d(forward, strafe)
-        val rotatedVector = driveVector.rotate(offSet - mechanumDrive.pose.heading.toDouble())
+        val rotatedVector = driveVector.rotate(offSet + mechanumDrive.pose.heading.toDouble())
 
         val drivePower = PoseVelocity2d(rotatedVector * speed, rotate * speed)
 
