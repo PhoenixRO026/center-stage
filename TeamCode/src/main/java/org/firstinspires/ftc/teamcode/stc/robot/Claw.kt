@@ -9,6 +9,14 @@ class Claw (hardwareMap: HardwareMap) {
     private val rightFingerServo = hardwareMap.get(Servo::class.java, "rFinger")
     private val clawAngleServo = hardwareMap.get(Servo::class.java, "cAngle")
 
+    init {
+        leftFingerServo.direction = Servo.Direction.REVERSE
+    }
+
+    companion object{
+        const val servoOffset = 0.01
+    }
+
     var leftFinger : Number
         get() = leftFingerServo.position
         set(value) {
