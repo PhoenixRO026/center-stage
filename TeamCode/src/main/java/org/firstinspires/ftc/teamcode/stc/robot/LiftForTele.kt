@@ -23,6 +23,7 @@ class LiftForTele (hardwareMap: HardwareMap) {
     val rightLiftMotor: DcMotor = hardwareMap.get(DcMotor::class.java, "rightLift")
 
     private var hanging = false
+    private var targetPositionTicks = 0
 
     init {
         rightLiftMotor.direction = DcMotorSimple.Direction.REVERSE
@@ -39,22 +40,13 @@ class LiftForTele (hardwareMap: HardwareMap) {
     fun hang(){
         if (hanging) return
 
-        leftLiftMotor.targetPosition = leftLiftMotor.currentPosition + hangTics
-        rightLiftMotor.targetPosition = rightLiftMotor.currentPosition + hangTics
-
-        leftLiftMotor.mode = DcMotor.RunMode.RUN_TO_POSITION
-        rightLiftMotor.mode = DcMotor.RunMode.RUN_TO_POSITION
-
-        leftLiftMotor.power = hangPow
-        rightLiftMotor.power = hangPow
+        targetPositionTicks = leftLiftMotor.currentPosition + hangTics
 
         hanging = true
     }
 
     fun unhang(){
         if (!hanging) return
-        leftLiftMotor.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-        rightLiftMotor.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
 
         leftLiftMotor.power = 0.0
         rightLiftMotor.power = 0.0
@@ -69,4 +61,14 @@ class LiftForTele (hardwareMap: HardwareMap) {
             leftLiftMotor.power = value.toDouble()
             rightLiftMotor.power = value.toDouble()
         }
+
+    fun update() {
+        val feedback = controller.calculate(leftLiftMotor.currentPosition.toDouble(), targetPositionTicks.toDouble()) + kF
+
+        if (hanging) {
+            leftLiftMotor.power = feedback
+            rightLiftMotor.power = feedback
+        }
+    }
+
 }

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.test.multi
 
-import com.outoftheboxrobotics.photoncore.Photon
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
@@ -12,7 +11,6 @@ import org.firstinspires.ftc.teamcode.lib.units.ms
 import org.firstinspires.ftc.teamcode.lib.units.s
 
 @Disabled
-@Photon
 @TeleOp
 class PhotonMultiTest : MultiThreadOpMode(){
 

@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.regionala
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
-import com.outoftheboxrobotics.photoncore.Photon
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
@@ -18,7 +17,6 @@ import org.firstinspires.ftc.teamcode.robot.hardware.controlHub
 import org.firstinspires.ftc.teamcode.robot.hardware.expansionHub
 
 @Disabled
-@Photon
 @TeleOp
 class ScoreTest: MultiThreadOpMode() {
     private val arm by opModeLazy {

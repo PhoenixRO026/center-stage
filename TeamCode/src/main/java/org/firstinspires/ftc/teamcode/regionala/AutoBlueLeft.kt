@@ -11,7 +11,6 @@ import com.acmerobotics.roadrunner.MinVelConstraint
 import com.acmerobotics.roadrunner.ParallelAction
 import com.acmerobotics.roadrunner.Pose2d
 import com.acmerobotics.roadrunner.SequentialAction
-import com.outoftheboxrobotics.photoncore.Photon
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
@@ -42,7 +41,7 @@ import kotlin.math.min
 
 @Disabled
 @Autonomous
-@Photon
+//@Photon
 class AutoBlueLeft : MultiThreadOpMode() {
     private val startPose = Pose(12.inch, 61.inch, 90.deg)
     private val middlePurplePixel = Pose(12.inch, 33.inch, 90.deg)

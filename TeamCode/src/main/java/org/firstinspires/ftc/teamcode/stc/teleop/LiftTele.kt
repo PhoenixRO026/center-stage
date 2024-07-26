@@ -19,6 +19,8 @@ class LiftTele : LinearOpMode(){
             if(gamepad1.back) lift.hang()
             if(gamepad1.start) lift.unhang()
 
+            lift.update()
+
             telemetry.addData("lift power", lift.power)
             telemetry.addData("left pos", lift.leftLiftMotor.currentPosition)
             telemetry.addData("right pos", lift.rightLiftMotor.currentPosition)

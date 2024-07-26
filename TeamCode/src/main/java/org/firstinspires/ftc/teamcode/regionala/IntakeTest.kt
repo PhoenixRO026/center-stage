@@ -7,7 +7,6 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket
 import com.acmerobotics.roadrunner.InstantAction
 import com.acmerobotics.roadrunner.ParallelAction
 import com.acmerobotics.roadrunner.SequentialAction
-import com.outoftheboxrobotics.photoncore.Photon
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
@@ -33,7 +32,6 @@ import org.firstinspires.ftc.teamcode.robot.hardware.expansionHub
 
 @Disabled
 @Autonomous
-@Photon
 class IntakeTest : MultiThreadOpMode() {
     private val startPose = Pose(0.cm, 0.cm, 0.deg)
 

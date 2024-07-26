@@ -6,7 +6,6 @@ import com.acmerobotics.roadrunner.PoseVelocity2d
 import com.acmerobotics.roadrunner.Vector2d
 import com.arcrobotics.ftclib.gamepad.ButtonReader
 import com.arcrobotics.ftclib.gamepad.ToggleButtonReader
-import com.outoftheboxrobotics.photoncore.Photon
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
@@ -30,7 +29,6 @@ import org.firstinspires.ftc.teamcode.robot.hardware.controlHub
 import org.firstinspires.ftc.teamcode.robot.hardware.expansionHub
 
 @Disabled
-@Photon
 @TeleOp
 class DriveTest: MultiThreadOpMode() {
     private val drive by opModeLazy {

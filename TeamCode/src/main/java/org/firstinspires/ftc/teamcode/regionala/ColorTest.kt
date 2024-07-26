@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.regionala
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
-import com.outoftheboxrobotics.photoncore.Photon
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
@@ -15,7 +14,6 @@ import org.firstinspires.ftc.teamcode.robot.ColorSensorsMulti.Companion.colorSen
 
 @Disabled
 @Autonomous
-@Photon
 class ColorTest : MultiThreadOpMode() {
     private val colorSensors by opModeLazy {
         hardwareMap.colorSensMulti()
