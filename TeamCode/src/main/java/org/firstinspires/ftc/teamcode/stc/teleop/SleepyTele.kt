@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.stc.robot.Claw
 import org.firstinspires.ftc.teamcode.stc.robot.Drive
 import org.firstinspires.ftc.teamcode.stc.robot.Intake
 import org.firstinspires.ftc.teamcode.stc.robot.Lift
+import org.firstinspires.ftc.teamcode.stc.robot.Plane
 
 @TeleOp
 class SleepyTele: LinearOpMode() {
@@ -17,6 +18,7 @@ class SleepyTele: LinearOpMode() {
         val arm = Arm(hardwareMap)
         val intake = Intake(hardwareMap)
         val drive = Drive(hardwareMap, Pose2d(0.0, 0.0, 0.0), Drive.Side.NEUTRAL)
+        val plane = Plane(hardwareMap)
 
         claw.tilt = Claw.intakeTilt
         arm.pos = Arm.intakePos
@@ -54,6 +56,10 @@ class SleepyTele: LinearOpMode() {
                 gamepad1.left_stick_x.toDouble(),
                 gamepad1.right_stick_x.toDouble()
             )
+
+            if (gamepad2.b) plane.launch()
+
+            plane.update()
 
             telemetry.addData("heading", Math.toDegrees(drive.mechanumDrive.pose.heading.toDouble()))
             telemetry.update()
