@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.stc.teleop
 
+import com.acmerobotics.roadrunner.now
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.stc.robot.Claw
@@ -10,16 +11,16 @@ class PlaneTele : LinearOpMode() {
     override fun runOpMode() {
         val plane = Plane(hardwareMap)
 
-        var prevTime: Long
-        var deltaTime: Long
-        var now: Long
+        var prevTime: Double
+        var deltaTime: Double
+        var now: Double
 
         waitForStart()
 
-        prevTime = System.currentTimeMillis()
+        prevTime = now()
 
         while (opModeIsActive()){
-            now = System.currentTimeMillis()
+            now = now()
             deltaTime = now - prevTime
             prevTime = now
 
