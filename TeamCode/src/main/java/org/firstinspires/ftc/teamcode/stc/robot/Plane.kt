@@ -14,10 +14,10 @@ class Plane(hardwareMap: HardwareMap) {
     private val launchServo = hardwareMap.get(Servo::class.java, "launch")
 
     companion object {
-        const val holdTilt = 0.5
-        const val launchTilt = 0.6
-        const val holdPos = 0.5
-        const val launch = 0.6
+        const val holdTilt = 0.526
+        const val launchTilt = 0.393
+        const val holdPos = 0.76
+        const val launch = 0.51
     }
 
     init {
