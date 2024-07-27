@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.lib.units.rotate
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive
 
 class Drive (hardwareMap: HardwareMap, startPose: Pose2d, side: Side){
-    private val mechanumDrive = MecanumDrive(hardwareMap, startPose)
+    val mechanumDrive = MecanumDrive(hardwareMap, startPose)
 
     private val offSet = when(side){
         Side.BLUE -> Math.toRadians(-90.0)
@@ -25,10 +25,10 @@ class Drive (hardwareMap: HardwareMap, startPose: Pose2d, side: Side){
     fun drive(forward : Double, strafe : Double, rotate : Double) {
         mechanumDrive.updatePoseEstimate()
 
-        val driveVector = Vector2d(forward, strafe)
-        val rotatedVector = driveVector.rotate(offSet + mechanumDrive.pose.heading.toDouble())
+        val driveVector = Vector2d(forward, -strafe)
+        val rotatedVector = driveVector.rotate(offSet - mechanumDrive.pose.heading.toDouble())
 
-        val drivePower = PoseVelocity2d(rotatedVector * speed, rotate * speed)
+        val drivePower = PoseVelocity2d(rotatedVector * speed, -rotate * speed)
 
         mechanumDrive.setDrivePowers(drivePower)
     }

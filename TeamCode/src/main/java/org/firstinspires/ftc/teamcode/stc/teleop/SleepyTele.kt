@@ -54,6 +54,9 @@ class SleepyTele: LinearOpMode() {
                 gamepad1.left_stick_x.toDouble(),
                 gamepad1.right_stick_x.toDouble()
             )
+
+            telemetry.addData("heading", Math.toDegrees(drive.mechanumDrive.pose.heading.toDouble()))
+            telemetry.update()
         }
     }
 }
