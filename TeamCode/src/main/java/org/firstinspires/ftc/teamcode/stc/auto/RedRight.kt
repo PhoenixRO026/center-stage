@@ -12,7 +12,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.lib.units.SleepAction
 import org.firstinspires.ftc.teamcode.lib.units.s
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive
+import org.firstinspires.ftc.teamcode.robot.ColorVisionProcessor
 import org.firstinspires.ftc.teamcode.stc.robot.Arm
+import org.firstinspires.ftc.teamcode.stc.robot.Camera
 import org.firstinspires.ftc.teamcode.stc.robot.Claw
 import org.firstinspires.ftc.teamcode.stc.robot.Lift
 
@@ -26,17 +28,26 @@ class RedRight: LinearOpMode() {
 
         val startPose = Pose2d(12.0, -62.0, Math.toRadians(-90.0))
         val midPurple = Pose2d(12.0, -36.0, Math.toRadians(-90.0))
+        val leftPurple = Pose2d(10.0, -34.0, Math.toRadians(-45.0))
+        val rightPurple = Pose2d(24.0, -34.0, Math.toRadians(-90.0))
+        val turnPoint = Pose2d(24.0, -60.0, Math.toRadians(-90.0))
         val midBoard = Pose2d(48.0, -36.0, Math.toRadians(180.0))
+        val leftBoard = Pose2d(48.0, -30.0, Math.toRadians(180.0))
+        val rightBoard = Pose2d(48.0, -42.0, Math.toRadians(180.0))
 
         val lift = Lift(hardwareMap)
         val claw = Claw(hardwareMap)
         val arm = Arm(hardwareMap)
         val drive = MecanumDrive(hardwareMap, startPose)
+        val camera = Camera(hardwareMap, telemetry)
+        camera.setColor(ColorVisionProcessor.DetectionColor.RED)
 
-        val action = drive.actionBuilder(startPose)
+        val actionMiddle = drive.actionBuilder(startPose)
+            .setTangent(Math.toRadians(90.0))
             .splineTo(midPurple.position, Math.toRadians(90.0))
             .setTangent(Math.toRadians(-90.0))
-            .lineToY(-48.0)
+            .splineTo(turnPoint.position, Math.toRadians(-90.0))
+            .setTangent(Math.toRadians(90.0))
             .afterTime(0.0, SequentialAction(
                 lift.goToPass(),
                 ParallelAction(
@@ -45,8 +56,75 @@ class RedRight: LinearOpMode() {
                 ),
                 lift.goToYellow()
             ))
-            .setTangent(Math.toRadians(90.0))
             .splineTo(midBoard.position, Math.toRadians(0.0))
+            .stopAndAdd(SequentialAction(
+                claw.openClaw(),
+                SleepAction(0.5.s),
+                claw.closeRight()
+            ))
+            .setTangent(Math.toRadians(180.0))
+            .lineToX(40.0)
+            .afterTime(0.0, SequentialAction(
+                lift.goToPass(),
+                ParallelAction(
+                    arm.goToIntake(),
+                    claw.tiltToIntake()
+                ),
+                lift.goToIntake()
+            ))
+            .setTangent(Math.toRadians(-90.0))
+            .lineToY(-60.0)
+            .build()
+
+        val actionLeft = drive.actionBuilder(startPose)
+            .setTangent(Math.toRadians(90.0))
+            .splineTo(leftPurple.position, Math.toRadians(135.0))
+            .setTangent(Math.toRadians(-45.0))
+            .splineTo(turnPoint.position, Math.toRadians(-90.0))
+            .setTangent(Math.toRadians(90.0))
+            .afterTime(0.0, SequentialAction(
+                lift.goToPass(),
+                ParallelAction(
+                    arm.goToScore(),
+                    claw.tiltToScore()
+                ),
+                lift.goToYellow()
+            ))
+            .splineTo(leftBoard.position, Math.toRadians(0.0))
+            .stopAndAdd(SequentialAction(
+                claw.openClaw(),
+                SleepAction(0.5.s),
+                claw.closeRight()
+            ))
+            .setTangent(Math.toRadians(180.0))
+            .lineToX(40.0)
+            .afterTime(0.0, SequentialAction(
+                lift.goToPass(),
+                ParallelAction(
+                    arm.goToIntake(),
+                    claw.tiltToIntake()
+                ),
+                lift.goToIntake()
+            ))
+            .setTangent(Math.toRadians(-90.0))
+            .lineToY(-60.0)
+            .build()
+
+        val actionRight = drive.actionBuilder(startPose)
+            .setTangent(Math.toRadians(90.0))
+            .splineTo(rightPurple.position, Math.toRadians(90.0))
+            .setTangent(Math.toRadians(-90.0))
+            .splineTo(turnPoint.position, Math.toRadians(-90.0))
+            .setTangent(Math.toRadians(90.0))
+            .afterTime(0.0, SequentialAction(
+                lift.goToPass(),
+                ParallelAction(
+                    arm.goToScore(),
+                    claw.tiltToScore()
+                ),
+                lift.goToYellow()
+            ))
+            .splineTo(rightBoard.position, Math.toRadians(0.0))
             .stopAndAdd(SequentialAction(
                 claw.openClaw(),
                 SleepAction(0.5.s),
@@ -69,7 +147,16 @@ class RedRight: LinearOpMode() {
 
         val canvas = Canvas()
 
-        waitForStart()
+        while (opModeInInit()) {
+            camera.displayDetection()
+            sleep(10)
+        }
+
+        val action = when(camera.detectionPosition) {
+            ColorVisionProcessor.DetectionPosition.LEFT -> actionLeft
+            ColorVisionProcessor.DetectionPosition.CENTER -> actionMiddle
+            ColorVisionProcessor.DetectionPosition.RIGHT -> actionRight
+        }
 
         action.preview(canvas)
 
