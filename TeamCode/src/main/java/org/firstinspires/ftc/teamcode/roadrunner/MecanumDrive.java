@@ -480,6 +480,8 @@ public final class MecanumDrive {
                 return false;
             }
 
+            double speed = robotVelRobot.linearVel.norm();
+
             double axialGain = scaleGain(speed, PARAMS.smallAxialGain, PARAMS.bigAxialGain);
             double lateralGain = scaleGain(speed, PARAMS.smallLateralGain, PARAMS.bigLateralGain);
             double headingGain = scaleGain(speed, PARAMS.smallHeadingGain, PARAMS.bigHeadingGain);
