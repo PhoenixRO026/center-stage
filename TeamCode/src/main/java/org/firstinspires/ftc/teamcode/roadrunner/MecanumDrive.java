@@ -480,11 +480,17 @@ public final class MecanumDrive {
                 return false;
             }
 
+            double axialGain = scaleGain(speed, PARAMS.smallAxialGain, PARAMS.bigAxialGain);
+            double lateralGain = scaleGain(speed, PARAMS.smallLateralGain, PARAMS.bigLateralGain);
+            double headingGain = scaleGain(speed, PARAMS.smallHeadingGain, PARAMS.bigHeadingGain);
 
+            double axialVelGain = scaleGain(speed, PARAMS.smallAxialVelGain, PARAMS.bigAxialVelGain);
+            double lateralVelGain = scaleGain(speed, PARAMS.smallLateralVelGain, PARAMS.bigLateralVelGain);
+            double headingVelGain = scaleGain(speed, PARAMS.smallHeadingVelGain, PARAMS.bigHeadingVelGain);
 
             PoseVelocity2dDual<Time> command = new HolonomicController(
-                    PARAMS.axialGain, PARAMS.lateralGain, PARAMS.headingGain,
-                    PARAMS.axialVelGain, PARAMS.lateralVelGain, PARAMS.headingVelGain
+                    axialGain, lateralGain, headingGain,
+                    axialVelGain, lateralVelGain, headingVelGain
             )
                     .compute(txWorldTarget, pose, robotVelRobot);
             driveCommandWriter.write(new DriveCommandMessage(command));
