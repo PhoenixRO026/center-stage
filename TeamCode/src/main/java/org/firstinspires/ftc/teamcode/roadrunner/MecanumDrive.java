@@ -447,6 +447,11 @@ public final class MecanumDrive {
             }
         }
 
+        public double scaleGain(double speed, double minGain, double maxGain) {
+            double scale = (Math.max(speed, PARAMS.smallSpeed) - PARAMS.smallSpeed) / (PARAMS.maxWheelVel - PARAMS.smallSpeed);
+            return minGain + (maxGain - minGain) * scale;
+        }
+
         @Override
         public boolean run(@NonNull TelemetryPacket p) {
             double t;
@@ -575,8 +580,8 @@ public final class MecanumDrive {
             PoseVelocity2d robotVelRobot = updatePoseEstimate();
 
             PoseVelocity2dDual<Time> command = new HolonomicController(
-                    PARAMS.axialGain, PARAMS.lateralGain, PARAMS.headingGain,
-                    PARAMS.axialVelGain, PARAMS.lateralVelGain, PARAMS.headingVelGain
+                    PARAMS.bigAxialGain, PARAMS.bigLateralGain, PARAMS.bigHeadingGain,
+                    PARAMS.bigAxialVelGain, PARAMS.bigLateralVelGain, PARAMS.bigHeadingVelGain
             )
                     .compute(txWorldTarget, pose, robotVelRobot);
             driveCommandWriter.write(new DriveCommandMessage(command));
