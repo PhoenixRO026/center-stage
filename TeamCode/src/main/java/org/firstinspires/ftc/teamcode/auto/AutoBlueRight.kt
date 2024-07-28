@@ -48,7 +48,7 @@ class AutoBlueRight : MultiThreadOpMode() {
     private val rightPurplePixel =      Pose(-47.inch, 16.inch, 90.deg)
 
     private val middleStacky1 =         Pose(-54.inch - 18.cm, 12.inch, 180.deg)
-    private val rightStacky1 =          middleStacky1
+    private val rightStacky1 =          middleStacky1 - 2.cm.x
     private val leftStacky1 =           middleStacky1 + leftOffset
 
     private val middlePreStacky1 =      middleStacky1 + 10.cm.x
@@ -68,7 +68,7 @@ class AutoBlueRight : MultiThreadOpMode() {
     private val rightYellowPixel2 =     Pose(51.inch, 30.inch, 180.deg)
 
     private val middlePreYellowPixel1 = middleYellowPixel2
-    private val rightPreYellowPixel1 =  rightYellowPixel2
+    private val rightPreYellowPixel1 =  rightYellowPixel2 + 1.5.inch.y
     private val leftPreYellowPixel1 =   leftYellowPixel2 + leftOffset
 
     private val middlePostBoardRun2 =   Pose(18.inch, 12.inch - 1.cm, 180.deg) + cycleOffset - 1.inch.y
@@ -80,7 +80,7 @@ class AutoBlueRight : MultiThreadOpMode() {
     private val leftPreStackRun2 =      middlePreStackRun2
 
     private val middleStacky2 =         middleStacky1 + cycleOffset
-    private val rightStacky2 =          middleStacky2 - 0.5.inch.y
+    private val rightStacky2 =          middleStacky2 - 0.5.inch.y - 2.cm.x
     private val leftStacky2 =           middleStacky2 + 2.cm.x - 3.cm.y
 
     private val middlePreStacky2 =      middleStacky2 + 10.cm.x
@@ -128,11 +128,11 @@ class AutoBlueRight : MultiThreadOpMode() {
     private val leftPreBoardRun3 =      leftPreBoardRun2 - cycleOffset - 5.cm.y
 
     private val middleYellowPixel4 =    middleYellowPixel3
-    private val rightYellowPixel4 =     rightYellowPixel3 + 1.inch.x
+    private val rightYellowPixel4 =     rightYellowPixel3
     private val leftYellowPixel4 =      leftYellowPixel3
 
     private val middlePreYellowPixel3 = middlePreYellowPixel2
-    private val rightPreYellowPixel3 =  rightPreYellowPixel2 + 2.inch.y + 1.5.inch.x
+    private val rightPreYellowPixel3 =  rightPreYellowPixel2 + 2.inch.y
     private val leftPreYellowPixel3 =   leftPreYellowPixel2
 
     private val middleBoardAproachAngle = 30.deg

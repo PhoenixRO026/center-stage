@@ -106,7 +106,8 @@ class ThreeWheelLocalizerEx(
             )
         )
 
-        val twistResult = twistMatrix.multiply(inputMatrix)
+        //val twistResult = twistMatrix.multiply(inputMatrix)
+        val twistResult = inputMatrix
 
         val twistDeltaX = twistResult.getItem(0, 0)
         val twistDeltaY = twistResult.getItem(1, 0)

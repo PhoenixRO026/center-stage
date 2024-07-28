@@ -279,6 +279,7 @@ public final class MecanumDrive {
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
         localizer = new ThreeWheelLocalizerEx(hardwareMap, PARAMS.inPerTick);
+        //localizer = new DriveLocalizer();
 
         imu = lazyImu.get();
         imu.resetYaw();
