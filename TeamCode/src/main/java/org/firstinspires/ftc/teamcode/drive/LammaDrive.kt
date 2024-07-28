@@ -176,6 +176,7 @@ open class LammaDrive : MultiThreadOpMode() {
             lift.update()
 
             telemetry.addData("lift power", liftPower)
+            telemetry.addData("heading", Math.toDegrees(drive.pose.heading.toDouble()))
 
             telemetry.update()
         }
