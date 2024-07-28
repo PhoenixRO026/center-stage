@@ -48,9 +48,9 @@ class AutoRedLeft3 : MultiThreadOpMode() {
 
     private val middlePurplePixel =     Pose(-38.inch, -16.inch, -90.deg)
     private val rightPurplePixel =      Pose(-32.inch, -35.inch, 0.deg)
-    private val leftPurplePixel =       Pose(-47.5.inch, -16.inch, -90.deg)
+    private val leftPurplePixel =       Pose(-45.5.inch, -18.inch, -90.deg)
 
-    private val middleStacky1 =         Pose(-54.inch - 12.5.cm, -12.inch, 180.deg)
+    private val middleStacky1 =         Pose(-54.inch - 14.cm, -12.inch, 180.deg)
     private val rightStacky1 =          middleStacky1 + rightOffset + 1.5.inch.y - 6.cm.x
     private val leftStacky1 =           middleStacky1 + leftOffset + 0.7.inch.x - 2.cm.x
 
@@ -66,23 +66,23 @@ class AutoRedLeft3 : MultiThreadOpMode() {
     private val rightPreBoardRun1 =     middlePreBoardRun1 + rightOffset + 1.inch.x
     private val leftPreBoardRun1 =      middlePreBoardRun1 + leftOffset
 
-    private val middleYellowPixel2 =    Pose(52.5.inch, -35.inch, 180.deg)
+    private val middleYellowPixel2 =    Pose(53.inch, -35.inch, 180.deg)
     private val rightYellowPixel2 =     Pose(53.inch, -43.5.inch, 180.deg)
-    private val leftYellowPixel2 =      Pose(52.5.inch, -30.inch, 180.deg)
+    private val leftYellowPixel2 =      Pose(53.inch, -30.inch, 180.deg)
 
-    private val middlePreYellowPixel1 = middleYellowPixel2 + 1.inch.y
+    private val middlePreYellowPixel1 = middleYellowPixel2 + 0.6.inch.y
     private val rightPreYellowPixel1 =  rightYellowPixel2
-    private val leftPreYellowPixel1 =   leftYellowPixel2 - 1.inch.y
+    private val leftPreYellowPixel1 =   leftYellowPixel2 - 0.5.inch.y
 
-    private val middlePostBoardRun2 =   Pose(18.inch, -12.inch + 1.cm, 180.deg) + cycleOffset
+    private val middlePostBoardRun2 =   Pose(18.inch, -12.inch + 1.cm, 180.deg) + 1.inch.y
     private val rightPostBoardRun2 =    middlePostBoardRun2
     private val leftPostBoardRun2 =     middlePostBoardRun2
 
-    private val middlePreStackRun2 =    Pose(-30.inch, -12.inch + 1.cm, 180.deg) + cycleOffset
+    private val middlePreStackRun2 =    Pose(-30.inch, -12.inch + 1.cm, 180.deg) + 1.inch.y
     private val rightPreStackRun2 =     middlePreStackRun2 + 0.5.inch.y
     private val leftPreStackRun2 =      middlePreStackRun2
 
-    private val middleStacky2 =         middleStacky1 + cycleOffset + 2.cm.x
+    private val middleStacky2 =         middleStacky1 + 2.cm.x
     private val rightStacky2 =          middleStacky2
     private val leftStacky2 =           middleStacky2 - 1.cm.x - 1.cm.y
 
@@ -90,11 +90,11 @@ class AutoRedLeft3 : MultiThreadOpMode() {
     private val rightPreStacky2 =       rightStacky2 + 10.cm.x
     private val leftPreStacky2 =        leftStacky2 + 10.cm.x
 
-    private val middlePostStackRun2 =   middlePostStackRun1 + cycleOffset
+    private val middlePostStackRun2 =   middlePostStackRun1 + 1.inch.y
     private val rightPostStackRun2 =    middlePostStackRun2 + 1.inch.y
     private val leftPostStackRun2 =     middlePostStackRun2
 
-    private val middlePreBoardRun2 =    middlePreBoardRun1 + cycleOffset
+    private val middlePreBoardRun2 =    middlePreBoardRun1 + 1.inch.y
     private val rightPreBoardRun2 =     middlePreBoardRun2 + 1.inch.y
     private val leftPreBoardRun2 =      middlePreBoardRun2
 
@@ -102,19 +102,19 @@ class AutoRedLeft3 : MultiThreadOpMode() {
     private val rightYellowPixel3 =     rightYellowPixel2
     private val leftYellowPixel3 =      leftYellowPixel2
 
-    private val middlePreYellowPixel2 = middlePreYellowPixel1 + cycleOffset
-    private val rightPreYellowPixel2 =  rightPreYellowPixel1 + cycleOffset
-    private val leftPreYellowPixel2 =   leftPreYellowPixel1 + cycleOffset
+    private val middlePreYellowPixel2 = middlePreYellowPixel1
+    private val rightPreYellowPixel2 =  rightPreYellowPixel1
+    private val leftPreYellowPixel2 =   leftPreYellowPixel1
 
-    private val middlePostBoardRun3 =   middlePostBoardRun2 + cycleOffset
-    private val rightPostBoardRun3 =    rightPostBoardRun2 + cycleOffset
-    private val leftPostBoardRun3 =     leftPostBoardRun2 - cycleOffset
+    private val middlePostBoardRun3 =   middlePostBoardRun2
+    private val rightPostBoardRun3 =    rightPostBoardRun2
+    private val leftPostBoardRun3 =     leftPostBoardRun2 + 1.inch.y
 
-    private val middlePreStackRun3 =    middlePreStackRun2 + cycleOffset
-    private val rightPreStackRun3 =     rightPreStackRun2 + cycleOffset
-    private val leftPreStackRun3 =      leftPreStackRun2 - cycleOffset
+    private val middlePreStackRun3 =    middlePreStackRun2
+    private val rightPreStackRun3 =     rightPreStackRun2
+    private val leftPreStackRun3 =      leftPreStackRun2 + 1.inch.y
 
-    private val middleStacky3 =         middleStacky2
+    private val middleStacky3 =         middleStacky2 + 1.cm.x
     private val rightStacky3 =          rightStacky2
     private val leftStacky3 =           leftStacky2
 
@@ -122,13 +122,13 @@ class AutoRedLeft3 : MultiThreadOpMode() {
     private val rightPreStacky3 =       rightStacky3 + 10.cm.x
     private val leftPreStacky3 =        leftStacky3 + 10.cm.x
 
-    private val middlePostStackRun3 =   middlePostStackRun2 + cycleOffset
-    private val rightPostStackRun3 =    rightPostStackRun2 + cycleOffset
-    private val leftPostStackRun3 =     leftPostStackRun2 - cycleOffset
+    private val middlePostStackRun3 =   middlePostStackRun2
+    private val rightPostStackRun3 =    rightPostStackRun2
+    private val leftPostStackRun3 =     leftPostStackRun2 + 1.inch.y
 
-    private val middlePreBoardRun3 =    middlePreBoardRun2 + cycleOffset
-    private val rightPreBoardRun3 =     rightPreBoardRun2 + cycleOffset
-    private val leftPreBoardRun3 =      leftPreBoardRun2 - cycleOffset
+    private val middlePreBoardRun3 =    middlePreBoardRun2
+    private val rightPreBoardRun3 =     rightPreBoardRun2
+    private val leftPreBoardRun3 =      leftPreBoardRun2 + 1.inch.y
 
     private val middleYellowPixel4 =    middleYellowPixel3
     private val rightYellowPixel4 =     rightYellowPixel3
