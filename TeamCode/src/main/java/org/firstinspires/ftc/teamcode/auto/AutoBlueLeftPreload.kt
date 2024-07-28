@@ -30,19 +30,19 @@ import org.firstinspires.ftc.teamcode.systems.multi.LiftMulti.Companion.liftMult
 import kotlin.math.min
 
 @Photon
-@Autonomous(preselectTeleOp = "LammaDriveRed")
-class AutoRedRightPreload : MultiThreadOpMode() {
-    private val startPose =             Pose(12.inch, -61.inch, -90.deg)
+@Autonomous(preselectTeleOp = "LammaDriveBlue")
+class AutoBlueLeftPreload : MultiThreadOpMode() {
+    private val startPose =             Pose(12.inch, 61.inch, 90.deg)
 
-    private val middlePurplePixel =     Pose(20.inch, -24.inch, 180.deg)
-    private val rightPurplePixel =      Pose(31.inch, -32.inch, 180.deg)
-    private val leftPurplePixel =       Pose(8.inch, -32.inch, 180.deg)
+    private val middlePurplePixel =     Pose(20.inch, 24.inch, 180.deg)
+    private val rightPurplePixel =      Pose(8.inch, 32.inch, 180.deg)
+    private val leftPurplePixel =       Pose(31.inch, 32.inch, 180.deg)
 
-    private val park = Pose(46.inch, -60.inch, 180.deg)
+    private val park = Pose(46.inch, 60.inch, 180.deg)
 
-    private val middleYellowPixel2 =    Pose(51.inch, -35.inch, 180.deg)
-    private val rightYellowPixel2 =     Pose(52.inch, -40.inch, 180.deg)
-    private val leftYellowPixel2 =      Pose(51.inch, -27.5.inch, 180.deg)
+    private val middleYellowPixel2 =    Pose(51.inch, 35.inch, 180.deg)
+    private val rightYellowPixel2 =     Pose(52.inch, 27.5.inch, 180.deg)
+    private val leftYellowPixel2 =      Pose(51.inch, 40.inch, 180.deg)
 
     private var mainThread: Thread? = null
 
@@ -119,18 +119,18 @@ class AutoRedRightPreload : MultiThreadOpMode() {
 
         drive.camera = camera
         camera.telemetry = telemetry
-        camera.setColor(ColorVisionProcessor.DetectionColor.RED)
+        camera.setColor(ColorVisionProcessor.DetectionColor.BLUE)
 
-        val actionLeft = SequentialAction(
+        val actionRight = SequentialAction(
                 drive.actionBuilder(startPose)
-                        .setTangent(45.deg)
-                        .splineToLinearHeading(leftPurplePixel, 180.deg)
+                        .setTangent(-45.deg)
+                        .splineToLinearHeading(rightPurplePixel, 180.deg)
                         .stopAndAdd(intake.ejectPurple())
                         .afterTime(0.s, systemsToYellow())
-                        .strafeTo(leftYellowPixel2.position)
+                        .strafeTo(rightYellowPixel2.position)
                         .stopAndAdd(SequentialAction(
                             lift.goToPos(Lift.LiftConfig.subYellowTicks),
-                            drive.CorrectionAction(leftYellowPixel2, 1.s),
+                            drive.CorrectionAction(rightYellowPixel2, 1.s),
                             box.ejectTwoPixels(),
                             lift.goToAboveWhite()
                         ))
@@ -160,14 +160,14 @@ class AutoRedRightPreload : MultiThreadOpMode() {
                         .build(),
         )
 
-        val actionRight = SequentialAction(
+        val actionLeft = SequentialAction(
                 drive.actionBuilder(startPose)
-                        .strafeToLinearHeading(rightPurplePixel.position, rightPurplePixel.heading)
+                        .strafeToLinearHeading(leftPurplePixel.position, leftPurplePixel.heading)
                         .stopAndAdd(intake.ejectPurple())
                         .afterTime(0.s, systemsToYellow())
-                        .strafeToLinearHeading(rightYellowPixel2.position, rightYellowPixel2.heading)
+                        .strafeToLinearHeading(leftYellowPixel2.position, leftYellowPixel2.heading)
                         .stopAndAdd(SequentialAction(
-                            drive.CorrectionAction(rightYellowPixel2, 1.s),
+                            drive.CorrectionAction(leftYellowPixel2, 1.s),
                             lift.goToPos(Lift.LiftConfig.subYellowTicks),
                             box.ejectTwoPixels(),
                             lift.goToAboveWhite(),
@@ -175,7 +175,7 @@ class AutoRedRightPreload : MultiThreadOpMode() {
                         .setTangent(180.deg)
                         .lineToX(48.inch)
                         .strafeTo(park.position)
-                        .afterTime(0.s, systemsToIntake())
+                        .afterTime(0.0.s, systemsToIntake())
                         .build(),
         )
 
