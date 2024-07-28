@@ -19,10 +19,10 @@ class Plane(
 
     @Config
     data object PlaneConfig {
-        @JvmField var tiltRest = 0.4044
-        @JvmField var tiltLaunch = 0.568
-        @JvmField var launchPlane = 0.1
-        @JvmField var hold = 0.15333
+        @JvmField var tiltRest = 0.526
+        @JvmField var tiltLaunch = 0.393
+        @JvmField var launchPlane = 0.51
+        @JvmField var hold = 0.76
     }
 
     private var launchAction: Action? = null
