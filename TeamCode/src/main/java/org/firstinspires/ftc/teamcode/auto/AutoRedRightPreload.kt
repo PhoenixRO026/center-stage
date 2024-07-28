@@ -42,7 +42,7 @@ class AutoRedRightPreload : MultiThreadOpMode() {
 
     private val middleYellowPixel2 =    Pose(51.inch, -35.inch, 180.deg)
     private val rightYellowPixel2 =     Pose(52.inch, -40.inch, 180.deg)
-    private val leftYellowPixel2 =      Pose(51.inch, -27.5.inch, 180.deg)
+    private val leftYellowPixel2 =      Pose(51.inch, -29.inch, 180.deg)
 
     private var mainThread: Thread? = null
 
