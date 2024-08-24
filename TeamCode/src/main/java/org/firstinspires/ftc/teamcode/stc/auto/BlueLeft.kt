@@ -27,11 +27,11 @@ class BlueLeft: LinearOpMode() {
         val startPose = Pose2d(12.0, 62.0, Math.toRadians(90.0))
         val midPurple = Pose2d(12.0, 36.0, Math.toRadians(90.0))
         val leftPurple = Pose2d(17.0, 37.0, Math.toRadians(-45.0))
-        val rightPurple = Pose2d(24.0, -34.0, Math.toRadians(-90.0))
+        val rightPurple = Pose2d(9.0, 37.0, Math.toRadians(-90.0))
         val turnPoint = Pose2d(15.0, 55.0, Math.toRadians(90.0))
         val midBoard = Pose2d(48.0, 36.0, Math.toRadians(0.0))
         val leftBoard = Pose2d(48.0, 42.0, Math.toRadians(180.0))
-        val rightBoard = Pose2d(48.0, -42.0, Math.toRadians(180.0))
+        val rightBoard = Pose2d(48.0, 30.0, Math.toRadians(180.0))
 
         val lift = Lift(hardwareMap)
         val claw = Claw(hardwareMap)
@@ -68,41 +68,17 @@ class BlueLeft: LinearOpMode() {
             .build()
 
         val actionRight = drive.actionBuilder(startPose)
-            .setTangent(Math.toRadians(90.0))
-            .splineTo(rightPurple.position, Math.toRadians(90.0))
             .setTangent(Math.toRadians(-90.0))
-            .splineTo(turnPoint.position, Math.toRadians(-90.0))
-            .setTangent(Math.toRadians(90.0))
-            .afterTime(0.0, SequentialAction(
-                lift.goToPass(),
-                ParallelAction(
-                    arm.goToScore(),
-                    claw.tiltToScore()
-                ),
-                lift.goToYellow()
-            )
-            )
+            .splineTo(rightPurple.position, Math.toRadians(-135.0))
+            .setTangent(Math.toRadians(45.0))
+            .splineTo(turnPoint.position, Math.toRadians(90.0))
+            .setTangent(Math.toRadians(-90.0))
             .splineTo(rightBoard.position, Math.toRadians(0.0))
-            .stopAndAdd(
-                SequentialAction(
-                claw.openClaw(),
-                SleepAction(0.5.s),
-                claw.closeRight()
-            )
-            )
+            .waitSeconds(1.0)
             .setTangent(Math.toRadians(180.0))
             .lineToX(40.0)
-            .afterTime(0.0, SequentialAction(
-                lift.goToPass(),
-                ParallelAction(
-                    arm.goToIntake(),
-                    claw.tiltToIntake()
-                ),
-                lift.goToIntake()
-            )
-            )
             .setTangent(Math.toRadians(-90.0))
-            .lineToY(-60.0)
+            .lineToY(60.0)
             .build()
 
 
