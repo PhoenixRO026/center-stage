@@ -7,6 +7,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket
 import com.acmerobotics.roadrunner.ParallelAction
 import com.acmerobotics.roadrunner.Pose2d
 import com.acmerobotics.roadrunner.SequentialAction
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.lib.units.SleepAction
 import org.firstinspires.ftc.teamcode.lib.units.s
@@ -16,7 +17,7 @@ import org.firstinspires.ftc.teamcode.stc.robot.Arm
 import org.firstinspires.ftc.teamcode.stc.robot.Camera
 import org.firstinspires.ftc.teamcode.stc.robot.Claw
 import org.firstinspires.ftc.teamcode.stc.robot.Lift
-
+@Autonomous
 class BlueLeft: LinearOpMode() {
     override fun runOpMode() {
 
@@ -33,9 +34,9 @@ class BlueLeft: LinearOpMode() {
         val leftBoard = Pose2d(48.0, 42.0, Math.toRadians(180.0))
         val rightBoard = Pose2d(48.0, 30.0, Math.toRadians(180.0))
 
-        val lift = Lift(hardwareMap)
+        /*val lift = Lift(hardwareMap)
         val claw = Claw(hardwareMap)
-        val arm = Arm(hardwareMap)
+        val arm = Arm(hardwareMap)*/
         val drive = MecanumDrive(hardwareMap, startPose)
         val camera = Camera(hardwareMap, telemetry)
         camera.setColor(ColorVisionProcessor.DetectionColor.RED)
