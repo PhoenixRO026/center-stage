@@ -29,30 +29,41 @@ class BlueLeft: LinearOpMode() {
         val midPurple = Pose2d(12.0, 36.0, Math.toRadians(90.0))
         val leftPurple = Pose2d(17.0, 37.0, Math.toRadians(-45.0))
         val rightPurple = Pose2d(9.0, 37.0, Math.toRadians(-90.0))
-        val turnPoint = Pose2d(15.0, 55.0, Math.toRadians(90.0))
+        val turnPoint = Pose2d(-30.0, 57.0, Math.toRadians(0.0))
         val midBoard = Pose2d(48.0, 36.0, Math.toRadians(0.0))
         val leftBoard = Pose2d(48.0, 42.0, Math.toRadians(180.0))
         val rightBoard = Pose2d(48.0, 30.0, Math.toRadians(180.0))
+        val rightStack = Pose2d(-57.0, 36.0, Math.toRadians(180.0))
 
         /*val lift = Lift(hardwareMap)
         val claw = Claw(hardwareMap)
         val arm = Arm(hardwareMap)*/
         val drive = MecanumDrive(hardwareMap, startPose)
-        val camera = Camera(hardwareMap, telemetry)
-        camera.setColor(ColorVisionProcessor.DetectionColor.RED)
-
+        //val camera = Camera(hardwareMap, telemetry)
+        //camera.setColor(ColorVisionProcessor.DetectionColor.RED)
+        //startPose = Pose2d(12.0, 62.0, Math.toRadians(90.0))
         val actionMiddle = drive.actionBuilder(startPose)
-            .setTangent(Math.toRadians(90.0))
-            .lineToY(30.0)
-            .lineToY(55.0)
-            .setTangent(Math.toRadians(-90.0))
-            .splineTo(midBoard.position, Math.toRadians(0.0))
-            .waitSeconds(1.0)
-            .setTangent(Math.toRadians(180.0))
-            .lineToX(40.0)
-            .setTangent(Math.toRadians(-90.0))
-            .lineToY(60.0)
-            .build()
+                .setTangent(Math.toRadians(90.0))
+                .lineToY(30.0)
+                .lineToY(50.0)
+                .setTangent(Math.toRadians(-90.0))
+                .splineTo(midBoard.position, Math.toRadians(0.0))
+                .waitSeconds(1.0)
+                .setTangent(Math.toRadians(90.0))
+                .lineToY(57.0)
+                .setTangent(Math.toRadians(180.0))
+                .lineToX(-30.0)
+                .splineTo(rightStack.position, Math.toRadians(180.0))
+                .waitSeconds(1.0)
+                .setTangent(Math.toRadians(0.0))
+                .splineTo(turnPoint.position, Math.toRadians(0.0))
+                .setTangent(Math.toRadians(0.0))
+                .lineToX(30.0)
+                .setTangent(Math.toRadians(0.0))
+                .splineTo(midBoard.position, Math.toRadians(0.0))
+                .setTangent(Math.toRadians(90.0))
+                .lineToY(60.0)
+                .build()
 
         val actionLeft = drive.actionBuilder(startPose)
             .setTangent(Math.toRadians(-90.0))
@@ -86,15 +97,11 @@ class BlueLeft: LinearOpMode() {
         val canvas = Canvas()
 
         while (opModeInInit()) {
-            camera.displayDetection()
+            //camera.displayDetection()
             sleep(10)
         }
 
-        val action = when(camera.detectionPosition) {
-            ColorVisionProcessor.DetectionPosition.LEFT -> actionLeft
-            ColorVisionProcessor.DetectionPosition.CENTER -> actionMiddle
-            ColorVisionProcessor.DetectionPosition.RIGHT -> actionRight
-        }
+        val action = actionMiddle
 
         action.preview(canvas)
 
