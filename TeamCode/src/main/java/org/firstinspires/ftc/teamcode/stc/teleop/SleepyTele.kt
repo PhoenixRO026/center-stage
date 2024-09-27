@@ -8,7 +8,6 @@ import org.firstinspires.ftc.teamcode.stc.robot.Claw
 import org.firstinspires.ftc.teamcode.stc.robot.Drive
 import org.firstinspires.ftc.teamcode.stc.robot.Intake
 import org.firstinspires.ftc.teamcode.stc.robot.Lift
-import org.firstinspires.ftc.teamcode.stc.robot.Plane
 
 @TeleOp
 class SleepyTele: LinearOpMode() {

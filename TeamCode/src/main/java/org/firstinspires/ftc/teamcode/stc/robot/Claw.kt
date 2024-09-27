@@ -12,6 +12,7 @@ class Claw (hardwareMap: HardwareMap) {
     private val leftFingerServo = hardwareMap.get(Servo::class.java, "lFinger")
     private val rightFingerServo = hardwareMap.get(Servo::class.java, "rFinger")
     private val clawAngleServo = hardwareMap.get(Servo::class.java, "cAngle")
+    private val clawRotationServo = hardwareMap.get(Servo::class.java, "cRotaton")
 
     init {
         leftFingerServo.direction = Servo.Direction.REVERSE
@@ -50,6 +51,8 @@ class Claw (hardwareMap: HardwareMap) {
             clawAngleServo.position = clippedValue
             field = clippedValue
         }
+
+
 
     fun tiltToPos(newTilt: Double) = SequentialAction(
         InstantAction { tilt = newTilt },

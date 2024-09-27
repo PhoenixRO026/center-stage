@@ -29,6 +29,7 @@ class Lift (hardwareMap: HardwareMap) {
     val leftLiftMotor: DcMotor = hardwareMap.get(DcMotor::class.java, "leftLift")
     val rightLiftMotor: DcMotor = hardwareMap.get(DcMotor::class.java, "rightLift")
 
+
     enum class Mode {
         POWER,
         TARGET
